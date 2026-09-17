@@ -2,104 +2,516 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>李文涛 | 个人主页 (Vue 3)</title>
-  <!-- 引入 TailwindCSS 样式库 -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- 引入 Vue 3 官方 CDN -->
-  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-</head>
-<body class="bg-slate-950 text-slate-100 min-h-screen flex items-center justify-center p-6 antialiased selection:bg-sky-500 selection:text-white">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>李文涛 | AI 探索者 / 自动化工作流构建</title>
+  <meta name="description" content="李文涛的个人主页：大模型应用、智能体技能（Agent Skills）与 Python 生产力自动化实践记录。">
+  <meta name="author" content="李文涛">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 
-  <!-- Vue 挂载根节点 -->
-  <div id="app" class="max-w-xl w-full bg-slate-900/90 backdrop-blur-md border border-slate-800 rounded-3xl p-8 shadow-2xl transition-all duration-300 hover:border-slate-700">
-    
-    <!-- 头部信息 -->
-    <header class="flex items-center space-x-5 mb-6">
-      <div class="w-20 h-20 rounded-2xl bg-gradient-to-tr from-sky-400 to-indigo-600 flex items-center justify-center text-2xl font-bold text-white shadow-lg shadow-sky-500/20">
-        {{ profile.avatarText }}
-      </div>
-      <div>
-        <div class="flex items-center space-x-2">
-          <h1 class="text-2xl font-bold text-white tracking-tight">{{ profile.name }}</h1>
-          <span class="text-xs px-2 py-0.5 rounded-full bg-emerald-950/80 text-emerald-400 border border-emerald-800/50">在线</span>
+  <!-- 本地化依赖：离线可用，无需联网 -->
+  <script src="vendor/tailwind.play.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['-apple-system', 'BlinkMacSystemFont', '"PingFang SC"', '"Hiragino Sans GB"',
+                   '"Microsoft YaHei"', 'Inter', 'system-ui', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'SFMono-Regular', 'Menlo', 'Consolas', 'monospace']
+          }
+        }
+      }
+    };
+  </script>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<!-- ======================================================================
+     页面结构
+       header  顶部导航（滚动加深 / 移动端折叠）
+       home    Hero：个人概览 + 速览卡片
+       about   关于我 + 数据概览 + 能力雷达 + 语言分布
+       skills  技能矩阵
+       projects 项目作品
+       timeline 经历时间线
+       writing 文章列表
+       contact 联系方式
+       footer  页脚
+     内容全部来自 assets/js/data.js，改 content 无需动本文件
+     ====================================================================== -->
+<body class="min-h-screen bg-slate-950 font-sans text-slate-100 antialiased selection:bg-sky-500/30 selection:text-white">
+
+  <!-- 图标精灵，页面中通过 <use href="#i-xxx"> 复用 -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+    <symbol id="i-github" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23a11.5 11.5 0 016 0c2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12z"/>
+    </symbol>
+    <symbol id="i-website" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+      <circle cx="12" cy="12" r="9"/><path d="M3.6 9h16.8M3.6 15h16.8"/>
+      <path d="M12 3c2.5 2.6 4 5.7 4 9s-1.5 6.4-4 9c-2.5-2.6-4-5.7-4-9s1.5-6.4 4-9z"/>
+    </symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21.75 6.75v10.5A2.25 2.25 0 0119.5 19.5h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.909a2.25 2.25 0 01-1.07-1.916V6.75"/>
+    </symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15H4a1 1 0 01-1-1V4a1 1 0 011-1h10a1 1 0 011 1v1"/>
+    </symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="m4.5 12.75 6 6 9-13.5"/>
+    </symbol>
+    <symbol id="i-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/>
+    </symbol>
+    <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <path d="m8.25 8.25-4.5 3.75 4.5 3.75m7.5-7.5 4.5 3.75-4.5 3.75"/>
+    </symbol>
+    <symbol id="i-arrow-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 4.5v15m0 0 6-6m-6 6-6-6"/>
+    </symbol>
+    <symbol id="i-chevron-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="m4.5 15.75 7.5-7.5 7.5 7.5"/>
+    </symbol>
+    <symbol id="i-sparkles" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9.81 15.9L9 18.75l-.81-2.85a4.5 4.5 0 00-3.09-3.09L2.25 12l2.85-.81a4.5 4.5 0 003.09-3.09L9 5.25l.81 2.85a4.5 4.5 0 003.09 3.09L15.75 12l-2.85.81a4.5 4.5 0 00-3.09 3.09zM18.26 8.72L18 9.75l-.26-1.04a3.37 3.37 0 00-2.45-2.45L14.25 6l1.04-.26a3.37 3.37 0 002.45-2.45L18 2.25l.26 1.04a3.37 3.37 0 002.45 2.45L21.75 6l-1.04.26a3.37 3.37 0 00-2.45 2.45z"/>
+    </symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/><path d="M19.5 10.5c0 5.25-7.5 10.5-7.5 10.5S4.5 15.75 4.5 10.5a7.5 7.5 0 1115 0z"/>
+    </symbol>
+    <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 6.5C10.5 5 8.5 4.5 5.25 4.5v13C8.5 17.5 10.5 18 12 19.5c1.5-1.5 3.5-2 6.75-2v-13c-3.25 0-5.25.5-6.75 2zM12 6.5V19.5"/>
+    </symbol>
+    <symbol id="i-briefcase" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3.75 8.25h16.5v10.5H3.75z"/><path d="M8.25 8.25V6a2.25 2.25 0 012.25-2.25h3a2.25 2.25 0 012.25 2.25v2.25"/>
+    </symbol>
+  </svg>
+
+  <div id="app" v-cloak>
+
+    <!-- ============================ 顶部导航 ============================ -->
+    <header class="site-header fixed inset-x-0 top-0 z-50 border-b border-transparent"
+            :class="{ 'is-solid': scrolled || menuOpen }">
+      <div class="mx-auto flex h-16 max-w-5xl items-center justify-between px-5 sm:px-6">
+        <a href="#home" @click.prevent="jump('home')" class="flex items-center gap-2.5">
+          <span class="grid h-8 w-8 place-items-center rounded-lg bg-gradient-to-tr from-sky-400 to-indigo-600 text-[11px] font-bold text-white">{{ meta.avatarText }}</span>
+          <span class="text-sm font-semibold tracking-tight text-white">{{ meta.shortName }}</span>
+        </a>
+
+        <nav class="hidden items-center gap-0.5 md:flex">
+          <a v-for="item in nav" :key="item.id" :href="'#' + item.id"
+             @click.prevent="jump(item.id)" :class="navActive(item.id)">{{ item.label }}</a>
+        </nav>
+
+        <div class="flex items-center gap-2">
+          <button @click="copyEmail"
+                  class="hidden items-center gap-1.5 rounded-lg border border-slate-700 px-3 py-1.5 text-xs text-slate-300 transition hover:border-sky-500/60 hover:text-white md:inline-flex">
+            <svg class="h-3.5 w-3.5"><use :href="copied ? '#i-check' : '#i-copy'"></use></svg>
+            <span>{{ copied ? '已复制邮箱' : meta.email }}</span>
+          </button>
+          <button class="grid h-9 w-9 place-items-center rounded-lg border border-slate-800 text-slate-300 md:hidden"
+                  @click="menuOpen = !menuOpen" aria-label="菜单">
+            <span class="space-y-1">
+              <span class="block h-0.5 w-4 rounded bg-current"></span>
+              <span class="block h-0.5 w-4 rounded bg-current"></span>
+              <span class="block h-0.5 w-4 rounded bg-current"></span>
+            </span>
+          </button>
         </div>
-        <p class="text-sky-400 text-sm font-medium mt-1">{{ profile.title }}</p>
       </div>
+
+      <transition name="fade">
+        <div v-show="menuOpen" class="border-t border-slate-800 bg-slate-950/95 px-5 py-3 backdrop-blur md:hidden">
+          <a v-for="item in nav" :key="'m-' + item.id" :href="'#' + item.id" @click.prevent="jump(item.id)"
+             class="block py-2.5 text-sm" :class="activeSection === item.id ? 'text-sky-400' : 'text-slate-300'">{{ item.label }}</a>
+        </div>
+      </transition>
     </header>
 
-    <!-- 个人简介 -->
-    <section class="mb-6">
-      <p class="text-slate-300 text-sm leading-relaxed">
-        {{ profile.bio }}
-      </p>
-    </section>
+    <main>
 
-    <!-- 核心技能 (Vue v-for 循环渲染) -->
-    <section class="mb-6">
-      <h2 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">核心技能 / SKILLS</h2>
-      <div class="flex flex-wrap gap-2">
-        <span 
-          v-for="(skill, index) in profile.skills" 
-          :key="index"
-          class="px-3 py-1.5 bg-slate-800/80 border border-slate-700 hover:border-sky-500/50 text-xs rounded-xl text-slate-200 transition-colors shadow-sm cursor-default"
-        >
-          {{ skill }}
-        </span>
-      </div>
-    </section>
+      <!-- ============================ Hero ============================ -->
+      <section id="home" class="mx-auto max-w-5xl px-5 pb-16 pt-28 sm:px-6 sm:pt-32 lg:pb-24 lg:pt-40">
+        <div class="grid items-center gap-10 lg:grid-cols-[1.45fr_1fr]">
+          <div v-reveal>
+            <div v-if="meta.available" class="inline-flex items-center gap-2 rounded-full border border-emerald-800/60 bg-emerald-950/50 px-3 py-1 text-xs text-emerald-400">
+              <span class="pulse-dot h-1.5 w-1.5 rounded-full bg-emerald-400"></span>
+              {{ meta.availabilityText }}
+            </div>
 
-    <!-- 底部链接与社交媒体 -->
-    <footer class="pt-6 border-t border-slate-800 flex items-center justify-between text-sm">
-      <a :href="'mailto:' + profile.contact.email" class="inline-flex items-center space-x-1.5 text-sky-400 hover:text-sky-300 font-medium transition-colors">
-        <span>✉️ 发送邮件</span>
-      </a>
-      <div class="flex items-center space-x-4">
-        <a 
-          v-for="link in profile.socialLinks" 
-          :key="link.name" 
-          :href="link.url" 
-          target="_blank"
-          class="text-slate-400 hover:text-slate-200 transition-colors"
-        >
-          {{ link.name }}
+            <h1 class="mt-5 text-3xl font-bold leading-tight tracking-tight sm:text-4xl lg:text-5xl">
+              你好，我是
+              <span class="wave" aria-hidden="true">👋</span><br>
+              <span class="text-gradient">{{ meta.name }}</span>
+            </h1>
+
+            <p class="mt-4 flex h-6 items-center gap-2 text-base text-slate-400 sm:text-lg">
+              <svg class="h-4 w-4 shrink-0 text-sky-400"><use href="#i-sparkles"></use></svg>
+              <transition name="fade" mode="out-in">
+                <span :key="roleIndex" class="font-medium text-slate-200">{{ meta.roles[roleIndex] }}</span>
+              </transition>
+            </p>
+
+            <p class="mt-5 max-w-xl text-sm leading-relaxed text-slate-400 sm:text-[15px]">{{ meta.bio }}</p>
+
+            <div class="mt-8 flex flex-wrap items-center gap-3">
+              <a href="#projects" @click.prevent="jump('projects')"
+                 class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-sky-500 to-indigo-600 px-5 py-2.5 text-sm font-medium text-white shadow-lg shadow-sky-500/20 transition hover:shadow-sky-500/40">
+                <svg class="h-4 w-4"><use href="#i-code"></use></svg>
+                看看我做的东西
+              </a>
+              <a :href="'mailto:' + meta.email"
+                 class="inline-flex items-center gap-2 rounded-xl border border-slate-700 px-5 py-2.5 text-sm text-slate-300 transition hover:border-slate-500 hover:text-white">
+                <svg class="h-4 w-4"><use href="#i-mail"></use></svg>
+                联系我
+              </a>
+            </div>
+
+            <div class="mt-8 flex items-center gap-2">
+              <a v-for="link in social" :key="'h-' + link.name" :href="link.url"
+                 target="_blank" rel="noopener"
+                 class="grid h-9 w-9 place-items-center rounded-lg border border-slate-800 text-slate-400 transition hover:border-sky-500/50 hover:text-sky-400"
+                 :title="link.name">
+                <svg class="h-4 w-4"><use :href="'#i-' + link.icon"></use></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- 速览卡片 -->
+          <aside v-reveal="120" class="card p-6 sm:p-7">
+            <div class="flex items-center gap-4">
+              <div class="grid h-16 w-16 shrink-0 place-items-center rounded-2xl bg-gradient-to-tr from-sky-400 to-indigo-600 text-xl font-bold text-white shadow-lg shadow-sky-500/20">
+                {{ meta.avatarText }}
+              </div>
+              <div class="min-w-0">
+                <p class="truncate text-lg font-semibold text-white">{{ meta.name }}</p>
+                <p class="mt-0.5 text-xs leading-relaxed text-sky-400">{{ meta.title }}</p>
+              </div>
+            </div>
+
+            <dl class="mt-6 space-y-3 border-t border-slate-800 pt-5 text-sm">
+              <div class="flex items-center gap-3">
+                <svg class="h-4 w-4 shrink-0 text-slate-500"><use href="#i-pin"></use></svg>
+                <dt class="w-16 shrink-0 text-slate-500">所在地</dt>
+                <dd class="truncate text-slate-300">{{ meta.location }}</dd>
+              </div>
+              <div class="flex items-center gap-3">
+                <svg class="h-4 w-4 shrink-0 text-slate-500"><use href="#i-mail"></use></svg>
+                <dt class="w-16 shrink-0 text-slate-500">邮箱</dt>
+                <dd class="truncate font-mono text-xs text-slate-300">{{ meta.email }}</dd>
+              </div>
+              <div class="flex items-center gap-3">
+                <svg class="h-4 w-4 shrink-0 text-slate-500"><use href="#i-briefcase"></use></svg>
+                <dt class="w-16 shrink-0 text-slate-500">状态</dt>
+                <dd class="text-slate-300">{{ meta.availabilityText }}</dd>
+              </div>
+            </dl>
+
+            <div class="mt-5 flex flex-wrap gap-1.5 border-t border-slate-800 pt-5">
+              <span v-for="g in skillGroups" :key="'hero-g-' + g.title"
+                    class="rounded-lg px-2 py-1 text-[11px]"
+                    :style="{ background: barColor(g.color).soft, color: 'rgb(226 232 240)' }">{{ g.title }}</span>
+            </div>
+          </aside>
+        </div>
+
+        <a href="#about" class="float mt-14 hidden items-center justify-center gap-1.5 text-xs text-slate-600 transition hover:text-slate-400 lg:flex">
+          <svg class="h-3.5 w-3.5"><use href="#i-arrow-down"></use></svg>向下浏览
         </a>
+      </section>
+
+      <!-- ============================ 关于 + 数据 ============================ -->
+      <section id="about" class="mx-auto max-w-5xl px-5 py-16 sm:px-6 sm:py-20">
+        <div v-reveal class="mb-10 flex items-center gap-4">
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-sky-400/80">About</p>
+            <h2 class="mt-2 text-2xl font-bold tracking-tight sm:text-3xl">关于我</h2>
+          </div>
+          <span class="hidden h-px flex-1 bg-gradient-to-r from-slate-700 to-transparent sm:block"></span>
+        </div>
+
+        <div class="grid gap-8 lg:grid-cols-[1.4fr_1fr]">
+          <div v-reveal>
+            <div class="space-y-4 text-[15px] leading-relaxed text-slate-400">
+              <p v-for="(para, i) in meta.intro" :key="'intro-' + i">{{ para }}</p>
+            </div>
+
+            <!-- 数据概览 -->
+            <div class="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
+              <div v-for="stat in stats" :key="stat.label" class="card p-4 text-center sm:text-left">
+                <div class="flex items-baseline justify-center gap-0.5 sm:justify-start">
+                  <span v-count="stat.target" class="tnum text-2xl font-bold text-white">0</span>
+                  <span class="text-sm text-slate-400">{{ stat.suffix }}</span>
+                </div>
+                <p class="mt-1 text-xs text-slate-500">{{ stat.label }}</p>
+              </div>
+            </div>
+
+            <!-- 语言分布（来自 GitHub，拉取失败自动隐藏） -->
+            <div v-if="languages.length" class="card mt-3 p-5">
+              <div class="mb-4 flex items-center gap-2">
+                <h3 class="text-sm font-semibold text-white">主力语言分布</h3>
+                <span class="rounded-md bg-emerald-500/10 px-1.5 py-0.5 text-[10px] text-emerald-400">GitHub 实时</span>
+              </div>
+              <div class="space-y-3">
+                <div v-for="lang in languages" :key="lang.name">
+                  <div class="flex items-center justify-between text-xs">
+                    <span class="text-slate-300">{{ lang.name }}</span>
+                    <span class="tnum text-slate-500">{{ lang.percent }}% · {{ lang.count }}</span>
+                  </div>
+                  <div class="mt-1.5 h-1.5 overflow-hidden rounded-full bg-white/5">
+                    <div class="h-full rounded-full" :style="{ width: lang.percent + '%', background: lang.color }"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 能力雷达图 -->
+          <div v-reveal="120" class="card p-5 sm:p-6">
+            <h3 class="text-sm font-semibold text-white">能力雷达</h3>
+            <p class="mt-1 text-xs text-slate-500">按技能大类取平均分自动绘制</p>
+
+            <svg v-if="radar" viewBox="-45 -20 390 336" class="mx-auto mt-2 h-auto w-full max-w-[20rem]">
+              <defs>
+                <linearGradient id="radarFill" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.42"/>
+                  <stop offset="100%" stop-color="#6366f1" stop-opacity="0.24"/>
+                </linearGradient>
+                <linearGradient id="radarStroke" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#38bdf8"/>
+                  <stop offset="100%" stop-color="#6366f1"/>
+                </linearGradient>
+              </defs>
+              <polygon v-for="(ring, i) in radar.rings" :key="'ring-' + i" :points="ring"
+                       fill="none" stroke="rgba(148,163,184,0.22)" stroke-width="1"/>
+              <line v-for="(axis, i) in radar.axes" :key="'axis-' + i"
+                    :x1="axis.x1" :y1="axis.y1" :x2="axis.x2" :y2="axis.y2"
+                    stroke="rgba(148,163,184,0.22)" stroke-width="1"/>
+              <polygon class="pop-in" :points="radar.dataPoints" fill="url(#radarFill)"
+                       stroke="url(#radarStroke)" stroke-width="2" stroke-linejoin="round"/>
+              <circle v-for="(dot, i) in radar.dots" :key="'dot-' + i"
+                      :cx="dot.x" :cy="dot.y" r="3.5" fill="#020617" stroke="#38bdf8" stroke-width="2"/>
+              <text v-for="(label, i) in radar.labels" :key="'label-' + i"
+                    :x="label.x" :y="label.y" :text-anchor="label.anchor"
+                    font-size="11" fill="#cbd5e1">{{ label.text }}</text>
+            </svg>
+
+            <div class="mt-3 grid grid-cols-2 gap-2">
+              <div v-for="g in skillGroups" :key="'legend-' + g.title" class="flex items-center gap-2 text-[11px]">
+                <span class="h-2 w-2 shrink-0 rounded-full" :style="{ background: barColor(g.color).line }"></span>
+                <span class="truncate text-slate-400">{{ g.title }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 技能 ============================ -->
+      <section id="skills" class="mx-auto max-w-5xl px-5 py-16 sm:px-6 sm:py-20">
+        <div v-reveal class="mb-10 flex items-center gap-4">
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-sky-400/80">Skills</p>
+            <h2 class="mt-2 text-2xl font-bold tracking-tight sm:text-3xl">技能矩阵</h2>
+          </div>
+          <span class="hidden h-px flex-1 bg-gradient-to-r from-slate-700 to-transparent sm:block"></span>
+        </div>
+
+        <div class="grid gap-4 sm:grid-cols-2">
+          <article v-for="(group, gi) in skillGroups" :key="group.title"
+                   v-reveal="gi * 80" class="card card-hover p-5">
+            <header class="flex items-start gap-3">
+              <span class="mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full" :style="{ background: barColor(group.color).line }"></span>
+              <div>
+                <h3 class="text-base font-semibold text-white">{{ group.title }}</h3>
+                <p class="mt-0.5 text-xs text-slate-500">{{ group.desc }}</p>
+              </div>
+            </header>
+
+            <ul class="mt-5 space-y-3.5">
+              <li v-for="skill in group.skills" :key="group.title + skill.name">
+                <div class="flex items-center justify-between text-xs">
+                  <span class="text-slate-300">{{ skill.name }}</span>
+                  <span class="tnum text-slate-500">{{ skill.level }}</span>
+                </div>
+                <div class="mt-1.5 h-1.5 overflow-hidden rounded-full" :style="{ background: barColor(group.color).soft }">
+                  <div class="bar-fill h-full rounded-full" :style="{ '--w': skill.level + '%', background: barColor(group.color).line }"></div>
+                </div>
+              </li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <!-- ============================ 项目 ============================ -->
+      <section id="projects" class="mx-auto max-w-5xl px-5 py-16 sm:px-6 sm:py-20">
+        <div v-reveal class="mb-10 flex items-center gap-4">
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-sky-400/80">Projects</p>
+            <h2 class="mt-2 text-2xl font-bold tracking-tight sm:text-3xl">项目作品</h2>
+          </div>
+          <span class="hidden h-px flex-1 bg-gradient-to-r from-slate-700 to-transparent sm:block"></span>
+        </div>
+
+        <div class="grid gap-4 sm:grid-cols-2">
+          <article v-for="(p, pi) in projects" :key="p.name"
+                   v-reveal="pi * 70"
+                   class="card card-hover relative overflow-hidden p-5"
+                   :class="p.featured ? 'sm:col-span-2' : ''">
+            <span v-if="p.featured" class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-sky-400 to-transparent"></span>
+
+            <header class="flex items-start justify-between gap-4">
+              <h3 class="text-base font-semibold text-white">{{ p.name }}</h3>
+              <span class="shrink-0 font-mono text-xs text-slate-500">{{ p.year }}</span>
+            </header>
+
+            <p class="mt-2.5 text-sm leading-relaxed text-slate-400">{{ p.summary }}</p>
+
+            <div class="mt-4 flex flex-wrap gap-1.5">
+              <span v-for="tag in p.tags" :key="p.name + tag"
+                    class="rounded-md border border-slate-700/70 px-2 py-0.5 text-[11px] text-slate-400">{{ tag }}</span>
+            </div>
+
+            <footer class="mt-5 flex items-center gap-4 border-t border-slate-800 pt-4 text-xs">
+              <a v-if="p.links.repo" :href="p.links.repo" target="_blank" rel="noopener"
+                 class="inline-flex items-center gap-1.5 text-slate-400 transition hover:text-sky-400">
+                <svg class="h-3.5 w-3.5"><use href="#i-github"></use></svg>源码
+              </a>
+              <a v-if="p.links.demo" :href="p.links.demo" target="_blank" rel="noopener"
+                 class="inline-flex items-center gap-1.5 text-slate-400 transition hover:text-sky-400">
+                <svg class="h-3.5 w-3.5"><use href="#i-link"></use></svg>在线预览
+              </a>
+            </footer>
+          </article>
+        </div>
+      </section>
+
+      <!-- ============================ 经历 ============================ -->
+      <section id="timeline" class="mx-auto max-w-5xl px-5 py-16 sm:px-6 sm:py-20">
+        <div v-reveal class="mb-10 flex items-center gap-4">
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-sky-400/80">Experience</p>
+            <h2 class="mt-2 text-2xl font-bold tracking-tight sm:text-3xl">经历时间线</h2>
+          </div>
+          <span class="hidden h-px flex-1 bg-gradient-to-r from-slate-700 to-transparent sm:block"></span>
+        </div>
+
+        <ol class="relative space-y-8 border-l border-slate-800 pl-6 sm:pl-8">
+          <li v-for="(item, ti) in timeline" :key="item.period + item.role" v-reveal="ti * 90" class="relative">
+            <span class="absolute -left-[1.9rem] top-1.5 grid h-3.5 w-3.5 place-items-center sm:-left-[2.4rem]">
+              <span class="h-3.5 w-3.5 rounded-full bg-slate-950 ring-2 ring-sky-400"></span>
+            </span>
+            <p class="font-mono text-xs text-sky-400/90">{{ item.period }}</p>
+            <h3 class="mt-1 text-base font-semibold text-white">{{ item.role }}</h3>
+            <p class="text-xs text-slate-500">{{ item.org }}</p>
+            <p class="mt-2 max-w-2xl text-sm leading-relaxed text-slate-400">{{ item.summary }}</p>
+            <div class="mt-3 flex flex-wrap gap-1.5">
+              <span v-for="tag in item.tags" :key="item.period + tag"
+                    class="rounded-md bg-slate-800/70 px-2 py-0.5 text-[11px] text-slate-400">{{ tag }}</span>
+            </div>
+          </li>
+        </ol>
+      </section>
+
+      <!-- ============================ 文章 ============================ -->
+      <section id="writing" class="mx-auto max-w-5xl px-5 py-16 sm:px-6 sm:py-20">
+        <div v-reveal class="mb-10 flex items-center gap-4">
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-sky-400/80">Writing</p>
+            <h2 class="mt-2 text-2xl font-bold tracking-tight sm:text-3xl">文章输出</h2>
+          </div>
+          <span class="hidden h-px flex-1 bg-gradient-to-r from-slate-700 to-transparent sm:block"></span>
+        </div>
+
+        <div class="space-y-3">
+          <article v-for="(post, wi) in posts" :key="post.title"
+                   v-reveal="wi * 70"
+                   class="group rounded-2xl border border-slate-800/80 bg-slate-900/40 p-5 transition hover:border-sky-500/40 hover:bg-slate-900/70">
+            <div class="flex flex-wrap items-center gap-3 text-xs text-slate-500">
+              <time class="font-mono">{{ post.date }}</time>
+              <span class="h-1 w-1 rounded-full bg-slate-700"></span>
+              <span>{{ post.source }}</span>
+            </div>
+
+            <a v-if="post.url" :href="post.url" target="_blank" rel="noopener" class="mt-2 block">
+              <h3 class="text-base font-semibold text-slate-100 transition group-hover:text-sky-400">{{ post.title }}</h3>
+            </a>
+            <h3 v-else class="mt-2 text-base font-semibold text-slate-100">{{ post.title }}</h3>
+
+            <p class="mt-1.5 text-sm leading-relaxed text-slate-400">{{ post.excerpt }}</p>
+
+            <div class="mt-3 flex flex-wrap items-center gap-1.5">
+              <span v-for="tag in post.tags" :key="post.title + tag"
+                    class="rounded-md bg-sky-500/10 px-2 py-0.5 text-[11px] text-sky-300/90">{{ tag }}</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- ============================ 联系 ============================ -->
+      <section id="contact" class="mx-auto max-w-5xl px-5 py-16 sm:px-6 sm:py-20">
+        <div v-reveal class="card relative overflow-hidden p-8 text-center sm:p-12">
+          <span class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-sky-400 to-transparent"></span>
+          <svg class="mx-auto h-8 w-8 text-sky-400"><use href="#i-mail"></use></svg>
+          <h2 class="mt-4 text-2xl font-bold tracking-tight sm:text-3xl">有想法，聊聊？</h2>
+          <p class="mx-auto mt-3 max-w-md text-sm leading-relaxed text-slate-400">
+            无论是 AI 应用、自动化流程还是知识管理的话题，都欢迎交流。
+          </p>
+
+          <button @click="copyEmail"
+                  class="mt-7 inline-flex items-center gap-2 rounded-xl border border-slate-700 px-5 py-3 font-mono text-sm text-slate-200 transition hover:border-sky-500/60 hover:text-white">
+            <svg class="h-4 w-4"><use :href="copied ? '#i-check' : '#i-copy'"></use></svg>
+            {{ copied ? '邮箱已复制到剪贴板' : meta.email }}
+          </button>
+
+          <div class="mt-8 flex items-center justify-center gap-2">
+            <a v-for="link in social" :key="'c-' + link.name" :href="link.url" target="_blank" rel="noopener"
+               class="grid h-10 w-10 place-items-center rounded-xl border border-slate-800 text-slate-400 transition hover:border-sky-500/50 hover:text-sky-400"
+               :title="link.name">
+              <svg class="h-4 w-4"><use :href="'#i-' + link.icon"></use></svg>
+            </a>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ============================ 页脚 ============================ -->
+    <footer class="border-t border-slate-800/80 py-10">
+      <div class="mx-auto flex max-w-5xl flex-col items-center justify-between gap-3 px-5 text-xs text-slate-500 sm:flex-row sm:px-6">
+        <p>© {{ year }} {{ meta.name }} · 保留所有权利</p>
+        <p class="flex items-center gap-1.5">
+          Built with Vue 3 &amp; Tailwind CSS
+          <span class="hidden sm:inline">· Hosted on GitHub Pages</span>
+        </p>
       </div>
     </footer>
 
+    <!-- ============================ 示例内容提示 ============================ -->
+    <transition name="fade">
+      <div v-if="hasPlaceholder && !draftHidden"
+           class="fixed bottom-5 left-5 z-40 max-w-[17rem] rounded-xl border border-amber-500/30 bg-slate-900/95 p-3 text-xs text-slate-300 shadow-xl backdrop-blur">
+        <p class="font-medium text-amber-300">当前含示例内容</p>
+        <p class="mt-1 leading-relaxed text-slate-400">
+          项目 / 经历 / 文章中的部分条目是占位示例。编辑
+          <code class="rounded bg-slate-800 px-1 py-0.5 font-mono text-[10px] text-sky-300">assets/js/data.js</code>
+          替换为你的真实信息后，这条提示会自动消失。
+        </p>
+        <button class="mt-2 text-[11px] text-slate-500 underline-offset-2 hover:text-slate-300 hover:underline"
+                @click="draftHidden = true">知道了</button>
+      </div>
+    </transition>
+
+    <!-- ============================ 返回顶部 ============================ -->
+    <transition name="fade">
+      <button v-show="showTop" @click="toTop" aria-label="返回顶部"
+              class="fixed bottom-5 right-5 z-40 grid h-10 w-10 place-items-center rounded-xl border border-slate-700 bg-slate-900/90 text-slate-300 shadow-lg backdrop-blur transition hover:border-sky-500/60 hover:text-white">
+        <svg class="h-4 w-4"><use href="#i-chevron-up"></use></svg>
+      </button>
+    </transition>
+
   </div>
 
-  <!-- Vue 应用逻辑 -->
-  <script>
-    const { createApp, ref } = Vue;
-
-    createApp({
-      setup() {
-        // 在这里直接修改你的个人数据，界面会自动响应更新
-        const profile = ref({
-          name: "李文涛",
-          avatarText: "WT",
-          title: "AI 探索者 / 自动化工作流构建",
-          bio: "热衷于探索大模型应用、智能体技能（Agent Skills）与 Python 生产力自动化。致力于用技术提升日常效率与个人知识体系质量。",
-          skills: [
-            "AI Agent Skills",
-            "Python 脚本自动化",
-            "Obsidian 知识管理",
-            "Prompt 工程",
-            "Vue.js 前端交互"
-          ],
-          contact: {
-            email: "573164137@qq.com"
-          },
-          socialLinks: [
-            { name: "GitHub", url: "https://github.com/jason19960330" },
-            { name: "Website", url: "https://jason19960330.github.io/website/" }
-          ]
-        });
-
-        return { profile };
-      }
-    }).mount('#app');
-  </script>
+  <script src="vendor/vue.global.prod.js"></script>
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/app.js"></script>
 </body>
 </html>
