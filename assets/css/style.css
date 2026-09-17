@@ -1,43 +1,69 @@
 /* ============================================================================
- *  style.css —— 站点自定义样式
+ *  style.css —— 主题变量 + Tailwind 表达不了的部分
  * ============================================================================
- *  约定：能用 Tailwind 原子类表达的，一律写在 index.html 里；
- *        这里只保留 Tailwind 表达不了或重复度高的部分：
- *        ├─ 1. 主题变量      · 改一处即可全局换色
- *        ├─ 2. 全局背景光晕  · body::before
- *        ├─ 3. 组件类        · card / text-gradient / nav-link
- *        └─ 4. 动效          · reveal 入场 / 过渡 classes / 关键帧
+ *  双主题实现方式：所有颜色都走 CSS 变量，Tailwind 侧定义了一组语义色
+ *  （bg-base / bg-panel / border-hair / text-ink / text-dim / text-accent），
+ *  布局里只用语义色写样式，切换 html.dark 即可整体换肤，无需写 dark: 前缀。
+ *
+ *  这里只保留 Tailwind 原子类不好表达的部分：
+ *        ├─ 1. 主题变量（含 Arco 联动）
+ *        ├─ 2. 全局背景光晕
+ *        ├─ 3. 组件类（card / nav-link / bar-fill / spotlight）
+ *        └─ 4. 动效（reveal 入场 / 折叠过渡 / 关键帧）
  * ============================================================================ */
 
 /* ------------------------------ 1. 主题变量 ------------------------------ */
-:root {
-  --bg:        #020617;                    /* slate-950 */
-  --bg-soft:   #0b1220;
-  --surface:   rgba(15, 23, 42, 0.72);     /* 卡片底色（半透明，配合毛玻璃） */
-  --surface-2: rgba(30, 41, 59, 0.55);
-  --border:    rgba(51, 65, 85, 0.70);
-  --text:      #e2e8f0;                    /* slate-200 */
-  --muted:     #94a3b8;                    /* slate-400 */
-  --brand:     #38bdf8;                    /* sky-400   */
-  --brand-2:   #6366f1;                    /* indigo-500 */
 
-  --nav-h:     4rem;                       /* 导航栏高度，用于锚点偏移 */
+/* 浅色（Arco 默认主题） */
+:root {
+  --c-base:     248 250 252;            /* slate-50   页面底色 */
+  --c-panel:    255 255 255;            /* white      卡片 */
+  --c-raise:    241 245 249;            /* slate-100  次级填充 */
+  --c-hair:     226 232 240;            /* slate-200  描边 */
+  --c-ink:      15 23 42;               /* slate-900  主文字 */
+  --c-dim:      71 85 105;              /* slate-600  次级文字 */
+  --c-faint:    148 163 184;            /* slate-400  弱文字 */
+  --c-accent:   2 132 199;              /* sky-600    强调色 */
+  --glow-op:    0.30;                   /* 背景光晕强度 */
+  --card-op:    1;                      /* 卡片不透明度 */
+  --card-shadow: rgba(15, 23, 42, .06);
 }
 
+/* 深色 */
+html.dark {
+  --c-base:     2 6 23;                 /* slate-950 */
+  --c-panel:    15 23 42;               /* slate-900 */
+  --c-raise:    30 41 59;               /* slate-800 */
+  --c-hair:     51 65 85;               /* slate-700 */
+  --c-ink:      226 232 240;            /* slate-200 */
+  --c-dim:      148 163 184;            /* slate-400 */
+  --c-faint:    100 116 139;            /* slate-500 */
+  --c-accent:   56 189 248;             /* sky-400 */
+  --glow-op:    0.65;
+  --card-op:    .72;
+  --card-shadow: rgba(2, 6, 23, .5);
+}
+
+/* 深色下微调 Arco 组件，避免透明组件贴在光晕上发灰 */
+body[arco-theme='dark'] .arco-collapse-item-content { background: transparent; }
+body[arco-theme='dark'] .arco-statistic-value { color: rgb(var(--c-ink)); }
+
 /* ------------------------------ 2. 基础样式 ------------------------------ */
-[v-cloak] { display: none !important; }    /* 避免 Vue 渲染前闪现 {{ }} */
+[v-cloak] { display: none !important; }
 
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  color-scheme: light;
 }
+html.dark { color-scheme: dark; }
 
 body {
-  background-color: var(--bg);
-  font-feature-settings: 'cv02', 'cv03', 'cv04';
+  background-color: rgb(var(--c-base));
+  transition: background-color .35s ease, color .35s ease;
 }
 
-/* 全局背景光晕：固定在视口，不随内容滚动，零额外 DOM 节点 */
+/* 全局背景光晕：固定视口，不随内容滚动 */
 body::before {
   content: '';
   position: fixed;
@@ -45,49 +71,48 @@ body::before {
   z-index: -1;
   pointer-events: none;
   background:
-    radial-gradient(58rem 38rem at 12% -8%,  rgba(56, 189, 248, 0.14), transparent 62%),
-    radial-gradient(52rem 40rem at 92% 6%,   rgba(99, 102, 241, 0.16), transparent 60%),
-    radial-gradient(46rem 34rem at 50% 108%, rgba(16, 185, 129, 0.09), transparent 62%);
+    radial-gradient(56rem 36rem at 10% -8%,  rgba(56, 189, 248, calc(.13 * var(--glow-op))), transparent 62%),
+    radial-gradient(50rem 38rem at 92% 4%,   rgba(99, 102, 241, calc(.15 * var(--glow-op))), transparent 60%),
+    radial-gradient(44rem 32rem at 50% 108%, rgba(16, 185, 129, calc(.10 * var(--glow-op))), transparent 62%);
 }
 
-/* 锚点跳转时被导航栏遮住的解决方案 */
-section[id] { scroll-margin-top: calc(var(--nav-h) + 1.5rem); }
+section[id] { scroll-margin-top: 5rem; }
 
-/* 滚动条 */
 ::-webkit-scrollbar { width: 10px; height: 10px; }
-::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-track { background: rgb(var(--c-base)); }
 ::-webkit-scrollbar-thumb {
-  background: #1e293b;
-  border: 2px solid var(--bg);
+  background: rgb(var(--c-hair));
+  border: 2px solid rgb(var(--c-base));
   border-radius: 999px;
 }
-::-webkit-scrollbar-thumb:hover { background: #334155; }
+::-webkit-scrollbar-thumb:hover { background: rgb(var(--c-faint)); }
 
 /* ------------------------------ 3. 组件类 ------------------------------ */
-/* 毛玻璃卡片 */
 .card {
-  background: var(--surface);
-  border: 1px solid var(--border);
+  background: rgb(var(--c-panel) / var(--card-op));
+  border: 1px solid rgb(var(--c-hair));
   border-radius: 1rem;
+  box-shadow: 0 8px 26px -18px var(--card-shadow);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
+  transition: background-color .35s ease, border-color .35s ease, box-shadow .35s ease;
 }
-.card-hover { transition: transform .28s cubic-bezier(.16,1,.3,1), border-color .28s, box-shadow .28s; }
+
+.card-hover { transition: transform .3s cubic-bezier(.16,1,.3,1), border-color .3s, box-shadow .3s, background-color .35s; }
 .card-hover:hover {
   transform: translateY(-4px);
-  border-color: rgba(56, 189, 248, .45);
-  box-shadow: 0 20px 44px -22px rgba(56, 189, 248, .55);
+  border-color: rgb(var(--c-accent) / .45);
+  box-shadow: 0 22px 46px -24px rgb(var(--c-accent) / .5);
 }
 
 /* 渐变文字 */
 .text-gradient {
-  background: linear-gradient(100deg, var(--brand) 0%, var(--brand-2) 92%);
+  background: linear-gradient(100deg, rgb(var(--c-accent)) 0%, #6366f1 92%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
-/* 数字等宽，滚动计时时不抖动 */
 .tnum { font-variant-numeric: tabular-nums; }
 
 /* 顶部导航项 */
@@ -95,12 +120,12 @@ section[id] { scroll-margin-top: calc(var(--nav-h) + 1.5rem); }
   position: relative;
   padding: .45rem .8rem;
   border-radius: .6rem;
-  color: var(--muted);
+  color: rgb(var(--c-dim));
   font-size: .875rem;
   transition: color .2s, background-color .2s;
 }
-.nav-link:hover { color: #fff; background: rgba(51, 65, 85, .45); }
-.nav-link.is-active { color: #fff; background: rgba(56, 189, 248, .12); }
+.nav-link:hover { color: rgb(var(--c-ink)); background: rgb(var(--c-raise)); }
+.nav-link.is-active { color: rgb(var(--c-accent)); background: rgb(var(--c-accent) / .10); }
 .nav-link.is-active::after {
   content: '';
   position: absolute;
@@ -109,23 +134,38 @@ section[id] { scroll-margin-top: calc(var(--nav-h) + 1.5rem); }
   width: 1.1rem;
   height: 2px;
   border-radius: 2px;
-  background: var(--brand);
+  background: rgb(var(--c-accent));
   transform: translateX(-50%);
 }
 
-/* 头部随滚动加深底噪 */
-.site-header {
-  transition: background-color .3s, border-color .3s, backdrop-filter .3s;
-}
+.site-header { transition: background-color .3s, border-color .3s, box-shadow .3s; }
 .site-header.is-solid {
-  background: rgba(2, 6, 23, .82);
-  border-bottom-color: var(--border);
+  background: rgb(var(--c-base) / .82);
+  border-bottom-color: rgb(var(--c-hair));
+  box-shadow: 0 10px 30px -24px var(--card-shadow);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
 }
 
+/* 技能条：宽度由行内 --w 提供，进入视口后再生长 */
+.bar-fill { width: 0; transition: width 1.1s cubic-bezier(.16, 1, .3, 1); }
+.reveal.is-visible .bar-fill { width: var(--w); }
+
+/* 光标聚光：v-spotlight 指令写入 --mx/--my，鼠标位置泛起一层高光 */
+.spot { position: relative; overflow: hidden; }
+.spot::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: radial-gradient(18rem 18rem at var(--mx, 50%) var(--my, 50%), rgb(var(--c-accent) / .12), transparent 60%);
+  transition: opacity .35s ease;
+}
+.spot:hover::after { opacity: 1; }
+
 /* ------------------------------ 4. 动效 ------------------------------ */
-/* 入场：由 v-reveal 指令挂载，进入视口后加 .is-visible */
 .reveal {
   opacity: 0;
   transform: translateY(24px);
@@ -134,19 +174,10 @@ section[id] { scroll-margin-top: calc(var(--nav-h) + 1.5rem); }
 }
 .reveal.is-visible { opacity: 1; transform: none; }
 
-/* 技能条：宽度由行内 --w 提供，进入视口后再生长 */
-.bar-fill {
-  width: 0;
-  transition: width 1.1s cubic-bezier(.16, 1, .3, 1);
-}
-.reveal.is-visible .bar-fill { width: var(--w); }
-
-/* Vue <transition name="fade"> 配套类名 */
 .fade-enter-active, .fade-leave-active { transition: opacity .35s ease, transform .35s ease; }
 .fade-enter-from { opacity: 0; transform: translateY(8px); }
 .fade-leave-to   { opacity: 0; transform: translateY(-8px); }
 
-/* 状态点呼吸 */
 @keyframes pulse-ring {
   0%   { box-shadow: 0 0 0 0 rgba(52, 211, 153, .55); }
   70%  { box-shadow: 0 0 0 7px rgba(52, 211, 153, 0); }
@@ -157,20 +188,15 @@ section[id] { scroll-margin-top: calc(var(--nav-h) + 1.5rem); }
 @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(7px); } }
 .float { animation: float 3.2s ease-in-out infinite; }
 
-@keyframes wave-hand {
-  0%,100% { transform: rotate(0deg); }
-  25%     { transform: rotate(14deg) scale(1.08); }
-  45%     { transform: rotate(-8deg); }
-}
-.wave { display: inline-block; transform-origin: 70% 70%; animation: wave-hand 2.6s ease-in-out infinite; }
-
-/* 技能雷达描边动画 */
-@keyframes pop-in { from { opacity: 0; transform: scale(.88); } to { opacity: 1; transform: scale(1); } }
+@keyframes pop-in { from { opacity: 0; transform: scale(.9); } to { opacity: 1; transform: scale(1); } }
 .pop-in { animation: pop-in .6s cubic-bezier(.16,1,.3,1) both; }
 
-/* 尊重系统「减少动态效果」偏好 */
+/* 主题切换按钮图标 */
+.theme-icon { transition: transform .5s cubic-bezier(.16,1,.3,1), opacity .3s ease; }
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .reveal { opacity: 1; transform: none; transition: none; }
-  .pulse-dot, .float, .wave, .pop-in { animation: none; }
+  .bar-fill { width: var(--w); transition: none; }
+  .pulse-dot, .float, .pop-in, .theme-icon { animation: none; transition: none; }
 }
