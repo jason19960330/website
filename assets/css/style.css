@@ -48,6 +48,11 @@ html.dark {
 body[arco-theme='dark'] .arco-collapse-item-content { background: transparent; }
 body[arco-theme='dark'] .arco-statistic-value { color: rgb(var(--c-ink)); }
 
+/* Arco 按钮默认 2px 圆角太方正，统一加大到 12px（跟随站点圆角语言） */
+.arco-btn { border-radius: .75rem; }
+.arco-btn-group .arco-btn:first-child { border-radius: .75rem 0 0 .75rem; }
+.arco-btn-group .arco-btn:last-child { border-radius: 0 .75rem .75rem 0; }
+
 /* ------------------------------ 2. 基础样式 ------------------------------ */
 [v-cloak] { display: none !important; }
 
