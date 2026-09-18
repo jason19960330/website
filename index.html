@@ -88,9 +88,6 @@
     <symbol id="i-briefcase" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
       <path d="M3.75 8.25h16.5v10.5H3.75z"></path><path d="M8.25 8.25V6a2.25 2.25 0 012.25-2.25h3a2.25 2.25 0 012.25 2.25v2.25"></path>
     </symbol>
-    <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-      <rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15H4a1 1 0 01-1-1V4a1 1 0 011-1h10a1 1 0 011 1v1"></path>
-    </symbol>
     <symbol id="i-education" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
       <path d="M12 3.75 2.75 8.25 12 12.75l9.25-4.5L12 3.75z"></path><path d="M6.75 10.5V16.5c0 1.243 2.347 2.25 5.25 2.25s5.25-1.007 5.25-2.25V10.5"></path>
     </symbol>
@@ -151,13 +148,6 @@
               <svg class="theme-icon h-4 w-4"><use :href="theme === 'dark' ? '#i-moon' : '#i-sun'"></use></svg>
             </button>
           </a-tooltip>
-
-          <a-button class="hidden md:inline-flex" type="primary" size="small" @click="copyEmail">
-            <template #icon>
-              <svg class="h-3.5 w-3.5"><use href="#i-copy"></use></svg>
-            </template>
-            <span class="text-xs">复制邮箱</span>
-          </a-button>
 
           <button class="grid h-9 w-9 place-items-center rounded-lg border border-hair text-dim transition hover:text-accent md:hidden"
                   @click="menuOpen = true" aria-label="打开菜单">
@@ -568,7 +558,9 @@
           </p>
 
           <div class="mt-7 flex flex-wrap items-center justify-center gap-3">
-            <a-button type="primary" size="large" @click="copyEmail">{{ meta.email }}</a-button>
+            <a :href="'mailto:' + meta.email">
+              <a-button type="primary" size="large">{{ meta.email }}</a-button>
+            </a>
             <a-button size="large" @click="copyPhone">{{ meta.phone }}</a-button>
           </div>
 

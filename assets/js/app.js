@@ -86,7 +86,6 @@
           fallback();
         }
       }
-      function copyEmail() { writeClipboard(meta.email, '邮箱已复制：' + meta.email); }
       function copyPhone() { writeClipboard(meta.phone, '电话已复制：' + meta.phone); }
 
       /* ---------------- 技能等级文案 ---------------- */
@@ -197,7 +196,7 @@
         scrolled: scrolled, showTop: showTop, activeSection: activeSection, menuOpen: menuOpen,
         jump: jump, toTop: toTop, navActive: navActive,
         theme: theme, toggleTheme: toggleTheme,
-        copyEmail: copyEmail, copyPhone: copyPhone, toast: toast,
+        copyPhone: copyPhone, toast: toast,
         levelLabel: levelLabel, levelTagColor: levelTagColor, barColor: barColor,
         radar: radar, roleIndex: roleIndex, year: year
       };
