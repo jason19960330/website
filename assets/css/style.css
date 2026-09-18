@@ -53,6 +53,25 @@ body[arco-theme='dark'] .arco-statistic-value { color: rgb(var(--c-ink)); }
 .arco-btn-group .arco-btn:first-child { border-radius: .75rem 0 0 .75rem; }
 .arco-btn-group .arco-btn:last-child { border-radius: 0 .75rem .75rem 0; }
 
+/* 悬浮浮起：参数取自 Arco 组件库实际样式（0.2s + cubic-bezier(0,0,1,1)，阴影 0 4px 10px rgba(0,0,0,.1)） */
+.tag-intent, .arco-btn {
+  transition-property: color, background-color, border-color, transform, box-shadow;
+  transition-duration: .2s;
+  transition-timing-function: cubic-bezier(0, 0, 1, 1);
+}
+.tag-intent:hover, .arco-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, .1);
+}
+.tag-intent:hover { border-color: rgb(var(--c-accent) / .55); }
+
+/* 首页求职意向标签：去掉彩色底，改为描边 + 品牌色文字 */
+.tag-intent {
+  background: transparent;
+  border: 1px solid rgb(var(--c-hair));
+  color: rgb(var(--c-accent));
+}
+
 /* ------------------------------ 2. 基础样式 ------------------------------ */
 [v-cloak] { display: none !important; }
 
@@ -204,4 +223,5 @@ section[id] { scroll-margin-top: 5rem; }
   .reveal { opacity: 1; transform: none; transition: none; }
   .bar-fill { width: var(--w); transition: none; }
   .pulse-dot, .float, .pop-in, .theme-icon { animation: none; transition: none; }
+  .tag-intent:hover, .arco-btn:hover { transform: none; }
 }
