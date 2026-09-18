@@ -72,6 +72,9 @@ body[arco-theme='dark'] .arco-statistic-value { color: rgb(var(--c-ink)); }
   color: rgb(var(--c-accent));
 }
 
+/* 联系区邮箱按钮：去蓝底实心样式，改默认底 + 墨色文字（深色模式自动换浅色字） */
+.btn-mail { color: rgb(var(--c-ink)); }
+
 /* ------------------------------ 2. 基础样式 ------------------------------ */
 [v-cloak] { display: none !important; }
 
