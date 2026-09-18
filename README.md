@@ -6,14 +6,22 @@
 
 ```
 website/
-├── index.html                 # 页面骨架（结构层）：唯一的 HTML
+├── index.html                 # 主站骨架（结构层）：单页简历
+├── weekly.html                # 周刊归档页：最近 20 期 + 全量检索
 ├── assets/
 │   ├── favicon.svg
 │   ├── avatar.jpg             # 可选：放进来就会替换掉字母头像
 │   ├── css/style.css          # 主题变量 + Tailwind 表达不了的组件类与动效
 │   └── js/
 │       ├── data.js            # ★ 内容层：全部简历内容
-│       └── app.js             # 逻辑层：主题、Arco 注册、指令、雷达图计算
+│       ├── app.js             # 主站逻辑层：主题、Arco 注册、指令、雷达图计算
+│       ├── weekly.js          # 归档页逻辑层：搜索、折叠、主题
+│       ├── weekly-index.js    # 自动生成：全量索引（期号/标题/年月）
+│       └── weekly-latest.js   # 自动生成：最近 20 期正文条目
+├── tools/
+│   └── sync_weekly.py         # 同步脚本，生成上面两个 weekly-*.js
+├── .github/workflows/
+│   └── sync-weekly.yml        # 每日定时同步（GitHub Actions）
 ├── vendor/
 │   ├── vue.global.prod.js     # Vue 3.5.42
 │   ├── arco-vue.min.js        # Arco Design Vue 2.58.0（UMD）
@@ -28,8 +36,10 @@ website/
 |---|---|
 | 个人信息、经历、项目、技能、教育、荣誉 | `assets/js/data.js` |
 | 配色（含深浅两套） | `assets/css/style.css` 里的 `:root` 与 `html.dark` |
-| 板块顺序、布局、增删区块 | `index.html` |
+| 主站板块顺序、布局、增删区块 | `index.html` |
 | 交互行为 | `assets/js/app.js` |
+| 周刊归档页的展示方式 | `weekly.html` / `assets/js/weekly.js` |
+| 周刊数据来源与数量 | `tools/sync_weekly.py`（**不要手改** `weekly-*.js`） |
 
 ## 本地预览
 
@@ -67,6 +77,39 @@ python3 -m http.server 8000   # 然后访问 http://localhost:8000
 | `text-accent` / `bg-accent/10` | 强调色 |
 
 切换逻辑：`index.html` 头部有段前置脚本先读 localStorage（无记录则跟随系统 `prefers-color-scheme`）打上 `html.dark`，避免首屏闪白；点击右上角按钮切换并记住选择，同时同步 Arco 主题。
+
+## 科技爱好者周刊板块
+
+站内接入了 [ruanyf/weekly](https://github.com/ruanyf/weekly)（阮一峰《科技爱好者周刊》）的内容：
+
+- **主站**：新增「在读周刊」板块，展示最近 6 期标题卡片；导航栏和 Hero 侧栏都有归档页入口
+- **归档页** `weekly.html`：最近 **20 期**的完整条目（封面、导语、长话题、按「科技动态 / 文章 / 工具 / 资源 / 图片 / 文摘 / 言论」分类的清单），外加覆盖**全部 413 期**的标题与期号搜索
+
+### 数据是怎么来的
+
+`tools/sync_weekly.py` 拉取上游 README 索引与最近 20 期 Markdown，解析后写成两个 JS 文件：
+
+| 产物 | 内容 | 体积 |
+|---|---|---|
+| `assets/js/weekly-index.js` | 全量索引（期号 / 标题 / 年月） | ~37 KB |
+| `assets/js/weekly-latest.js` | 最近 20 期正文条目 | ~170 KB |
+
+手动跑一次：
+
+```bash
+python3 tools/sync_weekly.py              # 默认最近 20 期
+python3 tools/sync_weekly.py --issues 30  # 想要更多期
+```
+
+脚本只用标准库；网络异常时会退避重试，再失败会退回 `curl`（部分代理环境只认 curl）。
+
+### 每日自动同步
+
+`.github/workflows/sync-weekly.yml` 每天 **UTC 01:30（北京时间 09:30）** 自动运行一次，重新拉取数据，**只有内容真的变了才提交**，避免刷屏 commit 历史。推送到 `main` 后生效。
+
+也可以在 GitHub 仓库的 Actions 页面选「同步科技爱好者周刊」手动触发，适合想立刻看新一期时。
+
+> 版权说明：周刊正文版权归原作者阮一峰所有，本站在归档页标注了来源，每期都保留「在 GitHub 阅读原文」链接。
 
 ## 内容与数据来源
 

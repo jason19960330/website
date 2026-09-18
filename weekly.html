@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>科技爱好者周刊归档 | 李文涛</title>
+  <meta name="description" content="阮一峰《科技爱好者周刊》的本地归档与检索：最近 20 期完整条目，支持全量 413 期按标题与期号搜索。">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+
+  <!-- 首屏主题前置脚本：避免深色偏好用户看到白屏闪一下（与首页共用 site.theme） -->
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('site.theme');
+        if (!saved) {
+          saved = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+        }
+        if (saved === 'dark') document.documentElement.classList.add('dark');
+      } catch (e) { /* 隐私模式忽略 */ }
+    })();
+  </script>
+
+  <link rel="stylesheet" href="vendor/arco.min.css">
+  <script src="vendor/tailwind.play.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            base:   'rgb(var(--c-base) / <alpha-value>)',
+            panel:  'rgb(var(--c-panel) / <alpha-value>)',
+            raise:  'rgb(var(--c-raise) / <alpha-value>)',
+            hair:   'rgb(var(--c-hair) / <alpha-value>)',
+            ink:    'rgb(var(--c-ink) / <alpha-value>)',
+            dim:    'rgb(var(--c-dim) / <alpha-value>)',
+            faint:  'rgb(var(--c-faint) / <alpha-value>)',
+            accent: 'rgb(var(--c-accent) / <alpha-value>)'
+          },
+          fontFamily: {
+            sans: ['-apple-system', 'BlinkMacSystemFont', '"PingFang SC"', '"Hiragino Sans GB"',
+                   '"Microsoft YaHei"', 'Inter', 'system-ui', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'SFMono-Regular', 'Menlo', 'Consolas', 'monospace']
+          }
+        }
+      }
+    };
+  </script>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body class="bg-base">
+  <div id="weekly-app" v-cloak>
+
+    <!-- ============================ 顶部导航 ============================ -->
+    <header class="site-header is-solid fixed inset-x-0 top-0 z-40 border-b border-hair">
+      <div class="mx-auto flex h-16 max-w-5xl items-center justify-between px-5 sm:px-6">
+        <a href="index.html" class="flex items-center gap-2.5">
+          <span class="grid h-8 w-8 place-items-center rounded-lg bg-gradient-to-tr from-sky-500 to-indigo-600 text-[11px] font-bold text-white">涛</span>
+          <span class="text-sm font-semibold tracking-tight text-ink">李文涛</span>
+        </a>
+        <div class="flex items-center gap-2">
+          <a href="https://github.com/ruanyf/weekly" target="_blank" rel="noopener"
+             class="hidden text-xs text-dim transition hover:text-accent sm:inline">数据来源：ruanyf/weekly</a>
+          <button @click="toggleTheme" aria-label="切换主题"
+                  class="grid h-9 w-9 place-items-center rounded-lg border border-hair text-dim transition hover:text-accent">
+            <svg class="theme-icon h-4 w-4"><use :href="theme === 'dark' ? '#i-moon' : '#i-sun'"></use></svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <svg class="hidden" aria-hidden="true">
+      <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 14.5A8.5 8.5 0 019.5 4a8.5 8.5 0 1010.5 10.5z"></path>
+      </symbol>
+      <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="4"></circle>
+        <path d="M12 3v2m0 14v2M3 12h2m14 0h2M5.6 5.6l1.4 1.4m10 10l1.4 1.4m0-12.8l-1.4 1.4m-10 10L5.6 18.4"></path>
+      </symbol>
+      <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M10.5 6l-6 6 6 6M4.5 12h15"></path>
+      </symbol>
+      <symbol id="i-external" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 4h6v6M20 4l-9 9M18 14v4a2 2 0 01-2 2H6a2 2 0 01-2-2V8a2 2 0 012-2h4"></path>
+      </symbol>
+    </svg>
+
+    <main class="pt-16">
+
+      <!-- ============================ 标题区 ============================ -->
+      <section class="mx-auto max-w-5xl px-5 py-12 sm:px-6 sm:py-16">
+        <a href="index.html" class="inline-flex items-center gap-1.5 text-xs text-faint transition hover:text-accent">
+          <svg class="h-3.5 w-3.5"><use href="#i-arrow-left"></use></svg>返回个人主页
+        </a>
+        <h1 class="mt-4 text-3xl font-bold tracking-tight text-ink sm:text-4xl">科技爱好者周刊 · 归档</h1>
+        <p class="mt-3 max-w-2xl text-sm leading-relaxed text-dim">
+          收录阮一峰《科技爱好者周刊》的最近 {{ latest.count }} 期正文条目，并支持在全量
+          <span class="text-accent">{{ index.total }} 期</span>里按期号或标题检索。每日自动同步。
+        </p>
+        <p class="mt-2 text-xs text-faint">最近同步：{{ latest.updated }}</p>
+
+        <!-- 搜索 -->
+        <div class="mt-7 max-w-xl">
+          <div class="relative">
+            <input v-model="query" type="search" placeholder="搜索全部期刊，例如「AI」「代码」「401」"
+                   class="h-11 w-full rounded-xl border border-hair bg-panel px-4 text-sm text-ink outline-none transition placeholder:text-faint focus:border-accent">
+            <span v-if="query" class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-faint">{{ hits.length }} 条结果</span>
+          </div>
+
+          <ul v-if="hits.length" class="mt-3 max-h-80 overflow-y-auto rounded-xl border border-hair bg-panel p-2">
+            <li v-for="h in hits" :key="h.n">
+              <a :href="ghDoc(h.n)" target="_blank" rel="noopener"
+                 class="flex items-center gap-3 rounded-lg px-3 py-2 transition hover:bg-raise">
+                <span class="w-12 shrink-0 font-mono text-xs text-faint">#{{ h.n }}</span>
+                <span class="truncate text-sm text-ink">{{ h.title }}</span>
+                <span class="ml-auto shrink-0 text-xs text-faint">{{ h.ym }}</span>
+              </a>
+            </li>
+          </ul>
+          <p v-else-if="query" class="mt-3 text-xs text-faint">没有匹配的期刊，换个关键词试试。</p>
+        </div>
+      </section>
+
+      <!-- ============================ 最近期刊 ============================ -->
+      <section class="mx-auto max-w-5xl px-5 pb-16 sm:px-6">
+        <div class="mb-4 flex items-center justify-between">
+          <h2 class="text-lg font-semibold text-ink">最近 {{ latest.count }} 期</h2>
+          <a-button size="small" @click="toggleAll">{{ openKeys.length ? '全部收起' : '全部展开' }}</a-button>
+        </div>
+
+        <a-collapse v-model:active-key="openKeys">
+          <a-collapse-item v-for="it in latest.issues" :key="it.n" :header="'#' + it.n + ' ' + it.title">
+            <template #extra>
+              <span class="text-xs text-faint">{{ it.ym }} · {{ countOf(it) }} 条</span>
+            </template>
+
+            <div class="grid gap-5 sm:grid-cols-[200px_1fr]">
+              <!-- 左：封面 -->
+              <a v-if="it.cover" :href="ghDoc(it.n)" target="_blank" rel="noopener" class="block overflow-hidden rounded-xl border border-hair">
+                <img :src="it.cover" :alt="it.title" loading="lazy" class="aspect-[4/3] w-full object-cover">
+              </a>
+
+              <!-- 右：正文结构 -->
+              <div class="min-w-0">
+                <p v-if="it.lead" class="text-sm leading-relaxed text-dim">{{ it.lead }}</p>
+
+                <!-- 长话题 -->
+                <div v-if="it.topics.length" class="mt-4 space-y-3">
+                  <div v-for="t in it.topics" :key="it.n + t.title">
+                    <h3 class="text-sm font-semibold text-ink">{{ t.title }}</h3>
+                    <p class="mt-1 text-xs leading-relaxed text-dim">{{ t.paras[0] }}</p>
+                  </div>
+                </div>
+
+                <!-- 分章节条目 -->
+                <div v-for="sec in it.sections" :key="it.n + sec.name" class="mt-5">
+                  <div class="mb-2 flex items-center gap-2">
+                    <span class="text-xs font-semibold text-accent">{{ sec.name }}</span>
+                    <span class="h-px flex-1 bg-hair"></span>
+                    <span class="text-xs text-faint">{{ sec.items.length }}</span>
+                  </div>
+                  <ul class="space-y-2">
+                    <li v-for="(item, i) in sec.items" :key="it.n + sec.name + i">
+                      <a v-if="item.u" :href="item.u" target="_blank" rel="noopener"
+                         class="group block rounded-lg border border-transparent px-2 py-1.5 transition hover:border-hair hover:bg-raise">
+                        <span class="text-sm font-medium text-ink transition group-hover:text-accent">{{ item.t }}</span>
+                        <span v-if="item.d" class="mt-0.5 block text-xs leading-relaxed text-dim">{{ item.d }}</span>
+                        <span class="mt-1 block font-mono text-[11px] text-faint">{{ host(item.u) }}</span>
+                      </a>
+                      <div v-else class="px-2 py-1.5">
+                        <span class="text-sm font-medium text-ink">{{ item.t }}</span>
+                        <span v-if="item.d" class="mt-0.5 block text-xs leading-relaxed text-dim">{{ item.d }}</span>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+
+                <a :href="ghDoc(it.n)" target="_blank" rel="noopener"
+                   class="mt-6 inline-flex items-center gap-1.5 text-xs text-dim transition hover:text-accent">
+                  <svg class="h-3.5 w-3.5"><use href="#i-external"></use></svg>在 GitHub 阅读原文
+                </a>
+              </div>
+            </div>
+          </a-collapse-item>
+        </a-collapse>
+      </section>
+    </main>
+
+    <footer class="border-t border-hair py-10">
+      <div class="mx-auto flex max-w-5xl flex-col items-center justify-between gap-2 px-5 text-xs text-faint sm:flex-row sm:px-6">
+        <p>内容版权归阮一峰《科技爱好者周刊》所有，本页仅作归档与检索</p>
+        <p>Vue 3 · Tailwind CSS · Arco Design</p>
+      </div>
+    </footer>
+
+  </div>
+
+  <script src="vendor/vue.global.prod.js"></script>
+  <script src="vendor/arco-vue.min.js"></script>
+  <script src="assets/js/weekly-index.js"></script>
+  <script src="assets/js/weekly-latest.js"></script>
+  <script src="assets/js/weekly.js"></script>
+</body>
+</html>

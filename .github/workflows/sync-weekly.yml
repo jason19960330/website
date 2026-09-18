@@ -1,0 +1,38 @@
+name: 同步科技爱好者周刊
+
+# 每天 UTC 01:30（北京时间 09:30）自动跑一次，把 ruanyf/weekly 的最新内容同步进站点
+on:
+  schedule:
+    - cron: '30 1 * * *'
+  workflow_dispatch:        # 也支持在 Actions 页面手动点一下立刻执行
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出仓库
+        uses: actions/checkout@v4
+
+      - name: 准备 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 拉取并生成周刊数据
+        run: python tools/sync_weekly.py --issues 20
+
+      - name: 有变化才提交
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if [ -n "$(git status --porcelain assets/js/weekly-index.js assets/js/weekly-latest.js)" ]; then
+            git add assets/js/weekly-index.js assets/js/weekly-latest.js
+            git commit -m "chore: 同步科技爱好者周刊 $(date -u +'%Y-%m-%d')"
+            git push
+            echo "已同步并提交新内容"
+          else
+            echo "内容无变化，跳过提交"
+          fi

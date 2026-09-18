@@ -88,6 +88,16 @@
       }
       function copyPhone() { writeClipboard(meta.phone, '电话已复制：' + meta.phone); }
 
+      /* ---------------- 周刊：首页只渲染最近 6 期的标题卡片 ---------------- */
+      // 数据由 tools/sync_weekly.py 生成，缺失时该板块自动留空，不影响其他内容
+      var WEEKLY = window.WEEKLY_INDEX;
+      var weeklyReady = !!(WEEKLY && WEEKLY.issues && WEEKLY.issues.length);
+      var weeklyTeaser = weeklyReady ? WEEKLY.issues.slice(0, 6) : [];
+      var weeklyTotal = weeklyReady ? WEEKLY.total : 0;
+      function ghIssue(n) {
+        return 'https://github.com/ruanyf/weekly/blob/master/docs/issue-' + n + '.md';
+      }
+
       /* ---------------- 技能等级文案 ---------------- */
       function levelLabel(level) {
         if (level >= 90) return '精通';
@@ -197,7 +207,9 @@
         jump: jump, toTop: toTop, navActive: navActive,
         theme: theme, toggleTheme: toggleTheme,
         copyPhone: copyPhone, toast: toast,
-        levelLabel: levelLabel, levelTagColor: levelTagColor, barColor: barColor,
+        levelLabel: levelLabel, levelTagColor: levelTagColor,
+        weeklyTeaser: weeklyTeaser, weeklyReady: weeklyReady,
+        weeklyTotal: weeklyTotal, ghIssue: ghIssue, barColor: barColor,
         radar: radar, roleIndex: roleIndex, year: year
       };
     }

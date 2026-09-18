@@ -139,6 +139,7 @@
         <nav class="hidden items-center gap-0.5 md:flex">
           <a v-for="item in nav" :key="item.id" :href="'#' + item.id"
              @click.prevent="jump(item.id)" :class="navActive(item.id)">{{ item.label }}</a>
+          <a href="weekly.html" class="nav-link">周刊</a>
         </nav>
 
         <div class="flex items-center gap-1.5">
@@ -167,6 +168,7 @@
                 @click="jump(item.id)"
                 class="rounded-lg px-3 py-2.5 text-left text-sm transition hover:bg-raise"
                 :class="activeSection === item.id ? 'text-accent' : 'text-dim'">{{ item.label }}</button>
+        <a href="weekly.html" class="rounded-lg px-3 py-2.5 text-left text-sm text-dim transition hover:bg-raise">周刊归档</a>
       </nav>
       <a-divider class="my-4"></a-divider>
       <div class="space-y-2 text-xs text-dim">
@@ -268,6 +270,12 @@
               <p class="text-xs text-faint">当前状态</p>
               <p class="mt-1 text-sm text-ink">{{ meta.availabilityText }}</p>
             </div>
+
+            <a href="weekly.html" v-if="weeklyReady"
+               class="mt-5 flex items-center justify-between gap-2 border-t border-hair pt-5 text-sm text-dim transition hover:text-accent">
+              <span>在读周刊归档</span>
+              <span class="font-mono text-xs text-faint">{{ weeklyTotal }} 期</span>
+            </a>
           </aside>
         </div>
 
@@ -547,6 +555,37 @@
         </div>
       </section>
 
+      <!-- ============================ 科技周刊 ============================ -->
+      <section id="weekly" class="mx-auto max-w-5xl px-5 py-16 sm:px-6 sm:py-20">
+        <div class="mb-8 flex items-end gap-4">
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-accent">Weekly</p>
+            <h2 class="mt-2 text-2xl font-bold tracking-tight text-ink sm:text-3xl">在读周刊</h2>
+            <p class="mt-2 text-sm text-dim">阮一峰《科技爱好者周刊》的最近几期，完整归档与检索在单独页面。</p>
+          </div>
+          <span class="hidden h-px flex-1 bg-gradient-to-r from-hair to-transparent sm:block"></span>
+        </div>
+
+        <ul class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          <li v-for="it in weeklyTeaser" :key="it.n">
+            <a :href="ghIssue(it.n)" target="_blank" rel="noopener"
+               class="card card-hover spot block h-full p-5" v-spotlight>
+              <span class="font-mono text-xs text-faint">#{{ it.n }} · {{ it.ym }}</span>
+              <h3 class="mt-2 text-sm font-semibold leading-snug text-ink">{{ it.title }}</h3>
+            </a>
+          </li>
+        </ul>
+
+        <div class="mt-5 flex items-center gap-3">
+          <a href="weekly.html">
+            <a-button type="primary">查看完整归档</a-button>
+          </a>
+          <span v-if="weeklyReady" class="text-xs text-faint">
+            共 {{ weeklyTotal }} 期，每日自动同步
+          </span>
+        </div>
+      </section>
+
       <!-- ============================ 联系 ============================ -->
       <section id="contact" class="mx-auto max-w-5xl px-5 py-16 sm:px-6 sm:py-20">
         <div v-reveal class="card spot relative overflow-hidden p-8 text-center sm:p-12" v-spotlight>
@@ -602,6 +641,7 @@
   <script src="vendor/vue.global.prod.js"></script>
   <script src="vendor/arco-vue.min.js"></script>
   <script src="assets/js/data.js"></script>
+  <script src="assets/js/weekly-index.js"></script>
   <script src="assets/js/app.js"></script>
 </body>
 </html>
