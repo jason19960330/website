@@ -75,6 +75,13 @@ body[arco-theme='dark'] .arco-statistic-value { color: rgb(var(--c-ink)); }
 /* 联系区邮箱按钮：去蓝底实心样式，改默认底 + 墨色文字（深色模式自动换浅色字） */
 .btn-mail { color: rgb(var(--c-ink)); }
 
+/* 次要按钮悬浮变蓝：Arco secondary 默认 hover 只加深灰，这里改为品牌蓝底白字 */
+.arco-btn.arco-btn-secondary:hover {
+  background-color: rgb(var(--c-accent));
+  border-color: rgb(var(--c-accent));
+  color: #fff;
+}
+
 /* ------------------------------ 2. 基础样式 ------------------------------ */
 [v-cloak] { display: none !important; }
 
