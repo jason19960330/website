@@ -287,47 +287,154 @@ section[id] { scroll-margin-top: 5rem; }
 .section-flash { animation: section-flash 1.8s ease-out; border-radius: 1rem; }
 
 /* ------------------------------ 3.6 简历页版式 ------------------------------ */
-/* A4 友好：单栏、节制留白、层级只靠字号与一条分隔线 */
+/* A4 友好：单栏、节制留白；层级靠字号、留白与少量品牌色点缀 */
 .resume-sheet {
-  padding: 1.5rem 1.25rem 1.75rem;
+  position: relative;
+  overflow: hidden;
+  padding: 1.75rem 1.25rem 2rem;
   border: 1px solid rgb(var(--c-hair));
-  border-radius: 1rem;
+  border-radius: 1.25rem;
   background: rgb(var(--c-panel) / var(--card-op));
   box-shadow: 0 8px 26px -18px var(--card-shadow);
 }
+/* 顶部品牌渐变条：整页唯一的重装饰 */
+.resume-sheet::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 4px;
+  background: linear-gradient(90deg, #0ea5e9, #6366f1 55%, #10b981);
+}
 @media (min-width: 640px) { .resume-sheet { padding: 2.5rem 2.75rem 2.75rem; } }
 
-.resume-head { padding-bottom: 1.1rem; border-bottom: 2px solid rgb(var(--c-hair)); }
-.resume-contact { display: flex; flex-wrap: wrap; gap: .3rem 1rem; font-size: .8125rem; color: rgb(var(--c-dim)); }
-.resume-contact li { display: flex; align-items: center; gap: .35rem; }
+.resume-head { padding-bottom: 1.25rem; border-bottom: 2px solid rgb(var(--c-hair)); }
+.resume-contact { display: grid; grid-template-columns: repeat(1, minmax(0, 1fr)); gap: .4rem .9rem; font-size: .8125rem; color: rgb(var(--c-dim)); }
+@media (min-width: 480px) { .resume-contact { grid-template-columns: repeat(2, minmax(0, auto)); } }
+.resume-contact li { display: flex; align-items: center; gap: .4rem; }
 
-.resume-sec { margin-top: 1.6rem; }
+/* 核心数据条：四个数字 chip，HR 视线的第一落点 */
+.resume-stats {
+  margin-top: 1.1rem;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: .5rem;
+}
+@media (min-width: 640px) { .resume-stats { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.resume-stat {
+  padding: .6rem .75rem;
+  border: 1px solid rgb(var(--c-hair));
+  border-radius: .75rem;
+  background: rgb(var(--c-raise) / .55);
+}
+.resume-stat-value { display: block; font-size: 1.05rem; font-weight: 700; color: rgb(var(--c-ink)); font-variant-numeric: tabular-nums; }
+.resume-stat-value em { font-style: normal; font-size: .72rem; font-weight: 500; color: rgb(var(--c-accent)); margin-left: 1px; }
+.resume-stat-label { display: block; margin-top: .1rem; font-size: .68rem; color: rgb(var(--c-faint)); }
+
+.resume-sec { margin-top: 1.7rem; }
+
+/* 分区标题：软色块图标 + 标题 + 细线，全页统一的节奏感 */
 .resume-h2 {
   display: flex;
   align-items: center;
-  gap: .5rem;
-  padding-bottom: .5rem;
+  gap: .6rem;
+  padding-bottom: .55rem;
   border-bottom: 1px solid rgb(var(--c-hair));
   font-size: 1rem;
   font-weight: 600;
   color: rgb(var(--c-ink));
 }
+.resume-h2-ico {
+  display: grid;
+  place-items: center;
+  width: 1.7rem;
+  height: 1.7rem;
+  border-radius: .6rem;
+  background: rgb(var(--c-accent) / .1);
+  color: rgb(var(--c-accent));
+  flex-shrink: 0;
+}
+
+/* 个人简介：左侧 accent 竖线的引用式排版 */
+.resume-quote {
+  margin-top: .8rem;
+  padding: .35rem 0 .35rem 1rem;
+  border-left: 3px solid rgb(var(--c-accent) / .5);
+}
 .resume-p { margin-top: .6rem; font-size: .875rem; line-height: 1.75; color: rgb(var(--c-dim)); }
+
+/* 核心优势：两列小卡 */
+.resume-adv {
+  display: flex;
+  align-items: flex-start;
+  gap: .6rem;
+  padding: .65rem .75rem;
+  border: 1px solid rgb(var(--c-hair));
+  border-radius: .75rem;
+  background: rgb(var(--c-raise) / .4);
+}
+.resume-adv-dot { margin-top: .42rem; width: 6px; height: 6px; border-radius: 999px; background: rgb(var(--c-accent)); flex-shrink: 0; }
+
+/* 时间轴：左侧竖线 + 圆点，经历 / 项目 / 教育共用 */
+.resume-tl { position: relative; padding-left: 1.25rem; }
+.resume-tl::before {
+  content: '';
+  position: absolute;
+  left: 3.5px;
+  top: .5rem;
+  bottom: .5rem;
+  width: 1px;
+  background: rgb(var(--c-hair));
+}
+.resume-tl > li { position: relative; }
+.resume-tl > li + li { margin-top: 1.4rem; }
+.resume-tl > li::before {
+  content: '';
+  position: absolute;
+  left: -1.25rem;
+  top: .38rem;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: rgb(var(--c-accent));
+  box-shadow: 0 0 0 3px rgb(var(--c-accent) / .16);
+}
+/* 项目 / 教育用第二色，和首页「能力雷达」的配色语言一致 */
+.resume-tl--indigo > li::before { background: #6366f1; box-shadow: 0 0 0 3px rgba(99, 102, 241, .16); }
 
 .resume-item-head { display: flex; align-items: flex-start; justify-content: space-between; gap: .75rem; }
 .resume-item-title { font-size: .9375rem; font-weight: 600; color: rgb(var(--c-ink)); }
 .resume-org { margin-top: .15rem; font-size: .8125rem; color: rgb(var(--c-accent)); }
 .resume-period {
   flex-shrink: 0;
+  margin-top: .1rem;
+  padding: .12rem .5rem;
+  border: 1px solid rgb(var(--c-hair));
+  border-radius: .5rem;
+  background: rgb(var(--c-raise) / .55);
   font-family: var(--font-mono, ui-monospace, SFMono-Regular, monospace);
-  font-size: .75rem;
-  color: rgb(var(--c-faint));
+  font-size: .7rem;
+  color: rgb(var(--c-dim));
   white-space: nowrap;
 }
 .resume-bullets { margin-top: .5rem; padding-left: 1.15rem; list-style: disc outside; }
 .resume-bullets li { margin-top: .25rem; font-size: .875rem; line-height: 1.75; color: rgb(var(--c-dim)); }
-.resume-tags { margin-top: .5rem; display: flex; flex-wrap: wrap; gap: .35rem; }
-.resume-skill { display: flex; align-items: baseline; justify-content: space-between; gap: .5rem; }
+.resume-bullets li::marker { color: rgb(var(--c-accent) / .7); }
+.resume-tags { margin-top: .55rem; display: flex; flex-wrap: wrap; gap: .35rem; }
+
+/* 技能条：宽度由行内 --w 提供（不依赖入场动画，打印时也是实宽） */
+.resume-bar-track { height: .375rem; border-radius: 999px; background: rgb(var(--c-raise)); overflow: hidden; }
+.resume-bar-fill { height: 100%; width: var(--w, 0%); border-radius: 999px; }
+
+/* 工具栈：一行一类的紧凑清单 */
+.resume-tools {
+  margin-top: .9rem;
+  padding: .8rem .9rem;
+  border: 1px dashed rgb(var(--c-hair));
+  border-radius: .75rem;
+  display: grid;
+  gap: .4rem;
+}
+.resume-tool { display: flex; gap: .75rem; align-items: baseline; }
 
 /* ------------------------------ 4. 动效 ------------------------------ */
 .reveal {
@@ -436,11 +543,18 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
   /* ---- 简历页（resume.html）---- */
   /* 全局那条 article{break-inside:avoid} 会把整份简历压到一页，这里放开 */
   article.resume-sheet { break-inside: auto; border: none; box-shadow: none; padding: 0; background: #fff; }
-  .resume-sheet { color: #111; }
+  /* 允许少量品牌色小元素（时间轴圆点 / 渐变顶条）按原样打印 */
+  .resume-sheet { color: #111; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   .resume-sec { margin-top: .9rem; }
   .resume-h2 { break-after: avoid; color: #111; }
   .resume-head { break-after: avoid; }
   .resume-item { break-inside: avoid; }
   .resume-p, .resume-bullets li { color: #333; font-size: 12px; line-height: 1.65; }
   .resume-org { color: rgb(var(--c-accent)); }
+  .resume-stat { break-inside: avoid; border-color: #ddd; background: #f6f6f6; }
+  .resume-stat-value { color: #111; }
+  .resume-adv { break-inside: avoid; border-color: #ddd; background: #fafafa; }
+  .resume-period { border-color: #ddd; background: #f6f6f6; color: #333; }
+  .resume-quote { border-left-color: #9ca3af; }
+  .resume-tools { border-color: #ddd; }
 }
