@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://jason19960330.github.io/website/sitemap.xml

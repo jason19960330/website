@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>404 · 页面不存在 | 李文涛</title>
+  <meta name="robots" content="noindex">
+  <style>
+    :root { color-scheme: light dark; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", system-ui, sans-serif;
+      background: #f8fafc;
+      color: #0f172a;
+      padding: 2rem;
+      text-align: center;
+    }
+    @media (prefers-color-scheme: dark) {
+      body { background: #020617; color: #e2e8f0; }
+      .code { color: #38bdf8; }
+      a { color: #38bdf8; }
+      .hint { color: #94a3b8; }
+    }
+    .code { font-size: 5.5rem; font-weight: 700; letter-spacing: -.04em; color: #0284c7; line-height: 1; }
+    h1 { font-size: 1.15rem; font-weight: 500; margin: 1.1rem 0 .4rem; }
+    .hint { font-size: .875rem; color: #64748b; margin-bottom: 1.8rem; }
+    a {
+      display: inline-block;
+      padding: .6rem 1.4rem;
+      border-radius: .75rem;
+      background: #0284c7;
+      color: #fff;
+      text-decoration: none;
+      font-size: .9rem;
+    }
+    a.ghost { background: transparent; color: #0284c7; border: 1px solid currentColor; margin-left: .6rem; }
+    @media (prefers-color-scheme: dark) { a.ghost { color: #38bdf8; } }
+  </style>
+</head>
+<body>
+  <div>
+    <div class="code">404</div>
+    <h1>这个页面不存在</h1>
+    <p class="hint">链接可能已过期，或者地址敲错了。</p>
+    <a href="/website/">返回首页</a>
+    <a class="ghost" href="/website/weekly.html">周刊归档</a>
+  </div>
+</body>
+</html>

@@ -5,6 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>科技爱好者周刊归档 | 李文涛</title>
   <meta name="description" content="阮一峰《科技爱好者周刊》的本地归档与检索：最近 20 期完整条目，支持全量 413 期按标题与期号搜索。">
+  <link rel="canonical" href="https://jason19960330.github.io/website/weekly.html">
+
+  <!-- 分享卡片（微信 / 领英 / X 等平台抓取） -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="李文涛的个人主页">
+  <meta property="og:title" content="科技爱好者周刊归档 | 李文涛">
+  <meta property="og:description" content="阮一峰《科技爱好者周刊》本地归档：最近 20 期完整条目，支持全量 413 期检索，每日自动同步。">
+  <meta property="og:url" content="https://jason19960330.github.io/website/weekly.html">
+  <meta property="og:image" content="https://jason19960330.github.io/website/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="zh_CN">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="科技爱好者周刊归档 | 李文涛">
+  <meta name="twitter:description" content="阮一峰《科技爱好者周刊》本地归档：最近 20 期完整条目，支持全量 413 期检索，每日自动同步。">
+  <meta name="twitter:image" content="https://jason19960330.github.io/website/assets/og-image.png">
+
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 
   <!-- 首屏主题前置脚本：避免深色偏好用户看到白屏闪一下（与首页共用 site.theme） -->
@@ -20,31 +37,9 @@
     })();
   </script>
 
-  <link rel="stylesheet" href="vendor/arco.min.css">
-  <script src="vendor/tailwind.play.js"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            base:   'rgb(var(--c-base) / <alpha-value>)',
-            panel:  'rgb(var(--c-panel) / <alpha-value>)',
-            raise:  'rgb(var(--c-raise) / <alpha-value>)',
-            hair:   'rgb(var(--c-hair) / <alpha-value>)',
-            ink:    'rgb(var(--c-ink) / <alpha-value>)',
-            dim:    'rgb(var(--c-dim) / <alpha-value>)',
-            faint:  'rgb(var(--c-faint) / <alpha-value>)',
-            accent: 'rgb(var(--c-accent) / <alpha-value>)'
-          },
-          fontFamily: {
-            sans: ['-apple-system', 'BlinkMacSystemFont', '"PingFang SC"', '"Hiragino Sans GB"',
-                   '"Microsoft YaHei"', 'Inter', 'system-ui', 'sans-serif'],
-            mono: ['"JetBrains Mono"', 'SFMono-Regular', 'Menlo', 'Consolas', 'monospace']
-          }
-        }
-      }
-    };
-  </script>
+  <!-- 预编译样式：Tailwind 产物 → Arco 按需样式 → 站点定制（后者覆盖前者） -->
+  <link rel="stylesheet" href="assets/css/tailwind.css">
+  <link rel="stylesheet" href="vendor/arco-bundle.css">
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 
@@ -85,7 +80,7 @@
       </symbol>
     </svg>
 
-    <main class="pt-16">
+    <main id="main" class="pt-16" tabindex="-1">
 
       <!-- ============================ 标题区 ============================ -->
       <section class="mx-auto max-w-5xl px-5 py-12 sm:px-6 sm:py-16">
@@ -195,8 +190,8 @@
 
   </div>
 
-  <script src="vendor/vue.global.prod.js"></script>
-  <script src="vendor/arco-vue.min.js"></script>
+  <!-- 按需打包产物：Vue 完整版 + 实际用到的 Arco 组件，暴露 window.Vue / window.ArcoVue -->
+  <script src="vendor/arco-bundle.js"></script>
   <script src="assets/js/weekly-index.js"></script>
   <script src="assets/js/weekly-latest.js"></script>
   <script src="assets/js/weekly.js"></script>

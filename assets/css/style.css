@@ -228,10 +228,75 @@ section[id] { scroll-margin-top: 5rem; }
 /* 主题切换按钮图标 */
 .theme-icon { transition: transform .5s cubic-bezier(.16,1,.3,1), opacity .3s ease; }
 
+/* --------------------- 4.5 无障碍：skip-link 与焦点 --------------------- */
+
+/* 键盘 Tab 的第一个焦点：平时视觉隐藏，聚焦时浮现（SR 用户与键盘用户可达） */
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -3rem;
+  z-index: 60;
+  padding: .5rem 1rem;
+  border-radius: .6rem;
+  background: rgb(var(--c-accent));
+  color: #fff;
+  font-size: .875rem;
+  transition: top .2s ease;
+}
+.skip-link:focus { top: 1rem; }
+
+/* 统一键盘焦点环：只用 :focus-visible，不干扰鼠标点击 */
+a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
+  outline: 2px solid rgb(var(--c-accent));
+  outline-offset: 2px;
+  border-radius: .375rem;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .reveal { opacity: 1; transform: none; transition: none; }
   .bar-fill { width: var(--w); transition: none; }
   .pulse-dot, .float, .pop-in, .theme-icon { animation: none; transition: none; }
   .tag-intent:hover, .arco-btn:hover { transform: none; }
+}
+
+/* ------------------------------ 5. 打印样式 ------------------------------ */
+/* HR 打印或「存为 PDF」时使用：白底黑字、隐藏交互件、卡片不跨页断裂。
+   注意 Chrome 打印默认不打印背景色，配色全部回落到字色即可。 */
+@media print {
+  /* 隐藏交互件：顶栏、回到顶部、主题切换、移动端抽屉、背景光晕 */
+  header, .no-print, [aria-label="返回顶部"] { display: none !important; }
+  body { background: #fff !important; }
+  body::before { display: none !important; }
+
+  /* 深色偏好下也强制浅色输出，避免整页铺墨 */
+  html.dark {
+    --c-base: 255 255 255;
+    --c-panel: 255 255 255;
+    --c-raise: 244 244 245;
+    --c-hair: 214 214 219;
+    --c-ink: 17 17 17;
+    --c-dim: 68 68 68;
+    --c-faint: 120 120 120;
+    --c-accent: 2 132 199;
+    --glow-op: 0;
+    --card-op: 1;
+    --card-shadow: none;
+  }
+
+  /* 强制所有入场动画完成态，防止打印出空白块 */
+  .reveal { opacity: 1 !important; transform: none !important; }
+  .bar-fill { width: var(--w) !important; }
+
+  /* 折叠面板打印时全部展开（内容不可丢失） */
+  .arco-collapse-item-content { display: block !important; height: auto !important; }
+  .arco-collapse-item { border: 1px solid rgb(var(--c-hair)); border-radius: .5rem; }
+
+  /* 卡片不跨页断裂；A4 下收紧留白 */
+  .card, .arco-collapse-item, article, li { break-inside: avoid; }
+  section { padding-top: .75rem !important; padding-bottom: .75rem !important; }
+
+  /* 周刊板块与外链归档在纸面上没有意义 */
+  #weekly { display: none !important; }
+  a[href^="http"]::after { content: ""; }
 }

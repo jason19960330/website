@@ -1,0 +1,17 @@
+{
+  "name": "personal-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "李文涛的个人主页（静态站，构建产物提交进仓库，Pages 直接托管）",
+  "type": "module",
+  "scripts": {
+    "build": "node tools/build.mjs",
+    "og": "python3 tools/make_og.py"
+  },
+  "devDependencies": {
+    "@arco-design/web-vue": "2.58.0",
+    "esbuild": "^0.28.2",
+    "tailwindcss": "3.4.16",
+    "vue": "3.5.42"
+  }
+}
