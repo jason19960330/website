@@ -61,6 +61,14 @@ async function main() {
     '--minify'
   ], { cwd: root, stdio: 'inherit' });
   console.log('[build] assets/css/tailwind.css ', kb(fs.statSync(path.join(root, 'assets/css/tailwind.css')).size));
+
+  /* ---------------- 3. 爬虫可见的静态快照 ---------------- */
+  // 必须放在最后：要等前面的 CSS 就绪，jsdom 才能渲染出正确结构
+  execFileSync(process.execPath, [path.join(root, 'tools/prerender.mjs')], {
+    cwd: root,
+    stdio: 'inherit',
+    env: process.env
+  });
 }
 
 main().catch((e) => { console.error(e); process.exit(1); });

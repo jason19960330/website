@@ -26,9 +26,10 @@ website/
 │       └── weekly-latest.js   # 自动生成：最近 20 期正文条目
 ├── tools/
 │   ├── sync_weekly.py         # 周刊同步脚本，生成 weekly-*.js
-│   ├── build.mjs              # ★ 依赖构建：esbuild 打包 Arco 按需 + Tailwind 预编译
-│   ├── vendor-entry.js        # 打包入口：声明实际用到的组件
+│   ├── build.mjs              # ★ 构建总入口：下面三步一条命令跑完
+│   ├── vendor-entry.js        # 打包入口：声明实际用到的 Arco 组件
 │   ├── tailwind.config.js     # Tailwind 配置（content 扫描范围在这里）
+│   ├── prerender.mjs          # 生成爬虫可见的静态快照（写入 noscript）
 │   └── make_og.py             # 重新生成分享卡片图（需 pillow）
 ├── .github/workflows/
 │   └── sync-weekly.yml        # 每日定时同步（GitHub Actions）
@@ -50,17 +51,20 @@ website/
 
 页面加载的 `vendor/arco-bundle.js` 和 `assets/css/tailwind.css` 都是**构建产物**，源码在 `tools/`：
 
-- **Arco 按需打包**：全量 UMD 约 1.0 MB，实际只用了 10 个组件。`tools/build.mjs` 用 esbuild 只把用到的组件 + Vue 完整版（in-DOM 模板需要编译器）打进一个文件
+- **Arco 按需打包**：全量 UMD 约 1.0 MB，实际只用了 10 个组件。esbuild 只把用到的组件 + Vue 完整版（in-DOM 模板需要编译器）打进一个文件
 - **Tailwind 预编译**：不再用浏览器端 JIT 的 Play CDN（约 139 KB gzip 且首屏会闪），改为 CLI 扫描 `tools/tailwind.config.js` 中 content 列出的文件，产出静态 CSS
+- **静态快照**：`tools/prerender.mjs` 用 jsdom 渲染一遍页面，把结果写进 `<noscript id="seo-snapshot">`（见 SEO 一节）
 
-效果：**首页首屏传输量（gzip）从约 526 KB 降到约 137 KB**，且不再有运行时样式编译。
+效果：**首页首屏传输量（gzip）从约 526 KB 降到约 144 KB**，且不再有运行时样式编译。
 
-重新构建：
+重新构建（三步一条命令）：
 
 ```bash
 npm install        # 首次
-npm run build      # 改了 tools/ 下的构建配置或页面类名后执行
+npm run build      # 改了 tools/ 下的构建配置、页面类名或内容后执行
 ```
+
+产物必须提交进仓库（Pages 不跑构建）。快照那步会**改写 `index.html` 与 `weekly.html` 末尾的 noscript 区块**，幂等，重复运行只替换不叠加。
 
 产物必须提交进仓库（Pages 不跑构建）。
 
@@ -82,9 +86,36 @@ python3 -m http.server 8000   # 访问 http://localhost:8000
 
 ## SEO 与分享
 
+### 为什么要有静态快照
+
+整站是 Vue 在浏览器里渲染的，`index.html` 源码里原本只有 `{{ meta.name }}` 这类占位符。Google 会执行 JS 但排在渲染队列里、延迟不定；**百度、Bing、微信搜一搜基本不执行 JS**，抓到的就是空壳。
+
+所以构建时多跑一步：用 jsdom 真渲染一遍，把结果写进页面末尾的 `<noscript>`。浏览器开启 JS 时这段是纯文本、不参与渲染（真实用户完全无感），爬虫则能读到全部正文。
+
+效果（源码中去掉 script 后的可见文字）：
+
+| 页面 | 之前 | 之后 |
+|---|---|---|
+| `index.html` | 1399 字（全是 `{{ }}`） | 4536 字（晖致医药 ×5、资产台账 ×6、ITIL ×4） |
+| `weekly.html` | 约 0 | 47350 字（含 413 期标题） |
+
+> noscript 必须放在 `#app` **外面**：放进 `#app` 会被 Vue 当成 in-DOM 模板一起编译，页面直接炸。
+
+### 其余 SEO 项
+
 - `index.html` 带 Open Graph / Twitter Card：分享到微信、领英、X 会出卡片（图：`assets/og-image.png`，改文案后跑 `npm run og` 重新生成，需 pillow）
 - JSON-LD `Person` 结构化数据（搜索引擎直接读取）
 - `sitemap.xml` + `robots.txt` + canonical
+
+### 提交收录（需要手动做一次）
+
+标签和快照只解决"抓得到、读得懂"，**不会自动被收录**。新站主动提交入口：
+
+1. [Google Search Console](https://search.google.com/search-console) → 添加资源（网址前缀）→ 提交 `sitemap.xml`
+2. [Bing Webmaster Tools](https://www.bing.com/webmasters) → 可导入 Google 的数据，一次搞定
+3. 在 GitHub 个人主页 README 或仓库 About 里挂上站点链接（外链是爬虫发现新站的主要途径）
+
+提交后 Google 通常几天到几周收录，Bing 快一些。
 
 ## 双主题
 
