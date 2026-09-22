@@ -22,8 +22,10 @@ const require = createRequire(import.meta.url);
 const { JSDOM } = require('jsdom');
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
+// 新增页面时在这里登记一行即可，appId 与页面里挂载 Vue 的根元素 id 对应
 const PAGES = [
   { file: 'index.html', appId: 'app' },
+  { file: 'resume.html', appId: 'resume-app' },
   { file: 'weekly.html', appId: 'weekly-app' }
 ];
 

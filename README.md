@@ -7,6 +7,7 @@
 ```
 website/
 ├── index.html                 # 主站骨架（结构层）：单页简历
+├── resume.html                # 简历页：一页式简历，可打印 / 存为 PDF
 ├── weekly.html                # 周刊归档页：最近 20 期 + 全量检索
 ├── 404.html                   # GitHub Pages 自定义 404
 ├── robots.txt / sitemap.xml   # 搜索引擎收录
@@ -14,13 +15,14 @@ website/
 ├── assets/
 │   ├── favicon.svg
 │   ├── og-image.png           # 社交分享卡片图（1200×630）
-│   ├── resume.pdf             # 简历备份（未在页面展示）
+│   ├── resume.pdf             # 简历原件 PDF（首页「下载 PDF」与简历页都指向它）
 │   ├── css/
 │   │   ├── tailwind.css       # 自动生成：Tailwind 预编译产物（勿手改）
 │   │   └── style.css          # 主题变量 + 组件定制类 + 动效 + 打印样式
 │   └── js/
-│       ├── data.js            # ★ 内容层：全部简历内容
-│       ├── app.js             # 主站逻辑层：主题、Arco 注册、指令、雷达图计算
+│       ├── data.js            # ★ 内容层：全部简历内容（index / resume 共用）
+│       ├── app.js             # 主站逻辑层：主题、站内搜索、Arco 注册、指令、雷达图
+│       ├── resume.js          # 简历页逻辑层：主题、打印 / 导出 PDF
 │       ├── weekly.js          # 归档页逻辑层：搜索、折叠、主题
 │       ├── weekly-index.js    # 自动生成：全量索引（期号/标题/年月）
 │       └── weekly-latest.js   # 自动生成：最近 20 期正文条目
@@ -43,7 +45,8 @@ website/
 | 个人信息、经历、项目、技能、教育、荣誉 | `assets/js/data.js` | 直接刷新即可 |
 | 配色（含深浅两套） | `assets/css/style.css` 里的 `:root` 与 `html.dark` | 直接刷新 |
 | 主站板块顺序、布局、增删区块 | `index.html` | 若新增了 Tailwind 类，需重新 `npm run build` |
-| 交互行为 | `assets/js/app.js` | 同上 |
+| 简历页版式 | `resume.html`（打印样式在 `style.css` 的 `.resume-*`） | 同上 |
+| 站内搜索的检索范围 | `assets/js/app.js` 的 `searchDocs` | 同上 |
 | 周刊数据来源与数量 | `tools/sync_weekly.py` | 跑一次脚本（勿手改 `weekly-*.js`） |
 | 换 Arco 组件 / 升级依赖 | `tools/vendor-entry.js` + `package.json` | `npm run build` |
 
@@ -64,7 +67,7 @@ npm install        # 首次
 npm run build      # 改了 tools/ 下的构建配置、页面类名或内容后执行
 ```
 
-产物必须提交进仓库（Pages 不跑构建）。快照那步会**改写 `index.html` 与 `weekly.html` 末尾的 noscript 区块**，幂等，重复运行只替换不叠加。
+产物必须提交进仓库（Pages 不跑构建）。快照那步会**改写 `index.html`、`resume.html`、`weekly.html` 末尾的 noscript 区块**（页面清单在 `tools/prerender.mjs` 的 `PAGES`），幂等，重复运行只替换不叠加。
 
 产物必须提交进仓库（Pages 不跑构建）。
 
@@ -96,8 +99,9 @@ python3 -m http.server 8000   # 访问 http://localhost:8000
 
 | 页面 | 之前 | 之后 |
 |---|---|---|
-| `index.html` | 1399 字（全是 `{{ }}`） | 4536 字（晖致医药 ×5、资产台账 ×6、ITIL ×4） |
-| `weekly.html` | 约 0 | 47350 字（含 413 期标题） |
+| `index.html` | 1399 字（全是 `{{ }}`） | 约 3200 字（晖致医药、资产台账、ITIL 等正文全在） |
+| `resume.html` | 约 0 | 约 2200 字（整份简历正文） |
+| `weekly.html` | 约 0 | 约 46800 字（含 413 期标题） |
 
 > noscript 必须放在 `#app` **外面**：放进 `#app` 会被 Vue 当成 in-DOM 模板一起编译，页面直接炸。
 
@@ -121,6 +125,33 @@ python3 -m http.server 8000   # 访问 http://localhost:8000
 
 所有颜色走 CSS 变量，Tailwind 侧封装语义类（`bg-base` / `text-ink` / `border-hair` / `text-accent` …），切 `html.dark` 整体换肤。头部前置脚本先读 localStorage（无记录跟随系统）打标记，避免首屏闪白。
 
+## 简历页 resume.html
+
+与首页**共用同一份 `data.js`**，改一次两处同步。专为打印设计：
+
+- 版式：单栏 A4 友好，层级只靠字号与一条分隔线；`style.css` 里 `.resume-*` 一套类 + `@media print` 覆盖
+- 操作：`打印 / 存为 PDF`（走浏览器原生打印）、`下载 PDF`（`meta.resumeUrl`，置空则按钮自动隐藏）
+- 打印时自动隐藏顶栏与按钮、去掉卡片阴影与圆角，放开全局那条 `article{break-inside:avoid}`（否则整份简历会被压成一页）
+
+> 坑：简历正文的头部不能用 `<header>` 标签 —— 全局打印样式会隐藏 `header`（顶栏也是 `header`），会让姓名区块在打印时消失。
+
+## 首页站内搜索
+
+导航栏右侧（窄屏是一个图标，点开浮出面板）。**纯前端检索，无后端**，索引在打开页面时就地构建：
+
+| 来源 | 内容 |
+|---|---|
+| 本站 | 7 个板块、工作经历、项目、技能、工具栈、核心优势、教育、证书 |
+| 页面 | 简历页、周刊归档页 |
+| 周刊 | 全量 413 期（期号 + 标题，支持 `issue-100`、`weekly` 这类关键词） |
+
+- 多关键词按空格拆分，**全部命中才入选**（AND）；标题开头命中权重最高
+- 结果分「本站 / 周刊」两组，各最多 8 条，命中词 `<mark>` 高亮，摘要自动截取命中位置附近
+- 点击本站结果 → 平滑滚动到对应板块并**闪一下**提示；周刊结果 → 新标签打开 GitHub 原文
+- 键盘：`/` 或 `⌘K`(`Ctrl+K`) 唤起，`↑↓` 选择、`Enter` 打开、`Esc` 关闭；点击面板外自动收起
+
+新增可检索内容时，在 `assets/js/app.js` 的 `searchDocs` 里 `add()` 一行即可。
+
 ## 科技爱好者周刊板块
 
 接入 [ruanyf/weekly](https://github.com/ruanyf/weekly)（阮一峰《科技爱好者周刊》）：
@@ -134,7 +165,7 @@ python3 -m http.server 8000   # 访问 http://localhost:8000
 
 ## 内容与数据来源
 
-内容整理自个人简历（`assets/resume.pdf`，未在页面公开展示）：
+内容整理自个人简历（原件 `assets/resume.pdf`，首页与简历页都有「下载 PDF」入口）：
 
 | 板块 | 内容 |
 |---|---|
@@ -150,6 +181,7 @@ python3 -m http.server 8000   # 访问 http://localhost:8000
 ## 交互、动效与无障碍
 
 - 主题切换（持久化 + 跟随系统）、滚动入场、技能条生长、数字滚动计数、卡片光标聚光、悬停抬升
+- **站内搜索**（`/` 或 `⌘K` 唤起，见上一节）
 - 导航 scroll spy、移动端抽屉、返回顶部、复制电话 → Arco Message 提示
 - 打印样式：Cmd+P 或「存为 PDF」时自动白底黑字、隐藏导航与动效、折叠面板全展开、卡片不跨页断裂
 - 无障碍：skip-link（Tab 直达正文）、`:focus-visible` 统一焦点环、`section` 锚点 `scroll-margin-top` 防顶栏遮挡

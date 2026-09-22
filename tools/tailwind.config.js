@@ -9,8 +9,10 @@ module.exports = {
   content: [
     './index.html',
     './weekly.html',
+    './resume.html',
     './assets/js/app.js',
     './assets/js/weekly.js',
+    './assets/js/resume.js',
     './assets/js/data.js'
   ],
   theme: {

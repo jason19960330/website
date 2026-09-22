@@ -60,7 +60,13 @@
       function jump(id) {
         menuOpen.value = false;
         var el = document.getElementById(id);
-        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        if (!el) return;
+        // scrollIntoView 在个别环境（jsdom / 老内核）不存在，降级为 scrollTo，避免抛错
+        if (typeof el.scrollIntoView === 'function') {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+          window.scrollTo({ top: el.getBoundingClientRect().top + (window.scrollY || 0) - 8, behavior: 'smooth' });
+        }
       }
       function toTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
       function navActive(id) { return activeSection.value === id ? 'nav-link is-active' : 'nav-link'; }
@@ -97,6 +103,222 @@
       function ghIssue(n) {
         return 'https://github.com/ruanyf/weekly/blob/master/docs/issue-' + n + '.md';
       }
+
+      /* ---------------- 全站搜索 ---------------- */
+      // 索引来源：站点板块 / 经历 / 项目 / 技能 / 教育 / 证书 + 页级入口 + 全部周刊标题。
+      // 全部在浏览器内存里检索，无需后端；周刊索引由 tools/sync_weekly.py 每日更新。
+      var SECTION_DESC = {
+        home:      '个人概览 · 求职意向 · 联系方式速览',
+        about:     '自我介绍 · 核心数据 · 核心优势',
+        skills:    '技能矩阵 · 能力雷达图 · 工具栈',
+        timeline:  '晖致医药 IT 技术支持 · 工作经历明细',
+        projects:  '资产台账规范化 · 终端资产运营 · 新零售交付',
+        education: '中国农业大学 · 华北理工大学迁安学院 · 证书荣誉',
+        contact:   '邮箱 · 电话 · 社交链接'
+      };
+
+      // 同类结果之间的排序倾向：板块 / 页面 > 经历 > 项目 > 技能 / 教育 / 关于
+      // （分值之外的加权，避免「技能」这类词被大量技能条目压过导航入口）
+      var GROUP_WEIGHT = { '本站': 6, '页面': 6, '经历': 3, '项目': 1, '技能': 1, '教育': 1, '关于': 1, '周刊': 0 };
+
+      var searchDocs = (function () {
+        var list = [];
+        function add(d) {
+          if (!d.title) return;
+          d.hay = (d.title + ' ' + (d.desc || '') + ' ' + (d.kw || '')).toLowerCase();
+          d.w = GROUP_WEIGHT[d.group] || 0;
+          list.push(d);
+        }
+
+        // 1) 板块快捷入口（空关键词时作为默认推荐，命中后滚动到对应板块）
+        CONFIG.nav.forEach(function (n) {
+          add({ kind: 'section', group: '本站', badge: '板块', title: n.label, desc: SECTION_DESC[n.id] || '', section: n.id });
+        });
+        // 2) 独立页面
+        add({ kind: 'page', group: '页面', badge: '页面', title: '个人简历（完整版）', desc: '一页式简历 · 支持打印 / 导出 PDF · 与首页同源', href: 'resume.html' });
+        add({ kind: 'page', group: '页面', badge: '页面', title: '科技爱好者周刊归档',
+              desc: '最近 20 期完整条目，支持全量 ' + weeklyTotal + ' 期按标题与期号检索', href: 'weekly.html' });
+
+        // 3) 内容条目：命中后跳到所属板块
+        CONFIG.timeline.forEach(function (t) {
+          add({ kind: 'site', group: '经历', badge: t.org, title: t.role + ' · ' + t.org,
+                desc: t.summary + ' ' + t.points.join(' '), section: 'timeline' });
+        });
+        CONFIG.projects.forEach(function (p) {
+          add({ kind: 'site', group: '项目', badge: p.period, title: p.name,
+                desc: p.summary + ' ' + p.details.join(' '), section: 'projects' });
+        });
+        CONFIG.skillGroups.forEach(function (g) {
+          g.skills.forEach(function (s) {
+            add({ kind: 'site', group: '技能', badge: g.title, title: s.name,
+                  desc: g.title + ' · ' + g.desc + ' · ' + levelLabel(s.level), section: 'skills' });
+          });
+        });
+        CONFIG.toolStack.forEach(function (cat) {
+          cat.items.forEach(function (item) {
+            add({ kind: 'site', group: '技能', badge: '工具栈', title: item, desc: cat.title + ' · 日常在用工具', section: 'skills' });
+          });
+        });
+        CONFIG.strengths.forEach(function (s) {
+          add({ kind: 'site', group: '关于', badge: '核心优势', title: s.title, desc: s.desc, section: 'about' });
+        });
+        CONFIG.education.forEach(function (e) {
+          add({ kind: 'site', group: '教育', badge: e.degree, title: e.school,
+                desc: e.major + ' · ' + e.degree + (e.note ? ' · ' + e.note : '') + ' · ' + e.period, section: 'education' });
+        });
+        CONFIG.honors.forEach(function (h) {
+          add({ kind: 'site', group: '教育', badge: '证书荣誉', title: h, desc: '证书与荣誉', section: 'education' });
+        });
+
+        // 4) 周刊：期号 + 标题
+        if (weeklyReady) {
+          WEEKLY.issues.forEach(function (it) {
+            add({ kind: 'weekly', group: '周刊', badge: '#' + it.n, n: it.n,
+                  title: (it.title || '').replace(/^第?\s*\d+\s*期[：:·\-\s]*/, '') || ('第 ' + it.n + ' 期'),
+                  desc: '科技爱好者周刊 · ' + it.ym + ' · 第 ' + it.n + ' 期',
+                  kw: 'weekly 科技爱好者周刊 ruanyf issue-' + it.n + ' ' + it.n,
+                  href: ghIssue(it.n), external: true });
+          });
+        }
+        return list;
+      })();
+
+      // 空关键词时展示的快捷入口（板块 + 独立页面）
+      var quickLinks = searchDocs.filter(function (d) { return d.kind === 'section' || d.kind === 'page'; });
+
+      function escRe(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+      function escapeHtml(s) {
+        return String(s).replace(/[&<>"]/g, function (c) {
+          return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+        });
+      }
+      // 先转义再高亮，避免 weekly 标题里的特殊字符破坏结构
+      function hl(text, terms) {
+        var out = escapeHtml(text);
+        if (!terms.length) return out;
+        try {
+          return out.replace(new RegExp('(' + terms.map(escRe).join('|') + ')', 'gi'), '<mark class="search-mark">$1</mark>');
+        } catch (e) { return out; }
+      }
+      // 摘要：从命中位置附近截一段，前后加省略号
+      function snippet(text, terms) {
+        if (!text) return '';
+        var low = text.toLowerCase(), pos = -1;
+        terms.forEach(function (t) {
+          var p = low.indexOf(t);
+          if (p >= 0 && (pos < 0 || p < pos)) pos = p;
+        });
+        var start = pos > 24 ? pos - 24 : 0;
+        var cut = text.slice(start, start + 96);
+        if (start > 0) cut = '…' + cut;
+        if (start + 96 < text.length) cut = cut + '…';
+        return hl(cut, terms);
+      }
+      function scoreOf(doc, terms) {
+        var title = doc.title.toLowerCase(), desc = (doc.desc || '').toLowerCase(), total = 0;
+        for (var i = 0; i < terms.length; i++) {
+          var t = terms[i], ti = title.indexOf(t), di = desc.indexOf(t), kw = (doc.kw || '').indexOf(t);
+          if (ti < 0 && di < 0 && kw < 0) return 0;             // 有一个词没命中就整条淘汰（AND）
+          if (ti === 0) total += 14; else if (ti > 0) total += 7;
+          if (di >= 0) total += 2;
+          if (kw >= 0) total += 3;
+        }
+        return total + (doc.w || 0);
+      }
+
+      var query = ref('');
+      var searchOpen = ref(false);
+      var activeIndex = ref(0);
+      var searchBox = ref(null);
+      var searchInput = ref(null);
+      var mobileInput = ref(null);
+
+      var searchState = computed(function () {
+        var terms = query.value.toLowerCase().trim().split(/\s+/).filter(Boolean);
+        var empty = { terms: [], site: [], weekly: [], flat: [], weeklyTotal: 0 };
+        if (!terms.length) return empty;
+
+        var scored = [];
+        searchDocs.forEach(function (d) {
+          var s = scoreOf(d, terms);
+          if (s > 0) scored.push({ doc: d, score: s });
+        });
+        scored.sort(function (a, b) { return b.score - a.score || a.doc.title.length - b.doc.title.length; });
+
+        function decorate(item) {
+          var d = item.doc;
+          return {
+            key: d.kind + ':' + (d.href || d.title),
+            titleHtml: hl(d.title, terms),
+            descHtml: snippet(d.desc, terms),
+            badge: d.badge || '',
+            doc: d
+          };
+        }
+        // 分组配额：下拉最多各 8 条，避免周刊 400+ 条把本站结果全挤掉
+        var site = [], weekly = [], weeklyTotal = 0;
+        scored.forEach(function (it) {
+          if (it.doc.kind === 'weekly') {
+            weeklyTotal++;
+            if (weekly.length < 8) weekly.push(decorate(it));
+          } else if (site.length < 8) {
+            site.push(decorate(it));
+          }
+        });
+        return { terms: terms, site: site, weekly: weekly, flat: site.concat(weekly), weeklyTotal: weeklyTotal };
+      });
+
+      function openSearch() {
+        searchOpen.value = true;
+        activeIndex.value = 0;
+        VueNS.nextTick(function () {
+          var isNarrow = window.matchMedia && window.matchMedia('(max-width: 767px)').matches;
+          var el = (isNarrow && mobileInput.value) ? mobileInput.value : searchInput.value;
+          if (el && el.offsetParent !== null) el.focus();
+        });
+      }
+      function closeSearch() { searchOpen.value = false; }
+      function onQueryInput() { activeIndex.value = 0; searchOpen.value = true; }
+      function openResult(r) {
+        if (!r) return;
+        var d = r.doc;
+        closeSearch();
+        if (d.href) {
+          if (d.external) window.open(d.href, '_blank', 'noopener');
+          else window.location.href = d.href;
+          return;
+        }
+        if (d.section) { jump(d.section); flashSection(d.section); }
+      }
+      // 跳转后让目标板块闪一下，告诉用户「你被带到这里了」
+      function flashSection(id) {
+        setTimeout(function () {
+          var el = document.getElementById(id);
+          if (!el) return;
+          el.classList.remove('section-flash');
+          void el.offsetWidth;                 // 强制回流，保证动画能重复触发
+          el.classList.add('section-flash');
+          setTimeout(function () { el.classList.remove('section-flash'); }, 2000);
+        }, 420);
+      }
+      function onSearchKey(e) {
+        var flat = searchState.value.flat;
+        if (e.key === 'ArrowDown') { e.preventDefault(); activeIndex.value = flat.length ? (activeIndex.value + 1) % flat.length : 0; }
+        else if (e.key === 'ArrowUp') { e.preventDefault(); activeIndex.value = flat.length ? (activeIndex.value - 1 + flat.length) % flat.length : 0; }
+        else if (e.key === 'Enter') { if (flat[activeIndex.value]) { e.preventDefault(); openResult(flat[activeIndex.value]); } }
+        else if (e.key === 'Escape') { closeSearch(); if (searchInput.value) searchInput.value.blur(); }
+      }
+      function onDocDown(e) {
+        if (!searchOpen.value) return;
+        if (searchBox.value && !searchBox.value.contains(e.target)) closeSearch();
+      }
+      function onGlobalKey(e) {
+        var tag = (e.target && e.target.tagName ? e.target.tagName : '').toLowerCase();
+        var typing = tag === 'input' || tag === 'textarea';
+        if ((e.metaKey || e.ctrlKey) && (e.key === 'k' || e.key === 'K')) { e.preventDefault(); openSearch(); return; }
+        if (e.key === '/' && !typing) { e.preventDefault(); openSearch(); }
+      }
+      function activeOf(r) { return searchState.value.flat.indexOf(r) === activeIndex.value; }
 
       /* ---------------- 技能等级文案 ---------------- */
       function levelLabel(level) {
@@ -175,6 +397,8 @@
       onMounted(function () {
         applyTheme(theme.value);
         window.addEventListener('scroll', onScroll, { passive: true });
+        document.addEventListener('pointerdown', onDocDown);
+        document.addEventListener('keydown', onGlobalKey);
         onScroll();
         if (meta.roles.length > 1) {
           roleTimer = setInterval(function () {
@@ -194,6 +418,8 @@
 
       onUnmounted(function () {
         window.removeEventListener('scroll', onScroll);
+        document.removeEventListener('pointerdown', onDocDown);
+        document.removeEventListener('keydown', onGlobalKey);
         clearInterval(roleTimer);
         if (spyObserver) spyObserver.disconnect();
       });
@@ -210,7 +436,13 @@
         levelLabel: levelLabel, levelTagColor: levelTagColor,
         weeklyTeaser: weeklyTeaser, weeklyReady: weeklyReady,
         weeklyTotal: weeklyTotal, ghIssue: ghIssue, barColor: barColor,
-        radar: radar, roleIndex: roleIndex, year: year
+        radar: radar, roleIndex: roleIndex, year: year,
+        /* 搜索 */
+        query: query, searchOpen: searchOpen, activeIndex: activeIndex,
+        searchBox: searchBox, searchInput: searchInput, mobileInput: mobileInput,
+        searchState: searchState, quickLinks: quickLinks,
+        openSearch: openSearch, closeSearch: closeSearch, onQueryInput: onQueryInput,
+        openResult: openResult, onSearchKey: onSearchKey, activeOf: activeOf
       };
     }
   });

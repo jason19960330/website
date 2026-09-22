@@ -40,7 +40,9 @@ window.SITE_CONFIG = {
     intentions: ['IT 资产管理 / ITIL', '职场 IT 支持 · 资产运营'],
     available: true,
     availabilityText: '开放新的工作机会',
-    resumeUrl: ''          // 放 resume.pdf 到 assets/ 后填 'assets/resume.pdf'，首页会多一个下载按钮
+    // 原始简历 PDF（assets/resume.pdf）：首页「下载 PDF」与简历页「下载 PDF」都读这个字段，
+    // 置空则两个按钮自动隐藏；网页版简历在 resume.html，无需依赖此文件。
+    resumeUrl: 'assets/resume.pdf'
   },
 
   /* ------------------------------------------------------------------

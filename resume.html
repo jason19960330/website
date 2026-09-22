@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>李文涛的简历 | IT 资产管理 / ITIL 技术支持</title>
+  <meta name="description" content="李文涛的完整简历：7 年企业级 IT 技术支持经验，IT 资产全生命周期管理、盘点对账与库存控制、SOP 与合规文档、跨部门协调。支持在线打印或导出 PDF。">
+  <meta name="author" content="李文涛">
+  <link rel="canonical" href="https://jason19960330.github.io/website/resume.html">
+
+  <!-- 分享卡片 -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="李文涛的个人主页">
+  <meta property="og:title" content="李文涛的简历 | IT 资产管理 / ITIL 技术支持">
+  <meta property="og:description" content="7 年企业级 IT 技术支持：IT 资产全生命周期管理、盘点对账、库存控制、SOP 与合规文档。">
+  <meta property="og:url" content="https://jason19960330.github.io/website/resume.html">
+  <meta property="og:image" content="https://jason19960330.github.io/website/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="zh_CN">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="李文涛的简历 | IT 资产管理 / ITIL 技术支持">
+  <meta name="twitter:description" content="7 年企业级 IT 技术支持：IT 资产全生命周期管理、盘点对账、库存控制、SOP 与合规文档。">
+  <meta name="twitter:image" content="https://jason19960330.github.io/website/assets/og-image.png">
+
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+
+  <!-- 首屏主题前置脚本：与首页共用 site.theme，避免深色偏好用户看到白屏闪一下 -->
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('site.theme');
+        if (!saved) {
+          saved = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+        }
+        if (saved === 'dark') document.documentElement.classList.add('dark');
+        document.addEventListener('DOMContentLoaded', function () {
+          document.body.setAttribute('arco-theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+        });
+      } catch (e) { /* 隐私模式忽略 */ }
+    })();
+  </script>
+
+  <!-- 预编译样式：Tailwind 产物 → Arco 按需样式 → 站点定制（后者覆盖前者） -->
+  <link rel="stylesheet" href="assets/css/tailwind.css">
+  <link rel="stylesheet" href="vendor/arco-bundle.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<!-- ======================================================================
+     简历页：内容同样全部来自 assets/js/data.js，与首页共享同一份数据源。
+     这一页专为「打印 / 存为 PDF」设计，样式走 A4 友好的版式（见 style.css
+     的 .resume-* 规则与 @media print 段）。
+     ====================================================================== -->
+<body class="min-h-screen bg-base font-sans text-ink antialiased selection:bg-accent/20">
+
+  <!-- 图标精灵 -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+    <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M10.5 6l-6 6 6 6M4.5 12h15"></path>
+    </symbol>
+    <symbol id="i-printer" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M6.75 9V4.5h10.5V9M6.75 18H4.5A1.5 1.5 0 013 16.5V11a2 2 0 012-2h14a2 2 0 012 2v5.5A1.5 1.5 0 0119.5 18h-2.25"></path>
+      <path d="M6.75 14.25h10.5v5.25H6.75z"></path>
+    </symbol>
+    <symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 3.75v11.5m0 0 4-4m-4 4-4-4M4.5 19.5h15"></path>
+    </symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21.75 6.75v10.5A2.25 2.25 0 0119.5 19.5h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.909a2.25 2.25 0 01-1.07-1.916V6.75"></path>
+    </symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M2.25 6.75c0-1.036.84-1.875 1.875-1.875h2.148a1.875 1.875 0 011.822 1.42l.793 3.17a1.875 1.875 0 01-.454 1.827L6.75 12.75a10.5 10.5 0 004.5 4.5l1.458-1.684a1.875 1.875 0 011.827-.454l3.17.793a1.875 1.875 0 011.42 1.822v2.148A1.875 1.875 0 0117.25 21.75h-.4C8.605 21.75 2.25 15.395 2.25 6.65v.1z"></path>
+    </symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"></path><path d="M19.5 10.5c0 5.25-7.5 10.5-7.5 10.5S4.5 15.75 4.5 10.5a7.5 7.5 0 1115 0z"></path>
+    </symbol>
+    <symbol id="i-briefcase" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3.75 8.25h16.5v10.5H3.75z"></path><path d="M8.25 8.25V6a2.25 2.25 0 012.25-2.25h3a2.25 2.25 0 012.25 2.25v2.25"></path>
+    </symbol>
+    <symbol id="i-education" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 3.75 2.75 8.25 12 12.75l9.25-4.5L12 3.75z"></path><path d="M6.75 10.5V16.5c0 1.243 2.347 2.25 5.25 2.25s5.25-1.007 5.25-2.25V10.5"></path>
+    </symbol>
+    <symbol id="i-award" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="9" r="5.25"></circle><path d="M8.75 13.5 7.5 21l4.5-2.25L16.5 21l-1.25-7.5"></path>
+    </symbol>
+    <symbol id="i-doc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M14.25 3.75H7.5A2.25 2.25 0 005.25 6v12A2.25 2.25 0 007.5 20.25h9a2.25 2.25 0 002.25-2.25V8.25l-4.5-4.5z"></path>
+      <path d="M14.25 3.75V8.25H18.75M8.25 12.75h7.5M8.25 16.5h5"></path>
+    </symbol>
+    <symbol id="i-cube" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 2.75 3.75 7.5v9L12 21.25l8.25-4.75v-9L12 2.75z"></path><path d="M3.75 7.5 12 12.25l8.25-4.75M12 12.25v9"></path>
+    </symbol>
+    <symbol id="i-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="8.25"></circle><circle cx="12" cy="12" r="4.5"></circle><circle cx="12" cy="12" r="1"></circle>
+    </symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+      <circle cx="12" cy="12" r="4"></circle>
+      <path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.4 5.4l1.4 1.4M17.2 17.2l1.4 1.4M18.6 5.4l-1.4 1.4M6.8 17.2l-1.4 1.4"></path>
+    </symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20.25 14.5A8.5 8.5 0 019.5 3.75a8.5 8.5 0 1010.75 10.75z"></path>
+    </symbol>
+  </svg>
+
+  <div id="resume-app" v-cloak>
+
+    <a href="#resume-body" class="skip-link">跳到简历正文</a>
+
+    <!-- ============================ 顶部导航（打印时隐藏） ============================ -->
+    <header class="site-header is-solid fixed inset-x-0 top-0 z-40 border-b border-hair no-print">
+      <div class="mx-auto flex h-16 max-w-5xl items-center justify-between gap-3 px-5 sm:px-6">
+        <a href="index.html" class="flex min-w-0 items-center gap-2">
+          <svg class="h-4 w-4 shrink-0 text-dim"><use href="#i-arrow-left"></use></svg>
+          <span class="truncate text-sm font-semibold tracking-tight text-ink">{{ meta.name }} · 简历</span>
+        </a>
+
+        <div class="flex items-center gap-2">
+          <a href="weekly.html" class="nav-link hidden sm:inline-block">周刊</a>
+          <a-button size="small" @click="doPrint">
+            <template #icon>
+              <svg class="h-4 w-4"><use href="#i-printer"></use></svg>
+            </template>
+            <span class="hidden sm:inline">打印 / 存为 PDF</span>
+          </a-button>
+          <a-button v-if="meta.resumeUrl" size="small" type="outline" :href="meta.resumeUrl" target="_blank">
+            <template #icon>
+              <svg class="h-4 w-4"><use href="#i-download"></use></svg>
+            </template>
+            <span class="hidden sm:inline">下载 PDF</span>
+          </a-button>
+          <button @click="toggleTheme" aria-label="切换主题"
+                  class="grid h-9 w-9 shrink-0 place-items-center rounded-lg border border-hair text-dim transition hover:text-accent">
+            <svg class="theme-icon h-4 w-4"><use :href="theme === 'dark' ? '#i-moon' : '#i-sun'"></use></svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main id="resume-body" tabindex="-1" class="mx-auto max-w-3xl px-4 pb-16 pt-24 sm:px-6">
+
+      <article class="resume-sheet">
+
+        <!-- ================= 简历头部 ================= -->
+        <!-- 注意：这里不能用 <header> 标签，全局打印样式会隐藏 header（顶部导航也是 header） -->
+        <div class="resume-head">
+          <div class="flex flex-wrap items-start justify-between gap-4">
+            <div class="min-w-0">
+              <h1 class="text-2xl font-bold tracking-tight text-ink sm:text-3xl">{{ meta.name }}</h1>
+              <p class="mt-1 text-sm font-medium text-accent">{{ meta.title }}</p>
+              <p class="mt-2 text-xs uppercase tracking-[0.16em] text-faint">{{ meta.enName }}</p>
+            </div>
+            <ul class="resume-contact">
+              <li>
+                <svg class="h-3.5 w-3.5 shrink-0 text-faint"><use href="#i-phone"></use></svg>
+                <span class="tnum">{{ meta.phone }}</span>
+              </li>
+              <li>
+                <svg class="h-3.5 w-3.5 shrink-0 text-faint"><use href="#i-mail"></use></svg>
+                <a :href="'mailto:' + meta.email" class="font-mono text-[12px] hover:text-accent">{{ meta.email }}</a>
+              </li>
+              <li>
+                <svg class="h-3.5 w-3.5 shrink-0 text-faint"><use href="#i-pin"></use></svg>
+                <span>{{ meta.location }}</span>
+              </li>
+              <li>
+                <svg class="h-3.5 w-3.5 shrink-0 text-faint"><use href="#i-briefcase"></use></svg>
+                <span>{{ meta.experienceYears }} 年企业级 IT 支持</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="mt-4 flex flex-wrap items-center gap-2 border-t border-hair pt-4">
+            <span class="text-xs font-medium text-faint">求职意向</span>
+            <a-tag v-for="intent in meta.intentions" :key="intent" size="small" bordered class="tag-intent">{{ intent }}</a-tag>
+            <span v-if="meta.available" class="ml-auto inline-flex items-center gap-1.5 text-xs text-emerald-600 dark:text-emerald-400">
+              <span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>{{ meta.availabilityText }}
+            </span>
+          </div>
+        </div>
+
+        <!-- ================= 个人简介 ================= -->
+        <section class="resume-sec">
+          <h2 class="resume-h2">
+            <svg class="h-4 w-4 text-accent"><use href="#i-doc"></use></svg>个人简介
+          </h2>
+          <p v-for="(para, i) in meta.intro" :key="'intro-' + i" class="resume-p">{{ para }}</p>
+        </section>
+
+        <!-- ================= 核心优势 ================= -->
+        <section class="resume-sec">
+          <h2 class="resume-h2">
+            <svg class="h-4 w-4 text-accent"><use href="#i-cube"></use></svg>核心优势
+          </h2>
+          <ul class="resume-bullets">
+            <li v-for="s in strengths" :key="s.title">
+              <span class="font-medium text-ink">{{ s.title }}</span> · {{ s.desc }}
+            </li>
+          </ul>
+        </section>
+
+        <!-- ================= 工作经历 ================= -->
+        <section class="resume-sec">
+          <h2 class="resume-h2">
+            <svg class="h-4 w-4 text-accent"><use href="#i-briefcase"></use></svg>工作经历
+          </h2>
+          <ul class="space-y-5">
+            <li v-for="item in timeline" :key="item.org + item.period" class="resume-item">
+              <div class="resume-item-head">
+                <div class="min-w-0">
+                  <h3 class="resume-item-title">
+                    {{ item.role }}
+                    <span v-if="item.current" class="ml-1.5 text-xs font-normal text-emerald-600 dark:text-emerald-400">在职</span>
+                  </h3>
+                  <p class="resume-org">{{ item.org }}</p>
+                </div>
+                <span class="resume-period">{{ item.period }}</span>
+              </div>
+              <p class="resume-p">{{ item.summary }}</p>
+              <ul class="resume-bullets">
+                <li v-for="(pt, pi) in item.points" :key="'pt-' + pi">{{ pt }}</li>
+              </ul>
+              <div class="resume-tags">
+                <a-tag v-for="tag in item.tags" :key="item.org + tag" size="small" bordered>{{ tag }}</a-tag>
+              </div>
+            </li>
+          </ul>
+        </section>
+
+        <!-- ================= 项目经验 ================= -->
+        <section class="resume-sec">
+          <h2 class="resume-h2">
+            <svg class="h-4 w-4 text-accent"><use href="#i-target"></use></svg>项目经验
+          </h2>
+          <ul class="space-y-5">
+            <li v-for="p in projects" :key="p.name" class="resume-item">
+              <div class="resume-item-head">
+                <div class="min-w-0">
+                  <h3 class="resume-item-title">{{ p.name }}</h3>
+                  <p class="resume-org">{{ p.role }} · {{ p.period }}</p>
+                </div>
+                <a-tag v-if="p.featured" size="small" color="orange">重点项目</a-tag>
+              </div>
+              <p class="resume-p">{{ p.summary }}</p>
+              <ul class="resume-bullets">
+                <li v-for="(d, di) in p.details" :key="'d-' + di">{{ d }}</li>
+              </ul>
+              <div class="resume-tags">
+                <a-tag v-for="tag in p.tags" :key="p.name + tag" size="small" bordered>{{ tag }}</a-tag>
+              </div>
+            </li>
+          </ul>
+        </section>
+
+        <!-- ================= 教育背景 ================= -->
+        <section class="resume-sec">
+          <h2 class="resume-h2">
+            <svg class="h-4 w-4 text-accent"><use href="#i-education"></use></svg>教育背景
+          </h2>
+          <ul class="space-y-3">
+            <li v-for="edu in education" :key="edu.school" class="resume-item">
+              <div class="resume-item-head">
+                <div class="min-w-0">
+                  <h3 class="resume-item-title">{{ edu.school }}</h3>
+                  <p class="resume-org">{{ edu.major }} · {{ edu.degree }}<span v-if="edu.note"> · {{ edu.note }}</span></p>
+                </div>
+                <span class="resume-period">{{ edu.period }}</span>
+              </div>
+            </li>
+          </ul>
+        </section>
+
+        <!-- ================= 专业技能 ================= -->
+        <section class="resume-sec">
+          <h2 class="resume-h2">
+            <svg class="h-4 w-4 text-accent"><use href="#i-cube"></use></svg>专业技能
+          </h2>
+          <div class="space-y-4">
+            <div v-for="group in skillGroups" :key="'rg-' + group.title">
+              <p class="text-[13px] font-medium text-ink">{{ group.title }}</p>
+              <div class="mt-2 grid gap-x-6 gap-y-2 sm:grid-cols-2">
+                <div v-for="skill in group.skills" :key="'rs-' + skill.name" class="resume-skill">
+                  <span class="truncate text-[13px] text-dim">{{ skill.name }}</span>
+                  <span class="tnum shrink-0 text-[11px] text-faint">{{ levelLabel(skill.level) }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mt-4 grid gap-x-6 gap-y-2 sm:grid-cols-2">
+            <div v-for="cat in toolStack" :key="'rt-' + cat.title" class="resume-skill">
+              <span class="shrink-0 text-[13px] font-medium text-ink">{{ cat.title }}</span>
+              <span class="truncate text-[13px] text-dim">{{ cat.items.join(' / ') }}</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= 证书与荣誉 ================= -->
+        <section class="resume-sec">
+          <h2 class="resume-h2">
+            <svg class="h-4 w-4 text-accent"><use href="#i-award"></use></svg>证书与荣誉
+          </h2>
+          <ul class="resume-bullets">
+            <li v-for="honor in honors" :key="honor">{{ honor }}</li>
+          </ul>
+        </section>
+
+      </article>
+
+      <!-- 页脚操作（打印时隐藏） -->
+      <div class="no-print mt-6 flex flex-wrap items-center justify-center gap-3">
+        <a-button type="primary" @click="doPrint">
+          <template #icon>
+            <svg class="h-4 w-4"><use href="#i-printer"></use></svg>
+          </template>
+          打印 / 存为 PDF
+        </a-button>
+        <a-button v-if="meta.resumeUrl" type="outline" :href="meta.resumeUrl" target="_blank">
+          <template #icon>
+            <svg class="h-4 w-4"><use href="#i-download"></use></svg>
+          </template>
+          下载 PDF 简历
+        </a-button>
+        <a href="index.html" class="nav-link">返回首页</a>
+      </div>
+
+      <p class="no-print mt-4 text-center text-xs text-faint">
+        本页内容与首页共用同一份数据源（assets/js/data.js），更新数据两处同步生效。
+      </p>
+    </main>
+
+  </div>
+
+  <script src="vendor/arco-bundle.js"></script>
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/resume.js"></script>
+
+<noscript id="seo-snapshot">
+<!-- seo-snapshot:start -->
+<a href="#resume-body" class="skip-link">跳到简历正文</a><main id="resume-body" tabindex="-1" class="mx-auto max-w-3xl px-4 pb-16 pt-24 sm:px-6"><article class="resume-sheet"><div class="resume-head"><div class="flex flex-wrap items-start justify-between gap-4"><div class="min-w-0"><h1 class="text-2xl font-bold tracking-tight text-ink sm:text-3xl">李文涛</h1><p class="mt-1 text-sm font-medium text-accent">IT 资产管理 / ITIL 技术支持</p><p class="mt-2 text-xs uppercase tracking-[0.16em] text-faint">LI WENTAO</p></div><ul class="resume-contact"><li><span class="tnum">139-3036-3901</span></li><li><a href="mailto:573164137@qq.com" class="font-mono text-[12px] hover:text-accent">573164137@qq.com</a></li><li><span>北京 · 丰台区</span></li><li><span>7 年企业级 IT 支持</span></li></ul></div><div class="mt-4 flex flex-wrap items-center gap-2 border-t border-hair pt-4"><span class="text-xs font-medium text-faint">求职意向</span><span class="arco-tag arco-tag-size-small arco-tag-bordered arco-tag-checked tag-intent"><!--v-if-->IT 资产管理 / ITIL<!--v-if--><!--v-if--></span><span class="arco-tag arco-tag-size-small arco-tag-bordered arco-tag-checked tag-intent"><!--v-if-->职场 IT 支持 · 资产运营<!--v-if--><!--v-if--></span><span class="ml-auto inline-flex items-center gap-1.5 text-xs text-emerald-600 dark:text-emerald-400"><span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>开放新的工作机会</span></div></div><section class="resume-sec"><h2 class="resume-h2">个人简介 </h2><p class="resume-p">在晖致医药负责 500+ 员工办公终端的整体规划与运维，保障资产记录、终端管理系统与实际库存三者高度一致，可独立承担资产盘点、供应商协调与职场 IT 支持工作。</p><p class="resume-p">做事偏细节驱动——台账准确率长期保持在 90% 以上，盘点差异必须逐项闭环；同时习惯把经验沉淀成可复用的流程与文档，目前已输出标准化 IT 运维 SOP 与技术文档 20+ 份，推动团队响应效率提升 30%。</p></section><section class="resume-sec"><h2 class="resume-h2">核心优势 </h2><ul class="resume-bullets"><li><span class="font-medium text-ink">资产全流程管控</span> · 熟悉 IT 硬件从采购、部署、更新换代到报废处置的完整生命周期，台账准确率 90%+，具备资产合规报告与 IT 治理数据支撑能力。</li><li><span class="font-medium text-ink">细节与数据意识</span> · 细节性强、数据准确性高，盘点差异一律跟进闭环，不做「差不多」的账。</li><li><span class="font-medium text-ink">协调与独立推进</span> · 晖致医药 7 年稳定任职，可独立推进资产运营，也能高效协同服务台、供应商与终端用户。</li><li><span class="font-medium text-ink">抗压与并行推进</span> · 自驱推进、抗压能力优秀，习惯在多任务并行下保持交付节奏。</li></ul></section><section class="resume-sec"><h2 class="resume-h2">工作经历 </h2><ul class="space-y-5"><li class="resume-item"><div class="resume-item-head"><div class="min-w-0"><h3 class="resume-item-title">IT 技术支持 <span class="ml-1.5 text-xs font-normal text-emerald-600 dark:text-emerald-400">在职</span></h3><p class="resume-org">晖致医药有限公司</p></div><span class="resume-period">2019.10 — 至今</span></div><p class="resume-p">负责 500+ 员工办公终端的整体规划与运维，端到端承担资产全生命周期管理与职场 IT 支持。</p><ul class="resume-bullets"><li>IT 资产全生命周期管理：负责办公终端（PC、笔记本、显示器、打印机、移动设备等）的接收、贴标、分配、转移、归还、报废与处置全流程，维护资产台账准确率 90% 以上。</li><li>定期盘点对账，确保资产记录、终端管理系统与实际库存三者一致，并逐项闭环差异。</li><li>库存控制与跨部门协调：管理 IT 配件库存与补货策略，保障 500+ 员工办公设备 SLA 达标；协同服务台、现场支持团队及终端用户推进部署、更换与回收，并协调供应商完成交付、维修与处置。</li><li>合规报告与文档：支持资产合规报告，为 IT 治理提供准确数据；编写标准化 IT 运维 SOP 与技术文档 20+ 份，推动团队响应效率提升 30%。</li></ul><div class="resume-tags"><span class="arco-tag arco-tag-size-small arco-tag-bordered arco-tag-checked"><!--v-if-->IT 资产管理<!--v-if--><!--v-if--></span><span class="arco-tag arco-tag-size-small arco-tag-bordered arco-tag-checked"><!--v-if-->库存控制<!--v-if--><!--v-if--></span><span class="arco-tag arco-tag-size-small arco-tag-bordered arco-tag-checked"><!--v-if-->合规报告<!--v-if--><!--v-if--></span><span class="arco-tag arco-tag-size-small arco-tag-bordered arco-tag-checked"><!--v-if-->SOP<!--v-if--><!--v-if--></span></div></li><li class="resume-item"><div class="resume-item-head"><div class="min-w-0"><h3 class="resume-item-title">IT 技术支持 / 系统工程师 <!----></h3><p class="resume-org">北京鲨鱼公园教育有限公司</p></div><span class="resume-period">2019.02 — 2019.10</span></div><p class="resume-p">负责 IT 设备及系统的选型、部署与培训，并主导新零售项目的软硬件联调与现场交付。</p><ul class="resume-bullets"><li>资产与系统管理：负责 IT 设备及系统的选型、部署与培训，输出操作手册与使用规范并维护设备台账。</li><li>主导新零售项目软硬件联调，完成长春科技馆等 3 个现场部署。</li><li>沉淀标准化现场交付与回收流程，形成可复用的交付模板。</li></ul><div class="resume-tags"><span class="arco-tag arco-tag-size-small arco-tag-bordered arco-tag-checked"><!--v-if-->系统集成<!--v-if--><!--v-if--></span><span class="arco-tag arco-tag-size-small arco-tag-bordered arco-tag-checked"><!--v-if-->现场交付<!--v-if--><!--v-if--></span><span class="arco-tag arco-tag-size-small arco-tag-bordered arco-tag-checked"><!--v-if-->设备选型<!--v-if--><!--v-if--></span></div></li></ul></section><section class="resume-sec"><h2 class="resume-h2">项目经验 </h2><ul class="space-y-5"><li class="resume-item"><div class="resume-item-head"><div class="min-w-0"><h3 class="resume-item-title">企业 IT 资产台账规范化与盘点对账项目</h3><p class="resume-org">主导者 · 2021.03 — 2021.08</p></div><span class="arco-tag arco-tag-size-small arco-tag-orange arco-tag-checked"><!--v-if-->重点项目<!--v-if--><!--v-if--></span></div><p class="resume-p">统一资产口径并完成全员盘点，把「台账、系统、实物」三者对齐的过程做成公司标准范本。</p><ul class="resume-bullets"><li>统一终端命名、贴标与分类规则，完成 500+ 台终端信息梳理与录入。</li><li>实现资产记录与终端管理系统数据准确对应。</li><li>组织跨部门盘点，逐一完成用户确认与位置核实，盘点差异率控制在 1% 以内并全部闭环。</li><li>输出盘点流程与 SOP，作为公司标准范本复用。</li></ul><div class="resume-tags"><span class="arco-tag arco-tag-size-small arco-tag-bordered arco-tag-checked"><!--v-if-->资产台账<!--v-if--><!--v-if--></span><span class="arco-tag arco-tag-size-small arco-tag-bordered arco-tag-checked"><!--v-if-->盘点对账<!--v-if--><!--v-if--></span><span class="arco-tag arco-tag-size-small arco-tag-bordered arco-tag-checked"><!--v-if-->流程标准化<!--v-if--><!--v-if--></span></div></li><li class="resume-item"><div class="resume-item-head"><div class="min-w-0"><h3 class="resume-item-title">晖致医药办公终端资产运营</h3><p class="resume-org">负责人 · 2019.10 — 至今</p></div><!----></div><p class="resume-p">500+ 员工办公终端的日常规划与运维，覆盖从补货策略到回收处置的持续运营。</p><ul class="resume-bullets"><li>建立 IT 配件库存与补货策略，保障终端供应不断档。</li><li>维护资产记录、终端管理系统与实际库存三者一致，形成常态核对机制。</li><li>配合服务台与现场支持团队完成设备部署、更换与回收闭环。</li></ul><div class="resume-tags"><span class="arco-tag arco-tag-size-small arco-tag-bordered arco-tag-checked"><!--v-if-->终端运维<!--v-if--><!--v-if--></span><span class="arco-tag arco-tag-size-small arco-tag-bordered arco-tag-checked"><!--v-if-->库存管理<!--v-if--><!--v-if--></span><span class="arco-tag arco-tag-size-small arco-tag-bordered arco-tag-checked"><!--v-if-->SLA 保障<!--v-if--><!--v-if--></span></div></li><li class="resume-item"><div class="resume-item-head"><div class="min-w-0"><h3 class="resume-item-title">新零售项目软硬件联调与现场交付</h3><p class="resume-org">主导者 · 2019.02 — 2019.10</p></div><!----></div><p class="resume-p">把实验室里的软硬件方案真正落到展厅现场，并沉淀出可复制的交付流程。</p><ul class="resume-bullets"><li>主导新零售项目软硬件联调，输出操作手册与使用规范。</li><li>完成长春科技馆等 3 个现场部署，覆盖安装调试到验收全流程。</li><li>沉淀标准化现场交付与回收流程。</li></ul><div class="resume-tags"><span class="arco-tag arco-tag-size-small arco-tag-bordered arco-tag-checked"><!--v-if-->软硬件联调<!--v-if--><!--v-if--></span><span class="arco-tag arco-tag-size-small arco-tag-bordered arco-tag-checked"><!--v-if-->现场部署<!--v-if--><!--v-if--></span><span class="arco-tag arco-tag-size-small arco-tag-bordered arco-tag-checked"><!--v-if-->交付流程<!--v-if--><!--v-if--></span></div></li></ul></section><section class="resume-sec"><h2 class="resume-h2">教育背景 </h2><ul class="space-y-3"><li class="resume-item"><div class="resume-item-head"><div class="min-w-0"><h3 class="resume-item-title">中国农业大学</h3><p class="resume-org">计算机科学与技术 · 本科<span> · 在职深造</span></p></div><span class="resume-period">2020 — 2022.06</span></div></li><li class="resume-item"><div class="resume-item-head"><div class="min-w-0"><h3 class="resume-item-title">华北理工大学迁安学院</h3><p class="resume-org">计算机应用技术 · 大专<!----></p></div><span class="resume-period">2015 — 2018</span></div></li></ul></section><section class="resume-sec"><h2 class="resume-h2">专业技能 </h2><div class="space-y-4"><div><p class="text-[13px] font-medium text-ink">IT 资产与终端管理</p><div class="mt-2 grid gap-x-6 gap-y-2 sm:grid-cols-2"><div class="resume-skill"><span class="truncate text-[13px] text-dim">资产全生命周期管理</span><span class="tnum shrink-0 text-[11px] text-faint">精通</span></div><div class="resume-skill"><span class="truncate text-[13px] text-dim">盘点对账与库存控制</span><span class="tnum shrink-0 text-[11px] text-faint">精通</span></div><div class="resume-skill"><span class="truncate text-[13px] text-dim">终端管理与硬件运维</span><span class="tnum shrink-0 text-[11px] text-faint">熟练</span></div><div class="resume-skill"><span class="truncate text-[13px] text-dim">资产管理工具平台</span><span class="tnum shrink-0 text-[11px] text-faint">熟悉</span></div></div></div><div><p class="text-[13px] font-medium text-ink">流程与文档</p><div class="mt-2 grid gap-x-6 gap-y-2 sm:grid-cols-2"><div class="resume-skill"><span class="truncate text-[13px] text-dim">SOP / 技术文档编写</span><span class="tnum shrink-0 text-[11px] text-faint">精通</span></div><div class="resume-skill"><span class="truncate text-[13px] text-dim">资产合规报告与数据准确</span><span class="tnum shrink-0 text-[11px] text-faint">精通</span></div><div class="resume-skill"><span class="truncate text-[13px] text-dim">流程规范与标准化落地</span><span class="tnum shrink-0 text-[11px] text-faint">熟练</span></div></div></div><div><p class="text-[13px] font-medium text-ink">协调与统筹</p><div class="mt-2 grid gap-x-6 gap-y-2 sm:grid-cols-2"><div class="resume-skill"><span class="truncate text-[13px] text-dim">跨部门协调与推进</span><span class="tnum shrink-0 text-[11px] text-faint">精通</span></div><div class="resume-skill"><span class="truncate text-[13px] text-dim">服务台与终端用户支持</span><span class="tnum shrink-0 text-[11px] text-faint">熟练</span></div><div class="resume-skill"><span class="truncate text-[13px] text-dim">供应商衔接与统筹</span><span class="tnum shrink-0 text-[11px] text-faint">熟练</span></div></div></div><div><p class="text-[13px] font-medium text-ink">工具与平台</p><div class="mt-2 grid gap-x-6 gap-y-2 sm:grid-cols-2"><div class="resume-skill"><span class="truncate text-[13px] text-dim">终端管理系统 / AD 域</span><span class="tnum shrink-0 text-[11px] text-faint">熟练</span></div><div class="resume-skill"><span class="truncate text-[13px] text-dim">资产台账与数据分析</span><span class="tnum shrink-0 text-[11px] text-faint">熟练</span></div><div class="resume-skill"><span class="truncate text-[13px] text-dim">PowerPoint / Word / Visio</span><span class="tnum shrink-0 text-[11px] text-faint">熟练</span></div><div class="resume-skill"><span class="truncate text-[13px] text-dim">ServiceNow</span><span class="tnum shrink-0 text-[11px] text-faint">了解</span></div></div></div></div><div class="mt-4 grid gap-x-6 gap-y-2 sm:grid-cols-2"><div class="resume-skill"><span class="shrink-0 text-[13px] font-medium text-ink">资产管理</span><span class="truncate text-[13px] text-dim">终端管理系统 / AD 域 / 资产台账 Excel</span></div><div class="resume-skill"><span class="shrink-0 text-[13px] font-medium text-ink">办公协作</span><span class="truncate text-[13px] text-dim">PowerPoint / Word / Excel / Visio</span></div><div class="resume-skill"><span class="shrink-0 text-[13px] font-medium text-ink">沟通协同</span><span class="truncate text-[13px] text-dim">腾讯会议 / 钉钉 / 企业邮箱</span></div><div class="resume-skill"><span class="shrink-0 text-[13px] font-medium text-ink">语言能力</span><span class="truncate text-[13px] text-dim">普通话 · 母语 / 英语 · 读写熟练</span></div></div></section><section class="resume-sec"><h2 class="resume-h2">证书与荣誉 </h2><ul class="resume-bullets"><li>晖致医药优秀员工（2021）</li><li>年度优秀员工 ×2</li><li>校级优秀毕业生</li></ul></section></article></main>
+<!-- seo-snapshot:end -->
+</noscript>
+</body>
+</html>
