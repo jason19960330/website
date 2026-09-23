@@ -27,6 +27,13 @@ import * as DrawerNS from '@arco-design/web-vue/es/drawer';
 import * as AvatarNS from '@arco-design/web-vue/es/avatar';
 import * as DividerNS from '@arco-design/web-vue/es/divider';
 import * as MessageNS from '@arco-design/web-vue/es/message';
+// 周刊归档页（weekly.html 用 Arco 重做）新增
+import * as InputNS from '@arco-design/web-vue/es/input';
+import * as EmptyNS from '@arco-design/web-vue/es/empty';
+import * as LinkNS from '@arco-design/web-vue/es/link';
+import * as SpaceNS from '@arco-design/web-vue/es/space';
+import * as RadioNS from '@arco-design/web-vue/es/radio';
+import * as BadgeNS from '@arco-design/web-vue/es/badge';
 
 // 各组件样式按需引入（css.js 是编译后的产物，不像 index.js 那样会拉 less 依赖）
 import '@arco-design/web-vue/es/button/style/css.js';
@@ -38,6 +45,12 @@ import '@arco-design/web-vue/es/drawer/style/css.js';
 import '@arco-design/web-vue/es/avatar/style/css.js';
 import '@arco-design/web-vue/es/divider/style/css.js';
 import '@arco-design/web-vue/es/message/style/css.js';
+import '@arco-design/web-vue/es/input/style/css.js';
+import '@arco-design/web-vue/es/empty/style/css.js';
+import '@arco-design/web-vue/es/link/style/css.js';
+import '@arco-design/web-vue/es/space/style/css.js';
+import '@arco-design/web-vue/es/radio/style/css.js';
+import '@arco-design/web-vue/es/badge/style/css.js';
 
 // 各组件 index.js 的导出形态不统一（有 default、有命名），统一兜底取
 function pick(mod, name) {
@@ -54,7 +67,16 @@ var comps = {
   CollapseItem: pick(CollapseNS, 'CollapseItem'),
   Drawer: pick(DrawerNS, 'Drawer'),
   Avatar: pick(AvatarNS, 'Avatar'),
-  Divider: pick(DividerNS, 'Divider')
+  Divider: pick(DividerNS, 'Divider'),
+  // 周刊归档页
+  Input: pick(InputNS, 'Input'),
+  InputSearch: pick(InputNS, 'InputSearch'),
+  Empty: pick(EmptyNS, 'Empty'),
+  Link: pick(LinkNS, 'Link'),
+  Space: pick(SpaceNS, 'Space'),
+  Radio: pick(RadioNS, 'Radio'),
+  RadioGroup: pick(RadioNS, 'RadioGroup'),
+  Badge: pick(BadgeNS, 'Badge')
 };
 
 var Message = pick(MessageNS, 'Message');

@@ -60,7 +60,8 @@ website/
 
 页面加载的 `vendor/arco-bundle.js` 和 `assets/css/tailwind.css` 都是**构建产物**，源码在 `tools/`：
 
-- **Arco 按需打包**：全量 UMD 约 1.0 MB，实际只用了 10 个组件。esbuild 只把用到的组件 + Vue 完整版（in-DOM 模板需要编译器）打进一个文件
+- **Arco 按需打包**：全量 UMD 约 1.0 MB，实际只用了十来个组件。esbuild 只把用到的组件 + Vue 完整版（in-DOM 模板需要编译器）打进一个文件。当前用到：Button / Tag / Tooltip / Timeline / Collapse / Drawer / Avatar / Divider / Message + 周刊页的 Input / Empty / Link / Space / Radio / Badge，`vendor/arco-bundle.js` 约 282 KB（gzip 93 KB）+ CSS 109 KB
+  - 试过再加 Card / Statistic / List / Grid，CSS 会多 72 KB，所以这几块改用站点自己的 `.card` 与 Tailwind 栅格实现
 - **Tailwind 预编译**：不再用浏览器端 JIT 的 Play CDN（约 139 KB gzip 且首屏会闪），改为 CLI 扫描 `tools/tailwind.config.js` 中 content 列出的文件，产出静态 CSS
 - **v-calendar 单独打包**：`vendor/calendar-bundle.js`（约 141 KB / gzip 46 KB）只含 Calendar 组件。打包时 `'vue'` 被 alias 到 `tools/vue-global.cjs`，运行时从 `window.Vue` 取，避免重复打包一份 Vue；**因此它必须在 arco-bundle.js 之后加载**。首页用 IntersectionObserver 观察 `#calendar`，距视口 400px 时才插入 link + script 并注册组件，首屏不受影响
 - **静态快照**：`tools/prerender.mjs` 用 jsdom 渲染一遍页面，把结果写进 `<noscript id="seo-snapshot">`（见 SEO 一节）。日历网格（`.vc-container`）会从快照里剔除——纯日期数字对爬虫是噪声，只保留板块标题与图例
@@ -165,6 +166,19 @@ python3 -m http.server 8000   # 访问 http://localhost:8000
 
 - **主站**：「在读周刊」板块展示最近 6 期；导航栏和 Hero 侧栏有归档页入口
 - **归档页** `weekly.html`：最近 **20 期**完整条目 + 全部 **413 期**标题/期号搜索
+
+归档页是 Arco Design 版式（概览条 → 全刊检索 → 年份筛选 → 折叠期刊卡）：
+
+| 区域 | 说明 |
+|---|---|
+| 概览条 | 全量期数 / 本地收录 / 收录条目 / 最近同步，四格数字 |
+| 全刊检索 | Arco `InputSearch`，结果列表按期号跳转 GitHub；无结果走 `Empty` 空态 |
+| 筛选栏 | Arco `RadioGroup`（年份）+ 排序切换 + 全部展开/收起；打印时隐藏（`.no-print`） |
+| 期刊卡 | Arco `Collapse` 自定义 `#header`（期号徽章 + 标题 + 「最新」标签）与 `#extra`（年月 · 条目数） |
+| 分页 | 首屏 8 期，「加载更多」每次 +8 |
+
+> SEO 细节：分页会让爬虫只抓到前 8 期，所以 `prerender.mjs` 渲染快照时带 `?all=1`，
+> `weekly.js` 检测到这个参数就关掉分页——真实用户访问不带参数，仍是 8 期一屏。
 
 数据由 `tools/sync_weekly.py` 生成（只用标准库；网络异常退避重试，再失败退回 curl）。GitHub Actions 每天 **北京时间 09:30** 自动同步，**内容变了才提交**。
 

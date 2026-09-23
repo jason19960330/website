@@ -23,10 +23,11 @@ const { JSDOM } = require('jsdom');
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
 // 新增页面时在这里登记一行即可，appId 与页面里挂载 Vue 的根元素 id 对应
+// query：渲染时附加在 URL 上的参数（weekly.html 用 ?all=1 关掉分页，让爬虫看到全部期刊）
 const PAGES = [
   { file: 'index.html', appId: 'app' },
   { file: 'resume.html', appId: 'resume-app' },
-  { file: 'weekly.html', appId: 'weekly-app' }
+  { file: 'weekly.html', appId: 'weekly-app', query: '?all=1' }
 ];
 
 const START = '<!-- seo-snapshot:start -->';
@@ -38,7 +39,7 @@ async function renderOne(page) {
     runScripts: 'dangerously',
     resources: 'usable',
     pretendToBeVisual: true,
-    url: 'file://' + file
+    url: 'file://' + file + (page.query || '')
   });
   // 等 Vue 挂载 + Arco 组件渲染 + 数据注入完成
   await new Promise((r) => setTimeout(r, 4500));

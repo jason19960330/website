@@ -486,6 +486,168 @@ section[id] { scroll-margin-top: 5rem; }
   .cal-spinner { animation: none; }
 }
 
+/* ------------------------------ 3.8 周刊归档页（Arco 版式） ------------------------------ */
+/* 复用站点自己的 .card，只做周刊特有的版式：概览条 / 检索结果 / 折叠卡片 / 章节条目 */
+
+/* ---- 概览 Hero ---- */
+.wl-hero { position: relative; overflow: hidden; padding-top: 1px; }
+.wl-hero-bar {
+  display: block;
+  height: 3px;
+  background: linear-gradient(90deg, #0ea5e9, #4f46e5 55%, #10b981);
+}
+.wl-back {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  font-size: .75rem;
+  color: rgb(var(--c-faint));
+  transition: color .2s;
+}
+.wl-back:hover { color: rgb(var(--c-accent)); }
+
+.wl-src {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .55rem .85rem;
+  border: 1px dashed rgb(var(--c-hair));
+  border-radius: .75rem;
+  font-size: .75rem;
+  color: rgb(var(--c-dim));
+  transition: color .2s, border-color .2s, background .2s, transform .2s cubic-bezier(0,0,1,1);
+}
+.wl-src:hover {
+  color: rgb(var(--c-accent));
+  border-color: rgb(var(--c-accent) / .55);
+  background: rgb(var(--c-raise));
+  transform: translateY(-2px);
+}
+
+/* 概览数字：4 格，手机上 2 格 */
+.wl-stats {
+  margin-top: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid rgb(var(--c-hair));
+}
+@media (min-width: 640px) { .wl-stats { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.wl-stats > div {
+  padding: .9rem .25rem;
+  border-bottom: 1px solid rgb(var(--c-hair));
+}
+@media (min-width: 640px) {
+  .wl-stats > div + div { border-left: 1px solid rgb(var(--c-hair)); padding-left: 1.1rem; }
+}
+.wl-stats dt { font-size: .6875rem; color: rgb(var(--c-faint)); }
+.wl-stats dd {
+  margin-top: .25rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -.01em;
+  color: rgb(var(--c-ink));
+}
+
+/* ---- 检索 ---- */
+.wl-search { display: block; }
+.wl-search .arco-input-wrapper { border-radius: .75rem; }
+.wl-hits {
+  margin-top: .9rem;
+  max-height: 21rem;
+  overflow-y: auto;
+  display: grid;
+  gap: .25rem;
+}
+.wl-hit {
+  display: flex;
+  align-items: baseline;
+  gap: .65rem;
+  padding: .5rem .65rem;
+  border: 1px solid transparent;
+  border-radius: .6rem;
+  transition: background .2s, border-color .2s;
+}
+.wl-hit:hover { background: rgb(var(--c-raise)); border-color: rgb(var(--c-hair)); }
+.wl-hit-n { flex-shrink: 0; font-family: var(--font-mono, ui-monospace, monospace); font-size: .75rem; color: rgb(var(--c-accent)); }
+.wl-hit-t { flex: 1; min-width: 0; font-size: .8125rem; color: rgb(var(--c-ink)); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.wl-hit-d { flex-shrink: 0; font-family: var(--font-mono, ui-monospace, monospace); font-size: .6875rem; color: rgb(var(--c-faint)); }
+.wl-hit-i { flex-shrink: 0; width: .875rem; height: .875rem; color: rgb(var(--c-faint)); }
+
+/* ---- 折叠卡片 ---- */
+.wl-collapse .arco-collapse-item { border-radius: .75rem; }
+.wl-crow { display: flex; align-items: center; gap: .6rem; min-width: 0; }
+.wl-n {
+  flex-shrink: 0;
+  min-width: 3.1rem;
+  padding: .1rem .45rem;
+  border-radius: .45rem;
+  background: rgb(var(--c-accent) / .1);
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: .75rem;
+  font-weight: 600;
+  color: rgb(var(--c-accent));
+  text-align: center;
+}
+.wl-ctitle {
+  min-width: 0;
+  font-size: .9375rem;
+  font-weight: 600;
+  color: rgb(var(--c-ink));
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.wl-cmeta { flex-shrink: 0; font-size: .6875rem; color: rgb(var(--c-faint)); }
+
+/* ---- 期内容 ---- */
+.wl-cover {
+  display: block;
+  overflow: hidden;
+  border: 1px solid rgb(var(--c-hair));
+  border-radius: .75rem;
+}
+.wl-cover img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  transition: transform .35s cubic-bezier(.16,1,.3,1);
+}
+.wl-cover:hover img { transform: scale(1.04); }
+
+.wl-lead { font-size: .8125rem; line-height: 1.8; color: rgb(var(--c-dim)); }
+
+.wl-topic {
+  padding: .75rem .9rem;
+  border-left: 2px solid rgb(var(--c-accent));
+  border-radius: .5rem;
+  background: rgb(var(--c-raise));
+}
+.wl-topic h3 { font-size: .8125rem; font-weight: 600; color: rgb(var(--c-ink)); }
+.wl-topic p { margin-top: .3rem; font-size: .75rem; line-height: 1.75; color: rgb(var(--c-dim)); }
+
+.wl-sec { margin-top: 1.25rem; }
+.wl-sec-head { display: flex; align-items: center; gap: .6rem; }
+.wl-items { margin-top: .5rem; display: grid; gap: .15rem; }
+.wl-item {
+  display: block;
+  padding: .4rem .6rem;
+  border: 1px solid transparent;
+  border-radius: .55rem;
+  text-align: left;
+  transition: background .2s, border-color .2s;
+}
+.wl-item:hover { background: rgb(var(--c-raise)); border-color: rgb(var(--c-hair)); }
+.wl-item.is-plain:hover { background: transparent; border-color: transparent; }
+.wl-item-t { display: block; font-size: .8125rem; font-weight: 500; color: rgb(var(--c-ink)); }
+.wl-item:hover .wl-item-t { color: rgb(var(--c-accent)); }
+.wl-item-d { display: block; margin-top: .15rem; font-size: .75rem; line-height: 1.7; color: rgb(var(--c-dim)); }
+.wl-item-h { display: block; margin-top: .2rem; font-family: var(--font-mono, ui-monospace, monospace); font-size: .6875rem; color: rgb(var(--c-faint)); }
+
+@media (prefers-reduced-motion: reduce) {
+  .wl-src, .wl-cover img { transition: none; }
+}
+
 /* ------------------------------ 4. 动效 ------------------------------ */
 .reveal {
   opacity: 0;
