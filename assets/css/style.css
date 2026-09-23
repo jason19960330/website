@@ -496,15 +496,30 @@ section[id] { scroll-margin-top: 5rem; }
   height: 3px;
   background: linear-gradient(90deg, #0ea5e9, #4f46e5 55%, #10b981);
 }
+/* 返回个人主页按钮：卡片外的胶囊按钮，悬浮时上浮 + 变色 */
 .wl-back {
   display: inline-flex;
   align-items: center;
-  gap: .35rem;
-  font-size: .75rem;
-  color: rgb(var(--c-faint));
-  transition: color .2s;
+  gap: .4rem;
+  padding: .5rem .95rem;
+  border: 1px solid rgb(var(--c-hair));
+  border-radius: 999px;
+  font-size: .8125rem;
+  color: rgb(var(--c-dim));
+  background: rgb(var(--c-panel) / var(--card-op));
+  box-shadow: 0 2px 10px -8px var(--card-shadow);
+  transition: color .2s, border-color .2s, background .2s,
+              transform .2s cubic-bezier(0,0,1,1), box-shadow .2s;
 }
-.wl-back:hover { color: rgb(var(--c-accent)); }
+.wl-back:hover {
+  color: rgb(var(--c-accent));
+  border-color: rgb(var(--c-accent) / .45);
+  background: rgb(var(--c-panel));
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px -12px var(--card-shadow);
+}
+.wl-back:hover svg { transform: translateX(-2px); }
+.wl-back svg { transition: transform .2s cubic-bezier(0,0,1,1); }
 
 .wl-src {
   display: inline-flex;
