@@ -55,6 +55,7 @@ window.SITE_CONFIG = {
     { id: 'timeline',   label: '经历' },
     { id: 'projects',   label: '项目' },
     { id: 'education',  label: '教育' },
+    { id: 'calendar',   label: '日历' },
     { id: 'contact',    label: '联系' }
   ],
 

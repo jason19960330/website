@@ -50,6 +50,25 @@ async function main() {
   console.log('[build] vendor/arco-bundle.js   ', kb(fs.statSync(path.join(root, 'vendor/arco-bundle.js')).size));
   console.log('[build] vendor/arco-bundle.css  ', kb(fs.statSync(path.join(root, 'vendor/arco-bundle.css')).size));
 
+  /* ---------------- 1.5 v-calendar（仅首页日历用，滚动到才加载） ---------------- */
+  // 单独打一个 bundle：resume.html / weekly.html 不加载它。
+  // 'vue' 被 alias 到 tools/vue-global.cjs（运行时取 window.Vue），避免重复打包 Vue。
+  await build({
+    entryPoints: [path.join(root, 'tools/calendar-entry.js')],
+    bundle: true,
+    format: 'iife',
+    target: ['es2018'],
+    minify: true,
+    legalComments: 'none',
+    nodePaths: (process.env.NODE_PATH || '').split(path.delimiter).filter(Boolean),
+    alias: { vue: path.join(root, 'tools/vue-global.cjs') },
+    define: { 'process.env.NODE_ENV': '"production"' },
+    outfile: path.join(root, 'vendor/calendar-bundle.js'),
+    logLevel: 'warning'
+  });
+  console.log('[build] vendor/calendar-bundle.js', kb(fs.statSync(path.join(root, 'vendor/calendar-bundle.js')).size));
+  console.log('[build] vendor/calendar-bundle.css', kb(fs.statSync(path.join(root, 'vendor/calendar-bundle.css')).size));
+
   /* ---------------- 2. Tailwind 预编译 ---------------- */
   // 用官方 CLI。tailwindcss 只作为 devDependency，产物是纯静态 CSS。
   const twBin = require.resolve('tailwindcss/lib/cli.js');

@@ -28,6 +28,51 @@
 
   var THEME_KEY = 'site.theme';
 
+  /* ================= 日历：v-calendar 按需加载 =================
+     日历 bundle 有 140KB，没必要跟着首屏下载。等页面滚近 #calendar 板块
+     才插 script，注册完组件再把 calReady 置 true，模板随即渲染。
+     注意 'vue' 在打包时被 alias 成取 window.Vue，所以 arco-bundle 必须先加载完。 */
+  var calReady = ref(false);
+  var calFailed = ref(false);
+  var calLoading = false;
+
+  function loadCalendar() {
+    if (calReady.value || calFailed.value || calLoading) return;
+    // v-calendar 内部用 ResizeObserver 做尺寸自适应；老内核（Safari < 13.1）
+    // 与 jsdom 都没有，缺了会直接抛 ReferenceError，这里兜一个空实现
+    if (typeof window.ResizeObserver === 'undefined') {
+      window.ResizeObserver = function () {
+        this.observe = function () {};
+        this.unobserve = function () {};
+        this.disconnect = function () {};
+      };
+    }
+    calLoading = true;
+    if (!document.querySelector('link[data-cal-css]')) {
+      var link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = 'vendor/calendar-bundle.css';
+      link.setAttribute('data-cal-css', '1');
+      document.head.appendChild(link);
+    }
+    var s = document.createElement('script');
+    s.src = 'vendor/calendar-bundle.js';
+    s.onload = function () {
+      var VC = window.VCalendar;
+      var Comp = VC && (VC.Calendar || (VC.default && VC.default.Calendar));
+      if (Comp) {
+        app.component('VCalendar', Comp);
+        app.component('v-calendar', Comp);   // in-DOM 模板里写的是 kebab
+        calReady.value = true;
+      } else {
+        calFailed.value = true;
+      }
+      calLoading = false;
+    };
+    s.onerror = function () { calFailed.value = true; calLoading = false; };
+    document.body.appendChild(s);
+  }
+
   var app = createApp({
     setup: function () {
       var meta = CONFIG.meta;
@@ -104,6 +149,104 @@
         return 'https://github.com/ruanyf/weekly/blob/master/docs/issue-' + n + '.md';
       }
 
+      /* ---------------- 日历板块 ---------------- */
+      var calToday = new Date();
+      calToday.setHours(0, 0, 0, 0);
+      var calPage = ref({ month: calToday.getMonth() + 1, year: calToday.getFullYear() });
+      // v-calendar 的 title 用 date-fns 的 token；weekdays 是它自定义的 W/WW/WWWW。
+      // 周起始日：v-calendar 的 firstDayOfWeek 值域是 1~7，且 1 = 周日，所以周一要写 2
+      var calLocale = { id: 'zh-CN', firstDayOfWeek: 2, masks: { title: 'YYYY 年 M 月', weekdays: 'WW' } };
+      var calMinDate = new Date(calToday.getFullYear() - 3, 0, 1);
+      var calMaxDate = new Date(calToday.getFullYear() + 1, 11, 31);
+
+      function pad2(n) { return String(n).padStart(2, '0'); }
+      function ymKey(date) { return date.getFullYear() + '-' + pad2(date.getMonth() + 1); }
+      function ymdKey(date) { return ymKey(date) + '-' + pad2(date.getDate()); }
+
+      // 周刊按月聚合：'2026-09' -> [issue, ...]
+      var calMonthMap = {};
+      if (weeklyReady) {
+        WEEKLY.issues.forEach(function (it) {
+          if (!it.ym) return;
+          (calMonthMap[it.ym] = calMonthMap[it.ym] || []).push(it);
+        });
+      }
+
+      // 可约面时间：从 7 天后起 8 周内的工作日（周一至周五）
+      var interviewDates = (function () {
+        var out = [];
+        for (var i = 7; i <= 62; i++) {
+          var d = new Date(calToday);
+          d.setDate(calToday.getDate() + i);
+          var w = d.getDay();
+          if (w >= 1 && w <= 5) out.push(d);
+        }
+        return out;
+      })();
+      function isInterviewDate(date) {
+        var t = new Date(date);
+        t.setHours(0, 0, 0, 0);
+        var key = t.getTime();
+        return interviewDates.some(function (d) { return d.getTime() === key; });
+      }
+
+      var calAttrs = computed(function () {
+        var list = [{
+          key: 'interview',
+          highlight: { color: 'green', fillMode: 'light' },
+          dates: interviewDates,
+          popover: { label: '工作日 · 可约面，点击发邮件', visibility: 'hover' }
+        }];
+        Object.keys(calMonthMap).forEach(function (ym) {
+          var parts = ym.split('-');
+          var y = parseInt(parts[0], 10);
+          var m = parseInt(parts[1], 10);
+          var count = calMonthMap[ym].length;
+          list.push({
+            key: 'weekly-' + ym,
+            dot: { color: 'blue' },
+            dates: new Date(y, m - 1, 1),
+            popover: { label: y + ' 年 ' + m + ' 月发布 ' + count + ' 期', visibility: 'hover' }
+          });
+        });
+        return list;
+      });
+
+      var calMonthIssues = computed(function () {
+        return calMonthMap[calPage.value.year + '-' + pad2(calPage.value.month)] || [];
+      });
+      var calMonthLabel = computed(function () {
+        return calPage.value.year + ' 年 ' + calPage.value.month + ' 月';
+      });
+      var calMonthSummary = computed(function () {
+        var n = calMonthIssues.value.length;
+        return n ? '本月发布 ' + n + ' 期周刊' : '本月没有周刊发布记录';
+      });
+
+      // 翻月：payload 是 pages 数组，取第一个
+      function onCalPages(pages) {
+        var p = Array.isArray(pages) ? pages[0] : pages;
+        if (p && p.year) calPage.value = { month: p.month, year: p.year };
+      }
+
+      function onDayClick(day) {
+        var raw = day && day.date ? day.date : day;
+        var d = raw instanceof Date ? raw : (raw ? new Date(raw) : null);
+        if (!d || isNaN(d.getTime())) return;
+        if (isInterviewDate(d)) {
+          var dateText = ymdKey(d);
+          var subject = encodeURIComponent('面试邀约 · ' + dateText);
+          var body = encodeURIComponent(
+            '你好 ' + meta.name + '，\n\n希望约在 ' + dateText + ' 沟通，方便的时间段是：\n\n'
+          );
+          window.location.href = 'mailto:' + meta.email + '?subject=' + subject + '&body=' + body;
+          toast('已打开邮件客户端，日期：' + dateText);
+          return;
+        }
+        var n = calMonthIssues.value.length;
+        toast(n ? ymKey(d) + ' 共发布 ' + n + ' 期周刊' : ymKey(d) + ' 暂无记录');
+      }
+
       /* ---------------- 全站搜索 ---------------- */
       // 索引来源：站点板块 / 经历 / 项目 / 技能 / 教育 / 证书 + 页级入口 + 全部周刊标题。
       // 全部在浏览器内存里检索，无需后端；周刊索引由 tools/sync_weekly.py 每日更新。
@@ -114,6 +257,7 @@
         timeline:  '晖致医药 IT 技术支持 · 工作经历明细',
         projects:  '资产台账规范化 · 终端资产运营 · 新零售交付',
         education: '中国农业大学 · 华北理工大学迁安学院 · 证书荣誉',
+        calendar:  '更新日历 · 周刊发布节奏 · 可约面工作日',
         contact:   '邮箱 · 电话 · 社交链接'
       };
 
@@ -392,6 +536,7 @@
       var roleIndex = ref(0);
       var roleTimer = null;
       var spyObserver = null;
+      var calIo = null;      // 日历 bundle 的懒加载观察器
       var year = new Date().getFullYear();
 
       onMounted(function () {
@@ -405,6 +550,22 @@
             roleIndex.value = (roleIndex.value + 1) % meta.roles.length;
           }, 3000);
         }
+        // 日历：滚到附近才下载 140KB 的 v-calendar（不支持 IO 就直接加载）
+        var calEl = document.getElementById('calendar');
+        if (calEl) {
+          if ('IntersectionObserver' in window) {
+            calIo = new IntersectionObserver(function (entries) {
+              entries.forEach(function (e) {
+                if (!e.isIntersecting) return;
+                loadCalendar();
+                      });
+            }, { rootMargin: '400px' });
+            calIo.observe(calEl);
+          } else {
+            loadCalendar();
+          }
+        }
+
         if ('IntersectionObserver' in window) {
           spyObserver = new IntersectionObserver(function (entries) {
             entries.forEach(function (e) { if (e.isIntersecting) activeSection.value = e.target.id; });
@@ -413,6 +574,7 @@
             var el = document.getElementById(n.id);
             if (el) spyObserver.observe(el);
           });
+
         }
       });
 
@@ -422,6 +584,7 @@
         document.removeEventListener('keydown', onGlobalKey);
         clearInterval(roleTimer);
         if (spyObserver) spyObserver.disconnect();
+        if (calIo) calIo.disconnect();
       });
 
       return {
@@ -436,6 +599,11 @@
         levelLabel: levelLabel, levelTagColor: levelTagColor,
         weeklyTeaser: weeklyTeaser, weeklyReady: weeklyReady,
         weeklyTotal: weeklyTotal, ghIssue: ghIssue, barColor: barColor,
+        /* 日历（v-calendar，滚到才加载） */
+        calReady: calReady, calFailed: calFailed, calAttrs: calAttrs, calLocale: calLocale,
+        calPage: calPage, calMinDate: calMinDate, calMaxDate: calMaxDate,
+        calMonthIssues: calMonthIssues, calMonthLabel: calMonthLabel, calMonthSummary: calMonthSummary,
+        onCalPages: onCalPages, onDayClick: onDayClick,
         radar: radar, roleIndex: roleIndex, year: year,
         /* 搜索 */
         query: query, searchOpen: searchOpen, activeIndex: activeIndex,

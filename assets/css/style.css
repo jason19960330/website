@@ -436,6 +436,55 @@ section[id] { scroll-margin-top: 5rem; }
 }
 .resume-tool { display: flex; gap: .75rem; align-items: baseline; }
 
+.cal-host { min-height: 21rem; }
+.cal-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  min-height: 21rem;
+  font-size: .8125rem;
+  color: rgb(var(--c-faint));
+}
+.cal-spinner {
+  width: .875rem; height: .875rem;
+  border: 2px solid rgb(var(--c-hair));
+  border-top-color: rgb(var(--c-accent));
+  border-radius: 999px;
+  animation: cal-spin .8s linear infinite;
+}
+@keyframes cal-spin { to { transform: rotate(360deg); } }
+
+.cal-legend {
+  margin-top: .9rem;
+  padding-top: .9rem;
+  border-top: 1px solid rgb(var(--c-hair));
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem 1.1rem;
+  font-size: .75rem;
+  color: rgb(var(--c-faint));
+}
+.cal-legend li { display: flex; align-items: center; gap: .4rem; }
+.cal-dot { width: .5rem; height: .5rem; border-radius: 999px; }
+
+/* v-calendar 覆盖：融入本站的面板配色与圆角 */
+.cal-host .vc-container {
+  --vc-font-family: inherit;
+  border: none;
+  background: transparent;
+}
+.cal-host .vc-header { padding: 0 0 .5rem; }
+.cal-host .vc-title { font-size: .9375rem; font-weight: 600; color: rgb(var(--c-ink)); }
+.cal-host .vc-weekday { color: rgb(var(--c-faint)); font-size: .75rem; font-weight: 400; }
+.cal-host .vc-day-content { font-size: .8125rem; }
+.cal-host .vc-arrow { color: rgb(var(--c-dim)); border-radius: .5rem; }
+.cal-host .vc-arrow:hover { background: rgb(var(--c-raise)); color: rgb(var(--c-accent)); }
+.cal-host .vc-highlight { border-radius: .5rem; }
+@media (prefers-reduced-motion: reduce) {
+  .cal-spinner { animation: none; }
+}
+
 /* ------------------------------ 4. 动效 ------------------------------ */
 .reveal {
   opacity: 0;
@@ -533,8 +582,8 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
   .card, .arco-collapse-item, article, li { break-inside: avoid; }
   section { padding-top: .75rem !important; padding-bottom: .75rem !important; }
 
-  /* 周刊板块与外链归档在纸面上没有意义 */
-  #weekly { display: none !important; }
+  /* 周刊板块、日历（纯交互组件）与外链归档在纸面上没有意义 */
+  #weekly, #calendar { display: none !important; }
   a[href^="http"]::after { content: ""; }
 
   /* 搜索框属于交互件，打印时一并隐藏 */

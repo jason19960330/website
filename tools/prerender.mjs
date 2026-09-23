@@ -53,7 +53,8 @@ async function renderOne(page) {
   const holder = doc.createElement('div');
   holder.innerHTML = app.innerHTML;
   // 清掉对爬虫和体积都没价值的部分：图标 symbol、脚本、内联样式、交互控件
-  holder.querySelectorAll('script, style, svg, [aria-hidden="true"], button, .no-print').forEach((n) => n.remove());
+  // .vc-* = v-calendar 渲染的日历网格，纯日期数字对爬虫是噪声，只保留板块标题与图例
+  holder.querySelectorAll('script, style, svg, [aria-hidden="true"], button, .no-print, .vc-container').forEach((n) => n.remove());
   // 折叠面板在快照里全部展开，否则爬虫会漏掉大段正文
   holder.querySelectorAll('.arco-collapse-item-content').forEach((n) => {
     n.style.display = 'block';

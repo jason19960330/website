@@ -30,6 +30,8 @@ website/
 │   ├── sync_weekly.py         # 周刊同步脚本，生成 weekly-*.js
 │   ├── build.mjs              # ★ 构建总入口：下面三步一条命令跑完
 │   ├── vendor-entry.js        # 打包入口：声明实际用到的 Arco 组件
+│   ├── calendar-entry.js      # 打包入口：v-calendar 的 Calendar 组件
+│   ├── vue-global.cjs         # 让日历 bundle 复用页面已有的 Vue（不再打一份）
 │   ├── tailwind.config.js     # Tailwind 配置（content 扫描范围在这里）
 │   ├── prerender.mjs          # 生成爬虫可见的静态快照（写入 noscript）
 │   └── make_og.py             # 重新生成分享卡片图（需 pillow）
@@ -37,7 +39,9 @@ website/
 │   └── sync-weekly.yml        # 每日定时同步（GitHub Actions）
 └── vendor/
     ├── arco-bundle.js         # 自动生成：Vue 3 完整版 + 按需 Arco 组件
-    └── arco-bundle.css        # 自动生成：上述组件的样式
+    ├── arco-bundle.css        # 自动生成：上述组件的样式
+    ├── calendar-bundle.js     # 自动生成：v-calendar 的 Calendar（首页滚到才加载）
+    └── calendar-bundle.css    # 自动生成：日历样式
 ```
 
 | 我想改什么 | 改哪个文件 | 改完要做什么 |
@@ -47,6 +51,7 @@ website/
 | 主站板块顺序、布局、增删区块 | `index.html` | 若新增了 Tailwind 类，需重新 `npm run build` |
 | 简历页版式 | `resume.html`（打印样式在 `style.css` 的 `.resume-*`） | 同上 |
 | 站内搜索的检索范围 | `assets/js/app.js` 的 `searchDocs` | 同上 |
+| 日历上的标记（周刊发布月、可约面工作日） | `assets/js/app.js` 的 `calAttrs` / `interviewDates` | 同上 |
 | 周刊数据来源与数量 | `tools/sync_weekly.py` | 跑一次脚本（勿手改 `weekly-*.js`） |
 | 换 Arco 组件 / 升级依赖 | `tools/vendor-entry.js` + `package.json` | `npm run build` |
 
@@ -56,7 +61,8 @@ website/
 
 - **Arco 按需打包**：全量 UMD 约 1.0 MB，实际只用了 10 个组件。esbuild 只把用到的组件 + Vue 完整版（in-DOM 模板需要编译器）打进一个文件
 - **Tailwind 预编译**：不再用浏览器端 JIT 的 Play CDN（约 139 KB gzip 且首屏会闪），改为 CLI 扫描 `tools/tailwind.config.js` 中 content 列出的文件，产出静态 CSS
-- **静态快照**：`tools/prerender.mjs` 用 jsdom 渲染一遍页面，把结果写进 `<noscript id="seo-snapshot">`（见 SEO 一节）
+- **v-calendar 单独打包**：`vendor/calendar-bundle.js`（约 141 KB / gzip 46 KB）只含 Calendar 组件。打包时 `'vue'` 被 alias 到 `tools/vue-global.cjs`，运行时从 `window.Vue` 取，避免重复打包一份 Vue；**因此它必须在 arco-bundle.js 之后加载**。首页用 IntersectionObserver 观察 `#calendar`，距视口 400px 时才插入 link + script 并注册组件，首屏不受影响
+- **静态快照**：`tools/prerender.mjs` 用 jsdom 渲染一遍页面，把结果写进 `<noscript id="seo-snapshot">`（见 SEO 一节）。日历网格（`.vc-container`）会从快照里剔除——纯日期数字对爬虫是噪声，只保留板块标题与图例
 
 效果：**首页首屏传输量（gzip）从约 526 KB 降到约 144 KB**，且不再有运行时样式编译。
 
