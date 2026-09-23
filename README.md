@@ -52,6 +52,7 @@ website/
 | 简历页版式 | `resume.html`（打印样式在 `style.css` 的 `.resume-*`） | 同上 |
 | 站内搜索的检索范围 | `assets/js/app.js` 的 `searchDocs` | 同上 |
 | 日历上的标记（周刊发布月、可约面工作日） | `assets/js/app.js` 的 `calAttrs` / `interviewDates` | 同上 |
+| 顶部导航要显示哪些板块 | `assets/js/data.js` 的 `nav` | 同上（日历板块默认不在导航里） |
 | 周刊数据来源与数量 | `tools/sync_weekly.py` | 跑一次脚本（勿手改 `weekly-*.js`） |
 | 换 Arco 组件 / 升级依赖 | `tools/vendor-entry.js` + `package.json` | `npm run build` |
 

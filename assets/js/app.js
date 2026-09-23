@@ -558,7 +558,7 @@
               entries.forEach(function (e) {
                 if (!e.isIntersecting) return;
                 loadCalendar();
-                      });
+              });
             }, { rootMargin: '400px' });
             calIo.observe(calEl);
           } else {

@@ -436,6 +436,7 @@ section[id] { scroll-margin-top: 5rem; }
 }
 .resume-tool { display: flex; gap: .75rem; align-items: baseline; }
 
+/* ------------------------------ 3.7 日历板块（v-calendar） ------------------------------ */
 .cal-host { min-height: 21rem; }
 .cal-placeholder {
   display: flex;
