@@ -111,13 +111,20 @@
     s.onerror = function () { gbFailed.value = true; gbLoading.value = false; };
     document.head.appendChild(s);
 
-    // 15 秒还没出现 iframe 就认定失败（国内访问 giscus.app 偶发很慢），给出邮件入口
-    gbTimer = setTimeout(function () {
-      if (!gbReady.value && !document.querySelector('iframe.giscus-frame')) {
+    // 超时兜底：国内访问 giscus.app 偶发很慢。
+    // 只要 iframe 已经注入就说明 client.js 到手、giscus 在干活，继续等；
+    // 30 秒连 iframe 都没有才算真失败（其间每隔 5 秒复查一次，避免一次性误判）。
+    var waited = 0;
+    gbTimer = setInterval(function () {
+      waited += 5;
+      if (gbReady.value) { clearInterval(gbTimer); return; }
+      var hasFrame = !!document.querySelector('iframe.giscus-frame');
+      if (!hasFrame && waited >= 30) {
+        clearInterval(gbTimer);
         gbFailed.value = true;
         gbLoading.value = false;
       }
-    }, 15000);
+    }, 5000);
   }
 
   // iframe 里内容高度变化时让整页高度跟着变（避免底部被裁切）
@@ -711,7 +718,7 @@
         document.removeEventListener('pointerdown', onDocDown);
         document.removeEventListener('keydown', onGlobalKey);
         clearInterval(roleTimer);
-        clearTimeout(gbTimer);
+        clearInterval(gbTimer);
         if (spyObserver) spyObserver.disconnect();
         if (calIo) calIo.disconnect();
         if (gbIo) gbIo.disconnect();
