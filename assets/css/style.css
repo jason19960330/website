@@ -85,6 +85,90 @@ body[arco-theme='dark'] .arco-statistic-value { color: rgb(var(--c-ink)); }
 /* ------------------------------ 2. 基础样式 ------------------------------ */
 [v-cloak] { display: none !important; }
 
+/* ---- 首屏骨架屏：Vue 挂载前用纯 CSS 撑住版式，避免弱网白屏 / 花括号闪现 ----
+   .boot 放在挂载根元素【之后】（兄弟节点），靠 ~ 选择器联动：
+   #app 上还带着 v-cloak（未挂载）→ 骨架显示；Vue 挂载后 v-cloak 被移除 → 隐藏。 */
+.boot {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  padding: 0 1.25rem;
+  background: rgb(var(--c-base));
+  overflow: hidden;
+}
+#app:not([v-cloak]) ~ .boot,
+#resume-app:not([v-cloak]) ~ .boot,
+#weekly-app:not([v-cloak]) ~ .boot,
+#hot-app:not([v-cloak]) ~ .boot { display: none; }
+
+.boot-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 4rem;
+  border-bottom: 1px solid rgb(var(--c-hair));
+}
+.boot-row { display: flex; gap: 2rem; margin-top: 4.5rem; }
+.boot-main { flex: 1; min-width: 0; }
+.boot-side { display: none; width: 20rem; flex-shrink: 0; }
+.boot-block {
+  height: 1rem;
+  margin-top: 1.25rem;
+  border-radius: .375rem;
+  background: rgb(var(--c-dim) / .12);
+}
+.boot-block--lg { height: 2.25rem; width: 62%; margin-top: 1.75rem; }
+.boot-block--sm { width: 42%; }
+.boot-card {
+  height: 15rem;
+  margin-top: 1.5rem;
+  border: 1px solid rgb(var(--c-hair));
+  border-radius: 1rem;
+  background: rgb(var(--c-panel) / .6);
+}
+@media (min-width: 1024px) {
+  .boot-row { margin-top: 6rem; }
+  .boot-side { display: block; }
+}
+/* 微光扫过动画，比静止灰块更像「正在加载」 */
+.boot-bar > span,
+.boot-block,
+.boot-card {
+  position: relative;
+  overflow: hidden;
+  animation: boot-shimmer 1.4s ease-in-out infinite;
+}
+@keyframes boot-shimmer {
+  0%, 100% { opacity: .55; }
+  50% { opacity: 1; }
+}
+/* 加载超过 6 秒才提示，正常网速根本看不到，不打扰 */
+.boot-tip {
+  display: none;
+  margin-top: 2rem;
+  text-align: center;
+  font-size: 12px;
+  color: rgb(var(--c-faint));
+}
+.boot.is-slow .boot-tip { display: block; }
+.boot-fail { display: none; }
+.boot.is-failed .boot-tip { display: none; }
+.boot.is-failed .boot-fail {
+  display: block;
+  margin: 4rem auto 0;
+  max-width: 26rem;
+  text-align: center;
+  font-size: 13px;
+  line-height: 1.7;
+  color: rgb(var(--c-dim));
+}
+.boot.is-failed .boot-bar > span,
+.boot.is-failed .boot-block,
+.boot.is-failed .boot-card { animation: none; }
+@media (prefers-reduced-motion: reduce) {
+  .boot-bar > span, .boot-block, .boot-card { animation: none; opacity: .7; }
+}
+
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;

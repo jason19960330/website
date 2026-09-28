@@ -106,8 +106,15 @@
                 <p class="text-xs font-semibold uppercase tracking-[0.2em] text-accent">Weekly Archive</p>
                 <h1 class="mt-2 text-3xl font-bold tracking-tight text-ink sm:text-4xl">科技爱好者周刊 · 归档</h1>
                 <p class="mt-3 max-w-2xl text-sm leading-relaxed text-dim">
-                  收录阮一峰《科技爱好者周刊》最近 {{ latest.count }} 期正文条目，并支持在全量
-                  <span class="font-semibold text-accent">{{ index.total }} 期</span>里按期号或标题检索。每日自动同步。
+                  <template v-if="hasData">
+                    收录阮一峰《科技爱好者周刊》最近 {{ latest.count }} 期正文条目，并支持在全量
+                    <span class="font-semibold text-accent">{{ index.total }} 期</span>里按期号或标题检索。每日自动同步。
+                  </template>
+                  <template v-else>
+                    归档数据当前没有加载成功（可能是每日同步任务失败或被网络拦截）。你可以先去
+                    <a href="https://github.com/ruanyf/weekly" target="_blank" rel="noopener" class="text-accent hover:underline">原站</a>
+                    查看，或稍后刷新本页。
+                  </template>
                 </p>
               </div>
 
@@ -160,7 +167,7 @@
 
       <!-- ============================ 期刊正文 ============================ -->
       <section class="mx-auto max-w-5xl px-5 pb-16 pt-10 sm:px-6">
-        <div class="mb-4 flex flex-wrap items-center gap-3 no-print">
+        <div v-if="hasData" class="mb-4 flex flex-wrap items-center gap-3 no-print">
           <h2 class="text-lg font-semibold text-ink">期刊正文</h2>
           <a-tag size="small" bordered>{{ filtered.length }} 期</a-tag>
 
@@ -174,7 +181,7 @@
           </a-space>
         </div>
 
-        <a-collapse v-model:active-key="openKeys" class="wl-collapse">
+        <a-collapse v-if="hasData" v-model:active-key="openKeys" class="wl-collapse">
           <a-collapse-item v-for="it in shown" :key="it.n">
             <template #header>
               <span class="wl-crow">
@@ -234,6 +241,23 @@
           </a-collapse-item>
         </a-collapse>
 
+        <!-- 数据缺失兜底：同步失败 / 被网络拦截时，说明情况而不是留一片空白 -->
+        <div v-else class="card p-8 text-center sm:p-12">
+          <svg class="mx-auto h-9 w-9 text-faint"><use href="#i-search"></use></svg>
+          <p class="mt-4 text-base font-semibold text-ink">暂时没能读取到周刊数据</p>
+          <p class="mx-auto mt-2 max-w-md text-sm leading-relaxed text-dim">
+            本页内容由每日定时同步生成，可能是同步任务失败、资源被拦截或脚本加载异常。
+            刷新重试通常就能恢复，你也可以直接访问原始仓库查看全部期刊。
+          </p>
+          <div class="mt-6 flex flex-wrap items-center justify-center gap-3">
+            <a-button type="primary" size="large" @click="reload">刷新重试</a-button>
+            <a href="https://github.com/ruanyf/weekly" target="_blank" rel="noopener">
+              <a-button size="large" type="outline">查看原始仓库</a-button>
+            </a>
+            <a href="index.html" class="nav-link">返回首页</a>
+          </div>
+        </div>
+
         <div v-if="hasMore" class="mt-6 text-center no-print">
           <a-button size="large" @click="loadMore">加载更多（还有 {{ filtered.length - shown.length }} 期）</a-button>
         </div>
@@ -250,6 +274,44 @@
   </div>
 
   <!-- 按需打包产物：Vue 完整版 + 实际用到的 Arco 组件，暴露 window.Vue / window.ArcoVue -->
+
+  <!-- 首屏骨架：脚本没跑完之前顶住版式（纯静态，脚本一到自动让位） -->
+  <div class="boot" aria-hidden="true">
+    <div class="boot-bar">
+      <span style="width:8rem;height:2rem;border-radius:.75rem;background:rgb(var(--c-dim) / .12)"></span>
+      <span style="width:6rem;height:2rem;border-radius:.75rem;background:rgb(var(--c-dim) / .12)"></span>
+    </div>
+    <div class="boot-row">
+      <div class="boot-main">
+        <div class="boot-block boot-block--sm"></div>
+        <div class="boot-block boot-block--lg"></div>
+        <div class="boot-block"></div>
+        <div class="boot-block boot-block--sm"></div>
+        <div class="boot-block" style="width:70%"></div>
+      </div>
+      <div class="boot-side"><div class="boot-card"></div></div>
+    </div>
+    <p class="boot-tip">网络有点慢，页面还在加载…</p>
+    <div class="boot-fail">
+      <p>页面脚本加载失败，通常是网络中断或浏览器拦截了资源。</p>
+      <p><button type="button" onclick="location.reload()" class="text-accent hover:underline">点击重试</button>
+        · <a href="index.html" class="text-accent hover:underline">返回首页</a></p>
+    </div>
+  </div>
+  <script>
+    // 6 秒还没挂载 → 提示慢；20 秒仍没挂载 → 给重试入口。正常网速不会触发
+    setTimeout(function () {
+      var app = document.getElementById('weekly-app');
+      var boot = document.querySelector('.boot');
+      if (app && boot && app.hasAttribute('v-cloak')) boot.classList.add('is-slow');
+    }, 6000);
+    setTimeout(function () {
+      var app = document.getElementById('weekly-app');
+      var boot = document.querySelector('.boot');
+      if (app && boot && app.hasAttribute('v-cloak')) boot.classList.add('is-failed');
+    }, 20000);
+  </script>
+
   <script src="vendor/arco-bundle.js?v=20260923"></script>
   <script src="assets/js/weekly-index.js?v=20260923"></script>
   <script src="assets/js/weekly-latest.js?v=20260923"></script>

@@ -120,6 +120,9 @@
 
       return {
         index: INDEX, latest: LATEST,
+        // 数据文件缺失（同步失败 / 404 / 被拦截）时为 false，页面走空状态兜底
+        hasData: !!(LATEST.issues && LATEST.issues.length),
+        reload: function () { window.location.reload(); },
         theme: theme, toggleTheme: toggleTheme,
         totalItems: totalItems, shortDate: shortDate,
         query: query, hits: hits, clearQuery: clearQuery,

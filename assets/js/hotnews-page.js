@@ -72,6 +72,9 @@
 
       return {
         hot: HOT, sources: sources,
+        // 数据文件缺失（同步失败 / 404 / 被拦截）时为 false，页面走空状态兜底
+        hasData: sources.some(function (s) { return s.items && s.items.length; }),
+        reload: function () { window.location.reload(); },
         theme: theme, toggleTheme: toggleTheme,
         totalItems: totalItems, shortDate: shortDate,
         query: query, viewOf: viewOf, hitCount: hitCount, ago: ago
