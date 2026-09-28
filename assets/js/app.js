@@ -28,6 +28,97 @@
 
   var THEME_KEY = 'site.theme';
 
+  /* ================= 留言板：giscus（GitHub Discussions） =================
+     静态站没有后端，留言就借用 GitHub Discussions 存储，由 giscus 提供 UI
+     （iframe 形式嵌入），访客用 GitHub 账号登录后即可真实留言。
+
+     配置含义见 https://giscus.app/zh-CN —— 四项 ID 在开启 Discussions 并安装
+     giscus App 后可从 https://giscus.app 的生成器里取到。
+     --------------------------------------------------------------------- */
+  var GIS_REPO = 'jason19960330/website';   // 仓库（owner/repo）
+  var GIS_REPO_ID = 'R_kgDOUeY6tQ';         // 仓库 node id（REST API 的 node_id）
+  var GIS_CATEGORY = 'Announcements';       // 讨论分类名（推荐用 Announcements）
+  var GIS_CATEGORY_ID = 'DIC_kwDOUeY6tc4DGkZO'; // 讨论分类 id（giscus.app 生成）
+  var GIS_LANG = 'zh-CN';
+  var GIS_HOST = 'https://giscus.app';
+
+  var gbReady = ref(false);
+  var gbFailed = ref(false);
+  var gbLoading = ref(false);
+  var gbLoadingScript = false;
+  var gbTimer = null;
+
+  function postToGiscus(cfg) {
+    var frame = document.querySelector('iframe.giscus-frame');
+    if (frame && frame.contentWindow) {
+      frame.contentWindow.postMessage({ giscus: cfg }, GIS_HOST);
+    }
+  }
+
+  // 站点主题切换时同步给 iframe，否则浅色站点里会嵌着一块深色评论区
+  function syncGuestbookTheme(next) {
+    postToGiscus({ setConfig: { theme: next === 'dark' ? 'dark' : 'light' } });
+  }
+
+  function loadGuestbook() {
+    if (gbLoadingScript || gbReady.value) return;
+    // 只在 http(s) 下加载：file:// 场景（构建期 jsdom 预渲染、直接双击 html）
+    // 既跑不通跨域 iframe，也会让构建过程依赖外网，这里直接跳过。
+    if (!/^https?:$/.test(window.location.protocol)) return;
+    gbLoadingScript = true;
+    gbLoading.value = true;
+
+    // giscus 通过 postMessage 告知状态：成功会带 discussion 数据，失败带 error
+    window.addEventListener('message', function (e) {
+      if (e.origin !== GIS_HOST || !e.data || !e.data.giscus) return;
+      if (e.data.giscus.error) {
+        gbFailed.value = true;
+        gbLoading.value = false;
+        return;
+      }
+      gbReady.value = true;
+      gbLoading.value = false;
+      syncGuestbookTheme(document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+      scheduleHeightFix();
+    });
+
+    var s = document.createElement('script');
+    s.src = GIS_HOST + '/client.js';
+    s.async = true;
+    s.crossOrigin = 'anonymous';
+    s.setAttribute('data-repo', GIS_REPO);
+    s.setAttribute('data-repo-id', GIS_REPO_ID);
+    s.setAttribute('data-category', GIS_CATEGORY);
+    s.setAttribute('data-category-id', GIS_CATEGORY_ID);
+    s.setAttribute('data-mapping', 'pathname');
+    s.setAttribute('data-strict', '0');
+    s.setAttribute('data-reactions-enabled', '1');
+    s.setAttribute('data-emit-metadata', '0');
+    s.setAttribute('data-input-position', 'bottom');
+    s.setAttribute('data-lang', GIS_LANG);
+    // 主题由本页面控制（见 syncGuestbookTheme），这里只给初始值
+    s.setAttribute('data-theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+    // giscus.client.js 找不到服务端 / 被网络拦截时的兜底
+    s.onerror = function () { gbFailed.value = true; gbLoading.value = false; };
+    document.head.appendChild(s);
+
+    // 15 秒还没出现 iframe 就认定失败（国内访问 giscus.app 偶发很慢），给出邮件入口
+    gbTimer = setTimeout(function () {
+      if (!gbReady.value && !document.querySelector('iframe.giscus-frame')) {
+        gbFailed.value = true;
+        gbLoading.value = false;
+      }
+    }, 15000);
+  }
+
+  // iframe 里内容高度变化时让整页高度跟着变（避免底部被裁切）
+  function scheduleHeightFix() {
+    var frame = document.querySelector('iframe.giscus-frame');
+    if (!frame) return;
+    frame.setAttribute('scrolling', 'no');
+    frame.style.width = '100%';
+  }
+
   /* ================= 日历：v-calendar 按需加载 =================
      日历 bundle 有 140KB，没必要跟着首屏下载。等页面滚近 #calendar 板块
      才插 script，注册完组件再把 calReady 置 true，模板随即渲染。
@@ -85,6 +176,7 @@
         document.documentElement.classList.toggle('dark', next === 'dark');
         document.body.setAttribute('arco-theme', next);
         try { localStorage.setItem(THEME_KEY, next); } catch (e) { /* 隐私模式忽略 */ }
+        syncGuestbookTheme(next);   // 评论区跟着换肤
       }
       function toggleTheme() {
         theme.value = theme.value === 'dark' ? 'light' : 'dark';
@@ -550,6 +642,7 @@
       var roleTimer = null;
       var spyObserver = null;
       var calIo = null;      // 日历 bundle 的懒加载观察器
+      var gbIo = null;       // 留言板 iframe 的懒加载观察器
       var year = new Date().getFullYear();
 
       onMounted(function () {
@@ -589,6 +682,19 @@
           });
 
         }
+
+        // 留言板同样懒加载：滚到板块附近才去拉 giscus 的 iframe
+        var gbEl = document.getElementById('guestbook');
+        if (gbEl) {
+          if ('IntersectionObserver' in window) {
+            gbIo = new IntersectionObserver(function (entries) {
+              entries.forEach(function (e) { if (e.isIntersecting) loadGuestbook(); });
+            }, { rootMargin: '600px' });
+            gbIo.observe(gbEl);
+          } else {
+            loadGuestbook();
+          }
+        }
       });
 
       onUnmounted(function () {
@@ -596,8 +702,10 @@
         document.removeEventListener('pointerdown', onDocDown);
         document.removeEventListener('keydown', onGlobalKey);
         clearInterval(roleTimer);
+        clearTimeout(gbTimer);
         if (spyObserver) spyObserver.disconnect();
         if (calIo) calIo.disconnect();
+        if (gbIo) gbIo.disconnect();
       });
 
       return {
@@ -613,6 +721,9 @@
         weeklyTeaser: weeklyTeaser, weeklyReady: weeklyReady,
         weeklyTotal: weeklyTotal, ghIssue: ghIssue, barColor: barColor,
         hotBrief: hotBrief,
+        /* 留言板（giscus，滚到底部才加载） */
+        gbReady: gbReady, gbFailed: gbFailed, gbLoading: gbLoading,
+        loadGuestbook: loadGuestbook, reload: function () { window.location.reload(); },
         /* 日历（v-calendar，滚到才加载） */
         calReady: calReady, calFailed: calFailed, calAttrs: calAttrs, calLocale: calLocale,
         calPage: calPage, calMinDate: calMinDate, calMaxDate: calMaxDate,
