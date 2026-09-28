@@ -149,6 +149,16 @@
         return 'https://github.com/ruanyf/weekly/blob/master/docs/issue-' + n + '.md';
       }
 
+      /* ---------------- 热点速览：每个源取最新 1 条，放在首页速览卡片 ---------------- */
+      // 数据由 tools/sync_hotnews.py 生成（assets/js/hotnews.js），缺失时该板块自动留空
+      var HOT = window.HOTNEWS;
+      var hotBrief = (HOT && HOT.sources ? HOT.sources : [])
+        .map(function (s) {
+          var it = s.items && s.items[0];
+          return it ? { source: s.name, title: it.t, url: it.u } : null;
+        })
+        .filter(Boolean);
+
       /* ---------------- 日历板块 ---------------- */
       var calToday = new Date();
       calToday.setHours(0, 0, 0, 0);
@@ -602,6 +612,7 @@
         levelLabel: levelLabel, levelTagColor: levelTagColor,
         weeklyTeaser: weeklyTeaser, weeklyReady: weeklyReady,
         weeklyTotal: weeklyTotal, ghIssue: ghIssue, barColor: barColor,
+        hotBrief: hotBrief,
         /* 日历（v-calendar，滚到才加载） */
         calReady: calReady, calFailed: calFailed, calAttrs: calAttrs, calLocale: calLocale,
         calPage: calPage, calMinDate: calMinDate, calMaxDate: calMaxDate,

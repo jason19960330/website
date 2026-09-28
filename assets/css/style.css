@@ -800,6 +800,32 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
   .tag-intent:hover, .arco-btn:hover { transform: none; }
 }
 
+/* ------------------------------ 4.5 首页速览卡片 · 热点速览 ------------------------------ */
+/* 每个新闻源最新 1 条：来源做小徽标，标题最多两行截断，整行可点击跳原文 */
+.hn-brief-item {
+  display: flex;
+  align-items: flex-start;
+  gap: .5rem;
+}
+.hn-brief-src {
+  flex-shrink: 0;
+  margin-top: 2px;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  line-height: 1.5;
+  white-space: nowrap;
+  color: rgb(var(--c-accent));
+  background: rgb(var(--c-accent) / .1);
+}
+.hn-brief-title {
+  min-width: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
 /* ------------------------------ 5. 打印样式 ------------------------------ */
 /* HR 打印或「存为 PDF」时使用：白底黑字、隐藏交互件、卡片不跨页断裂。
    注意 Chrome 打印默认不打印背景色，配色全部回落到字色即可。 */
