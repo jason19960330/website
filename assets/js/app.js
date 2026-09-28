@@ -72,6 +72,15 @@
     window.addEventListener('message', function (e) {
       if (e.origin !== GIS_HOST || !e.data || !e.data.giscus) return;
       if (e.data.giscus.error) {
+        // 「Discussion not found」是良性的：页面还没有对应讨论帖，
+        // giscus 仍会正常渲染评论框，首条评论提交后自动建帖，不能当失败处理
+        if (/discussion not found/i.test(e.data.giscus.error)) {
+          gbReady.value = true;
+          gbLoading.value = false;
+          syncGuestbookTheme(document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+          scheduleHeightFix();
+          return;
+        }
         gbFailed.value = true;
         gbLoading.value = false;
         return;
