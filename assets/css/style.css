@@ -663,6 +663,82 @@ section[id] { scroll-margin-top: 5rem; }
   .wl-src, .wl-cover img { transition: none; }
 }
 
+/* ------------------------------ 3.9 科技热点页（hotnews.html） ------------------------------ */
+/* 三栏并排的榜单卡片；窄屏自动堆叠成一列。三个源各用一个品牌色圆点区分。 */
+.hot-grid { display: grid; gap: 1.25rem; }
+@media (min-width: 1024px) { .hot-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+.hot-col { display: flex; flex-direction: column; padding: 1.1rem 1.15rem 1.25rem; }
+.hot-col-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: .75rem;
+  padding-bottom: .7rem;
+  border-bottom: 1px solid rgb(var(--c-hair));
+}
+.hot-col-title { display: flex; align-items: center; gap: .45rem; font-size: .9375rem; font-weight: 600; color: rgb(var(--c-ink)); }
+.hot-dot { width: .5rem; height: .5rem; border-radius: 999px; flex-shrink: 0; }
+.hot-dot-ithome { background: #ef4444; }
+.hot-dot-hackernews { background: #ff6600; }
+.hot-dot-sspai { background: #d71a1a; }
+.hot-col-meta { margin-top: .2rem; font-size: .75rem; color: rgb(var(--c-faint)); }
+.hot-col-home {
+  display: grid;
+  place-items: center;
+  width: 1.75rem; height: 1.75rem;
+  flex-shrink: 0;
+  border: 1px solid rgb(var(--c-hair));
+  border-radius: .55rem;
+  color: rgb(var(--c-faint));
+  transition: color .2s, border-color .2s, transform .2s cubic-bezier(0,0,1,1);
+}
+.hot-col-home:hover {
+  color: rgb(var(--c-accent));
+  border-color: rgb(var(--c-accent) / .5);
+  transform: translateY(-2px);
+}
+
+.hot-list { margin-top: .35rem; flex: 1; }
+.hot-item {
+  display: flex;
+  align-items: flex-start;
+  gap: .6rem;
+  padding: .45rem .5rem;
+  border-radius: .6rem;
+  transition: background .2s, transform .2s cubic-bezier(0,0,1,1);
+}
+.hot-item:hover {
+  background: rgb(var(--c-raise));
+  transform: translateX(2px);
+}
+.hot-rank {
+  flex-shrink: 0;
+  width: 1.35rem;
+  margin-top: .1rem;
+  font-family: var(--font-mono, ui-monospace, SFMono-Regular, monospace);
+  font-size: .6875rem;
+  line-height: 1.5;
+  text-align: center;
+  color: rgb(var(--c-faint));
+  border-radius: .35rem;
+  background: rgb(var(--c-raise));
+}
+.hot-rank.is-top { color: #fff; background: rgb(var(--c-accent)); }
+.hot-title {
+  font-size: .8125rem;
+  line-height: 1.6;
+  color: rgb(var(--c-dim));
+  transition: color .2s;
+}
+.hot-item:hover .hot-title { color: rgb(var(--c-accent)); }
+.hot-empty { margin-top: 1rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hot-item, .hot-col-home { transition: none; }
+  .hot-item:hover, .hot-col-home:hover { transform: none; }
+}
+
 /* ------------------------------ 4. 动效 ------------------------------ */
 .reveal {
   opacity: 0;

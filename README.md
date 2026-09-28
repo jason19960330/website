@@ -9,6 +9,7 @@ website/
 ├── index.html                 # 主站骨架（结构层）：单页简历
 ├── resume.html                # 简历页：一页式简历，可打印 / 存为 PDF
 ├── weekly.html                # 周刊归档页：最近 20 期 + 全量检索
+├── hotnews.html               # 科技热点页：IT之家 / Hacker News / 少数派 三源热榜
 ├── 404.html                   # GitHub Pages 自定义 404
 ├── robots.txt / sitemap.xml   # 搜索引擎收录
 ├── package.json               # 仅构建期依赖（devDependencies），运行时不需要
@@ -25,9 +26,12 @@ website/
 │       ├── resume.js          # 简历页逻辑层：主题、打印 / 导出 PDF
 │       ├── weekly.js          # 归档页逻辑层：搜索、折叠、主题
 │       ├── weekly-index.js    # 自动生成：全量索引（期号/标题/年月）
-│       └── weekly-latest.js   # 自动生成：最近 20 期正文条目
+│       ├── weekly-latest.js   # 自动生成：最近 20 期正文条目
+│       ├── hotnews.js         # 自动生成：三个科技源的热榜（window.HOTNEWS）
+│       └── hotnews-page.js    # 热点页逻辑层：主题、跨源检索、相对时间
 ├── tools/
 │   ├── sync_weekly.py         # 周刊同步脚本，生成 weekly-*.js
+│   ├── sync_hotnews.py        # 热点同步脚本，生成 hotnews.js
 │   ├── build.mjs              # ★ 构建总入口：下面三步一条命令跑完
 │   ├── vendor-entry.js        # 打包入口：声明实际用到的 Arco 组件
 │   ├── calendar-entry.js      # 打包入口：v-calendar 的 Calendar 组件
@@ -36,7 +40,8 @@ website/
 │   ├── prerender.mjs          # 生成爬虫可见的静态快照（写入 noscript）
 │   └── make_og.py             # 重新生成分享卡片图（需 pillow）
 ├── .github/workflows/
-│   └── sync-weekly.yml        # 每日定时同步（GitHub Actions）
+│   ├── sync-weekly.yml        # 每日定时同步周刊（GitHub Actions）
+│   └── sync-hotnews.yml       # 每日定时同步科技热点
 └── vendor/
     ├── arco-bundle.js         # 自动生成：Vue 3 完整版 + 按需 Arco 组件
     ├── arco-bundle.css        # 自动生成：上述组件的样式
@@ -54,6 +59,7 @@ website/
 | 日历上的标记（周刊发布月、可约面工作日） | `assets/js/app.js` 的 `calAttrs` / `interviewDates` | 同上 |
 | 顶部导航要显示哪些板块 | `assets/js/data.js` 的 `nav` | 同上（日历板块默认不在导航里） |
 | 周刊数据来源与数量 | `tools/sync_weekly.py` | 跑一次脚本（勿手改 `weekly-*.js`） |
+| 热点页抓哪些源、每源几条 | `tools/sync_hotnews.py` 的 `SOURCES` / `--limit` | 跑一次脚本（勿手改 `hotnews.js`） |
 | 换 Arco 组件 / 升级依赖 | `tools/vendor-entry.js` + `package.json` | `npm run build` |
 
 ## 依赖是怎么构建的（重要）
@@ -75,7 +81,7 @@ npm install        # 首次
 npm run build      # 改了 tools/ 下的构建配置、页面类名或内容后执行
 ```
 
-产物必须提交进仓库（Pages 不跑构建）。快照那步会**改写 `index.html`、`resume.html`、`weekly.html` 末尾的 noscript 区块**（页面清单在 `tools/prerender.mjs` 的 `PAGES`），幂等，重复运行只替换不叠加。
+产物必须提交进仓库（Pages 不跑构建）。快照那步会**改写 `index.html`、`resume.html`、`weekly.html`、`hotnews.html` 末尾的 noscript 区块**（页面清单在 `tools/prerender.mjs` 的 `PAGES`），幂等，重复运行只替换不叠加。
 
 产物必须提交进仓库（Pages 不跑构建）。
 
@@ -183,6 +189,26 @@ python3 -m http.server 8000   # 访问 http://localhost:8000
 数据由 `tools/sync_weekly.py` 生成（只用标准库；网络异常退避重试，再失败退回 curl）。GitHub Actions 每天 **北京时间 09:30** 自动同步，**内容变了才提交**。
 
 > 版权说明：周刊正文版权归原作者阮一峰所有，归档页标注来源，每期保留「在 GitHub 阅读原文」链接。
+
+## 科技热点页 hotnews.html
+
+聚合 [NewsNow](https://github.com/newsnext/newsnow)（MIT 开源聚合项目）公开接口上的三个科技源：
+
+| 源 id | 名称 | 说明 |
+|---|---|---|
+| `ithome` | IT 之家 | 国内科技资讯 |
+| `hackernews` | Hacker News | 海外技术社区 |
+| `sspai` | 少数派 | 效率工具与数码 |
+
+页面结构：概览条（数据源 / 收录条目 / 最近同步 / 同步频率）→ 跨源标题检索 → 三栏并排的榜单卡片（每源 20 条，前三名序号高亮，条目一律新标签打开并带 `rel=noopener`）。
+
+> **两个坑（改这个脚本时一定会遇到）**
+> 1. NewsNow 架在 Cloudflare 后面，**非浏览器 UA 直接 403**，`sync_hotnews.py` 里的 UA 必须伪装成 Chrome
+> 2. 接口响应**没有 CORS 头**，浏览器前端无法直连；所以只能像周刊一样走「定时任务抓成静态 JS」的路子
+
+数据由 `tools/sync_hotnews.py` 生成（标准库 + curl 回退），产出 `assets/js/hotnews.js`。GitHub Actions 每天 **北京时间 10:00** 同步，同样只在内容变化时提交。
+
+> 版权说明：热点标题版权归各原平台所有，页面只做标题聚合与原文跳转，不转存正文。
 
 ## 内容与数据来源
 

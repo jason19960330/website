@@ -282,6 +282,9 @@
         add({ kind: 'page', group: '页面', badge: '页面', title: '个人简历（完整版）', desc: '一页式简历 · 支持打印 / 导出 PDF · 与首页同源', href: 'resume.html' });
         add({ kind: 'page', group: '页面', badge: '页面', title: '科技爱好者周刊归档',
               desc: '最近 20 期完整条目，支持全量 ' + weeklyTotal + ' 期按标题与期号检索', href: 'weekly.html' });
+        add({ kind: 'page', group: '页面', badge: '页面', title: '今日科技热点',
+              desc: 'IT 之家 · Hacker News · 少数派 三个源的实时热榜，每日同步',
+              kw: 'hot news 热点 热榜 ithome hackernews sspai it之家 hacker news 少数派', href: 'hotnews.html' });
 
         // 3) 内容条目：命中后跳到所属板块
         CONFIG.timeline.forEach(function (t) {

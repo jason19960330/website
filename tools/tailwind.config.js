@@ -10,9 +10,11 @@ module.exports = {
     './index.html',
     './weekly.html',
     './resume.html',
+    './hotnews.html',
     './assets/js/app.js',
     './assets/js/weekly.js',
     './assets/js/resume.js',
+    './assets/js/hotnews-page.js',
     './assets/js/data.js'
   ],
   theme: {
