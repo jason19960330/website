@@ -403,6 +403,9 @@
         add({ kind: 'page', group: '页面', badge: '页面', title: '今日科技热点',
               desc: 'IT 之家 · Hacker News · 少数派 三个源的实时热榜，每日同步',
               kw: 'hot news 热点 热榜 ithome hackernews sspai it之家 hacker news 少数派', href: 'hotnews.html' });
+        add({ kind: 'page', group: '页面', badge: '页面', title: 'Lieflat Charts 使用指南',
+              desc: '数据图表 Skill 用法：文章配图、视频动态画面、完整数据报告的指令写法',
+              kw: 'skill 技能 lieflat charts 图表 可视化 数据可视化 报告 配图 agent', href: 'skill.html' });
 
         // 3) 内容条目：命中后跳到所属板块
         CONFIG.timeline.forEach(function (t) {

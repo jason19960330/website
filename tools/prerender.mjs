@@ -28,7 +28,8 @@ const PAGES = [
   { file: 'index.html', appId: 'app' },
   { file: 'resume.html', appId: 'resume-app' },
   { file: 'weekly.html', appId: 'weekly-app', query: '?all=1' },
-  { file: 'hotnews.html', appId: 'hot-app' }
+  { file: 'hotnews.html', appId: 'hot-app' },
+  { file: 'skill.html', appId: 'skill-app' }
 ];
 
 const START = '<!-- seo-snapshot:start -->';

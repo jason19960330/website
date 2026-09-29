@@ -99,7 +99,8 @@ body[arco-theme='dark'] .arco-statistic-value { color: rgb(var(--c-ink)); }
 #app:not([v-cloak]) ~ .boot,
 #resume-app:not([v-cloak]) ~ .boot,
 #weekly-app:not([v-cloak]) ~ .boot,
-#hot-app:not([v-cloak]) ~ .boot { display: none; }
+#hot-app:not([v-cloak]) ~ .boot,
+#skill-app:not([v-cloak]) ~ .boot { display: none; }
 
 .boot-bar {
   display: flex;
@@ -822,6 +823,120 @@ section[id] { scroll-margin-top: 5rem; }
   .hot-item, .hot-col-home { transition: none; }
   .hot-item:hover, .hot-col-home:hover { transform: none; }
 }
+
+/* ------------------------------ 3.10 Skill 指南页（skill.html） ------------------------------ */
+/* 文档型页面：场景卡 + 可复制的指令块 + 提示条。卡片沿用站点 .card，这里只补版式。 */
+
+.sk-card { padding: 1.35rem 1.4rem 1.5rem; }
+
+.sk-card-head { display: flex; align-items: flex-start; gap: .85rem; }
+.sk-idx {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 2rem; height: 2rem;
+  border-radius: .65rem;
+  background: rgb(var(--c-accent) / .12);
+  color: rgb(var(--c-accent));
+  font-size: .875rem;
+  font-weight: 600;
+}
+.sk-card-title { font-size: 1.0625rem; font-weight: 600; color: rgb(var(--c-ink)); }
+.sk-card-sub { margin-top: .25rem; font-size: .8125rem; line-height: 1.65; color: rgb(var(--c-dim)); }
+
+/* 场景标签：能用它做什么 */
+.sk-chips { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .9rem; }
+.sk-chip {
+  padding: .22rem .6rem;
+  border: 1px solid rgb(var(--c-hair));
+  border-radius: 999px;
+  background: rgb(var(--c-panel));
+  font-size: .75rem;
+  color: rgb(var(--c-dim));
+}
+
+/* 要点列表 */
+.sk-list { margin-top: .95rem; display: grid; gap: .45rem; }
+.sk-list li {
+  position: relative;
+  padding-left: 1.05rem;
+  font-size: .8125rem;
+  line-height: 1.7;
+  color: rgb(var(--c-dim));
+}
+.sk-list li::before {
+  content: '';
+  position: absolute;
+  left: .2rem; top: .62rem;
+  width: .32rem; height: .32rem;
+  border-radius: 999px;
+  background: rgb(var(--c-accent) / .55);
+}
+
+/* 指令块：右上角带复制按钮 */
+.sk-prompt {
+  position: relative;
+  margin-top: 1rem;
+  padding: .9rem .9rem;
+  border: 1px solid rgb(var(--c-hair));
+  border-radius: .85rem;
+  background: rgb(var(--c-raise));
+}
+.sk-prompt pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, monospace);
+  font-size: .75rem;
+  line-height: 1.75;
+  color: rgb(var(--c-ink));
+}
+.sk-copy {
+  position: absolute;
+  top: .5rem; right: .5rem;
+  padding: .22rem .55rem;
+  border: 1px solid rgb(var(--c-hair));
+  border-radius: .5rem;
+  background: rgb(var(--c-panel));
+  font-size: .6875rem;
+  color: rgb(var(--c-faint));
+  transition: color .2s, border-color .2s, background .2s;
+}
+.sk-copy:hover { color: rgb(var(--c-accent)); border-color: rgb(var(--c-accent) / .5); }
+.sk-copy.is-done {
+  color: #fff;
+  background: rgb(var(--c-accent));
+  border-color: transparent;
+}
+
+/* 提示条 */
+.sk-tip {
+  margin-top: 1rem;
+  padding: .75rem .9rem;
+  border-left: 2px solid rgb(var(--c-accent) / .6);
+  border-radius: 0 .6rem .6rem 0;
+  background: rgb(var(--c-raise));
+  font-size: .8125rem;
+  line-height: 1.7;
+  color: rgb(var(--c-dim));
+}
+.sk-tip strong { color: rgb(var(--c-ink)); font-weight: 600; }
+
+/* 目录：窄屏滚动、宽屏两列 */
+.sk-toc { display: grid; gap: .35rem; }
+@media (min-width: 640px) { .sk-toc { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.sk-toc a {
+  display: flex;
+  align-items: center;
+  gap: .45rem;
+  padding: .4rem .55rem;
+  border-radius: .55rem;
+  font-size: .8125rem;
+  color: rgb(var(--c-dim));
+  transition: color .2s, background .2s;
+}
+.sk-toc a:hover { color: rgb(var(--c-accent)); background: rgb(var(--c-raise)); }
+.sk-toc span { font-family: var(--font-mono, ui-monospace, monospace); font-size: .6875rem; color: rgb(var(--c-faint)); }
 
 /* ------------------------------ 4. 动效 ------------------------------ */
 .reveal {

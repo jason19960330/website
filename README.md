@@ -10,6 +10,7 @@ website/
 ├── resume.html                # 简历页：一页式简历，可打印 / 存为 PDF
 ├── weekly.html                # 周刊归档页：最近 20 期 + 全量检索
 ├── hotnews.html               # 科技热点页：IT之家 / Hacker News / 少数派 三源热榜
+├── skill.html                 # Skill 指南页：Lieflat Charts（数据图表 Skill）使用文档
 ├── 404.html                   # GitHub Pages 自定义 404
 ├── robots.txt / sitemap.xml   # 搜索引擎收录
 ├── package.json               # 仅构建期依赖（devDependencies），运行时不需要
@@ -29,6 +30,7 @@ website/
 │       ├── weekly-latest.js   # 自动生成：最近 20 期正文条目
 │       ├── hotnews.js         # 自动生成：三个科技源的热榜（window.HOTNEWS）
 │       └── hotnews-page.js    # 热点页逻辑层：主题、跨源检索、相对时间
+│   └── skill-page.js          # Skill 指南页逻辑层：主题、指令复制
 ├── tools/
 │   ├── sync_weekly.py         # 周刊同步脚本，生成 weekly-*.js
 │   ├── sync_hotnews.py        # 热点同步脚本，生成 hotnews.js
