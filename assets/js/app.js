@@ -247,16 +247,6 @@
       }
       function copyPhone() { writeClipboard(meta.phone, '电话已复制：' + meta.phone); }
 
-      /* ---------------- 周刊：首页只渲染最近 6 期的标题卡片 ---------------- */
-      // 数据由 tools/sync_weekly.py 生成，缺失时该板块自动留空，不影响其他内容
-      var WEEKLY = window.WEEKLY_INDEX;
-      var weeklyReady = !!(WEEKLY && WEEKLY.issues && WEEKLY.issues.length);
-      var weeklyTeaser = weeklyReady ? WEEKLY.issues.slice(0, 6) : [];
-      var weeklyTotal = weeklyReady ? WEEKLY.total : 0;
-      function ghIssue(n) {
-        return 'https://github.com/ruanyf/weekly/blob/master/docs/issue-' + n + '.md';
-      }
-
       /* ---------------- 热点速览：每个源取最新 1 条，放在首页速览卡片 ---------------- */
       // 数据由 tools/sync_hotnews.py 生成（assets/js/hotnews.js），缺失时该板块自动留空
       var HOT = window.HOTNEWS;
@@ -281,14 +271,16 @@
       function ymKey(date) { return date.getFullYear() + '-' + pad2(date.getMonth() + 1); }
       function ymdKey(date) { return ymKey(date) + '-' + pad2(date.getDate()); }
 
-      // 周刊按月聚合：'2026-09' -> [issue, ...]
-      var calMonthMap = {};
-      if (weeklyReady) {
-        WEEKLY.issues.forEach(function (it) {
-          if (!it.ym) return;
-          (calMonthMap[it.ym] = calMonthMap[it.ym] || []).push(it);
-        });
-      }
+      // 日历标注：未来 90 天里的每个周三标一次「站点更新」（与 Actions 同步节奏一致）
+      var calUpdateDates = (function () {
+        var out = [];
+        for (var i = 0; i < 90; i++) {
+          var d = new Date(calToday);
+          d.setDate(calToday.getDate() + i);
+          if (d.getDay() === 3) out.push(d);   // 3 = 周三
+        }
+        return out;
+      })();
 
       // 可约面时间：从 7 天后起 8 周内的工作日（周一至周五）
       var interviewDates = (function () {
@@ -315,30 +307,26 @@
           dates: interviewDates,
           popover: { label: '工作日 · 可约面，点击发邮件', visibility: 'hover' }
         }];
-        Object.keys(calMonthMap).forEach(function (ym) {
-          var parts = ym.split('-');
-          var y = parseInt(parts[0], 10);
-          var m = parseInt(parts[1], 10);
-          var count = calMonthMap[ym].length;
-          list.push({
-            key: 'weekly-' + ym,
-            dot: { color: 'blue' },
-            dates: new Date(y, m - 1, 1),
-            popover: { label: y + ' 年 ' + m + ' 月发布 ' + count + ' 期', visibility: 'hover' }
-          });
+        // 站点更新：未来 90 天里的每个周三
+        list.push({
+          key: 'site-update',
+          dot: { color: 'blue' },
+          dates: calUpdateDates,
+          popover: { label: '站点 · 每周三更新', visibility: 'hover' }
         });
         return list;
       });
 
-      var calMonthIssues = computed(function () {
-        return calMonthMap[calPage.value.year + '-' + pad2(calPage.value.month)] || [];
-      });
       var calMonthLabel = computed(function () {
         return calPage.value.year + ' 年 ' + calPage.value.month + ' 月';
       });
       var calMonthSummary = computed(function () {
-        var n = calMonthIssues.value.length;
-        return n ? '本月发布 ' + n + ' 期周刊' : '本月没有周刊发布记录';
+        var ym = calPage.value.year + '-' + pad2(calPage.value.month);
+        var n = 0;
+        calUpdateDates.forEach(function (d) {
+          if (d.getFullYear() + '-' + pad2(d.getMonth() + 1) === ym) n++;
+        });
+        return n ? '本月有 ' + n + ' 次站点更新（每周三）' : '本月没有站点更新记录';
       });
 
       // 翻月：payload 是 pages 数组，取第一个
@@ -361,8 +349,11 @@
           toast('已打开邮件客户端，日期：' + dateText);
           return;
         }
-        var n = calMonthIssues.value.length;
-        toast(n ? ymKey(d) + ' 共发布 ' + n + ' 期周刊' : ymKey(d) + ' 暂无记录');
+        if (calUpdateDates.some(function (x) { return x.getTime() === d.getTime(); })) {
+          toast(ymdKey(d) + ' · 站点例行更新');
+          return;
+        }
+        toast(ymdKey(d) + ' 暂无安排');
       }
 
       /* ---------------- 全站搜索 ---------------- */
@@ -381,7 +372,7 @@
 
       // 同类结果之间的排序倾向：板块 / 页面 > 经历 > 项目 > 技能 / 教育 / 关于
       // （分值之外的加权，避免「技能」这类词被大量技能条目压过导航入口）
-      var GROUP_WEIGHT = { '本站': 6, '页面': 6, '经历': 3, '项目': 1, '技能': 1, '教育': 1, '关于': 1, '周刊': 0 };
+      var GROUP_WEIGHT = { '本站': 6, '页面': 6, '经历': 3, '项目': 1, '技能': 1, '教育': 1, '关于': 1 };
 
       var searchDocs = (function () {
         var list = [];
@@ -398,8 +389,9 @@
         });
         // 2) 独立页面
         add({ kind: 'page', group: '页面', badge: '页面', title: '个人简历（完整版）', desc: '一页式简历 · 支持打印 / 导出 PDF · 与首页同源', href: 'resume.html' });
-        add({ kind: 'page', group: '页面', badge: '页面', title: '科技爱好者周刊归档',
-              desc: '最近 20 期完整条目，支持全量 ' + weeklyTotal + ' 期按标题与期号检索', href: 'weekly.html' });
+        add({ kind: 'page', group: '页面', badge: '页面', title: '自建行业热点站',
+              desc: '自己找热点、自己写日报的网站框架：六步链路、六种信源、聚簇与热度算法',
+              kw: '热点站 日报 聚簇 热度 信源 ai hot 框架 self-hosted 精选 mcp', href: 'weekly.html' });
         add({ kind: 'page', group: '页面', badge: '页面', title: '今日科技热点',
               desc: 'IT 之家 · Hacker News · 少数派 三个源的实时热榜，每日同步',
               kw: 'hot news 热点 热榜 ithome hackernews sspai it之家 hacker news 少数派', href: 'hotnews.html' });
@@ -438,16 +430,8 @@
           add({ kind: 'site', group: '教育', badge: '证书荣誉', title: h, desc: '证书与荣誉', section: 'education' });
         });
 
-        // 4) 周刊：期号 + 标题
-        if (weeklyReady) {
-          WEEKLY.issues.forEach(function (it) {
-            add({ kind: 'weekly', group: '周刊', badge: '#' + it.n, n: it.n,
-                  title: (it.title || '').replace(/^第?\s*\d+\s*期[：:·\-\s]*/, '') || ('第 ' + it.n + ' 期'),
-                  desc: '科技爱好者周刊 · ' + it.ym + ' · 第 ' + it.n + ' 期',
-                  kw: 'weekly 科技爱好者周刊 ruanyf issue-' + it.n + ' ' + it.n,
-                  href: ghIssue(it.n), external: true });
-          });
-        }
+
+
         return list;
       })();
 
@@ -737,8 +721,7 @@
         theme: theme, toggleTheme: toggleTheme,
         copyPhone: copyPhone, toast: toast,
         levelLabel: levelLabel, levelTagColor: levelTagColor,
-        weeklyTeaser: weeklyTeaser, weeklyReady: weeklyReady,
-        weeklyTotal: weeklyTotal, ghIssue: ghIssue, barColor: barColor,
+        barColor: barColor,
         hotBrief: hotBrief,
         /* 留言板（giscus，滚到底部才加载） */
         gbReady: gbReady, gbFailed: gbFailed, gbLoading: gbLoading,
@@ -746,7 +729,7 @@
         /* 日历（v-calendar，滚到才加载） */
         calReady: calReady, calFailed: calFailed, calAttrs: calAttrs, calLocale: calLocale,
         calPage: calPage, calMinDate: calMinDate, calMaxDate: calMaxDate,
-        calMonthIssues: calMonthIssues, calMonthLabel: calMonthLabel, calMonthSummary: calMonthSummary,
+        calMonthLabel: calMonthLabel, calMonthSummary: calMonthSummary,
         onCalPages: onCalPages, onDayClick: onDayClick,
         radar: radar, roleIndex: roleIndex, year: year,
         /* 搜索 */
