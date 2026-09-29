@@ -23,11 +23,11 @@ const { JSDOM } = require('jsdom');
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
 // 新增页面时在这里登记一行即可，appId 与页面里挂载 Vue 的根元素 id 对应
-// query：渲染时附加在 URL 上的参数（weekly.html 用 ?all=1 关掉分页，让爬虫看到全部期刊）
+// query：渲染时附加在 URL 上的参数（目前没有页面需要，保留字段以备不时之需）
 const PAGES = [
   { file: 'index.html', appId: 'app' },
   { file: 'resume.html', appId: 'resume-app' },
-  { file: 'weekly.html', appId: 'weekly-app', query: '?all=1' },
+  { file: 'weekly.html', appId: 'weekly-app' },
   { file: 'hotnews.html', appId: 'hot-app' },
   { file: 'skill.html', appId: 'skill-app' },
   { file: 'skill-doc.html', appId: 'skill-app' }

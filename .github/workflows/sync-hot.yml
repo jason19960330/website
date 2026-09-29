@@ -1,0 +1,39 @@
+name: 同步 AI 行业热点
+
+# 每 3 小时同步一次（避开通勤整点），也可在 Actions 页面手动立刻执行
+on:
+  schedule:
+    - cron: '23 */3 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出仓库
+        uses: actions/checkout@v4
+
+      - name: 准备 Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 拉取并生成热点数据
+        run: node tools/sync_hot.mjs
+
+      - name: 有变化才提交
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if [ -n "$(git status --porcelain assets/js/hot-data.js)" ]; then
+            git add assets/js/hot-data.js
+            git commit -m "chore: 同步 AI 行业热点 $(date -u +'%Y-%m-%d %H:%M') UTC"
+            git pull --rebase origin main
+            git push
+            echo "已同步并提交新热点"
+          else
+            echo "热点无变化，跳过提交"
+          fi

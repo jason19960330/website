@@ -1,42 +1,85 @@
 /**
  * ============================================================================
- *  weekly.js —— 热点站框架说明页（weekly.html）逻辑层
+ *  weekly.js —— AI 行业热点速览页（weekly.html）逻辑层
  * ============================================================================
- *  纯文档页，只做两件事：
- *    1. 深浅主题（与全站共用 localStorage 键 site.theme）
- *    2. 命令块的「复制」按钮（优先 Clipboard API，降级用 textarea + execCommand）
+ *  数据来源分两级：
+ *    1. assets/js/hot-data.js —— 由 tools/sync_hot.mjs 生成、GitHub Actions
+ *       每 3 小时自动同步并提交。用 <script src> 而不是 fetch，好处是预渲染
+ *       （jsdom 跑在 file:// 下）同样能读到，爬虫与搜索引擎能看到当天正文。
+ *    2. 兜底直连公开只读接口 —— 只有数据文件缺失且页面跑在 http(s) 下才触发，
+ *       比如刚 fork 仓库、Actions 还没跑过。接口允许跨域，但不要依赖它，
+ *       它有轮询间隔要求，高频直接访问不礼貌。
+ *
+ *  合规：个人非商业使用无需界面署名，因此页面不出现对方站名与 Logo；
+ *        但每条内容都保留并展示原文链接与原始信源名，版权归原作者所有。
  * ============================================================================
  */
 (function () {
   'use strict';
 
   var VueNS = window.Vue;
-
   if (!VueNS) { console.error('[weekly] 未找到 Vue，请确认 vendor/arco-bundle.js 已加载。'); return; }
 
   var THEME_KEY = 'site.theme';
+  var API_BASE = 'https://aihot.news';
 
-  /* ---------------- 可复制的指令文本 ---------------- */
-  var TEXTS = {
-    run: 'git clone <开源热点站框架仓库地址> myhot\n' +
-      'cd myhot\n' +
-      'node scripts/init-env.ts --llm-key <你的模型 API Key>\n' +
-      'docker compose up -d --build',
-    own: '请读 AGENTS.md 和 customize 文档，把这个站改成「XX 行业」的热点站。\n' +
-      '我关心的是：……（写你想盯的信源、你觉得什么消息重要、什么不重要，越具体越好）。\n' +
-      '改完帮我跑 npm run typecheck、npm test 和 node scripts/smoke.ts，\n' +
-      '并告诉我还需要我自己决定哪些事。',
-    eval: 'node --env-file=.env scripts/eval-selection.ts \\\n' +
-      '  --gold .data/gold.jsonl \\\n' +
-      '  --split development \\\n' +
-      '  --label "第一版评分标准"'
+  /* 分类 key → 中文显示名（接口返回英文 key，未知分类兜底「其它」） */
+  var CAT_LABEL = {
+    'ai-models': '模型发布',
+    'model': '模型发布',
+    'ai-products': '产品发布',
+    'product': '产品发布',
+    'industry': '行业动态',
+    'paper': '论文研究',
+    'research': '论文研究',
+    'tip': '技巧与观点',
+    'opinion': '技巧与观点'
   };
+
+  var WEEKDAY = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+
+  function pad(n) { return String(n).padStart(2, '0'); }
+
+  function dayKey(iso) {
+    var d = new Date(iso);
+    if (isNaN(d.getTime())) return 'unknown';
+    return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+  }
+  function dayLabel(iso) {
+    var d = new Date(iso);
+    if (isNaN(d.getTime())) return '时间未知';
+    var md = (d.getMonth() + 1) + '月' + d.getDate() + '日';
+    if (dayKey(iso) === dayKey(Date.now())) return '今天 · ' + md;
+    if (dayKey(iso) === dayKey(Date.now() - 86400000)) return '昨天 · ' + md;
+    return md + ' ' + WEEKDAY[d.getDay()];
+  }
+  function fmtTime(iso) {
+    if (!iso) return '--:--';
+    var d = new Date(iso);
+    return isNaN(d.getTime()) ? '--:--' : pad(d.getHours()) + ':' + pad(d.getMinutes());
+  }
+  function relTime(iso) {
+    if (!iso) return '';
+    var diff = Date.now() - new Date(iso).getTime();
+    if (isNaN(diff)) return '';
+    var h = Math.floor(diff / 3600000);
+    if (h < 1) return Math.max(1, Math.floor(diff / 60000)) + ' 分钟前';
+    if (h < 24) return h + ' 小时前';
+    return Math.floor(h / 24) + ' 天前';
+  }
+  /* 「X：某人（@a, 某机构）（RSS）」这类长信源名压成短名 */
+  function shortName(name) {
+    if (!name) return '';
+    return String(name).replace(/（[^）]*）/g, '').replace(/\([^)]*\)/g, '').trim().slice(0, 18);
+  }
 
   var app = VueNS.createApp({
     setup: function () {
       var ref = VueNS.ref;
+      var computed = VueNS.computed;
+      var reactive = VueNS.reactive;
 
-      /* ---------------- 主题（与全站保持一致） ---------------- */
+      /* ---------------- 主题（与全站共用 localStorage 键） ---------------- */
       var theme = ref(document.documentElement.classList.contains('dark') ? 'dark' : 'light');
       document.body.setAttribute('arco-theme', theme.value);
       function toggleTheme() {
@@ -46,40 +89,166 @@
         try { localStorage.setItem(THEME_KEY, theme.value); } catch (e) { /* 隐私模式忽略 */ }
       }
 
-      /* ---------------- 复制指令 ---------------- */
-      var copied = ref('');
-      var timer = null;
+      /* ---------------- 数据装载 ---------------- */
+      var raw = window.__HOT_DATA__ || null;
+      var items = ref(raw && Array.isArray(raw.items) ? raw.items : []);
+      var topics = ref(raw && Array.isArray(raw.topics) ? raw.topics : []);
+      var daily = ref(raw && raw.daily ? raw.daily : null);
+      var updatedAt = ref(raw && raw.updatedAt ? raw.updatedAt : null);
+      var loading = ref(!raw);
 
-      function fallbackCopy(text) {
-        // http 或老旧浏览器下 navigator.clipboard 可能不存在，退回 execCommand
-        var ta = document.createElement('textarea');
-        ta.value = text;
-        ta.setAttribute('readonly', '');
-        ta.style.position = 'fixed';
-        ta.style.top = '-9999px';
-        document.body.appendChild(ta);
-        ta.select();
-        try { document.execCommand('copy'); } catch (e) { /* 忽略 */ }
-        document.body.removeChild(ta);
+      // 兜底：数据文件缺失且跑在 http(s) 下，直接问接口要一次
+      if (!raw && location.protocol !== 'file:' && typeof fetch === 'function') {
+        fetch(API_BASE + '/api/v1/items?mode=selected&window=7d&by=timeline&limit=100')
+          .then(function (r) { return r.json(); })
+          .then(function (j) {
+            items.value = (j.items || []).map(function (it) {
+              return {
+                id: it.id, title: it.title, originalTitle: it.originalTitle || '',
+                summary: it.summary || '', reason: it.reason || '',
+                category: it.category || '', score: it.score || 0,
+                publishedAt: it.publishedAt || it.discoveredAt || null,
+                sourceName: (it.source && it.source.name) || '',
+                url: (it.links && it.links.original) || ''
+              };
+            });
+            updatedAt.value = new Date().toISOString();
+            loading.value = false;
+          })
+          .catch(function () { loading.value = false; });
+
+        fetch(API_BASE + '/api/v1/hot-topics')
+          .then(function (r) { return r.json(); })
+          .then(function (j) {
+            topics.value = (j.items || []).map(function (t) {
+              return {
+                rank: t.rank, id: t.id, title: t.title,
+                sourceName: (t.source && t.source.name) || '',
+                url: (t.links && t.links.original) || '',
+                sourceCount: t.sourceCount || 0, participantCount: t.participantCount || 0,
+                signalCount: t.signalCount || 0, sourceNames: t.sourceNames || [],
+                latestAt: t.latestAt || null
+              };
+            });
+          })
+          .catch(function () { /* 榜单失败不影响精选 */ });
+
+        fetch(API_BASE + '/api/v1/dailies/latest')
+          .then(function (r) { return r.json(); })
+          .then(function (j) {
+            var rep = j.report;
+            if (!rep) return;
+            daily.value = {
+              date: rep.date,
+              leadTitle: (rep.lead && rep.lead.title) || '',
+              leadParagraph: (rep.lead && rep.lead.leadParagraph) || '',
+              sections: (rep.sections || []).map(function (s) {
+                return {
+                  label: s.label || '其它',
+                  items: (s.items || []).map(function (x) {
+                    return {
+                      title: x.title, summary: x.summary || '',
+                      sourceName: (x.source && x.source.name) || '',
+                      url: (x.links && x.links.original) || ''
+                    };
+                  })
+                };
+              })
+            };
+          })
+          .catch(function () { /* 日报失败不影响精选 */ });
       }
 
-      function copy(key) {
-        var text = TEXTS[key];
-        if (!text) return;
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(text).catch(function () { fallbackCopy(text); });
-        } else {
-          fallbackCopy(text);
+      /* ---------------- 视图状态 ---------------- */
+      var tab = ref('topics');
+      var keyword = ref('');
+      var scope = ref('today');
+      var cat = ref('all');
+      var openSet = reactive({});
+
+      function toggleReason(id) { openSet[id] = !openSet[id]; }
+
+      /* ---------------- 派生数据 ---------------- */
+      var todayKey = dayKey(Date.now());
+
+      var todayCount = computed(function () {
+        return items.value.filter(function (i) { return dayKey(i.publishedAt) === todayKey; }).length;
+      });
+
+      var hasData = computed(function () {
+        return items.value.length > 0 || topics.value.length > 0 || !!daily.value;
+      });
+
+      var updatedLabel = computed(function () {
+        if (!updatedAt.value) return '待同步';
+        var d = new Date(updatedAt.value);
+        if (isNaN(d.getTime())) return '待同步';
+        return (d.getMonth() + 1) + '/' + d.getDate() + ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes());
+      });
+
+      var categories = computed(function () {
+        var map = {};
+        items.value.forEach(function (i) {
+          var k = i.category || 'other';
+          map[k] = (map[k] || 0) + 1;
+        });
+        var list = [{ key: 'all', label: '全部', count: items.value.length }];
+        Object.keys(map).forEach(function (k) {
+          list.push({ key: k, label: CAT_LABEL[k] || '其它', count: map[k] });
+        });
+        return list;
+      });
+
+      var scoped = computed(function () {
+        if (scope.value !== 'today') return items.value;
+        return items.value.filter(function (i) { return dayKey(i.publishedAt) === todayKey; });
+      });
+
+      var filtered = computed(function () {
+        var kw = keyword.value.trim().toLowerCase();
+        var list = scoped.value;
+        if (cat.value !== 'all') {
+          list = list.filter(function (i) { return (i.category || 'other') === cat.value; });
         }
-        copied.value = key;
-        if (timer) clearTimeout(timer);
-        timer = setTimeout(function () { copied.value = ''; }, 1800);
-      }
+        if (kw) {
+          list = list.filter(function (i) {
+            return ((i.title || '') + (i.summary || '') + (i.sourceName || '')).toLowerCase().indexOf(kw) >= 0;
+          });
+        }
+        // 「只看今天」却还没有当天数据时自动放宽到近七天，避免打开就是空页面
+        if (!list.length && scope.value === 'today' && !kw && cat.value === 'all') return items.value;
+        return list;
+      });
+
+      var groups = computed(function () {
+        var map = {};
+        var order = [];
+        filtered.value.forEach(function (i) {
+          var k = dayKey(i.publishedAt);
+          if (!map[k]) { map[k] = { key: k, label: dayLabel(i.publishedAt), items: [] }; order.push(k); }
+          map[k].items.push(i);
+        });
+        return order.map(function (k) { return map[k]; });
+      });
+
+      var tabs = computed(function () {
+        return [
+          { key: 'topics', label: '热点榜', count: topics.value.length },
+          { key: 'items', label: '精选时间线', count: items.value.length },
+          { key: 'daily', label: '今日日报', count: daily.value ? 1 : 0 }
+        ];
+      });
 
       return {
-        texts: TEXTS,
         theme: theme, toggleTheme: toggleTheme,
-        copied: copied, copy: copy
+        loading: loading, hasData: hasData,
+        items: items, topics: topics, daily: daily,
+        todayCount: todayCount, updatedLabel: updatedLabel,
+        tab: tab, tabs: tabs, keyword: keyword, scope: scope, cat: cat,
+        categories: categories, filtered: filtered, groups: groups,
+        openSet: openSet, toggleReason: toggleReason,
+        fmtTime: fmtTime, relTime: relTime, shortName: shortName,
+        catLabel: function (k) { return CAT_LABEL[k] || '其它'; }
       };
     }
   });
