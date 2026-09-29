@@ -241,6 +241,8 @@ section[id] { scroll-margin-top: 5rem; }
   border-radius: .6rem;
   color: rgb(var(--c-dim));
   font-size: .875rem;
+  /* 中文没有空格断点，空间不足时会被 flex 压成一字一行；导航词必须整体换行或不断行 */
+  white-space: nowrap;
   transition: color .2s, background-color .2s;
 }
 .nav-link:hover { color: rgb(var(--c-ink)); background: rgb(var(--c-raise)); }
@@ -1186,6 +1188,9 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
   .resume-quote { border-left-color: #9ca3af; }
   .resume-tools { border-color: #ddd; }
 }
+
+/* 顶部导航通用保险：header 里任何链接/文字都不逐字换行（中文被 flex 压缩时会一字一行） */
+.site-header a, .site-header span { white-space: nowrap; }
 
 /* ------------------------------ 3.11 AI 行业热点速览页（weekly.html） ------------------------------
    类名统一 hs- 前缀（hot site），避开 hotnews.html 已在用的 hot- 前缀。
