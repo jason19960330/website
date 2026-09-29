@@ -32,6 +32,7 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUT_JS = path.join(ROOT, 'assets', 'js', 'hot-data.js');
+const OUT_STORIES = path.join(ROOT, 'assets', 'js', 'hot-stories.js');
 
 const API_BASE = process.env.HOT_API_BASE || 'https://aihot.news';
 const UA = 'personal-hot-site-sync/1.0 (+https://github.com/jason19960330/website)';
@@ -62,6 +63,13 @@ const deep = (fn, d = '') => {
   } catch (e) { return d; }
 };
 
+/* 从「https://xxx/story/<publicId>」里取出 publicId；取不到返回空串 */
+function storyIdFrom(url) {
+  if (typeof url !== 'string' || !url) return '';
+  const m = url.match(/\/story\/([^/?#]+)/);
+  return m ? m[1] : '';
+}
+
 function mapItem(it) {
   return {
     id: pick(it, 'id'),
@@ -91,6 +99,8 @@ function mapTopic(t) {
     participantCount: num(t.participantCount),
     sourceNames: Array.isArray(t.sourceNames) ? t.sourceNames.slice(0, 12) : [],
     latestAt: t.latestAt || null,
+    // 事件详情页 id：从 links.story（形如 .../story/<publicId>）里取出末段
+    storyId: storyIdFrom(deep(() => t.links.story)),
     canonical: deep(() => t.links.aihot)
   };
 }
@@ -103,6 +113,56 @@ function mapDailyItem(it) {
     url: deep(() => it.links.original),
     canonical: deep(() => it.links.aihot)
   };
+}
+
+/**
+ * 事件详情（story）：给热点榜每条事件抓 AI 综述 + 报道时间线。
+ * 放在同步期而不是页面运行时拉取，好处是详情页纯静态、无网络依赖、秒开；
+ * 控制并发为 3，避免一次打太多请求。任一事件失败只跳过它自己。
+ */
+function mapStory(s) {
+  return {
+    publicId: pick(s, 'publicId'),
+    title: pick(s, 'title'),
+    status: pick(s, 'status'),
+    sourceCount: num(s.sourceCount),
+    reportCount: num(s.reportCount),
+    firstReportAt: s.firstReportAt || null,
+    latestAt: s.latestAt || null,
+    latest: pick(s, 'latest'),
+    digest: pick(s, 'digest'),
+    digestUpdatedAt: s.digestUpdatedAt || null,
+    reports: (Array.isArray(s.reports) ? s.reports : []).map((r) => ({
+      id: pick(r, 'id'),
+      title: pick(r, 'title'),
+      summary: pick(r, 'summary'),
+      sourceName: deep(() => r.source.name),
+      firstParty: !!(r.source && r.source.firstParty),
+      publishedAt: r.publishedAt || null,
+      url: deep(() => r.links.original)
+    }))
+  };
+}
+
+async function collectStories(topics) {
+  const ids = topics.map((t) => t.storyId).filter(Boolean).slice(0, 10);
+  const out = {};
+  let okCount = 0;
+
+  for (let i = 0; i < ids.length; i += 3) {
+    const batch = ids.slice(i, i + 3);
+    const res = await Promise.allSettled(
+      batch.map((id) => getJSON(`${API_BASE}/api/v1/stories/${encodeURIComponent(id)}`))
+    );
+    res.forEach((r, k) => {
+      if (r.status === 'fulfilled' && r.value && r.value.story) {
+        const st = mapStory(r.value.story);
+        if (st.publicId) { out[st.publicId] = st; okCount += 1; }
+      }
+    });
+  }
+  console.log(`[sync] 事件详情 ${okCount}/${ids.length} 条`);
+  return out;
 }
 
 async function collect() {
@@ -163,6 +223,7 @@ async function collect() {
 
 async function main() {
   const data = await collect();
+  const stories = await collectStories(data.topics);
 
   console.log(`[sync] 精选条目 ${data.stats.items} 条 · 热点榜 ${data.stats.topics} 条 · 日报 ${data.stats.dailySections} 个板块 / ${data.stats.dailyItems} 条`);
   if (data.errors.length) console.warn('[sync] 部分端点失败：' + data.errors.join(' | '));
@@ -184,6 +245,25 @@ async function main() {
   );
   const kb = (fs.statSync(OUT_JS).size / 1024).toFixed(1);
   console.log(`[sync] 已写入 ${path.relative(ROOT, OUT_JS)}（${kb} KB）`);
+
+  // 事件详情单独一个文件：详情页按 id 直接查表，不让列表页为它付出体积代价
+  if (Object.keys(stories).length) {
+    const payload = {
+      schemaVersion: 1,
+      updatedAt: data.updatedAt,
+      stories
+    };
+    fs.writeFileSync(
+      OUT_STORIES,
+      '/* 自动生成，请勿手改 —— 由 tools/sync_hot.mjs 写入，每 3 小时通过 Actions 自动同步 */\n' +
+        'window.__HOT_STORIES__ = ' + JSON.stringify(payload) + ';\n',
+      'utf8'
+    );
+    const kb2 = (fs.statSync(OUT_STORIES).size / 1024).toFixed(1);
+    console.log(`[sync] 已写入 ${path.relative(ROOT, OUT_STORIES)}（${kb2} KB，${Object.keys(stories).length} 个事件）`);
+  } else {
+    console.warn('[sync] 本次未拉到任何事件详情，保留既有 hot-stories.js');
+  }
 }
 
 main().catch((e) => {

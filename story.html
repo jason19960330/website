@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>事件详情 · AI 速览 | 李文涛</title>
+  <meta name="description" content="热点事件的 AI 综述、报道时间线与原始信源链接，按事件聚合展示多家报道。">
+  <meta name="robots" content="noindex, follow">
+  <link rel="canonical" href="https://jason19960330.github.io/website/story.html">
+
+  <link rel="icon" href="assets/favicon.svg?v=20260923" type="image/svg+xml">
+
+  <!-- 首屏主题前置脚本：避免深色偏好用户看到白屏闪一下（与首页共用 site.theme） -->
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('site.theme');
+        if (!saved) {
+          saved = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+        }
+        if (saved === 'dark') document.documentElement.classList.add('dark');
+      } catch (e) { /* 隐私模式忽略 */ }
+    })();
+  </script>
+
+  <!-- 预编译样式：Tailwind 产物 → Arco 按需样式 → 站点定制（后者覆盖前者） -->
+  <link rel="stylesheet" href="assets/css/tailwind.css?v=202609305">
+  <link rel="stylesheet" href="vendor/arco-bundle.css?v=20260923">
+  <link rel="stylesheet" href="assets/css/style.css?v=202609305">
+</head>
+
+<body class="bg-base">
+  <div id="story-app" v-cloak>
+
+    <!-- ============================ 顶部导航 ============================ -->
+    <header class="site-header is-solid fixed inset-x-0 top-0 z-40 border-b border-hair">
+      <div class="mx-auto flex h-16 max-w-5xl items-center justify-between px-5 sm:px-6">
+        <a href="index.html" class="flex shrink-0 items-center gap-2.5">
+          <span class="grid h-8 w-8 place-items-center rounded-lg bg-gradient-to-tr from-sky-500 to-indigo-600 text-[11px] font-bold text-white">涛</span>
+          <span class="whitespace-nowrap text-sm font-semibold tracking-tight text-ink">李文涛</span>
+        </a>
+        <div class="flex shrink-0 items-center gap-2">
+          <a href="resume.html" class="hidden text-xs text-dim transition hover:text-accent sm:inline">简历</a>
+          <a href="weekly.html" class="hidden text-xs text-dim transition hover:text-accent sm:inline">AI 速览</a>
+          <a href="hotnews.html" class="hidden text-xs text-dim transition hover:text-accent sm:inline">热点</a>
+          <a href="skill.html" class="hidden text-xs text-dim transition hover:text-accent sm:inline">Skill</a>
+          <button @click="toggleTheme" aria-label="切换主题"
+                  class="grid h-9 w-9 place-items-center rounded-lg border border-hair text-dim transition hover:text-accent">
+            <svg class="theme-icon h-4 w-4"><use :href="theme === 'dark' ? '#i-moon' : '#i-sun'"></use></svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <svg class="hidden" aria-hidden="true">
+      <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 14.5A8.5 0 019.5 4a8.5 0 1010.5 10.5z"></path>
+      </symbol>
+      <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="4"></circle>
+        <path d="M12 3v2m0 14v2M3 12h2m14 0h2M5.6 5.6l1.4 1.4m10 10l1.4 1.4m0-12.8l-1.4 1.4m-10 10L5.6 18.4"></path>
+      </symbol>
+      <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M10.5 6l-6 6 6 6M4.5 12h15"></path>
+      </symbol>
+      <symbol id="i-external" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 4h6v6M20 4l-9 9M18 14v4a2 2 0 01-2 2H6a2 2 0 01-2-2V8a2 2 0 012-2h4"></path>
+      </symbol>
+      <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="8.5"></circle><path d="M12 7.5V12l3 2"></path>
+      </symbol>
+    </svg>
+
+    <main id="main" class="pt-16" tabindex="-1">
+      <div class="mx-auto max-w-3xl px-5 pt-6 pb-12 sm:px-6">
+
+        <!-- 面包屑 -->
+        <nav class="st-crumb" aria-label="面包屑">
+          <a href="weekly.html">AI 速览</a>
+          <span aria-hidden="true">/</span>
+          <span>{{ mode === 'story' ? '事件详情' : '条目详情' }}</span>
+        </nav>
+
+        <!-- ------------------ 加载 / 未指定 ------------------ -->
+        <div v-if="loading" class="st-loading card">
+          <span class="st-spin" aria-hidden="true"></span>
+          <p>正在加载事件详情…</p>
+        </div>
+
+        <div v-else-if="!found" class="st-loading card">
+          <h1 class="text-base font-semibold text-ink">没有找到这条内容</h1>
+          <p class="mt-2 text-sm leading-relaxed text-dim">
+            链接里没有指定条目，或者这条内容已经不在最近同步的数据里了。回到 AI 速览可以看到当前最新的精选与热点榜。
+          </p>
+          <a href="weekly.html" class="st-btn-primary mt-4">返回 AI 速览</a>
+        </div>
+
+        <!-- ------------------ 正文 ------------------ -->
+        <template v-else>
+
+          <!-- 标题区 -->
+          <header class="st-head">
+            <div class="st-badges">
+              <span class="st-badge is-hot">
+                <span class="st-live-dot" aria-hidden="true"></span>{{ mode === 'story' ? '热点事件' : '精选条目' }}
+              </span>
+              <span v-if="story.status === 'active'" class="st-badge">持续更新</span>
+              <span v-if="item && item.category" class="st-badge">{{ catLabel(item.category) }}</span>
+            </div>
+
+            <h1 class="st-title">{{ title }}</h1>
+
+            <div class="st-meta">
+              <span v-if="reportCount"><b class="tnum">{{ reportCount }}</b> 篇报道</span>
+              <span v-if="sourceCount"><b class="tnum">{{ sourceCount }}</b> 个信源</span>
+              <span v-if="item && item.score"><b class="tnum">{{ item.score }}</b> 分</span>
+              <span v-if="whenLabel"><svg class="h-3.5 w-3.5"><use href="#i-clock"></use></svg>{{ whenLabel }}</span>
+              <span v-if="sourceName" class="st-src">{{ sourceName }}</span>
+            </div>
+
+            <div class="st-actions">
+              <a v-if="originUrl" :href="originUrl" target="_blank" rel="noopener noreferrer" class="st-btn-primary">
+                阅读原文
+                <svg class="h-3.5 w-3.5"><use href="#i-external"></use></svg>
+              </a>
+              <a href="weekly.html" class="st-btn-ghost">
+                <svg class="h-3.5 w-3.5"><use href="#i-arrow-left"></use></svg>返回列表
+              </a>
+            </div>
+          </header>
+
+          <!-- AI 综述 / 摘要 -->
+          <section v-if="digest" class="st-card card">
+            <h2 class="st-card-title">先了解这件事</h2>
+            <p class="st-digest">{{ digest }}</p>
+            <p class="st-card-foot">
+              AI 根据报道生成<span v-if="digestAt"> · {{ digestAt }}</span>
+            </p>
+          </section>
+
+          <!-- 最新进展 -->
+          <section v-if="story.latest" class="st-card card">
+            <h2 class="st-card-title">最新进展</h2>
+            <div class="st-latest">
+              <span class="st-latest-time tnum">{{ fmtDateTime(story.latestAt) }}</span>
+              <p class="st-latest-text">{{ story.latest }}</p>
+            </div>
+          </section>
+
+          <!-- 单条精选：摘要 + 推荐理由 -->
+          <template v-if="mode === 'item' && item">
+            <section v-if="item.summary" class="st-card card">
+              <h2 class="st-card-title">中文摘要</h2>
+              <p class="st-digest">{{ item.summary }}</p>
+            </section>
+            <section v-if="item.reason" class="st-card card">
+              <h2 class="st-card-title">推荐理由</h2>
+              <p class="st-digest">{{ item.reason }}</p>
+            </section>
+            <p v-if="item.originalTitle" class="st-origin">原文标题：{{ item.originalTitle }}</p>
+          </template>
+
+          <!-- 报道时间线 -->
+          <section v-if="reports.length" class="st-card card">
+            <div class="st-tl-head">
+              <h2 class="st-card-title">报道时间线<span class="st-n tnum">{{ reports.length }}</span></h2>
+              <button type="button" class="st-sort" @click="asc = !asc">
+                {{ asc ? '最早在前' : '最新在前' }}
+              </button>
+            </div>
+            <p class="st-card-foot">沿着报道，了解这件事的不同侧面。</p>
+
+            <ol class="st-tl">
+              <li v-for="r in sortedReports" :key="r.id" class="st-tl-item">
+                <div class="st-tl-meta">
+                  <span class="st-tl-time tnum">{{ fmtDateTime(r.publishedAt) }}</span>
+                  <span class="st-tl-src">{{ shortName(r.sourceName) }}</span>
+                  <span v-if="r.firstParty" class="st-tl-tag">官方一手</span>
+                </div>
+                <a :href="r.url" target="_blank" rel="noopener noreferrer" class="st-tl-title">
+                  {{ r.title }}
+                  <svg class="st-ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M20 4l-9 9M18 14v4a2 2 0 01-2 2H6a2 2 0 01-2-2V8a2 2 0 012-2h4"></path></svg>
+                </a>
+                <p v-if="r.summary" class="st-tl-sum">{{ r.summary }}</p>
+              </li>
+            </ol>
+          </section>
+
+          <!-- 事件记录 -->
+          <section v-if="mode === 'story'" class="st-card card">
+            <h2 class="st-card-title">事件记录</h2>
+            <dl class="st-rec">
+              <div><dt>最早报道</dt><dd class="tnum">{{ fmtDateTime(story.firstReportAt) }}</dd></div>
+              <div><dt>最近更新</dt><dd class="tnum">{{ fmtDateTime(story.latestAt) }}</dd></div>
+            </dl>
+            <p class="st-card-foot">同一事件的报道集中在这里，新的进展会继续补充。</p>
+          </section>
+
+          <!-- 相关条目（单条精选时给出同期其它内容） -->
+          <section v-if="mode === 'item' && related.length" class="st-card card">
+            <h2 class="st-card-title">同期相关<span class="st-n tnum">{{ related.length }}</span></h2>
+            <ul class="st-rel">
+              <li v-for="r in related" :key="r.id">
+                <a :href="'story.html?item=' + r.id" class="st-rel-title">{{ r.title }}</a>
+                <span class="st-rel-src">{{ shortName(r.sourceName) }}</span>
+              </li>
+            </ul>
+          </section>
+
+          <p class="st-note">
+            标题、摘要与综述由自动化流程或生成式模型处理，可能存在延迟或偏差；重要判断请核对原文链接。
+          </p>
+        </template>
+
+      </div>
+    </main>
+
+    <footer class="border-t border-hair py-8">
+      <div class="mx-auto max-w-3xl px-5 sm:px-6">
+        <div class="flex flex-col gap-2 text-xs text-faint sm:flex-row sm:items-center sm:justify-between">
+          <a href="weekly.html" class="transition hover:text-accent">← 返回 AI 速览</a>
+          <p>Vue 3 · Tailwind CSS · Arco Design · GitHub Actions</p>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- 首屏骨架：脚本没跑完之前顶住版式 -->
+  <div class="boot" aria-hidden="true">
+    <div class="boot-bar">
+      <span style="width:8rem;height:2rem;border-radius:.75rem;background:rgb(var(--c-dim) / .12)"></span>
+      <span style="width:6rem;height:2rem;border-radius:.75rem;background:rgb(var(--c-dim) / .12)"></span>
+    </div>
+    <div class="boot-row">
+      <div class="boot-main">
+        <div class="boot-block boot-block--sm"></div>
+        <div class="boot-block boot-block--lg"></div>
+        <div class="boot-block"></div>
+        <div class="boot-block boot-block--sm"></div>
+        <div class="boot-block" style="width:70%"></div>
+      </div>
+      <div class="boot-side"><div class="boot-card"></div></div>
+    </div>
+    <p class="boot-tip">网络有点慢，页面还在加载…</p>
+    <div class="boot-fail">
+      <p>页面脚本加载失败，通常是网络中断或浏览器拦截了资源。</p>
+      <p><button type="button" onclick="location.reload()" class="text-accent hover:underline">点击重试</button>
+        · <a href="index.html" class="text-accent hover:underline">返回首页</a></p>
+    </div>
+  </div>
+  <script>
+    setTimeout(function () {
+      var app = document.getElementById('story-app');
+      var boot = document.querySelector('.boot');
+      if (app && boot && app.hasAttribute('v-cloak')) boot.classList.add('is-slow');
+    }, 6000);
+    setTimeout(function () {
+      var app = document.getElementById('story-app');
+      var boot = document.querySelector('.boot');
+      if (app && boot && app.hasAttribute('v-cloak')) boot.classList.add('is-failed');
+    }, 20000);
+  </script>
+
+  <!-- 热点数据：由 tools/sync_hot.mjs 生成、GitHub Actions 每 3 小时自动提交 -->
+  <script src="assets/js/hot-data.js?v=202609305"></script>
+  <script src="assets/js/hot-stories.js?v=202609305"></script>
+  <script src="vendor/arco-bundle.js?v=20260923"></script>
+  <script src="assets/js/story.js?v=202609305"></script>
+</body>
+</html>

@@ -13,9 +13,11 @@ module.exports = {
     './hotnews.html',
     './skill.html',
     './skill-doc.html',
+    './story.html',
     './assets/js/app.js',
     './assets/js/skill-page.js',
     './assets/js/weekly.js',
+    './assets/js/story.js',
     './assets/js/resume.js',
     './assets/js/hotnews-page.js',
     './assets/js/data.js'
