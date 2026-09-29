@@ -25,15 +25,16 @@
 
   /* 分类 key → 中文显示名（接口返回英文 key，未知分类兜底「其它」） */
   var CAT_LABEL = {
-    'ai-models': '模型发布',
-    'model': '模型发布',
-    'ai-products': '产品发布',
-    'product': '产品发布',
-    'industry': '行业动态',
-    'paper': '论文研究',
-    'research': '论文研究',
-    'tip': '技巧与观点',
-    'opinion': '技巧与观点'
+    'ai-models': '模型',
+    'model': '模型',
+    'ai-products': '产品',
+    'product': '产品',
+    'industry': '行业',
+    'paper': '论文',
+    'research': '论文',
+    'tip': '观点',
+    'opinion': '观点',
+    'tutorial': '教程'
   };
 
   var WEEKDAY = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
@@ -70,14 +71,14 @@
   /* 「X：某人（@a, 某机构）（RSS）」这类长信源名压成短名 */
   function shortName(name) {
     if (!name) return '';
-    return String(name).replace(/（[^）]*）/g, '').replace(/\([^)]*\)/g, '').trim().slice(0, 18);
+    return String(name).replace(/（[^）]*）/g, '').replace(/\([^)]*\)/g, '').trim().slice(0, 20);
   }
 
   var app = VueNS.createApp({
     setup: function () {
       var ref = VueNS.ref;
       var computed = VueNS.computed;
-      var reactive = VueNS.reactive;
+      var onMounted = VueNS.onMounted;
 
       /* ---------------- 主题（与全站共用 localStorage 键） ---------------- */
       var theme = ref(document.documentElement.classList.contains('dark') ? 'dark' : 'light');
@@ -160,17 +161,15 @@
       }
 
       /* ---------------- 视图状态 ---------------- */
-      var tab = ref('topics');
+      var tab = ref('feed');           // feed 精选 / topics 热点榜 / daily AI 日报
       var keyword = ref('');
-      var scope = ref('today');
+      var scope = ref('today');        // today 今天 / all 近七天
       var cat = ref('all');
-      var openSet = reactive({});
+      var kwInput = ref(null);
 
-      function toggleReason(id) { openSet[id] = !openSet[id]; }
-
-      /* ---------------- 派生数据 ---------------- */
       var todayKey = dayKey(Date.now());
 
+      /* ---------------- 派生数据 ---------------- */
       var todayCount = computed(function () {
         return items.value.filter(function (i) { return dayKey(i.publishedAt) === todayKey; }).length;
       });
@@ -186,6 +185,12 @@
         return (d.getMonth() + 1) + '/' + d.getDate() + ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes());
       });
 
+      var dateBig = computed(function () {
+        var d = new Date();
+        return (d.getMonth() + 1) + '月' + d.getDate() + '日';
+      });
+      var weekLabel = computed(function () { return WEEKDAY[new Date().getDay()]; });
+
       var categories = computed(function () {
         var map = {};
         items.value.forEach(function (i) {
@@ -193,7 +198,11 @@
           map[k] = (map[k] || 0) + 1;
         });
         var list = [{ key: 'all', label: '全部', count: items.value.length }];
-        Object.keys(map).forEach(function (k) {
+        var order = ['ai-models', 'ai-products', 'industry', 'paper', 'tip'];
+        Object.keys(map).sort(function (a, b) {
+          var ia = order.indexOf(a), ib = order.indexOf(b);
+          return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib);
+        }).forEach(function (k) {
           list.push({ key: k, label: CAT_LABEL[k] || '其它', count: map[k] });
         });
         return list;
@@ -212,10 +221,10 @@
         }
         if (kw) {
           list = list.filter(function (i) {
-            return ((i.title || '') + (i.summary || '') + (i.sourceName || '')).toLowerCase().indexOf(kw) >= 0;
+            return ((i.title || '') + (i.summary || '') + (i.sourceName || '') + (i.reason || '')).toLowerCase().indexOf(kw) >= 0;
           });
         }
-        // 「只看今天」却还没有当天数据时自动放宽到近七天，避免打开就是空页面
+        // 「今天」却还没有当天数据时自动放宽到近七天，避免打开就是空页面
         if (!list.length && scope.value === 'today' && !kw && cat.value === 'all') return items.value;
         return list;
       });
@@ -233,10 +242,20 @@
 
       var tabs = computed(function () {
         return [
+          { key: 'feed', label: '精选', count: items.value.length },
           { key: 'topics', label: '热点榜', count: topics.value.length },
-          { key: 'items', label: '精选时间线', count: items.value.length },
-          { key: 'daily', label: '今日日报', count: daily.value ? 1 : 0 }
+          { key: 'daily', label: 'AI 日报', count: daily.value ? 1 : 0 }
         ];
+      });
+
+      /* 「/」唤起搜索（不在输入框里时） */
+      onMounted(function () {
+        window.addEventListener('keydown', function (e) {
+          if (e.key !== '/' || e.metaKey || e.ctrlKey) return;
+          var tag = (e.target && e.target.tagName) || '';
+          if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+          if (kwInput.value && kwInput.value.focus) { e.preventDefault(); kwInput.value.focus(); }
+        });
       });
 
       return {
@@ -244,9 +263,9 @@
         loading: loading, hasData: hasData,
         items: items, topics: topics, daily: daily,
         todayCount: todayCount, updatedLabel: updatedLabel,
+        dateBig: dateBig, weekLabel: weekLabel,
         tab: tab, tabs: tabs, keyword: keyword, scope: scope, cat: cat,
-        categories: categories, filtered: filtered, groups: groups,
-        openSet: openSet, toggleReason: toggleReason,
+        kwInput: kwInput, categories: categories, filtered: filtered, groups: groups,
         fmtTime: fmtTime, relTime: relTime, shortName: shortName,
         catLabel: function (k) { return CAT_LABEL[k] || '其它'; }
       };
