@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lieflat Charts 完整指南 · 8 篇详解一页读完 | 李文涛</title>
+  <meta name="description" content="Lieflat Charts 数据图表 Skill 完整指南：它是什么、怎么安装、三大使用场景（文章配图 / 视频动态画面 / 完整报告）、品牌色、三条硬规则与使用须知，一页读完。">
+  <link rel="canonical" href="https://jason19960330.github.io/website/skill-doc.html">
+
+  <!-- 分享卡片（微信 / 领英 / X 等平台抓取） -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="李文涛的个人主页">
+  <meta property="og:title" content="Lieflat Charts 完整指南 · 8 篇详解一页读完 | 李文涛">
+  <meta property="og:description" content="Lieflat Charts 完整指南：是什么、怎么装、三大使用场景、品牌色、硬规则与使用须知，一页读完。">
+  <meta property="og:url" content="https://jason19960330.github.io/website/skill-doc.html">
+  <meta property="og:image" content="https://jason19960330.github.io/website/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="zh_CN">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Lieflat Charts 完整指南 · 8 篇详解一页读完 | 李文涛">
+  <meta name="twitter:description" content="Lieflat Charts 完整指南：是什么、怎么装、三大使用场景、品牌色、硬规则与使用须知，一页读完。">
+  <meta name="twitter:image" content="https://jason19960330.github.io/website/assets/og-image.png">
+
+  <link rel="icon" href="assets/favicon.svg?v=20260923" type="image/svg+xml">
+
+  <!-- 首屏主题前置脚本：避免深色偏好用户看到白屏闪一下（与首页共用 site.theme） -->
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('site.theme');
+        if (!saved) {
+          saved = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+        }
+        if (saved === 'dark') document.documentElement.classList.add('dark');
+      } catch (e) { /* 隐私模式忽略 */ }
+    })();
+  </script>
+
+  <!-- 预编译样式：Tailwind 产物 → Arco 按需样式 → 站点定制（后者覆盖前者） -->
+  <link rel="stylesheet" href="assets/css/tailwind.css?v=20260923">
+  <link rel="stylesheet" href="vendor/arco-bundle.css?v=20260923">
+  <link rel="stylesheet" href="assets/css/style.css?v=20260929">
+</head>
+
+<body class="bg-base">
+  <div id="skill-app" v-cloak>
+
+    <!-- ============================ 顶部导航 ============================ -->
+    <header class="site-header is-solid fixed inset-x-0 top-0 z-40 border-b border-hair">
+      <div class="mx-auto flex h-16 max-w-5xl items-center justify-between px-5 sm:px-6">
+        <a href="index.html" class="flex items-center gap-2.5">
+          <span class="grid h-8 w-8 place-items-center rounded-lg bg-gradient-to-tr from-sky-500 to-indigo-600 text-[11px] font-bold text-white">涛</span>
+          <span class="text-sm font-semibold tracking-tight text-ink">李文涛</span>
+        </a>
+        <div class="flex items-center gap-2">
+          <a href="resume.html" class="hidden text-xs text-dim transition hover:text-accent sm:inline">简历</a>
+          <a href="weekly.html" class="hidden text-xs text-dim transition hover:text-accent sm:inline">周刊</a>
+          <a href="hotnews.html" class="hidden text-xs text-dim transition hover:text-accent sm:inline">热点</a>
+          <a href="skill.html" class="hidden text-xs font-semibold text-accent sm:inline">Skill 指南</a>
+          <button @click="toggleTheme" aria-label="切换主题"
+                  class="grid h-9 w-9 place-items-center rounded-lg border border-hair text-dim transition hover:text-accent">
+            <svg class="theme-icon h-4 w-4"><use :href="theme === 'dark' ? '#i-moon' : '#i-sun'"></use></svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <svg class="hidden" aria-hidden="true">
+      <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 14.5A8.5 8.5 0 019.5 4a8.5 8.5 0 1010.5 10.5z"></path>
+      </symbol>
+      <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="4"></circle>
+        <path d="M12 3v2m0 14v2M3 12h2m14 0h2M5.6 5.6l1.4 1.4m10 10l1.4 1.4m0-12.8l-1.4 1.4m-10 10L5.6 18.4"></path>
+      </symbol>
+      <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M10.5 6l-6 6 6 6M4.5 12h15"></path>
+      </symbol>
+      <symbol id="i-external" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 4h6v6M20 4l-9 9M18 14v4a2 2 0 01-2 2H6a2 2 0 01-2-2V8a2 2 0 012-2h4"></path>
+      </symbol>
+    </svg>
+
+    <main id="main" class="pt-16" tabindex="-1">
+
+      <!-- ============================ 概览 ============================ -->
+      <section class="mx-auto max-w-5xl px-5 pt-6 sm:px-6 sm:pt-8">
+        <a href="skill.html" class="wl-back">
+          <svg class="h-3.5 w-3.5"><use href="#i-arrow-left"></use></svg>返回 Skill 卡片页
+        </a>
+
+        <div class="wl-hero card mt-4">
+          <span class="wl-hero-bar" aria-hidden="true"></span>
+          <div class="p-6 sm:p-8">
+            <div class="mt-4 flex flex-wrap items-start justify-between gap-5">
+              <div class="min-w-0">
+                <p class="text-xs font-semibold uppercase tracking-[0.2em] text-accent">Agent Skill</p>
+                <h1 class="mt-2 text-3xl font-bold tracking-tight text-ink sm:text-4xl">Lieflat Charts 完整指南</h1>
+                <p class="mt-3 max-w-2xl text-sm leading-relaxed text-dim">
+                  一套给 AI Agent 用的数据可视化 Skill：把数据和场景交给它，它先判断数据结构，
+                  再从 <span class="font-semibold text-ink">63 张图型</span> 与
+                  <span class="font-semibold text-ink">12 套报告模板</span> 里挑最合适的实现，
+                  下面把 8 个主题的完整内容整理在一页里，从上往下读即可。
+                </p>
+              </div>
+
+              <a href="https://github.com/larashero3-dotcom/lieflat-charts" target="_blank" rel="noopener" class="wl-src">
+                <svg class="h-4 w-4"><use href="#i-external"></use></svg>
+                <span class="leading-tight">开源仓库<br>GitHub</span>
+              </a>
+            </div>
+
+            <dl class="wl-stats">
+              <div><dt>内置图型</dt><dd class="tnum">63</dd></div>
+              <div><dt>报告模板</dt><dd class="tnum">12</dd></div>
+              <div><dt>色彩系统</dt><dd class="tnum">4</dd></div>
+              <div><dt>GitHub 收藏</dt><dd class="tnum">5.7k</dd></div>
+            </dl>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 目录 ============================ -->
+      <section class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card p-5 sm:p-6">
+          <h2 class="text-sm font-semibold text-ink">本页目录（8 篇）</h2>
+          <nav class="sk-toc mt-3">
+            <a href="#what"><span>01</span>它到底是什么</a>
+            <a href="#install"><span>02</span>怎么安装</a>
+            <a href="#s1"><span>03</span>给文章做数据配图</a>
+            <a href="#s2"><span>04</span>给视频做动态数据画面</a>
+            <a href="#s3"><span>05</span>生成完整数据报告</a>
+            <a href="#color"><span>06</span>统一成自己的品牌色</a>
+            <a href="#rules"><span>07</span>三条硬规则</a>
+            <a href="#care"><span>08</span>使用须知</a>
+          </nav>
+        </div>
+      </section>
+
+      <!-- ============================ 01 它是什么 ============================ -->
+      <section id="what" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">01</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">它到底是什么</h2>
+              <p class="sk-card-sub">
+                不是图表库，而是一套「教 Agent 怎么把图画得有编辑品味」的规则 + 现成模板。
+                装上之后，Agent 出图时会被规则约束，不能随意自由发挥。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">模板驱动</strong>：每张图必须先锁定图型编号，再复制仓库里该图型的真实实现骨架，禁止另画一张「看起来差不多」的图，也禁止退回图表库默认样式。</li>
+            <li><strong class="text-ink">先判形状，再选图</strong>：比较、时间序列、占比、带正负、分布、网络、逐条记录——数据形状才是选图的主键，不用你指定图型。</li>
+            <li><strong class="text-ink">统一视觉语法</strong>：统一的字体、留白、发丝线与动效节奏，默认 Mono 黑白灰，也可切换青瓷蓝 / 椰林绿 / 编辑部红三套彩色。</li>
+            <li><strong class="text-ink">图数由结论数决定</strong>：一个问题出 1 张，2–3 个结论出 2–3 张，长文 4–6 张，单页上限 6 张，不会为了凑数硬加图。</li>
+          </ul>
+
+          <div class="sk-tip">
+            <strong>为什么它出的图比普通 AI 好看：</strong>因为 Agent 不是在「凭空生成 SVG」，
+            而是在一套已经调好比例、留白和动效的真实模板上替换数据。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 02 安装 ============================ -->
+      <section id="install" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">02</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">怎么安装</h2>
+              <p class="sk-card-sub">
+                遵循 Agent Skills 规范，装到对应 Agent 的 skills 目录即可。装完直接对 Agent 说人话就行。
+              </p>
+            </div>
+          </div>
+
+          <div class="sk-prompt">
+            <p class="mb-2 text-xs text-faint">一条命令安装（Claude Code / 兼容 SKILL.md 的 Agent）</p>
+            <pre>{{ texts.install }}</pre>
+            <button class="sk-copy" :class="{ 'is-done': copied === 'install' }" @click="copy('install')">
+              {{ copied === 'install' ? '已复制' : '复制' }}
+            </button>
+          </div>
+
+          <div class="sk-prompt">
+            <p class="mb-2 text-xs text-faint">也可以直接克隆到 skills 目录（Codex 换成 ~/.codex/skills/）</p>
+            <pre>{{ texts.installAlt }}</pre>
+            <button class="sk-copy" :class="{ 'is-done': copied === 'installAlt' }" @click="copy('installAlt')">
+              {{ copied === 'installAlt' ? '已复制' : '复制' }}
+            </button>
+          </div>
+
+          <div class="sk-tip">
+            装好之后不用记指令格式，只要说「<strong>把这些调研数据做成 5 张中文配图</strong>」就够了；
+            想更稳一点，可以补一句「默认先比较 Lupi Editorial 和 Basics 候选」。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 03 场景一 ============================ -->
+      <section id="s1" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">03</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">场景一 · 给文章制作数据配图</h2>
+              <p class="sk-card-sub">
+                最适合数据型、研究型、工具测评型长文。出图自带排版和旁注，普通内容直接用完全够，
+                能明显提升文章的专业感。
+              </p>
+            </div>
+          </div>
+
+          <div class="sk-chips">
+            <span class="sk-chip">X 长文 / 公众号配图</span>
+            <span class="sk-chip">4–6 张小红书数据配图</span>
+            <span class="sk-chip">短帖的一张关键结论图</span>
+            <span class="sk-chip">深度报告拆成可传播的数据结论</span>
+            <span class="sk-chip">多工具多维度测评对比</span>
+          </div>
+
+          <ul class="sk-list">
+            <li>不需要提前想好用柱状图、折线图还是散点图——把数据和使用场景告诉它，它先判断数据结构再选模板。</li>
+            <li>一次让它在同一批里出多张图时，它会避免重复图型，每张图只承担一个独立结论。</li>
+            <li>数据里有真实单位就保留真实单位；取整造成的误差会在底注里「认账」，不会偷偷凑成整数。</li>
+          </ul>
+
+          <div class="sk-prompt">
+            <p class="mb-2 text-xs text-faint">直接这样下指令</p>
+            <pre>{{ texts.article }}</pre>
+            <button class="sk-copy" :class="{ 'is-done': copied === 'article' }" @click="copy('article')">
+              {{ copied === 'article' ? '已复制' : '复制' }}
+            </button>
+          </div>
+
+          <div class="sk-tip">
+            配图数量按「结论数」来，不是按数据列数来：<strong>一篇文章 4–6 张</strong>就够，
+            再多就该拆成多页。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 04 场景二 ============================ -->
+      <section id="s2" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">04</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">场景二 · 给视频制作动态数据画面</h2>
+              <p class="sk-card-sub">
+                部分模板自带滚动入场、数字递增、动态排名和交互效果。
+                生成 HTML 后用浏览器录屏，就是现成的视频素材。
+              </p>
+            </div>
+          </div>
+
+          <div class="sk-chips">
+            <span class="sk-chip">视频开场</span>
+            <span class="sk-chip">口播中的数据证据</span>
+            <span class="sk-chip">排名变化动画</span>
+            <span class="sk-chip">趋势演示</span>
+            <span class="sk-chip">B-roll 数据素材</span>
+          </div>
+
+          <ul class="sk-list">
+            <li>G16 Bar Race、G18 Draw-in + Counter、G12 Stagger Wave 这几个模板本身就是为动效设计的。</li>
+            <li>录屏前把浏览器窗口调到目标比例（如 1080×1920 竖屏），全屏后再录，避免缩放糊边。</li>
+            <li>如果本机开了「减少动态效果」，动画会被系统降级——录屏前记得关掉。</li>
+          </ul>
+
+          <div class="sk-prompt">
+            <p class="mb-2 text-xs text-faint">直接这样下指令</p>
+            <pre>{{ texts.video }}</pre>
+            <button class="sk-copy" :class="{ 'is-done': copied === 'video' }" @click="copy('video')">
+              {{ copied === 'video' ? '已复制' : '复制' }}
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 05 场景三 ============================ -->
+      <section id="s3" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">05</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">场景三 · 生成完整的数据报告</h2>
+              <p class="sk-card-sub">
+                只有当你明确说出「报告 / 白皮书 / 海报 / brief / Dashboard 报告」这类词时，
+                它才会切换到报告模式，从 12 套中英文整页模板里选一套。
+              </p>
+            </div>
+          </div>
+
+          <div class="sk-chips">
+            <span class="sk-chip">调研一页纸</span>
+            <span class="sk-chip">年度数据海报</span>
+            <span class="sk-chip">月度运营报告</span>
+            <span class="sk-chip">研究简报</span>
+            <span class="sk-chip">产品与项目复盘</span>
+            <span class="sk-chip">数据 Dashboard</span>
+            <span class="sk-chip">个人年度记录</span>
+          </div>
+
+          <ul class="sk-list">
+            <li>报告不是把几张图堆在一起，而是同时组织标题、核心结论、KPI、图表、旁注、数据来源和结尾。</li>
+            <li>每套模板都有中文版和英文版，同一份报告里不混语言；版心从 600 到 1080px 不等，密度分低 / 中 / 高。</li>
+            <li>金融经济、业务运营、产品复盘、个人年度记录都能套用——不要被模板名字里的行业词限制住。</li>
+          </ul>
+
+          <div class="sk-prompt">
+            <p class="mb-2 text-xs text-faint">直接这样下指令</p>
+            <pre>{{ texts.report }}</pre>
+            <button class="sk-copy" :class="{ 'is-done': copied === 'report' }" @click="copy('report')">
+              {{ copied === 'report' ? '已复制' : '复制' }}
+            </button>
+          </div>
+
+          <div class="sk-tip">
+            有歧义时它会默认出图而不是出报告。想要报告，就把「<strong>报告 / 白皮书 / 海报</strong>」这类词说清楚。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 06 品牌色 ============================ -->
+      <section id="color" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">06</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">统一成自己的品牌色</h2>
+              <p class="sk-card-sub">
+                Skill 自带的美商已经够用；如果你有品牌视觉，也可以让它整批换成你的主题色。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li>有完整色值就直接给色值；让它建立一套 custom 色板，同一批图只用这一套。</li>
+            <li>没有完整色值也没关系：给一张参考图，让它<strong class="text-ink">只提取颜色逻辑，不复制原图构图</strong>。</li>
+            <li>换色后仍要保持图型结构、比例、对比度和数据含义不变——颜色只换肤，不改数据契约。</li>
+          </ul>
+
+          <div class="sk-prompt">
+            <p class="mb-2 text-xs text-faint">直接这样下指令</p>
+            <pre>{{ texts.brand }}</pre>
+            <button class="sk-copy" :class="{ 'is-done': copied === 'brand' }" @click="copy('brand')">
+              {{ copied === 'brand' ? '已复制' : '复制' }}
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 07 三条硬规则 ============================ -->
+      <section id="rules" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">07</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">三条硬规则（写指令时记住就够）</h2>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">给数据 + 给场景，不给图型。</strong>你说要柱状图，反而可能限制它选出更诚实的编码方式。</li>
+            <li><strong class="text-ink">单一色系。</strong>同一份 HTML 或同一组图只使用一种色彩系统，不混搭。</li>
+            <li><strong class="text-ink">不要让它编数据。</strong>没有的数据就空着；模板里带演示数据的槽位要主动删掉。</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ============================ 08 使用须知 ============================ -->
+      <section id="care" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">08</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">使用须知</h2>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">许可是 PolyForm Noncommercial 1.0</strong>：学习、修改、非商业使用都可以，商业用途需要另行取得作者授权。</li>
+            <li><strong class="text-ink">部分图表依赖 CDN</strong>：Glance 系列、网络图 / 力导向图，以及报告模板 R11、R12 需要联网加载 ECharts / Chart.js；要离线用就选 R01–R10 并把字体内联。</li>
+            <li><strong class="text-ink">仓库体积约 27MB</strong>（主要是模板与预览图），SKILL.md 本身 37KB，建议只在需要出图时才启用这个 Skill。</li>
+            <li><strong class="text-ink">地图要显式要求</strong>：默认不会给你地图图型，需要地域分布时明确说出来。</li>
+          </ul>
+
+          <div class="mt-6 flex flex-wrap items-center gap-3 border-t border-hair pt-5">
+            <a href="https://github.com/larashero3-dotcom/lieflat-charts" target="_blank" rel="noopener" class="wl-src">
+              <svg class="h-4 w-4"><use href="#i-external"></use></svg>开源仓库
+            </a>
+            <a href="https://x.com/lieflat_3" target="_blank" rel="noopener" class="wl-src">
+              <svg class="h-4 w-4"><use href="#i-external"></use></svg>作者 @lieflat_3
+            </a>
+            <a href="skill.html" class="text-xs text-faint transition hover:text-accent">返回 Skill 卡片页</a>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="mt-10 border-t border-hair py-10">
+      <div class="mx-auto flex max-w-5xl flex-col items-center justify-between gap-2 px-5 text-xs text-faint sm:flex-row sm:px-6">
+        <p>内容整理自 Lieflat Charts 开源仓库与使用实践 · 版权归原作者所有</p>
+        <p>共 8 篇 · Vue 3 · Tailwind CSS · Arco Design</p>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- 首屏骨架：脚本没跑完之前顶住版式（纯静态，脚本一到自动让位） -->
+  <div class="boot" aria-hidden="true">
+    <div class="boot-bar">
+      <span style="width:8rem;height:2rem;border-radius:.75rem;background:rgb(var(--c-dim) / .12)"></span>
+      <span style="width:6rem;height:2rem;border-radius:.75rem;background:rgb(var(--c-dim) / .12)"></span>
+    </div>
+    <div class="boot-row">
+      <div class="boot-main">
+        <div class="boot-block boot-block--sm"></div>
+        <div class="boot-block boot-block--lg"></div>
+        <div class="boot-block"></div>
+        <div class="boot-block boot-block--sm"></div>
+        <div class="boot-block" style="width:70%"></div>
+      </div>
+      <div class="boot-side"><div class="boot-card"></div></div>
+    </div>
+    <p class="boot-tip">网络有点慢，页面还在加载…</p>
+    <div class="boot-fail">
+      <p>页面脚本加载失败，通常是网络中断或浏览器拦截了资源。</p>
+      <p><button type="button" onclick="location.reload()" class="text-accent hover:underline">点击重试</button>
+        · <a href="index.html" class="text-accent hover:underline">返回首页</a></p>
+    </div>
+  </div>
+  <script>
+    // 6 秒还没挂载 → 提示慢；20 秒仍没挂载 → 给重试入口。正常网速不会触发
+    setTimeout(function () {
+      var app = document.getElementById('skill-app');
+      var boot = document.querySelector('.boot');
+      if (app && boot && app.hasAttribute('v-cloak')) boot.classList.add('is-slow');
+    }, 6000);
+    setTimeout(function () {
+      var app = document.getElementById('skill-app');
+      var boot = document.querySelector('.boot');
+      if (app && boot && app.hasAttribute('v-cloak')) boot.classList.add('is-failed');
+    }, 20000);
+  </script>
+
+  <script src="vendor/arco-bundle.js?v=20260923"></script>
+  <script src="assets/js/skill-doc.js?v=202609291"></script>
+
+<noscript id="seo-snapshot">
+<!-- seo-snapshot:start -->
+<header class="site-header is-solid fixed inset-x-0 top-0 z-40 border-b border-hair"><div class="mx-auto flex h-16 max-w-5xl items-center justify-between px-5 sm:px-6"><a href="index.html" class="flex items-center gap-2.5"><span class="grid h-8 w-8 place-items-center rounded-lg bg-gradient-to-tr from-sky-500 to-indigo-600 text-[11px] font-bold text-white">涛</span><span class="text-sm font-semibold tracking-tight text-ink">李文涛</span></a><div class="flex items-center gap-2"><a href="resume.html" class="hidden text-xs text-dim transition hover:text-accent sm:inline">简历</a><a href="weekly.html" class="hidden text-xs text-dim transition hover:text-accent sm:inline">周刊</a><a href="hotnews.html" class="hidden text-xs text-dim transition hover:text-accent sm:inline">热点</a><a href="skill.html" class="hidden text-xs font-semibold text-accent sm:inline">Skill 指南</a></div></div></header><main id="main" class="pt-16" tabindex="-1"><section class="mx-auto max-w-5xl px-5 pt-6 sm:px-6 sm:pt-8"><a href="skill.html" class="wl-back">返回 Skill 卡片页 </a><div class="wl-hero card mt-4"><div class="p-6 sm:p-8"><div class="mt-4 flex flex-wrap items-start justify-between gap-5"><div class="min-w-0"><p class="text-xs font-semibold uppercase tracking-[0.2em] text-accent">Agent Skill</p><h1 class="mt-2 text-3xl font-bold tracking-tight text-ink sm:text-4xl">Lieflat Charts 完整指南</h1><p class="mt-3 max-w-2xl text-sm leading-relaxed text-dim"> 一套给 AI Agent 用的数据可视化 Skill：把数据和场景交给它，它先判断数据结构， 再从 <span class="font-semibold text-ink">63 张图型</span> 与 <span class="font-semibold text-ink">12 套报告模板</span> 里挑最合适的实现， 下面把 8 个主题的完整内容整理在一页里，从上往下读即可。 </p></div><a href="https://github.com/larashero3-dotcom/lieflat-charts" target="_blank" rel="noopener" class="wl-src"><span class="leading-tight">开源仓库<br>GitHub</span></a></div><dl class="wl-stats"><div><dt>内置图型</dt><dd class="tnum">63</dd></div><div><dt>报告模板</dt><dd class="tnum">12</dd></div><div><dt>色彩系统</dt><dd class="tnum">4</dd></div><div><dt>GitHub 收藏</dt><dd class="tnum">5.7k</dd></div></dl></div></div></section><section class="mx-auto mt-8 max-w-5xl px-5 sm:px-6"><div class="card p-5 sm:p-6"><h2 class="text-sm font-semibold text-ink">本页目录（8 篇）</h2><nav class="sk-toc mt-3"><a href="#what"><span>01</span>它到底是什么</a><a href="#install"><span>02</span>怎么安装</a><a href="#s1"><span>03</span>给文章做数据配图</a><a href="#s2"><span>04</span>给视频做动态数据画面</a><a href="#s3"><span>05</span>生成完整数据报告</a><a href="#color"><span>06</span>统一成自己的品牌色</a><a href="#rules"><span>07</span>三条硬规则</a><a href="#care"><span>08</span>使用须知</a></nav></div></section><section id="what" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6"><div class="card sk-card"><div class="sk-card-head"><span class="sk-idx">01</span><div class="min-w-0"><h2 class="sk-card-title">它到底是什么</h2><p class="sk-card-sub"> 不是图表库，而是一套「教 Agent 怎么把图画得有编辑品味」的规则 + 现成模板。 装上之后，Agent 出图时会被规则约束，不能随意自由发挥。 </p></div></div><ul class="sk-list"><li><strong class="text-ink">模板驱动</strong>：每张图必须先锁定图型编号，再复制仓库里该图型的真实实现骨架，禁止另画一张「看起来差不多」的图，也禁止退回图表库默认样式。</li><li><strong class="text-ink">先判形状，再选图</strong>：比较、时间序列、占比、带正负、分布、网络、逐条记录——数据形状才是选图的主键，不用你指定图型。</li><li><strong class="text-ink">统一视觉语法</strong>：统一的字体、留白、发丝线与动效节奏，默认 Mono 黑白灰，也可切换青瓷蓝 / 椰林绿 / 编辑部红三套彩色。</li><li><strong class="text-ink">图数由结论数决定</strong>：一个问题出 1 张，2–3 个结论出 2–3 张，长文 4–6 张，单页上限 6 张，不会为了凑数硬加图。</li></ul><div class="sk-tip"><strong>为什么它出的图比普通 AI 好看：</strong>因为 Agent 不是在「凭空生成 SVG」， 而是在一套已经调好比例、留白和动效的真实模板上替换数据。 </div></div></section><section id="install" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6"><div class="card sk-card"><div class="sk-card-head"><span class="sk-idx">02</span><div class="min-w-0"><h2 class="sk-card-title">怎么安装</h2><p class="sk-card-sub"> 遵循 Agent Skills 规范，装到对应 Agent 的 skills 目录即可。装完直接对 Agent 说人话就行。 </p></div></div><div class="sk-prompt"><p class="mb-2 text-xs text-faint">一条命令安装（Claude Code / 兼容 SKILL.md 的 Agent）</p><pre>npx skills add https://github.com/larashero3-dotcom/lieflat-charts --skill lieflat-charts</pre></div><div class="sk-prompt"><p class="mb-2 text-xs text-faint">也可以直接克隆到 skills 目录（Codex 换成 ~/.codex/skills/）</p><pre>git clone https://github.com/larashero3-dotcom/lieflat-charts ~/.claude/skills/lieflat-charts</pre></div><div class="sk-tip"> 装好之后不用记指令格式，只要说「<strong>把这些调研数据做成 5 张中文配图</strong>」就够了； 想更稳一点，可以补一句「默认先比较 Lupi Editorial 和 Basics 候选」。 </div></div></section><section id="s1" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6"><div class="card sk-card"><div class="sk-card-head"><span class="sk-idx">03</span><div class="min-w-0"><h2 class="sk-card-title">场景一 · 给文章制作数据配图</h2><p class="sk-card-sub"> 最适合数据型、研究型、工具测评型长文。出图自带排版和旁注，普通内容直接用完全够， 能明显提升文章的专业感。 </p></div></div><div class="sk-chips"><span class="sk-chip">X 长文 / 公众号配图</span><span class="sk-chip">4–6 张小红书数据配图</span><span class="sk-chip">短帖的一张关键结论图</span><span class="sk-chip">深度报告拆成可传播的数据结论</span><span class="sk-chip">多工具多维度测评对比</span></div><ul class="sk-list"><li>不需要提前想好用柱状图、折线图还是散点图——把数据和使用场景告诉它，它先判断数据结构再选模板。</li><li>一次让它在同一批里出多张图时，它会避免重复图型，每张图只承担一个独立结论。</li><li>数据里有真实单位就保留真实单位；取整造成的误差会在底注里「认账」，不会偷偷凑成整数。</li></ul><div class="sk-prompt"><p class="mb-2 text-xs text-faint">直接这样下指令</p><pre>用 lieflat-charts 把这份数据做成 4-6 张中文配图，用于公众号长文。
+数据：
+（粘贴你的数据：CSV、表格或纯文本都行） 默认先比较 Lupi Editorial 和 Basics 候选，两组都不适配时再使用 Glance。
+每张图只承担一个结论，保留真实单位，同一批图只用一种色系。</pre></div><div class="sk-tip"> 配图数量按「结论数」来，不是按数据列数来：<strong>一篇文章 4–6 张</strong>就够， 再多就该拆成多页。 </div></div></section><section id="s2" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6"><div class="card sk-card"><div class="sk-card-head"><span class="sk-idx">04</span><div class="min-w-0"><h2 class="sk-card-title">场景二 · 给视频制作动态数据画面</h2><p class="sk-card-sub"> 部分模板自带滚动入场、数字递增、动态排名和交互效果。 生成 HTML 后用浏览器录屏，就是现成的视频素材。 </p></div></div><div class="sk-chips"><span class="sk-chip">视频开场</span><span class="sk-chip">口播中的数据证据</span><span class="sk-chip">排名变化动画</span><span class="sk-chip">趋势演示</span><span class="sk-chip">B-roll 数据素材</span></div><ul class="sk-list"><li>G16 Bar Race、G18 Draw-in + Counter、G12 Stagger Wave 这几个模板本身就是为动效设计的。</li><li>录屏前把浏览器窗口调到目标比例（如 1080×1920 竖屏），全屏后再录，避免缩放糊边。</li><li>如果本机开了「减少动态效果」，动画会被系统降级——录屏前记得关掉。</li></ul><div class="sk-prompt"><p class="mb-2 text-xs text-faint">直接这样下指令</p><pre>用 lieflat-charts 把这份数据做成带滚动入场、数字递增和动态排名的 HTML，
+我要用浏览器全屏录屏做视频素材（1080x1920 竖屏）。
+打开页面即自动播放，不需要点击交互，整套动效控制在 8 秒内。 数据：
+（粘贴你的数据）</pre></div></div></section><section id="s3" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6"><div class="card sk-card"><div class="sk-card-head"><span class="sk-idx">05</span><div class="min-w-0"><h2 class="sk-card-title">场景三 · 生成完整的数据报告</h2><p class="sk-card-sub"> 只有当你明确说出「报告 / 白皮书 / 海报 / brief / Dashboard 报告」这类词时， 它才会切换到报告模式，从 12 套中英文整页模板里选一套。 </p></div></div><div class="sk-chips"><span class="sk-chip">调研一页纸</span><span class="sk-chip">年度数据海报</span><span class="sk-chip">月度运营报告</span><span class="sk-chip">研究简报</span><span class="sk-chip">产品与项目复盘</span><span class="sk-chip">数据 Dashboard</span><span class="sk-chip">个人年度记录</span></div><ul class="sk-list"><li>报告不是把几张图堆在一起，而是同时组织标题、核心结论、KPI、图表、旁注、数据来源和结尾。</li><li>每套模板都有中文版和英文版，同一份报告里不混语言；版心从 600 到 1080px 不等，密度分低 / 中 / 高。</li><li>金融经济、业务运营、产品复盘、个人年度记录都能套用——不要被模板名字里的行业词限制住。</li></ul><div class="sk-prompt"><p class="mb-2 text-xs text-faint">直接这样下指令</p><pre>基于这份数据，用 lieflat-charts 生成一份完整的中文 HTML 报告。
+报告类型：月度运营（版心 1080，中等密度，4 个图表槽位）。
+需要组织好标题、核心结论、KPI、图表、旁注和数据来源，可直接发布。 数据：
+（粘贴你的数据）</pre></div><div class="sk-tip"> 有歧义时它会默认出图而不是出报告。想要报告，就把「<strong>报告 / 白皮书 / 海报</strong>」这类词说清楚。 </div></div></section><section id="color" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6"><div class="card sk-card"><div class="sk-card-head"><span class="sk-idx">06</span><div class="min-w-0"><h2 class="sk-card-title">统一成自己的品牌色</h2><p class="sk-card-sub"> Skill 自带的美商已经够用；如果你有品牌视觉，也可以让它整批换成你的主题色。 </p></div></div><ul class="sk-list"><li>有完整色值就直接给色值；让它建立一套 custom 色板，同一批图只用这一套。</li><li>没有完整色值也没关系：给一张参考图，让它<strong class="text-ink">只提取颜色逻辑，不复制原图构图</strong>。</li><li>换色后仍要保持图型结构、比例、对比度和数据含义不变——颜色只换肤，不改数据契约。</li></ul><div class="sk-prompt"><p class="mb-2 text-xs text-faint">直接这样下指令</p><pre>这是我参考图的配色逻辑（见附图）：
+请只提取颜色关系与明度层次，不要复制原图的构图和图型。
+用这套色重做上一批图：图型结构、比例和数据完全不变，
+只替换色彩系统，同一批图只用这一套色。</pre></div></div></section><section id="rules" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6"><div class="card sk-card"><div class="sk-card-head"><span class="sk-idx">07</span><div class="min-w-0"><h2 class="sk-card-title">三条硬规则（写指令时记住就够）</h2></div></div><ul class="sk-list"><li><strong class="text-ink">给数据 + 给场景，不给图型。</strong>你说要柱状图，反而可能限制它选出更诚实的编码方式。</li><li><strong class="text-ink">单一色系。</strong>同一份 HTML 或同一组图只使用一种色彩系统，不混搭。</li><li><strong class="text-ink">不要让它编数据。</strong>没有的数据就空着；模板里带演示数据的槽位要主动删掉。</li></ul></div></section><section id="care" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6"><div class="card sk-card"><div class="sk-card-head"><span class="sk-idx">08</span><div class="min-w-0"><h2 class="sk-card-title">使用须知</h2></div></div><ul class="sk-list"><li><strong class="text-ink">许可是 PolyForm Noncommercial 1.0</strong>：学习、修改、非商业使用都可以，商业用途需要另行取得作者授权。</li><li><strong class="text-ink">部分图表依赖 CDN</strong>：Glance 系列、网络图 / 力导向图，以及报告模板 R11、R12 需要联网加载 ECharts / Chart.js；要离线用就选 R01–R10 并把字体内联。</li><li><strong class="text-ink">仓库体积约 27MB</strong>（主要是模板与预览图），SKILL.md 本身 37KB，建议只在需要出图时才启用这个 Skill。</li><li><strong class="text-ink">地图要显式要求</strong>：默认不会给你地图图型，需要地域分布时明确说出来。</li></ul><div class="mt-6 flex flex-wrap items-center gap-3 border-t border-hair pt-5"><a href="https://github.com/larashero3-dotcom/lieflat-charts" target="_blank" rel="noopener" class="wl-src">开源仓库 </a><a href="https://x.com/lieflat_3" target="_blank" rel="noopener" class="wl-src">作者 @lieflat_3 </a><a href="skill.html" class="text-xs text-faint transition hover:text-accent">返回 Skill 卡片页</a></div></div></section></main><footer class="mt-10 border-t border-hair py-10"><div class="mx-auto flex max-w-5xl flex-col items-center justify-between gap-2 px-5 text-xs text-faint sm:flex-row sm:px-6"><p>内容整理自 Lieflat Charts 开源仓库与使用实践 · 版权归原作者所有</p><p>共 8 篇 · Vue 3 · Tailwind CSS · Arco Design</p></div></footer>
+<!-- seo-snapshot:end -->
+</noscript>
+</body>
+</html>

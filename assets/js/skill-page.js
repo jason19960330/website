@@ -4,9 +4,9 @@
  * ============================================================================
  *  职责：
  *    1. 深浅主题（与全站共用 localStorage 键 site.theme）
- *    2. 推文卡片流：列表只露摘要，点击卡片打开全文详情弹层
- *    3. 详情内指令块的「复制」按钮（Clipboard API，降级 textarea + execCommand）
- *    4. 支持 #id 直达：带 hash 打开页面时直接弹对应卡片全文
+ *    2. 推文卡片流：列表只露摘要，点击卡片跳转到完整指南页（skill-doc.html）对应章节
+ *    3. 概览入口卡整卡可点（卡内 GitHub 链接除外）
+ *    4. 指令块「复制」能力保留在完整指南页（skill-doc.js）
  * ============================================================================
  */
 (function () {
@@ -17,6 +17,7 @@
   if (!VueNS) { console.error('[skill] 未找到 Vue，请确认 vendor/arco-bundle.js 已加载。'); return; }
 
   var THEME_KEY = 'site.theme';
+  var DOC_URL = 'skill-doc.html';
 
   /* ---------------- 可复制的指令文本 ---------------- */
   var TEXTS = {
@@ -150,9 +151,6 @@
   var app = VueNS.createApp({
     setup: function () {
       var ref = VueNS.ref;
-      var onMounted = VueNS.onMounted;
-      var onUnmounted = VueNS.onUnmounted;
-      var watch = VueNS.watch;
 
       /* ---------------- 主题（与全站保持一致） ---------------- */
       var theme = ref(document.documentElement.classList.contains('dark') ? 'dark' : 'light');
@@ -164,54 +162,17 @@
         try { localStorage.setItem(THEME_KEY, theme.value); } catch (e) { /* 隐私模式忽略 */ }
       }
 
-      /* ---------------- 详情弹层 ---------------- */
-      var active = ref(null);          // 当前打开的卡片对象
-      var lastFocus = null;            // 关闭后焦点归还
-
-      function openPost(p, push) {
-        lastFocus = document.activeElement;
-        active.value = p;
-        document.body.style.overflow = 'hidden';        // 弹层打开时锁背景滚动
-        if (push !== false) {
-          try { history.replaceState(null, '', '#' + p.id); } catch (e) { /* file:// 忽略 */ }
-        }
+      /* ---------------- 页面跳转 ---------------- */
+      // 概览入口卡：整卡可点，卡内 <a>（开源仓库 / 完整指南链接）由自身接管
+      function goDoc(e) {
+        if (e && e.target && e.target.closest && e.target.closest('a')) return;
+        location.href = DOC_URL;
       }
 
-      function closePost() {
-        active.value = null;
-        document.body.style.overflow = '';
-        try { history.replaceState(null, '', location.pathname + location.search); } catch (e) { /* 忽略 */ }
-        if (lastFocus && lastFocus.focus) lastFocus.focus();
+      // 推文卡片：跳到完整指南页对应章节
+      function go(p) {
+        location.href = DOC_URL + '#' + p.id;
       }
-
-      function onKey(e) {
-        if (e.key === 'Escape' && active.value) closePost();
-      }
-
-      onMounted(function () {
-        window.addEventListener('keydown', onKey);
-        // 支持 skill.html#s1 这类直达链接
-        var id = (location.hash || '').replace('#', '');
-        if (id) {
-          var hit = null;
-          for (var i = 0; i < POSTS.length; i++) if (POSTS[i].id === id) hit = POSTS[i];
-          if (hit) openPost(hit, false);
-        }
-      });
-      onUnmounted(function () {
-        window.removeEventListener('keydown', onKey);
-        document.body.style.overflow = '';
-      });
-
-      // 卡片切换时滚动回弹层顶部
-      watch(active, function (p) {
-        if (p) VueNS.nextTick(function () {
-          var el = document.querySelector('.sk-modal');
-          if (el) el.scrollTop = 0;
-          var mask = document.querySelector('.sk-mask');
-          if (mask) mask.scrollTop = 0;
-        });
-      });
 
       /* ---------------- 复制指令 ---------------- */
       var copied = ref('');
@@ -246,7 +207,7 @@
       return {
         texts: TEXTS, posts: POSTS,
         theme: theme, toggleTheme: toggleTheme,
-        active: active, openPost: openPost, closePost: closePost,
+        goDoc: goDoc, go: go,
         copied: copied, copy: copy
       };
     }

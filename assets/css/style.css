@@ -976,6 +976,27 @@ section[id] { scroll-margin-top: 5rem; }
 .sk-more svg { width: .8rem; height: .8rem; transition: transform .2s; }
 .sk-post:hover .sk-more svg { transform: translateX(2px); }
 
+/* ---- 概览入口卡：整卡可点进完整指南 ---- */
+.sk-entry { cursor: pointer; }
+.sk-entry:hover {
+  border-color: rgb(var(--c-accent) / .4);
+  box-shadow: 0 14px 36px -16px rgb(var(--c-ink) / .25);
+}
+.sk-entry-link {
+  margin-top: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .5rem;
+  border-top: 1px solid rgb(var(--c-hair));
+  padding-top: 1.1rem;
+  font-size: .875rem;
+  font-weight: 600;
+  color: rgb(var(--c-accent));
+}
+.sk-entry-link svg { transition: transform .2s; }
+.sk-entry-link:hover svg { transform: translateX(3px); }
+
 /* ---- 全文详情弹层 ---- */
 .sk-mask {
   position: fixed; inset: 0; z-index: 60;
