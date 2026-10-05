@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>行业热点站开源框架 完整指南 · 8 篇详解一页读完 | 李文涛</title>
+  <meta name="description" content="行业热点站开源框架完整指南：它是什么、怎么跑起来、六步精选链路、六种信源分级、聚簇与热度、日报周报月报、改成你的行业、给 Agent 用的接口与校准须知，一页读完。">
+  <link rel="canonical" href="https://jason19960330.github.io/website/aihot-doc.html">
+
+  <!-- 分享卡片（微信 / 领英 / X 等平台抓取） -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="李文涛的个人主页">
+  <meta property="og:title" content="行业热点站开源框架 完整指南 · 8 篇详解一页读完 | 李文涛">
+  <meta property="og:description" content="行业热点站开源框架完整指南：是什么、怎么跑起来、六步精选链路、信源分级、聚簇热度、改成你的行业、给 Agent 用的接口与校准须知。">
+  <meta property="og:url" content="https://jason19960330.github.io/website/aihot-doc.html">
+  <meta property="og:image" content="https://jason19960330.github.io/website/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="zh_CN">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="行业热点站开源框架 完整指南 · 8 篇详解一页读完 | 李文涛">
+  <meta name="twitter:description" content="行业热点站开源框架完整指南：是什么、怎么跑、六步精选链路、信源分级、改成你的行业、给 Agent 用的接口。">
+  <meta name="twitter:image" content="https://jason19960330.github.io/website/assets/og-image.png">
+
+  <link rel="icon" href="assets/favicon.svg?v=20260923" type="image/svg+xml">
+
+  <!-- 首屏主题前置脚本：避免深色偏好用户看到白屏闪一下（与首页共用 site.theme） -->
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('site.theme');
+        if (!saved) {
+          saved = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+        }
+        if (saved === 'dark') document.documentElement.classList.add('dark');
+      } catch (e) { /* 隐私模式忽略 */ }
+    })();
+  </script>
+
+  <!-- 预编译样式：Tailwind 产物 → Arco 按需样式 → 站点定制（后者覆盖前者） -->
+  <link rel="stylesheet" href="assets/css/tailwind.css?v=202609306">
+  <link rel="stylesheet" href="vendor/arco-bundle.css?v=20260923">
+  <link rel="stylesheet" href="assets/css/style.css?v=202609306">
+</head>
+
+<body class="bg-base">
+  <div id="skill-app" v-cloak>
+
+    <!-- ============================ 顶部导航 ============================ -->
+    <header class="site-header is-solid fixed inset-x-0 top-0 z-40 border-b border-hair">
+      <div class="mx-auto flex h-16 max-w-5xl items-center justify-between px-5 sm:px-6">
+        <a href="index.html" class="flex items-center gap-2.5">
+          <span class="grid h-8 w-8 place-items-center rounded-lg bg-gradient-to-tr from-sky-500 to-indigo-600 text-[11px] font-bold text-white">涛</span>
+          <span class="text-sm font-semibold tracking-tight text-ink">李文涛</span>
+        </a>
+        <div class="flex items-center gap-2">
+          <a href="resume.html" class="hidden text-xs text-dim transition hover:text-accent sm:inline">简历</a>
+          <a href="weekly.html" class="hidden text-xs text-dim transition hover:text-accent sm:inline">AI 速览</a>
+          <a href="hotnews.html" class="hidden text-xs text-dim transition hover:text-accent sm:inline">热点</a>
+          <a href="skill.html" class="hidden text-xs text-dim transition hover:text-accent sm:inline">Skill 指南</a>
+          <a href="aihot.html" class="hidden text-xs font-semibold text-accent sm:inline">AIHOT 指南</a>
+          <button @click="toggleTheme" aria-label="切换主题"
+                  class="grid h-9 w-9 place-items-center rounded-lg border border-hair text-dim transition hover:text-accent">
+            <svg class="theme-icon h-4 w-4"><use :href="theme === 'dark' ? '#i-moon' : '#i-sun'"></use></svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <svg class="hidden" aria-hidden="true">
+      <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 14.5A8.5 8.5 0 019.5 4a8.5 8.5 0 1010.5 10.5z"></path>
+      </symbol>
+      <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="4"></circle>
+        <path d="M12 3v2m0 14v2M3 12h2m14 0h2M5.6 5.6l1.4 1.4m10 10l1.4 1.4m0-12.8l-1.4 1.4m-10 10L5.6 18.4"></path>
+      </symbol>
+      <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M10.5 6l-6 6 6 6M4.5 12h15"></path>
+      </symbol>
+      <symbol id="i-external" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 4h6v6M20 4l-9 9M18 14v4a2 2 0 01-2 2H6a2 2 0 01-2-2V8a2 2 0 012-2h4"></path>
+      </symbol>
+    </svg>
+
+    <main id="main" class="pt-16" tabindex="-1">
+
+      <!-- ============================ 概览 ============================ -->
+      <section class="mx-auto max-w-5xl px-5 pt-6 sm:px-6 sm:pt-8">
+        <a href="aihot.html" class="wl-back">
+          <svg class="h-3.5 w-3.5"><use href="#i-arrow-left"></use></svg>返回框架卡片页
+        </a>
+
+        <div class="wl-hero card mt-4">
+          <span class="wl-hero-bar" aria-hidden="true"></span>
+          <div class="p-6 sm:p-8">
+            <div class="mt-4 flex flex-wrap items-start justify-between gap-5">
+              <div class="min-w-0">
+                <p class="text-xs font-semibold uppercase tracking-[0.2em] text-accent">开源框架 · 使用指南</p>
+                <h1 class="mt-2 text-3xl font-bold tracking-tight text-ink sm:text-4xl">行业热点站开源框架 完整指南</h1>
+                <p class="mt-3 max-w-2xl text-sm leading-relaxed text-dim">
+                  一套「自己找热点、自己写日报」的网站开源引擎：把信源换成你的、把精选标准换成你的 KnowHow，
+                  它就是你的行业热点站。下面把 8 个主题的完整内容整理在一页里，从上往下读即可。
+                </p>
+              </div>
+
+              <a href="https://github.com/KKKKhazix/AIHOT" target="_blank" rel="noopener" class="wl-src">
+                <svg class="h-4 w-4"><use href="#i-external"></use></svg>
+                <span class="leading-tight">开源仓库<br>GitHub</span>
+              </a>
+            </div>
+
+            <dl class="wl-stats">
+              <div><dt>信源类型</dt><dd class="tnum">6</dd></div>
+              <div><dt>入选评分</dt><dd class="tnum">2×</dd></div>
+              <div><dt>报告类型</dt><dd class="tnum">日/周/月</dd></div>
+              <div><dt>许可</dt><dd class="tnum">MIT</dd></div>
+            </dl>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 目录 ============================ -->
+      <section class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card p-5 sm:p-6">
+          <h2 class="text-sm font-semibold text-ink">本页目录（8 篇）</h2>
+          <nav class="sk-toc mt-3">
+            <a href="#what"><span>01</span>它到底是什么</a>
+            <a href="#run"><span>02</span>怎么跑起来</a>
+            <a href="#pipeline"><span>03</span>六步精选链路</a>
+            <a href="#sources"><span>04</span>六种信源与分级</a>
+            <a href="#cluster"><span>05</span>聚簇与热度</a>
+            <a href="#reports"><span>06</span>日报、周报、月报</a>
+            <a href="#customize"><span>07</span>改成你的行业</a>
+            <a href="#agent"><span>08</span>给 Agent 用与校准须知</a>
+          </nav>
+        </div>
+      </section>
+
+      <!-- ============================ 01 它是什么 ============================ -->
+      <section id="what" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">01</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">它到底是什么</h2>
+              <p class="sk-card-sub">
+                不是说「帮你做个新闻站」的脚手架，而是一套已经把精选流程、聚簇算法、热度排名和日报编排
+                全部跑通的完整引擎——网站、后台、每一步的提示词原文和入选门槛，都在仓库里。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">自己找热点</strong>：每天从一批信源收资料，大模型先筛一遍、再独立打两次分，挑出真正值得看的，写成中文标题和摘要。</li>
+            <li><strong class="text-ink">自己写日报</strong>：把不同来源说的同一件事聚成一个事件，按有多少人在说排出热点，每天早上出一份中文日报、每周周一出周报、每月 1 日出月报。</li>
+            <li><strong class="text-ink">换上你的行业就是你的站</strong>：把信源换成你的、把精选标准换成你的 KnowHow、把站名换成你的，它就是法律 / HR / 金融 / 黄金……你的行业热点站。</li>
+            <li><strong class="text-ink">提示词全公开、全可改</strong>：从浏览器里「该选 / 不该选」的判断逻辑，到写作口吻、事件归组，全部写在 `industry/prompts/` 里，改标准不用改代码。</li>
+          </ul>
+
+          <div class="sk-tip">
+            <strong>技术栈：</strong>Node.js 24 · TypeScript · React Router（SSR）· Fastify · PostgreSQL 17 · pg-boss · Tailwind CSS · Docker Compose。
+            仓库自带 18 个公开的海外 AI 资讯源做示范——真正的信源，要换成你自己行业的。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 02 怎么跑起来 ============================ -->
+      <section id="run" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">02</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">怎么跑起来</h2>
+              <p class="sk-card-sub">
+                需要一个 OpenAI 兼容的模型 API Key（DeepSeek、千问、智谱都可以）、本机 Node.js 24 与 Docker。
+                三行命令即可在本地看到效果，约一两分钟后开始有内容。
+              </p>
+            </div>
+          </div>
+
+          <div class="sk-prompt">
+            <p class="mb-2 text-xs text-faint">三条命令跑起来（默认按 DeepSeek 配置）</p>
+            <pre>{{ texts.run }}</pre>
+            <button class="sk-copy" :class="{ 'is-done': copied === 'run' }" @click="copy('run')">
+              {{ copied === 'run' ? '已复制' : '复制' }}
+            </button>
+          </div>
+
+          <div class="sk-tip">
+            打开 <strong>http://localhost:3000</strong> 看站点，后台在 <strong>/admin</strong>（密码在 `.env` 的 `ADMIN_PASSWORD`）。
+            第一次导入的资料大约半小时处理完。机器没有 Node、服务器在中国大陆、要配域名 HTTPS，或不用 Docker 直接跑，见仓库里的 `docs/deploy.md`。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 03 六步精选链路 ============================ -->
+      <section id="pipeline" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">03</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">六步精选链路</h2>
+              <p class="sk-card-sub">
+                一条资料从信源进来，到变成首页的「今日精选」，要走完下面六步；每一步的提示词都在 `industry/prompts/`。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">采集</strong>：RSS / 网页列表 / JSON 接口 / X 账号 / 公众号 / 外部推送，六种方式把资料拉进来。</li>
+            <li><strong class="text-ink">预筛</strong>：先用宽召回的 `prefilter.md` 判断这是不是本行业的事，只拦明显无关的。</li>
+            <li><strong class="text-ink">两次独立评分</strong>：同一份标准独立打两次分（0–100），降低单次模型的随机偏差。</li>
+            <li><strong class="text-ink">写作</strong>：中文标题、答案先行的摘要、推荐理由、外文全文翻译，顺手把分类 / 标签 / 新闻事实抽出来。</li>
+            <li><strong class="text-ink">聚簇</strong>：和别的报道判断是不是同一件事，聚成一个事件，写进事件页综述。</li>
+            <li><strong class="text-ink">热点与成刊</strong>：分数过门槛、又不是精选里已有新闻的重复，才进精选；日报按规则编出当天要闻。</li>
+          </ul>
+
+          <div class="sk-tip">
+            两次评分之和 <strong>≥ 2 × 门槛</strong> 才够分（门槛按信源分级不同）。这一步决定了你的站「选得准不准」，详见第 08 篇的校准。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 04 六种信源与分级 ============================ -->
+      <section id="sources" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">04</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">六种信源与三级分级</h2>
+              <p class="sk-card-sub">
+                信源写在 `industry/sources.json`，首次启动导入；之后更常用的是后台「信源」页，能新建、试抓、调频率、暂停。
+              </p>
+            </div>
+          </div>
+
+          <div class="sk-chips">
+            <span class="sk-chip">rss 订阅</span>
+            <span class="sk-chip">web_list 网页列表</span>
+            <span class="sk-chip">json_list JSON 接口</span>
+            <span class="sk-chip">x_search X 账号</span>
+            <span class="sk-chip">mp_account 公众号</span>
+            <span class="sk-chip">external 外部推送</span>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">分级决定门槛</strong>：T1 官方一手、T1_5 官方账号与准官方、T2 媒体与个人、EXCLUDE_MP 不参与精选——级别越高，入选门槛越低。</li>
+            <li><strong class="text-ink">同一家公司只算一个参与方</strong>：给信源填 `owner_entity_id`，避免一家公司的多个账号在热度里重复计数。</li>
+            <li><strong class="text-ink">全文默认关闭</strong>：只展示摘要和原文链接；只有来源明确允许时才打开 `site_fulltext` / `syndicate_fulltext`。</li>
+            <li><strong class="text-ink">中国大陆行业特别提示</strong>：一手信息常在公众号，公众号信源需要「极致了」的 key（按请求计费，有预算熔断）。</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ============================ 05 聚簇与热度 ============================ -->
+      <section id="cluster" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">05</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">聚簇与热度</h2>
+              <p class="sk-card-sub">
+                同一件事，官网发一篇、媒体转十篇、X 上吵一天，读者只需要看到一次——这就是聚簇和热度的意义。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">按事件而不是按文章</strong>：先用标题摘要的向量（没配向量服务时比文字重合度）在最近两周里找候选，再让模型判断是同一次发生、后续进展还是两件事。</li>
+            <li><strong class="text-ink">拿不准就合并</strong>：合并写入前再让模型复核一遍（复核可单独换一家模型，设 `GROUP_REVIEW_MODEL`）。</li>
+            <li><strong class="text-ink">热度按独立来源算</strong>：48 小时内每个独立来源只算一次，24 小时减半；重复抓取不会多算，一家媒体发十篇也只算一次。</li>
+            <li><strong class="text-ink">会「动」的榜单</strong>：和 6 小时前比，涨得快的标上升，新出现的标「新」——所以你看到的「当前热点」是一直在变的。</li>
+          </ul>
+
+          <div class="sk-tip">
+            人工改过的事件归属不会被覆盖，事件页里「进展」和「报道」时间线还能一起切换「最新在前 / 最早在前」。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 06 日报周报月报 ============================ -->
+      <section id="reports" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">06</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">日报、周报、月报</h2>
+              <p class="sk-card-sub">
+                每天出日报、每周一出周报、每月 1 日出月报；日报按规则编排（不调模型），周报月报从日报里汇编，模型只写总述和栏目导读。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">出刊时间可改</strong>：在 `site/site.ts` 的 `EDITION_TIMES` 里设置（排程每半小时检查一次，写整点或半点）。</li>
+            <li><strong class="text-ink">「一件事一条」</strong>：日报里同一事件只占一条；报过的事只在有新进展时跟进，不重复写。</li>
+            <li><strong class="text-ink">给 Agent 也能读</strong>：三种报告各自有 RSS、公开 API 与 MCP 出口，人和机器看的是同一份内容。</li>
+          </ul>
+
+          <div class="sk-tip">
+            想看线上真实效果，对照一下 aihot.news 的「今日日报」排版——本指南的「AI 速览」页也正是用它的公开接口同步了同样的日报与热点数据。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 07 改成你的行业 ============================ -->
+      <section id="customize" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">07</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">改成你的行业</h2>
+              <p class="sk-card-sub">
+                最省事的办法：把仓库丢给你的 Coding Agent（Claude Code / Codex 都行），让它照着 `AGENTS.md` 和 `docs/customize.md` 改。
+                要改的东西几乎都在 `site/` 和 `industry/` 两个文件夹，代码基本不用动。
+              </p>
+            </div>
+          </div>
+
+          <div class="sk-prompt">
+            <p class="mb-2 text-xs text-faint">直接这样下给 Agent（越具体越好）</p>
+            <pre>{{ texts.customize }}</pre>
+            <button class="sk-copy" :class="{ 'is-done': copied === 'customize' }" @click="copy('customize')">
+              {{ copied === 'customize' ? '已复制' : '复制' }}
+            </button>
+          </div>
+
+          <div class="sk-chips">
+            <span class="sk-chip">site/site.ts 站名·行业词·出刊时间</span>
+            <span class="sk-chip">industry/taxonomy.ts 分类标签</span>
+            <span class="sk-chip">industry/sources.json 信源</span>
+            <span class="sk-chip">industry/prompts/ 精选标准</span>
+            <span class="sk-chip">industry/selection.ts 门槛</span>
+            <span class="sk-chip">site/brand/ 图标与 Logo</span>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">最值得花时间的是提示词</strong>：你对行业的判断经验就写在 `industry/prompts/selection-score.md` 里。建议先保留结构（五个维度加权、噪声压制、安全边界），只把「什么算重要 / 什么算噪声」的例子换成你的行业。</li>
+            <li><strong class="text-ink">改完跑检查</strong>：`npm run typecheck`、`npm test`、`node scripts/smoke.ts`，确认没有破坏框架本身。</li>
+          </ul>
+
+          <div class="sk-tip">
+            <strong>署名提示：</strong>作者明确要求「请不要用原项目的名字和 Logo」——换上你自己的站名与图标，它就成了完全属于你的行业热点站。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 08 给 Agent 用与校准 ============================ -->
+      <section id="agent" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">08</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">给 Agent 用与校准须知</h2>
+              <p class="sk-card-sub">
+                同一份内容既给人看、也给 Agent 用：站点自带 RSS、公开 API、MCP、Agent Markdown 和 `llms.txt` 五种出口。
+              </p>
+            </div>
+          </div>
+
+          <div class="sk-prompt">
+            <p class="mb-2 text-xs text-faint">站点跑起来后，拿接入方式（免密钥、允许跨域）</p>
+            <pre>{{ texts.agent }}</pre>
+            <button class="sk-copy" :class="{ 'is-done': copied === 'agent' }" @click="copy('agent')">
+              {{ copied === 'agent' ? '已复制' : '复制' }}
+            </button>
+          </div>
+
+          <div class="sk-prompt">
+            <p class="mb-2 text-xs text-faint">用你自己的样本校准入选门槛（决定「选得准不准」）</p>
+            <pre>{{ texts.calibrate }}</pre>
+            <button class="sk-copy" :class="{ 'is-done': copied === 'calibrate' }" @click="copy('calibrate')">
+              {{ copied === 'calibrate' ? '已复制' : '复制' }}
+            </button>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">公开接口合规</strong>：个人非商业使用不强制界面署名，但机器响应里的来源、canonical 与原文链接必须保留并传递；用于收费产品或对外镜像需先取得授权。</li>
+            <li><strong class="text-ink">速率限制</strong>：公开只读接口对轮询有最小间隔要求（响应头里的 `Cache-Control: s-maxage` 指示了可缓存时长），请按建议的 User-Agent 与间隔访问。</li>
+            <li><strong class="text-ink">许可是 MIT</strong>：代码可学习、修改、非商业使用；原项目名字与 Logo 不在许可范围内。</li>
+          </ul>
+
+          <div class="mt-6 flex flex-wrap items-center gap-3 border-t border-hair pt-5">
+            <a href="https://github.com/KKKKhazix/AIHOT" target="_blank" rel="noopener" class="wl-src">
+              <svg class="h-4 w-4"><use href="#i-external"></use></svg>开源仓库
+            </a>
+            <a href="https://github.com/KKKKhazix/AIHOT/discussions/categories/show-and-tell" target="_blank" rel="noopener" class="wl-src">
+              <svg class="h-4 w-4"><use href="#i-external"></use></svg>作品展示区
+            </a>
+            <a href="aihot.html" class="text-xs text-faint transition hover:text-accent">返回框架卡片页</a>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="mt-10 border-t border-hair py-10">
+      <div class="mx-auto flex max-w-5xl flex-col items-center justify-between gap-2 px-5 text-xs text-faint sm:flex-row sm:px-6">
+        <p>内容整理自 KKKKhazix/AIHOT 开源仓库（MIT）与使用实践 · 版权归原作者所有</p>
+        <p>共 8 篇 · Vue 3 · Tailwind CSS · Arco Design</p>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- 首屏骨架：脚本没跑完之前顶住版式（纯静态，脚本一到自动让位） -->
+  <div class="boot" aria-hidden="true">
+    <div class="boot-bar">
+      <span style="width:8rem;height:2rem;border-radius:.75rem;background:rgb(var(--c-dim) / .12)"></span>
+      <span style="width:6rem;height:2rem;border-radius:.75rem;background:rgb(var(--c-dim) / .12)"></span>
+    </div>
+    <div class="boot-row">
+      <div class="boot-main">
+        <div class="boot-block boot-block--sm"></div>
+        <div class="boot-block boot-block--lg"></div>
+        <div class="boot-block"></div>
+        <div class="boot-block boot-block--sm"></div>
+        <div class="boot-block" style="width:70%"></div>
+      </div>
+      <div class="boot-side"><div class="boot-card"></div></div>
+    </div>
+    <p class="boot-tip">网络有点慢，页面还在加载…</p>
+    <div class="boot-fail">
+      <p>页面脚本加载失败，通常是网络中断或浏览器拦截了资源。</p>
+      <p><button type="button" onclick="location.reload()" class="text-accent hover:underline">点击重试</button>
+        · <a href="index.html" class="text-accent hover:underline">返回首页</a></p>
+    </div>
+  </div>
+  <script>
+    // 6 秒还没挂载 → 提示慢；20 秒仍没挂载 → 给重试入口。正常网速不会触发
+    setTimeout(function () {
+      var app = document.getElementById('skill-app');
+      var boot = document.querySelector('.boot');
+      if (app && boot && app.hasAttribute('v-cloak')) boot.classList.add('is-slow');
+    }, 6000);
+    setTimeout(function () {
+      var app = document.getElementById('skill-app');
+      var boot = document.querySelector('.boot');
+      if (app && boot && app.hasAttribute('v-cloak')) boot.classList.add('is-failed');
+    }, 20000);
+  </script>
+
+  <script src="vendor/arco-bundle.js?v=20260923"></script>
+  <script src="assets/js/aihot-doc.js?v=202609301"></script>
+
+</body>
+</html>
