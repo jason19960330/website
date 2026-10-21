@@ -28,8 +28,11 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          if [ -n "$(git status --porcelain assets/js/hot-data.js)" ]; then
-            git add assets/js/hot-data.js
+          # sync_hot.mjs 会同时生成 hot-data.js 与 hot-stories.js（事件详情数据），
+          # 两个都必须提交：只提交 hot-data.js 会把 hot-stories.js 留在脏工作区，
+          # 导致 git pull --rebase 报 "cannot pull with rebase: unstaged changes"（exit 128）
+          if [ -n "$(git status --porcelain assets/js/hot-data.js assets/js/hot-stories.js)" ]; then
+            git add assets/js/hot-data.js assets/js/hot-stories.js
             git commit -m "chore: 同步 AI 行业热点 $(date -u +'%Y-%m-%d %H:%M') UTC"
             git pull --rebase origin main
             git push
