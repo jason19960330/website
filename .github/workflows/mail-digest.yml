@@ -32,9 +32,9 @@ jobs:
           server_address: smtp.qq.com
           server_port: 465
           secure: true
-          username: ${{ secrets.MAIL_USER }}
-          password: ${{ secrets.MAIL_PASS }}
+          username: ${{ secrets.MAIL_USER || vars.MAIL_USER }}
+          password: ${{ secrets.MAIL_PASS || vars.MAIL_PASS }}
           subject: 'AI 资讯早报 · ${{ env.MAIL_DATE }}'
           to: 573164137@qq.com
-          from: AI 速览早报 <${{ secrets.MAIL_USER }}>
+          from: AI 速览早报 <${{ secrets.MAIL_USER || vars.MAIL_USER }}>
           html_body: mail-digest.html
