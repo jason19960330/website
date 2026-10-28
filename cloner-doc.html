@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI Website Cloner 使用指南 · 一句话把网站克隆成代码 | 李文涛</title>
+  <meta name="description" content="AI Website Cloner Template 完整指南：它是什么、快速开始、四步克隆工作流、先观察再动手、真实素材与内容、对比修复与验收、支持平台与项目结构、适用场景与边界，一页读完。">
+  <link rel="canonical" href="https://jason19960330.github.io/website/cloner-doc.html">
+
+  <!-- 分享卡片（微信 / 领英 / X 等平台抓取） -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="李文涛的个人主页">
+  <meta property="og:title" content="AI Website Cloner 使用指南 · 一句话把网站克隆成代码 | 李文涛">
+  <meta property="og:description" content="AI Website Cloner Template 完整指南：是什么、快速开始、四步克隆工作流、观察取证、对比修复、支持平台与适用边界。">
+  <meta property="og:url" content="https://jason19960330.github.io/website/cloner-doc.html">
+  <meta property="og:image" content="https://jason19960330.github.io/website/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="zh_CN">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AI Website Cloner 使用指南 · 一句话把网站克隆成代码 | 李文涛">
+  <meta name="twitter:description" content="AI Website Cloner Template 完整指南：是什么、快速开始、四步克隆工作流、观察取证、对比修复、支持平台与适用边界。">
+  <meta name="twitter:image" content="https://jason19960330.github.io/website/assets/og-image.png">
+
+  <link rel="icon" href="assets/favicon.svg?v=20260923" type="image/svg+xml">
+
+  <!-- 首屏主题前置脚本：避免深色偏好用户看到白屏闪一下（与首页共用 site.theme） -->
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('site.theme');
+        if (!saved) {
+          saved = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+        }
+        if (saved === 'dark') document.documentElement.classList.add('dark');
+      } catch (e) { /* 隐私模式忽略 */ }
+    })();
+  </script>
+
+  <!-- 预编译样式：Tailwind 产物 → Arco 按需样式 → 站点定制（后者覆盖前者） -->
+  <link rel="stylesheet" href="assets/css/tailwind.css?v=202610281">
+  <link rel="stylesheet" href="vendor/arco-bundle.css?v=20260923">
+  <link rel="stylesheet" href="assets/css/style.css?v=202610281">
+</head>
+
+<body class="bg-base">
+  <div id="skill-app" v-cloak>
+
+    <!-- ============================ 顶部导航 ============================ -->
+    <header class="site-header is-solid fixed inset-x-0 top-0 z-40 border-b border-hair">
+      <div class="mx-auto flex h-16 max-w-5xl items-center justify-between px-5 sm:px-6">
+        <a href="index.html" class="flex items-center gap-2.5">
+          <span class="grid h-8 w-8 place-items-center rounded-lg bg-gradient-to-tr from-sky-500 to-indigo-600 text-[11px] font-bold text-white">涛</span>
+          <span class="text-sm font-semibold tracking-tight text-ink">李文涛</span>
+        </a>
+        <div class="flex items-center gap-2">
+          <a href="resume.html" class="hidden text-xs text-dim transition hover:text-accent sm:inline">简历</a>
+          <a href="weekly.html" class="hidden text-xs text-dim transition hover:text-accent sm:inline">AI 速览</a>
+          <a href="hotnews.html" class="hidden text-xs text-dim transition hover:text-accent sm:inline">热点</a>
+          <a href="skill.html" class="hidden text-xs font-semibold text-accent sm:inline">Skill 指南</a>
+          <a href="aihot.html" class="hidden text-xs text-dim transition hover:text-accent sm:inline">AIHOT 指南</a>
+          <button @click="toggleTheme" aria-label="切换主题"
+                  class="grid h-9 w-9 place-items-center rounded-lg border border-hair text-dim transition hover:text-accent">
+            <svg class="theme-icon h-4 w-4"><use :href="theme === 'dark' ? '#i-moon' : '#i-sun'"></use></svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <svg class="hidden" aria-hidden="true">
+      <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 14.5A8.5 8.5 0 019.5 4a8.5 8.5 0 1010.5 10.5z"></path>
+      </symbol>
+      <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="4"></circle>
+        <path d="M12 3v2m0 14v2M3 12h2m14 0h2M5.6 5.6l1.4 1.4m10 10l1.4 1.4m0-12.8l-1.4 1.4m-10 10L5.6 18.4"></path>
+      </symbol>
+      <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M10.5 6l-6 6 6 6M4.5 12h15"></path>
+      </symbol>
+      <symbol id="i-external" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 4h6v6M20 4l-9 9M18 14v4a2 2 0 01-2 2H6a2 2 0 01-2-2V8a2 2 0 012-2h4"></path>
+      </symbol>
+    </svg>
+
+    <main id="main" class="pt-16" tabindex="-1">
+
+      <!-- ============================ 概览 ============================ -->
+      <section class="mx-auto max-w-5xl px-5 pt-6 sm:px-6 sm:pt-8">
+        <a href="skill.html" class="wl-back">
+          <svg class="h-3.5 w-3.5"><use href="#i-arrow-left"></use></svg>返回 Skill 指南
+        </a>
+
+        <div class="wl-hero card mt-4">
+          <span class="wl-hero-bar" aria-hidden="true"></span>
+          <div class="p-6 sm:p-8">
+            <div class="mt-4 flex flex-wrap items-start justify-between gap-5">
+              <div class="min-w-0">
+                <p class="text-xs font-semibold uppercase tracking-[0.2em] text-accent">开源模板 · 使用指南</p>
+                <h1 class="mt-2 text-3xl font-bold tracking-tight text-ink sm:text-4xl">AI Website Cloner 完整指南</h1>
+                <p class="mt-3 max-w-2xl text-sm leading-relaxed text-dim">
+                  一个「一句话把任意网站克隆成现代代码」的 AI 编码智能体模板：工程骨架已备好，
+                  你只需要给网址。下面把 8 个主题的完整内容整理在一页里，从上往下读即可。
+                </p>
+              </div>
+
+              <a href="https://github.com/JCodesMore/ai-website-cloner-template" target="_blank" rel="noopener" class="wl-src">
+                <svg class="h-4 w-4"><use href="#i-external"></use></svg>
+                <span class="leading-tight">开源仓库<br>GitHub</span>
+              </a>
+            </div>
+
+            <dl class="wl-stats">
+              <div><dt>GitHub 收藏</dt><dd class="tnum">37.6k</dd></div>
+              <div><dt>支持平台</dt><dd class="tnum">4</dd></div>
+              <div><dt>克隆工作流</dt><dd class="tnum">4 步</dd></div>
+              <div><dt>许可</dt><dd class="tnum">MIT</dd></div>
+            </dl>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 目录 ============================ -->
+      <section class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card p-5 sm:p-6">
+          <h2 class="text-sm font-semibold text-ink">本页目录（8 篇）</h2>
+          <nav class="sk-toc mt-3">
+            <a href="#what"><span>01</span>它到底是什么</a>
+            <a href="#setup"><span>02</span>快速开始</a>
+            <a href="#workflow"><span>03</span>四步克隆工作流</a>
+            <a href="#observe"><span>04</span>先观察，再动手</a>
+            <a href="#assets"><span>05</span>真实素材与内容</a>
+            <a href="#compare"><span>06</span>对比、修复、验收</a>
+            <a href="#platforms"><span>07</span>支持平台与项目结构</a>
+            <a href="#cases"><span>08</span>适用场景与边界</a>
+          </nav>
+        </div>
+      </section>
+
+      <!-- ============================ 01 它是什么 ============================ -->
+      <section id="what" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">01</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">它到底是什么</h2>
+              <p class="sk-card-sub">
+                不是「抓站工具」，而是一套写好的反向工程工作流：模板预置了 Next.js 16 + shadcn/ui + Tailwind v4 的工程骨架，
+                克隆动作由你的 AI 编码智能体（Claude Code / Codex / Cursor / OpenCode）按照内置 Skill 执行。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">交付的是代码，不是截图</strong>：截图、iframe、下载来的生产包只是参考，最终产出是可编辑、可维护的组件代码——这是它和普通「网页转图片/转 HTML」工具的本质区别。</li>
+            <li><strong class="text-ink">一条命令开工</strong>：把目标网址连同 <code>/clone-website</code> 指令交给智能体，它按固定工作流走完观察、复刻、对比、修复全过程。</li>
+            <li><strong class="text-ink">1:1 像素级优先</strong>：模拟阶段不做个人审美改动——先精确匹配间距、颜色、字体排版，之后再谈定制。</li>
+            <li><strong class="text-ink">真实内容</strong>：用源站真实的文字和素材（字体、图片、SVG、视频），不放占位符。</li>
+          </ul>
+
+          <div class="sk-tip">
+            <strong>技术栈：</strong>Next.js 16（App Router · React 19 · TypeScript strict）· shadcn/ui · Tailwind CSS v4（oklch 设计 token）· Lucide React（克隆时被提取的真实 SVG 替换）· 部署目标 Vercel。要求 Node.js 24+。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 02 快速开始 ============================ -->
+      <section id="setup" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">02</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">快速开始</h2>
+              <p class="sk-card-sub">
+                最省事的办法：把下面这段话直接丢给你的编码智能体（Claude Code / Codex 都行），
+                它会替你完成克隆仓库、装依赖、跑检查的全过程。
+              </p>
+            </div>
+          </div>
+
+          <div class="sk-prompt">
+            <p class="mb-2 text-xs text-faint">让 Agent 帮你把模板装到本机（推荐）</p>
+            <pre>{{ texts.setup }}</pre>
+            <button class="sk-copy" :class="{ 'is-done': copied === 'setup' }" @click="copy('setup')">
+              {{ copied === 'setup' ? '已复制' : '复制' }}
+            </button>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">或者建自己的仓库</strong>：在 GitHub 上新建一个空仓库，把链接交给 Agent，让它 clone、装依赖并跑 <code>npm run check</code>。</li>
+            <li><strong class="text-ink">跑通检查再开工</strong>：<code>npm run check</code> = lint + typecheck + build 三连，全绿说明骨架没问题，可以开始克隆了。</li>
+            <li><strong class="text-ink">不想装 Node</strong>：仓库带 Docker 支持，<code>docker compose up app --build</code> 起生产、<code>docker compose up dev --build</code> 起开发（端口 3001）。</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ============================ 03 四步克隆工作流 ============================ -->
+      <section id="workflow" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">03</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">四步克隆工作流</h2>
+              <p class="sk-card-sub">
+                内置 Skill（<code>.agents/skills/clone-website/</code>）把克隆拆成四步，每一步都有明确的完成标准。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">① Map · 规划</strong>：读项目结构与现有路由，用浏览器打开目标站，记录「源 URL → 本地路由」映射表和每个页面的文件归属；同源多页保留原路径，冲突先解决再动手。</li>
+            <li><strong class="text-ink">② Observe · 观察</strong>：桌面 + 移动宽度下通览整页、滚动触发懒加载、逐一验证交互状态，读取真实计算样式与 CSS 变量（详见第 04 篇）。</li>
+            <li><strong class="text-ink">③ Build · 复刻</strong>：先立字体、配色、页面宽度、共享组件（带齐 hover/focus/断点全部状态），再用真实内容逐段构建；CSS 优先做布局和简单动效，复杂行为才上动画库。</li>
+            <li><strong class="text-ink">④ Compare · 对比修复</strong>：源站与本地在「同一视口、同一滚动位置、同一状态」下并排比对，先修最大差异，直到生产构建通过且渲染对比通过（详见第 06 篇）。</li>
+          </ul>
+
+          <div class="sk-tip">
+            在克隆指令里可以直接给多个网址：<code>/clone-website &lt;url1&gt; [&lt;url2&gt; …]</code>；同源的多页会被规划成一组路由。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 04 先观察再动手 ============================ -->
+      <section id="observe" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">04</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">先观察，再动手</h2>
+              <p class="sk-card-sub">
+                这个模板最讲究的一步：把每一次观察当成一条「规则」的一个样本，读声明值而不是从单次渲染里猜。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">整页通览</strong>：桌面和移动宽度各来一遍，从上滚到下加载懒加载媒体、露出粘性/固定场景。</li>
+            <li><strong class="text-ink">真实输入驱动</strong>：用访客的方式操作页面——滚轮、触摸、键盘、指针；脚本化滚动会绕过绑定在这些输入上的行为（比如平滑滚动）。</li>
+            <li><strong class="text-ink">区分触发方式</strong>：一个变化究竟是滚动、点击、悬停还是时间驱动的？用点击模仿的滚动驱动区块，是另一个产品。</li>
+            <li><strong class="text-ink">读声明值</strong>：读计算样式、CSS 变量、组件库的实时 options，而不是从一次渲染反推；并变化视口宽度（包括比设计稿更宽）、输入和状态，直到弄清每条规则由什么驱动。</li>
+            <li><strong class="text-ink">证据存档</strong>：截图标注视口、滚动位置、交互状态；沉淀一份紧凑的页面简报（区块顺序、排版、布局测量、素材映射、交互清单）。</li>
+          </ul>
+
+          <div class="sk-tip">
+            Framer 生成的页面、粘性场景、揭示动画、动效媒体有专门的参考文档（<code>references/framer-and-motion.md</code>），提取与状态对比见 <code>references/inspection-guide.md</code>。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 05 真实素材与内容 ============================ -->
+      <section id="assets" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">05</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">真实素材与内容</h2>
+              <p class="sk-card-sub">
+                用源站真实的文字和它真正加载的文件——同名替代品（别的字体厂、别的图标集）度量或形状都不一样。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">全套真实素材</strong>：字体、图片、SVG、视频都用源站实际加载的那份；克隆时默认图标库（Lucide）会被提取出来的真实 SVG 替换。</li>
+            <li><strong class="text-ink">先看分层素材再动手</strong>：重建视觉之前，先检查图层化的图片和媒体元素，别急着用 HTML 重画。</li>
+            <li><strong class="text-ink">资产映射表</strong>：维护「源 URL → 本地路径」的映射，并核实内容类型和尺寸——一个 <code>.png</code> 结尾的 URL 实际可能返回 AVIF。</li>
+            <li><strong class="text-ink">测量关键几何</strong>：重要的尺寸和计算样式要实测，不靠目测。</li>
+          </ul>
+
+          <div class="sk-tip">
+            产出物落在 <code>public/sites/&lt;site&gt;/</code>（图片、字体、视频）与 <code>src/components/sites/&lt;site&gt;/</code>（组件与 SVG）；
+            研究证据落在 <code>docs/research/&lt;site&gt;/</code>（页面简报、资产映射、检查证据），截图存 <code>docs/design-references/</code>。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 06 对比修复验收 ============================ -->
+      <section id="compare" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">06</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">对比、修复、验收</h2>
+              <p class="sk-card-sub">
+                验收标准不是「构建过了」，而是「构建通过 + 渲染对比通过」，并且要精确说出还剩哪些差异。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">同态对比</strong>：源站与本地页面在相同视口、滚动位置和状态下打开；等字体、媒体、揭示动画都稳定后再比。并排拼图定位漂移，全尺寸分段图看细节。</li>
+            <li><strong class="text-ink">先修最大的</strong>：修复顺序 = 几何 → 缺失区块/图层 → 排版换行 → 素材裁切 → 间距与动效；改完复查受影响的视图。</li>
+            <li><strong class="text-ink">动效三态对比</strong>：动画区域对比初始、激活、稳定三种状态，涉及反向滚动也要验。</li>
+            <li><strong class="text-ink">真实验收</strong>：跑生产检查（<code>npm run check</code>），走一遍真实的本地流程——路由跳转、移动菜单、标签/手风琴状态、轮播边界、主操作、媒体控制、滚动联动；查运行时报错、缺资源、横向溢出。</li>
+            <li><strong class="text-ink">诚实交付</strong>：明确说出剩余差异，不许把没验证的结果说成 pixel-perfect。</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ============================ 07 支持平台与项目结构 ============================ -->
+      <section id="platforms" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">07</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">支持平台与项目结构</h2>
+              <p class="sk-card-sub">
+                克隆工作流写成一个可移植的 Agent Skill，四个平台共用一份；Claude Code 走一个薄命令桥。
+              </p>
+            </div>
+          </div>
+
+          <div class="sk-chips">
+            <span class="sk-chip">Claude Code（推荐 · 命令桥 /clone-website）</span>
+            <span class="sk-chip">Codex CLI</span>
+            <span class="sk-chip">OpenCode</span>
+            <span class="sk-chip">Cursor</span>
+            <span class="sk-chip">AGENTS.md 单一事实源</span>
+            <span class="sk-chip">.agents/skills 可移植 Skill</span>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">一份工作流多处用</strong>：Codex / Cursor / OpenCode 直接读 <code>.agents/skills/clone-website/</code>；Claude Code 通过 <code>.claude/commands/clone-website.md</code> 桥接，保证 <code>/clone-website</code> 命令可用且不向其他平台暴露重复副本。</li>
+            <li><strong class="text-ink">常用命令</strong>：<code>npm run dev</code> 开发 · <code>npm run build</code> 生产构建 · <code>npm run lint</code> · <code>npm run typecheck</code> · <code>npm run check</code> 三连检查。</li>
+            <li><strong class="text-ink">目录职责</strong>：<code>src/app/</code> 路由 · <code>src/components/sites/&lt;site&gt;/</code> 站点组件与提取的 SVG · <code>public/sites/&lt;site&gt;/</code> 素材 · <code>docs/research/&lt;site&gt;/</code> 取证 · <code>scripts/</code> 素材下载脚本。</li>
+          </ul>
+
+          <div class="sk-prompt">
+            <p class="mb-2 text-xs text-faint">克隆某个网站的指令写法</p>
+            <pre>{{ texts.clone }}</pre>
+            <button class="sk-copy" :class="{ 'is-done': copied === 'clone' }" @click="copy('clone')">
+              {{ copied === 'clone' ? '已复制' : '复制' }}
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 08 适用场景与边界 ============================ -->
+      <section id="cases" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">08</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">适用场景与边界</h2>
+              <p class="sk-card-sub">
+                官方列了三类用途；同时要清楚它的边界和克隆他人站点时的合规底线。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">平台迁移</strong>：把你拥有的 WordPress / Webflow / Squarespace 站点重建成现代 Next.js 代码库。</li>
+            <li><strong class="text-ink">源码找回</strong>：站还在线上但仓库没了、开发者离开了、技术栈太老——用现代格式把代码拿回来。</li>
+            <li><strong class="text-ink">学习</strong>：用真实代码拆解生产站点如何实现特定布局、动效与响应式行为。</li>
+            <li><strong class="text-ink">明确的原则</strong>：像素级优先、模拟阶段不做个人审美改动、真实内容、每个像素都重要；交付时附运行说明、路由映射、对比截图、已跑检查与剩余差异。</li>
+            <li><strong class="text-ink">合规提醒</strong>：模板本身 MIT 许可；但克隆他人站点供个人学习、自有站迁移没问题，直接商用他人设计与内容需自行取得授权。</li>
+          </ul>
+
+          <div class="sk-prompt">
+            <p class="mb-2 text-xs text-faint">克隆完的日常验证</p>
+            <pre>{{ texts.check }}</pre>
+            <button class="sk-copy" :class="{ 'is-done': copied === 'check' }" @click="copy('check')">
+              {{ copied === 'check' ? '已复制' : '复制' }}
+            </button>
+          </div>
+
+          <div class="mt-6 flex flex-wrap items-center gap-3 border-t border-hair pt-5">
+            <a href="https://github.com/JCodesMore/ai-website-cloner-template" target="_blank" rel="noopener" class="wl-src">
+              <svg class="h-4 w-4"><use href="#i-external"></use></svg>开源仓库
+            </a>
+            <a href="https://github.com/JCodesMore/ai-website-cloner-template/blob/master/.agents/skills/clone-website/SKILL.md" target="_blank" rel="noopener" class="wl-src">
+              <svg class="h-4 w-4"><use href="#i-external"></use></svg>克隆工作流原文
+            </a>
+            <a href="skill.html" class="text-xs text-faint transition hover:text-accent">返回 Skill 指南</a>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="mt-10 border-t border-hair py-10">
+      <div class="mx-auto flex max-w-5xl flex-col items-center justify-between gap-2 px-5 text-xs text-faint sm:flex-row sm:px-6">
+        <p>内容整理自 JCodesMore/ai-website-cloner-template 开源仓库（MIT）· 版权归原作者所有</p>
+        <p>共 8 篇 · Vue 3 · Tailwind CSS · Arco Design</p>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- 首屏骨架：脚本没跑完之前顶住版式（纯静态，脚本一到自动让位） -->
+  <div class="boot" aria-hidden="true">
+    <div class="boot-bar">
+      <span style="width:8rem;height:2rem;border-radius:.75rem;background:rgb(var(--c-dim) / .12)"></span>
+      <span style="width:6rem;height:2rem;border-radius:.75rem;background:rgb(var(--c-dim) / .12)"></span>
+    </div>
+    <div class="boot-row">
+      <div class="boot-main">
+        <div class="boot-block boot-block--sm"></div>
+        <div class="boot-block boot-block--lg"></div>
+        <div class="boot-block"></div>
+        <div class="boot-block boot-block--sm"></div>
+        <div class="boot-block" style="width:70%"></div>
+      </div>
+      <div class="boot-side"><div class="boot-card"></div></div>
+    </div>
+    <p class="boot-tip">网络有点慢，页面还在加载…</p>
+    <div class="boot-fail">
+      <p>页面脚本加载失败，通常是网络中断或浏览器拦截了资源。</p>
+      <p><button type="button" onclick="location.reload()" class="text-accent hover:underline">点击重试</button>
+        · <a href="index.html" class="text-accent hover:underline">返回首页</a></p>
+    </div>
+  </div>
+  <script>
+    // 6 秒还没挂载 → 提示慢；20 秒仍没挂载 → 给重试入口。正常网速不会触发
+    setTimeout(function () {
+      var app = document.getElementById('skill-app');
+      var boot = document.querySelector('.boot');
+      if (app && boot && app.hasAttribute('v-cloak')) boot.classList.add('is-slow');
+    }, 6000);
+    setTimeout(function () {
+      var app = document.getElementById('skill-app');
+      var boot = document.querySelector('.boot');
+      if (app && boot && app.hasAttribute('v-cloak')) boot.classList.add('is-failed');
+    }, 20000);
+  </script>
+
+  <script src="assets/js/weather.js?v=202610051"></script>
+  <script src="vendor/arco-bundle.js?v=20260923"></script>
+  <script src="assets/js/cloner-doc.js?v=202610281"></script>
+
+</body>
+</html>
