@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>dsh-context 使用指南 · 给 AI Agent 装一个上下文透视镜 | 李文涛</title>
+  <meta name="description" content="dsh-context 完整指南：它是什么、怎么装、五大功能入口、上下文仪表板、上下文浏览器、Fleet 编队与通讯、设置与偏好、适用场景与边界，一页读完。">
+  <link rel="canonical" href="https://jason19960330.github.io/website/dsh-context-doc.html">
+
+  <!-- 分享卡片（微信 / 领英 / X 等平台抓取） -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="李文涛的个人主页">
+  <meta property="og:title" content="dsh-context 使用指南 · 给 AI Agent 装一个上下文透视镜 | 李文涛">
+  <meta property="og:description" content="dsh-context 完整指南：是什么、怎么装、五大入口、上下文仪表板、上下文浏览器、Fleet 编队、设置与偏好、适用边界。">
+  <meta property="og:url" content="https://jason19960330.github.io/website/dsh-context-doc.html">
+  <meta property="og:image" content="https://jason19960330.github.io/website/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="zh_CN">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="dsh-context 使用指南 · 给 AI Agent 装一个上下文透视镜 | 李文涛">
+  <meta name="twitter:description" content="dsh-context 完整指南：是什么、怎么装、五大入口、上下文仪表板、上下文浏览器、Fleet 编队、设置与偏好、适用边界。">
+  <meta name="twitter:image" content="https://jason19960330.github.io/website/assets/og-image.png">
+
+  <link rel="icon" href="assets/favicon.svg?v=20260923" type="image/svg+xml">
+
+  <!-- 首屏主题前置脚本：避免深色偏好用户看到白屏闪一下（与首页共用 site.theme） -->
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('site.theme');
+        if (!saved) {
+          saved = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+        }
+        if (saved === 'dark') document.documentElement.classList.add('dark');
+      } catch (e) { /* 隐私模式忽略 */ }
+    })();
+  </script>
+
+  <!-- 预编译样式：Tailwind 产物 → Arco 按需样式 → 站点定制（后者覆盖前者） -->
+  <link rel="stylesheet" href="assets/css/tailwind.css?v=202610281">
+  <link rel="stylesheet" href="vendor/arco-bundle.css?v=20260923">
+  <link rel="stylesheet" href="assets/css/style.css?v=202610281">
+</head>
+
+<body class="bg-base">
+  <div id="skill-app" v-cloak>
+
+    <!-- ============================ 顶部导航 ============================ -->
+    <header class="site-header is-solid fixed inset-x-0 top-0 z-40 border-b border-hair">
+      <div class="mx-auto flex h-16 max-w-5xl items-center justify-between px-5 sm:px-6">
+        <a href="index.html" class="flex items-center gap-2.5">
+          <span class="grid h-8 w-8 place-items-center rounded-lg bg-gradient-to-tr from-sky-500 to-indigo-600 text-[11px] font-bold text-white">涛</span>
+          <span class="text-sm font-semibold tracking-tight text-ink">李文涛</span>
+        </a>
+        <div class="flex items-center gap-2">
+          <a href="resume.html" class="hidden text-xs text-dim transition hover:text-accent sm:inline">简历</a>
+          <a href="weekly.html" class="hidden text-xs text-dim transition hover:text-accent sm:inline">AI 速览</a>
+          <a href="hotnews.html" class="hidden text-xs text-dim transition hover:text-accent sm:inline">热点</a>
+          <a href="skill.html" class="hidden text-xs font-semibold text-accent sm:inline">Skill 指南</a>
+          <a href="aihot.html" class="hidden text-xs text-dim transition hover:text-accent sm:inline">AIHOT 指南</a>
+          <button @click="toggleTheme" aria-label="切换主题"
+                  class="grid h-9 w-9 place-items-center rounded-lg border border-hair text-dim transition hover:text-accent">
+            <svg class="theme-icon h-4 w-4"><use :href="theme === 'dark' ? '#i-moon' : '#i-sun'"></use></svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <svg class="hidden" aria-hidden="true">
+      <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 14.5A8.5 8.5 0 019.5 4a8.5 8.5 0 1010.5 10.5z"></path>
+      </symbol>
+      <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="4"></circle>
+        <path d="M12 3v2m0 14v2M3 12h2m14 0h2M5.6 5.6l1.4 1.4m10 10l1.4 1.4m0-12.8l-1.4 1.4m-10 10L5.6 18.4"></path>
+      </symbol>
+      <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M10.5 6l-6 6 6 6M4.5 12h15"></path>
+      </symbol>
+      <symbol id="i-external" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 4h6v6M20 4l-9 9M18 14v4a2 2 0 01-2 2H6a2 2 0 01-2-2V8a2 2 0 012-2h4"></path>
+      </symbol>
+    </svg>
+
+    <main id="main" class="pt-16" tabindex="-1">
+
+      <!-- ============================ 概览 ============================ -->
+      <section class="mx-auto max-w-5xl px-5 pt-6 sm:px-6 sm:pt-8">
+        <a href="skill.html" class="wl-back">
+          <svg class="h-3.5 w-3.5"><use href="#i-arrow-left"></use></svg>返回 Skill 指南
+        </a>
+
+        <div class="wl-hero card mt-4">
+          <span class="wl-hero-bar" aria-hidden="true"></span>
+          <div class="p-6 sm:p-8">
+            <div class="mt-4 flex flex-wrap items-start justify-between gap-5">
+              <div class="min-w-0">
+                <p class="text-xs font-semibold uppercase tracking-[0.2em] text-accent">开源插件 · 使用指南</p>
+                <h1 class="mt-2 text-3xl font-bold tracking-tight text-ink sm:text-4xl">dsh-context 完整指南</h1>
+                <p class="mt-3 max-w-2xl text-sm leading-relaxed text-dim">
+                  一款给 AI Agent 装的「上下文透视镜」——DeepSeek Harness 插件：把 Agent 此刻携带的上下文（系统提示词、工具定义、历史消息、模型思考、工具结果）可视化，
+                  看清它怎么构成、怎么随对话膨胀与压缩、多 Agent 协作时各自占了多大窗口。下面把 8 个主题的完整内容整理在一页里，从上往下读即可。
+                </p>
+              </div>
+
+              <a href="https://github.com/bowenliang123/dsh-context" target="_blank" rel="noopener" class="wl-src">
+                <svg class="h-4 w-4"><use href="#i-external"></use></svg>
+                <span class="leading-tight">开源仓库<br>GitHub</span>
+              </a>
+            </div>
+
+            <dl class="wl-stats">
+              <div><dt>GitHub 收藏</dt><dd class="tnum">3.8k</dd></div>
+              <div><dt>兼容版本</dt><dd class="tnum">0.2.0+</dd></div>
+              <div><dt>功能入口</dt><dd class="tnum">5 个</dd></div>
+              <div><dt>许可</dt><dd class="tnum">Apache-2.0</dd></div>
+            </dl>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 目录 ============================ -->
+      <section class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card p-5 sm:p-6">
+          <h2 class="text-sm font-semibold text-ink">本页目录（8 篇）</h2>
+          <nav class="sk-toc mt-3">
+            <a href="#what"><span>01</span>它到底是什么</a>
+            <a href="#setup"><span>02</span>快速开始</a>
+            <a href="#entry"><span>03</span>五大功能入口</a>
+            <a href="#dashboard"><span>04</span>上下文仪表板</a>
+            <a href="#browser"><span>05</span>上下文浏览器</a>
+            <a href="#fleet"><span>06</span>Fleet 编队与通讯</a>
+            <a href="#settings"><span>07</span>设置与偏好</a>
+            <a href="#cases"><span>08</span>适用场景与边界</a>
+          </nav>
+        </div>
+      </section>
+
+      <!-- ============================ 01 它是什么 ============================ -->
+      <section id="what" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">01</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">它到底是什么</h2>
+              <p class="sk-card-sub">
+                不是独立网站或 App，而是给 <strong class="text-ink">DeepSeek Harness</strong> 装的一个插件：把 Agent 正在携带的上下文全生命周期管理起来。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">它解决的是「看不见」的问题</strong>：对话越长，上下文窗口越满，但到底被什么占满了、哪一步开始退化，肉眼完全看不出来——dsh-context 把这一切摊开给你看。</li>
+            <li><strong class="text-ink">同一个故事的五种讲法</strong>：上下文洞察页、Context 标签页、Fleet 标签页、侧边栏面板、<code>/context</code> 命令，入口不同，看的是同一份上下文数据。</li>
+            <li><strong class="text-ink">被官方推荐</strong>：获 DeepSeek Harness 团队成员 [@tianyicui]、[@turtle1999] 推荐并加星，定位是「适用于 Agent 上下文洞察与管理的最佳 Harness 插件」。</li>
+            <li><strong class="text-ink">装完即用</strong>：cordis 插件，TypeScript 编写，Apache-2.0 许可；无需构建、无需重启，装完即可在侧边栏和会话里看到。</li>
+          </ul>
+
+          <div class="sk-tip">
+            <strong>形态：</strong>DeepSeek Harness 插件（cordis-plugin）。运行在 Harness 内部，读它自己的会话日志（V4 格式），因此不依赖第三方服务，也不会把你的对话发到别处。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 02 快速开始 ============================ -->
+      <section id="setup" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">02</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">快速开始</h2>
+              <p class="sk-card-sub">
+                两种方式都能装，都不需要碰构建工具。装完用 <code>dsh web</code> 启动 Web UI 即可。
+              </p>
+            </div>
+          </div>
+
+          <div class="sk-prompt">
+            <p class="mb-2 text-xs text-faint">在 DeepSeek Harness 里安装（推荐）</p>
+            <pre>{{ texts.install }}</pre>
+            <button class="sk-copy" :class="{ 'is-done': copied === 'install' }" @click="copy('install')">
+              {{ copied === 'install' ? '已复制' : '复制' }}
+            </button>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">图形界面装</strong>：在 Add plugin 向导的搜索框里填 <code>dsh-context</code>，点 Install 即可（网页版 / 桌面版通用）。</li>
+            <li><strong class="text-ink">命令行装</strong>：<code>dsh plugin --profile web add dsh-context</code>，随后 <code>dsh web</code> 启动界面。</li>
+            <li><strong class="text-ink">升级</strong>：<code>dsh plugin --profile web update dsh-context@latest</code>，再 <code>dsh web</code> 即可，不用重装。</li>
+            <li><strong class="text-ink">兼容性</strong>：要求 <code>@deepseek-ai/dsh</code> 0.2.0-rc.2 及以上（0.2.0 / 0.2.1 系列已验证）；UI 内置英文与简体中文。</li>
+          </ul>
+
+          <div class="sk-prompt">
+            <p class="mb-2 text-xs text-faint">升级到最新版</p>
+            <pre>{{ texts.update }}</pre>
+            <button class="sk-copy" :class="{ 'is-done': copied === 'update' }" @click="copy('update')">
+              {{ copied === 'update' ? '已复制' : '复制' }}
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 03 五大功能入口 ============================ -->
+      <section id="entry" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">03</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">五大功能入口</h2>
+              <p class="sk-card-sub">
+                五个入口看的是同一份上下文数据，区别只是「在什么场景下、以什么形态」呈现给你。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">① 上下文洞察页面（一级侧边栏）</strong>：跨会话总览，与 Plugins、Automation tasks 并列。含 7 天 Token/成本 KPI 栏、7 天使用量成对柱状图、活动热力图、组成环形图，以及可按时间/搜索筛选、一键跳转任一会话的会话卡片。</li>
+            <li><strong class="text-ink">② Context 标签页</strong>：打开任意会话后，完整的上下文仪表板——统计、组成、逐请求趋势、事件、文件活动、命令执行。</li>
+            <li><strong class="text-ink">③ Fleet 标签页</strong>：Agent 家族专属页，当前 Agent、它的父级、所有子 Agent 各显示一张实时卡片。</li>
+            <li><strong class="text-ink">④ Context 面板（右侧边栏）</strong>：把同一个仪表板钉在聊天旁边，侧边栏选 Context 即开，含 Agent 网络。</li>
+            <li><strong class="text-ink">⑤ /context 命令</strong>：在输入框敲 <code>/context</code>，居中弹窗显示当前上下文组成与浏览器，不离开聊天。</li>
+          </ul>
+
+          <div class="sk-tip">
+            偏好设置里可单独开关「Context 面板入口」（会话标签页 / 右侧栏 / 两者 / 隐藏）与「Fleet 标签页」显示，详见第 07 篇。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 04 上下文仪表板 ============================ -->
+      <section id="dashboard" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">04</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">上下文仪表板</h2>
+              <p class="sk-card-sub">
+                Context 标签页里一组互相联动的卡片，从「总量」到「逐请求演变」逐层下钻。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">Context Stats</strong>：轮次、步骤、用户输入、实时工具调用，以及按 models.dev 价格估算的成本（悬停 <code>?</code> 看单价；DeepSeek 高峰时段按 2 倍计）。</li>
+            <li><strong class="text-ink">Token Stats</strong>：计费 Token 总量按组成拆分——系统提示词、工具定义、消息、模型思考……环形末端是会话缓存命中率。</li>
+            <li><strong class="text-ink">Timing Stats</strong>：活跃时间在「模型调用 / 工具运行 / 开销」之间的分布。</li>
+            <li><strong class="text-ink">Current Context</strong>：此刻窗口里的内容，六色堆叠条（系统提示词 / 工具定义 / 用户消息 / 注入上下文 / 助手回复 / 工具结果），每条显示约略 Token 与占比——对话开始退化时，能在这里看到<em>具体是哪块</em>撑爆了窗口。</li>
+            <li><strong class="text-ink">Context Trend</strong>：每个模型请求一根堆叠柱，比按消息更细，可逐轮看窗口增长；支持 Step/Turn、Total/Delta，压缩事件直接标在柱上。</li>
+            <li><strong class="text-ink">Context Events</strong>：注入 / 压缩 / 清理 / 模型切换 / 模式切换都记录下来，标注来源与 Token 净变化。</li>
+            <li><strong class="text-ink">File Activity</strong>：Agent 对你的文件做了什么——读取 / 写入 / 搜索，含行数增减估算。</li>
+            <li><strong class="text-ink">命令执行</strong>：Agent 跑了哪些 Shell / 代码，状态、耗时、程序分布一目了然。</li>
+          </ul>
+
+          <div class="sk-tip">
+            标题里的占用率与组成，读的是和聊天框上下文环形图相同的官方 Token 计量投影（<code>contextPressure</code> / <code>contextBreakdown</code>），所以数值始终与环形图一致，精确到小数点后一位。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 05 上下文浏览器 ============================ -->
+      <section id="browser" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">05</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">上下文浏览器</h2>
+              <p class="sk-card-sub">
+                想知道「某一次请求到底是哪些内容拼出来的」？选 Live 或任一保留步骤，逐类展开看真实内容。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">七类可折叠</strong>：系统提示词、工具定义、消息、推理、工具参数、工具输出、技能注入（Skill Injections 单独成类，隐蔽技能不藏进「注入上下文」或「工具结果」）。每项显示 Token 开销，可再展开看实际内容。</li>
+            <li><strong class="text-ink">工具来源标签</strong>：每个工具定义带来源识别——<code>tool-*</code> 一方包、<code>dsh-*</code> 功能包、<code>mcp:&lt;server&gt;</code> 代理，或 <code>tools.register()</code> 实时监控到的确切插件；可按大小/名称排序、可搜索。</li>
+            <li><strong class="text-ink">助手回复按类型筛</strong>：搜索框含 Thinking / Tools / Answer 标签，点一下只留匹配的回复类型。</li>
+            <li><strong class="text-ink">工具结果展开看完整调用</strong>：工具名、参数与 OK/error 状态，结果正文支持 Raw / Markdown 切换。</li>
+            <li><strong class="text-ink">附件卡片</strong>：消息里的 image / file 区块按序成卡，图片显示缩略图、尺寸、存储大小与官方图像 Token 估算；点击在预览栏打开（支持 Markdown / 代码 / PDF / Office / 图片）。</li>
+            <li><strong class="text-ink">与上一轮对比</strong>：各类别的有符号差异徽标（<code>+N</code> 项、<code>±Nk</code> Token）让你一眼看出某轮新增或回收了什么。</li>
+            <li><strong class="text-ink">DNA 模式</strong>：把上下文按模型读取顺序平铺成色带与列表（最新在上），每行带在提示词中的位置 <code>#12</code>、类别、引入步骤、Token 开销。</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ============================ 06 Fleet 编队与通讯 ============================ -->
+      <section id="fleet" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">06</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">Fleet 编队与通讯</h2>
+              <p class="sk-card-sub">
+                多 Agent 协作时，整支队伍拥有自己的页面，把「谁在做什么、跟谁说了什么」一次看全。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">Agent Network</strong>：当前 Agent、它的父级、所有子 Agent 各一张卡，显示实时上下文大小、窗口占用率、组成条、运行时长与已执行步数；血缘连线按关系着色，运行中 Agent 有绿色脉冲指示。</li>
+            <li><strong class="text-ink">编队成员与任务</strong>：每张成员卡显示角色（主控/队友）、运行模型、最新回复、时长、步数、进行中任务数；下方任务板按负责人分组、可按状态筛选，聚焦某任务时整条阻塞前置链一起点亮。</li>
+            <li><strong class="text-ink">通讯记录</strong>：自动读编队会话日志，把团队私信、邮箱投递、运行时结算通知合并成通道——每张通道卡配对双方身份与消息数，时间线标角色；点开任一条内联展开完整记录与参与者卡片。</li>
+          </ul>
+
+          <div class="sk-tip">
+            右侧 Sidebar 的 Context 面板会内嵌同一套 Fleet 卡片；若用不到，可在偏好设置里关闭「Fleet tab」（卡片仍保留在面板中）。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 07 设置与偏好 ============================ -->
+      <section id="settings" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">07</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">设置与偏好</h2>
+              <p class="sk-card-sub">
+                用户级设置都在 Plugins 页里 dsh-context 的 Configuration 卡片，改完即时生效。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">Context 面板入口</strong>：会话标签页 / 右侧 Sidebar / 两者 / 隐藏——隐藏后回复行的跳转按钮也一并隐藏。</li>
+            <li><strong class="text-ink">Fleet 标签页开关</strong>：独立于上面的面板入口，单独控制是否显示 Fleet 标签页。</li>
+            <li><strong class="text-ink">洞察默认时间范围</strong>：今天 / 近 7 天 / 近 30 天（默认）/ 全部；在页面上点时间预设会写回此项。</li>
+            <li><strong class="text-ink">图表与排序默认值</strong>：趋势粒度（Step/Turn）、趋势模式（Total/Delta）、默认时长曲线、自动总览阈值、浏览器对比基线、工具与文件活动排序，都可预设。</li>
+            <li><strong class="text-ink">System Prompt 前缀 / 后缀</strong>：自由文本，拼接到<strong class="text-ink">每个会话</strong>系统提示词的最前 / 最后，对所有 Agent（含子 Agent）生效——相当于随 Harness 自身组装流程应用的部署级角色设定或行为规则，下一轮起生效，留空即停用。</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ============================ 08 适用场景与边界 ============================ -->
+      <section id="cases" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">08</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">适用场景与边界</h2>
+              <p class="sk-card-sub">
+                它不改变 Agent 的行为，只让你「看得见」——下面说清什么时候最有用、以及数字该怎么读。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">上下文快撑爆却找不到原因</strong>：Current Context 六色条直接指出是哪块（系统提示词？工具定义？历史消息？）在膨胀。</li>
+            <li><strong class="text-ink">多 Agent 协作想看各自占用</strong>：Fleet 的 Agent Network 把父 / 子 Agent 的上下文与成本并排。</li>
+            <li><strong class="text-ink">想优化提示词 / 工具定义体积</strong>：Token Stats 与上下文浏览器能精确定位「最贵」的那段内容。</li>
+            <li><strong class="text-ink">想复盘 Agent 到底做了什么</strong>：File Activity 与命令执行记录每一步读写了哪些文件、跑了哪些命令。</li>
+            <li><strong class="text-ink">估算值 vs 实际值</strong>：各类别采用 dsh 固定密度启发式（与内置 Token 计量器同源）；固定趋势明细会在一旁显示服务商报告的实际值，Token 卡片则把估算占比与精确计费总量并列呈现。</li>
+            <li><strong class="text-ink">兼容性边界</strong>：仅支持 V4 会话日志格式的 <code>@deepseek-ai/dsh</code> 0.2.0-rc.2 及以上；更早版本不保证可解析。</li>
+          </ul>
+
+          <div class="sk-prompt">
+            <p class="mb-2 text-xs text-faint">在任意会话里弹出当前上下文</p>
+            <pre>{{ texts.command }}</pre>
+            <button class="sk-copy" :class="{ 'is-done': copied === 'command' }" @click="copy('command')">
+              {{ copied === 'command' ? '已复制' : '复制' }}
+            </button>
+          </div>
+
+          <div class="mt-6 flex flex-wrap items-center gap-3 border-t border-hair pt-5">
+            <a href="https://github.com/bowenliang123/dsh-context" target="_blank" rel="noopener" class="wl-src">
+              <svg class="h-4 w-4"><use href="#i-external"></use></svg>开源仓库
+            </a>
+            <a href="https://github.com/bowenliang123/dsh-context/blob/main/README_zh.md" target="_blank" rel="noopener" class="wl-src">
+              <svg class="h-4 w-4"><use href="#i-external"></use></svg>中文文档原文
+            </a>
+            <a href="skill.html" class="text-xs text-faint transition hover:text-accent">返回 Skill 指南</a>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="mt-10 border-t border-hair py-10">
+      <div class="mx-auto flex max-w-5xl flex-col items-center justify-between gap-2 px-5 text-xs text-faint sm:flex-row sm:px-6">
+        <p>内容整理自 bowenliang123/dsh-context 开源仓库（Apache-2.0）· 版权归原作者所有</p>
+        <p>共 8 篇 · Vue 3 · Tailwind CSS · Arco Design</p>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- 首屏骨架：脚本没跑完之前顶住版式（纯静态，脚本一到自动让位） -->
+  <div class="boot" aria-hidden="true">
+    <div class="boot-bar">
+      <span style="width:8rem;height:2rem;border-radius:.75rem;background:rgb(var(--c-dim) / .12)"></span>
+      <span style="width:6rem;height:2rem;border-radius:.75rem;background:rgb(var(--c-dim) / .12)"></span>
+    </div>
+    <div class="boot-row">
+      <div class="boot-main">
+        <div class="boot-block boot-block--sm"></div>
+        <div class="boot-block boot-block--lg"></div>
+        <div class="boot-block"></div>
+        <div class="boot-block boot-block--sm"></div>
+        <div class="boot-block" style="width:70%"></div>
+      </div>
+      <div class="boot-side"><div class="boot-card"></div></div>
+    </div>
+    <p class="boot-tip">网络有点慢，页面还在加载…</p>
+    <div class="boot-fail">
+      <p>页面脚本加载失败，通常是网络中断或浏览器拦截了资源。</p>
+      <p><button type="button" onclick="location.reload()" class="text-accent hover:underline">点击重试</button>
+        · <a href="index.html" class="text-accent hover:underline">返回首页</a></p>
+    </div>
+  </div>
+  <script>
+    // 6 秒还没挂载 → 提示慢；20 秒仍没挂载 → 给重试入口。正常网速不会触发
+    setTimeout(function () {
+      var app = document.getElementById('skill-app');
+      var boot = document.querySelector('.boot');
+      if (app && boot && app.hasAttribute('v-cloak')) boot.classList.add('is-slow');
+    }, 6000);
+    setTimeout(function () {
+      var app = document.getElementById('skill-app');
+      var boot = document.querySelector('.boot');
+      if (app && boot && app.hasAttribute('v-cloak')) boot.classList.add('is-failed');
+    }, 20000);
+  </script>
+
+  <script src="assets/js/weather.js?v=202610051"></script>
+  <script src="vendor/arco-bundle.js?v=20260923"></script>
+  <script src="assets/js/dsh-context-doc.js?v=202610281"></script>
+
+</body>
+</html>
