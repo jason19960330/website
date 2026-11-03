@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>shadcn-admin 使用指南 · 基于 Shadcn 与 Vite 的后台面板 UI | 李文涛</title>
+  <meta name="description" content="shadcn-admin 完整指南：它是什么、技术栈、快速开始、页面与布局、主题与暗色模式、组件与数据展示、认证（部分集成）、适用场景与边界，一页读完。">
+  <link rel="canonical" href="https://jason19960330.github.io/website/shadcn-admin-doc.html">
+
+  <!-- 分享卡片（微信 / 领英 / X 等平台抓取） -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="李文涛的个人主页">
+  <meta property="og:title" content="shadcn-admin 使用指南 · 基于 Shadcn 与 Vite 的后台面板 UI | 李文涛">
+  <meta property="og:description" content="shadcn-admin 完整指南：是什么、技术栈、快速开始、页面布局、主题暗色、组件数据、认证集成、适用边界。">
+  <meta property="og:url" content="https://jason19960330.github.io/website/shadcn-admin-doc.html">
+  <meta property="og:image" content="https://jason19960330.github.io/website/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="zh_CN">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="shadcn-admin 使用指南 · 基于 Shadcn 与 Vite 的后台面板 UI | 李文涛">
+  <meta name="twitter:description" content="shadcn-admin 完整指南：是什么、技术栈、快速开始、页面布局、主题暗色、组件数据、认证集成、适用边界。">
+  <meta name="twitter:image" content="https://jason19960330.github.io/website/assets/og-image.png">
+
+  <link rel="icon" href="assets/favicon.svg?v=20260923" type="image/svg+xml">
+
+  <!-- 首屏主题前置脚本：避免深色偏好用户看到白屏闪一下（与首页共用 site.theme） -->
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('site.theme');
+        if (!saved) {
+          saved = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+        }
+        if (saved === 'dark') document.documentElement.classList.add('dark');
+      } catch (e) { /* 隐私模式忽略 */ }
+    })();
+  </script>
+
+  <!-- 预编译样式：Tailwind 产物 → Arco 按需样式 → 站点定制（后者覆盖前者） -->
+  <link rel="stylesheet" href="assets/css/tailwind.css?v=202610281">
+  <link rel="stylesheet" href="vendor/arco-bundle.css?v=20260923">
+  <link rel="stylesheet" href="assets/css/style.css?v=202610281">
+</head>
+
+<body class="bg-base">
+  <div id="skill-app" v-cloak>
+
+    <!-- ============================ 顶部导航 ============================ -->
+    <header class="site-header is-solid fixed inset-x-0 top-0 z-40 border-b border-hair">
+      <div class="mx-auto flex h-16 max-w-5xl items-center justify-between px-5 sm:px-6">
+        <a href="index.html" class="flex items-center gap-2.5">
+          <span class="grid h-8 w-8 place-items-center rounded-lg bg-gradient-to-tr from-sky-500 to-indigo-600 text-[11px] font-bold text-white">涛</span>
+          <span class="text-sm font-semibold tracking-tight text-ink">李文涛</span>
+        </a>
+        <div class="flex items-center gap-2">
+          <a href="resume.html" class="hidden text-xs text-dim transition hover:text-accent sm:inline">简历</a>
+          <a href="weekly.html" class="hidden text-xs text-dim transition hover:text-accent sm:inline">AI 速览</a>
+          <a href="hotnews.html" class="hidden text-xs text-dim transition hover:text-accent sm:inline">热点</a>
+          <a href="skill.html" class="hidden text-xs font-semibold text-accent sm:inline">Skill 指南</a>
+          <a href="aihot.html" class="hidden text-xs text-dim transition hover:text-accent sm:inline">AIHOT 指南</a>
+          <button @click="toggleTheme" aria-label="切换主题"
+                  class="grid h-9 w-9 place-items-center rounded-lg border border-hair text-dim transition hover:text-accent">
+            <svg class="theme-icon h-4 w-4"><use :href="theme === 'dark' ? '#i-moon' : '#i-sun'"></use></svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <svg class="hidden" aria-hidden="true">
+      <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 14.5A8.5 8.5 0 019.5 4a8.5 8.5 0 1010.5 10.5z"></path>
+      </symbol>
+      <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="4"></circle>
+        <path d="M12 3v2m0 14v2M3 12h2m14 0h2M5.6 5.6l1.4 1.4m10 10l1.4 1.4m0-12.8l-1.4 1.4m-10 10L5.6 18.4"></path>
+      </symbol>
+      <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M10.5 6l-6 6 6 6M4.5 12h15"></path>
+      </symbol>
+      <symbol id="i-external" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 4h6v6M20 4l-9 9M18 14v4a2 2 0 01-2 2H6a2 2 0 01-2-2V8a2 2 0 012-2h4"></path>
+      </symbol>
+    </svg>
+
+    <main id="main" class="pt-16" tabindex="-1">
+
+      <!-- ============================ 概览 ============================ -->
+      <section class="mx-auto max-w-5xl px-5 pt-6 sm:px-6 sm:pt-8">
+        <a href="skill.html" class="wl-back">
+          <svg class="h-3.5 w-3.5"><use href="#i-arrow-left"></use></svg>返回 Skill 指南
+        </a>
+
+        <div class="wl-hero card mt-4">
+          <span class="wl-hero-bar" aria-hidden="true"></span>
+          <div class="p-6 sm:p-8">
+            <div class="mt-4 flex flex-wrap items-start justify-between gap-5">
+              <div class="min-w-0">
+                <p class="text-xs font-semibold uppercase tracking-[0.2em] text-accent">开源仪表盘 · 使用指南</p>
+                <h1 class="mt-2 text-3xl font-bold tracking-tight text-ink sm:text-4xl">shadcn-admin 完整指南</h1>
+                <p class="mt-3 max-w-2xl text-sm leading-relaxed text-dim">
+                  一套「用 Shadcn 与 Vite 现搭的后台面板 UI 合集」：可复用的仪表盘、表单、表格、图表与设置页，
+                  响应式与无障碍优先，自带浅/深色主题与多套布局变体。作者是借鉴 ShadcnUI 官方示例攒出的参考实现，
+                  指南整理自其公开仓库。
+                </p>
+              </div>
+
+              <a href="https://github.com/satnaing/shadcn-admin" target="_blank" rel="noopener" class="wl-src">
+                <svg class="h-4 w-4"><use href="#i-external"></use></svg>
+                <span class="leading-tight">开源仓库<br>GitHub</span>
+              </a>
+            </div>
+
+            <dl class="wl-stats">
+              <div><dt>GitHub 收藏</dt><dd class="tnum">16.4k</dd></div>
+              <div><dt>构建工具</dt><dd class="tnum">Vite</dd></div>
+              <div><dt>路由方案</dt><dd class="tnum">TanStack</dd></div>
+              <div><dt>许可</dt><dd class="tnum">MIT</dd></div>
+            </dl>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 目录 ============================ -->
+      <section class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card p-5 sm:p-6">
+          <h2 class="text-sm font-semibold text-ink">本页目录（8 篇）</h2>
+          <nav class="sk-toc mt-3">
+            <a href="#what"><span>01</span>它到底是什么</a>
+            <a href="#stack"><span>02</span>技术栈一览</a>
+            <a href="#setup"><span>03</span>快速开始</a>
+            <a href="#pages"><span>04</span>页面与布局</a>
+            <a href="#theme"><span>05</span>主题与暗色模式</a>
+            <a href="#components"><span>06</span>组件与数据展示</a>
+            <a href="#auth"><span>07</span>认证（部分集成）</a>
+            <a href="#cases"><span>08</span>适用场景与边界</a>
+          </nav>
+        </div>
+      </section>
+
+      <!-- ============================ 01 它是什么 ============================ -->
+      <section id="what" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">01</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">它到底是什么</h2>
+              <p class="sk-card-sub">
+                不是脚手架，而是一份<strong class="text-ink">可直接参考的后台面板 UI 合集</strong>——把日常要写的仪表盘界面攒成一套现成组件与页面。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">定位是「参考实现」而非 starter template</strong>：作者在 README 里明确写了 <em>This is not a starter project (template)</em>，它更像是把 ShadcnUI 官方示例与自己写的自定义组件拼成的一份「可复用后台 UI 收藏」，方便日后项目直接抄组件。</li>
+            <li><strong class="text-ink">UI 优先</strong>：核心交付物是界面与组件，不是后端、不是业务逻辑。表单校验、表格分页、图表展示这些「前端苦活」已经替你搭好。</li>
+            <li><strong class="text-ink">响应式 + 无障碍</strong>：官方强调 built with responsiveness and accessibility in mind，组件基于 Radix UI 原语，键盘可达与 ARIA 语义开箱即用。</li>
+            <li><strong class="text-ink">作者与许可</strong>：由 @satnaing 用 🤍 打造，MIT License，可自由用于个人与商业项目；线上 Demo 托管在 shadcn-admin.netlify.app。</li>
+          </ul>
+
+          <div class="sk-tip">
+            <strong>形态：</strong>纯前端 Admin Dashboard 模板（Vite 工程）。它没有内置服务端，也没有数据库；你拿它当「界面素材库」，把需要的页面/组件复制进自己的项目即可。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 02 技术栈一览 ============================ -->
+      <section id="stack" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">02</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">技术栈一览</h2>
+              <p class="sk-card-sub">
+                一整套现代前端组合：Shadcn 风格组件 + Vite 极速构建 + 类型安全的 TanStack 全家桶。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">UI 层</strong>：ShadcnUI，即 <code>Tailwind CSS</code> + <code>Radix UI</code> 原语；自定义组件部分直接改编自 ShadcnUI 官方示例。</li>
+            <li><strong class="text-ink">构建工具</strong>：<code>Vite</code>（搭配 <code>@tailwindcss/vite</code>，即 Tailwind v4 的 Vite 插件），开发热更新与构建都很快。</li>
+            <li><strong class="text-ink">路由</strong>：<code>@tanstack/react-router</code>，带类型安全的路由与 devtools，是现代 React 路由方案。</li>
+            <li><strong class="text-ink">语言与质量</strong>：<code>TypeScript</code> 全程类型；<code>ESLint</code> + <code>Prettier</code> 做 lint/format；<code>Vitest</code> + Playwright 跑单测与浏览器测试。</li>
+            <li><strong class="text-ink">数据展示</strong>：<code>@tanstack/react-table</code> 做表格、<code>react-hook-form</code> + <code>zod</code> 做表单校验；图标用 <code>lucide-react</code> 与 Tabler（仅品牌图标）。</li>
+            <li><strong class="text-ink">认证（部分）</strong>：<code>@clerk/react</code> 被引入做登录/注册等界面，但作者标注为 partial（仅部分接入），后端鉴权需自行补齐。</li>
+            <li><strong class="text-ink">React 版本</strong>：基于 <code>React 19</code>（含配套 @types），是现代 React 工程。</li>
+          </ul>
+
+          <div class="sk-tip">
+            <strong>小提示：</strong>正因为是 Shadcn 风格，组件代码（<code>components/ui/*</code>）是「复制进来归你所有」的模式，而不是 npm 依赖——你可以直接改源码，无需等上游发版。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 03 快速开始 ============================ -->
+      <section id="setup" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">03</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">快速开始</h2>
+              <p class="sk-card-sub">
+                克隆后用 pnpm 装依赖、起 Vite 开发服务器即可在本地看到完整界面。
+              </p>
+            </div>
+          </div>
+
+          <div class="sk-prompt">
+            <p class="mb-2 text-xs text-faint">克隆并在本地启动</p>
+            <pre>{{ texts.run }}</pre>
+            <button class="sk-copy" :class="{ 'is-done': copied === 'run' }" @click="copy('run')">
+              {{ copied === 'run' ? '已复制' : '复制' }}
+            </button>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">包管理器用 pnpm</strong>：README 给出的是 <code>pnpm install</code> 与 <code>pnpm run dev</code>；若你机器只有 npm/yarn，把命令换成对应等价物通常也能跑，但锁文件是 pnpm 的。</li>
+            <li><strong class="text-ink">开发服务器</strong>：<code>pnpm run dev</code> 启动 Vite，默认打开本地地址即可浏览仪表盘、表单、表格等各页面。</li>
+            <li><strong class="text-ink">它不是脚手架</strong>：启动后是「成品界面 Demo」，你复制其中需要的页面/组件到自己的项目，而不是在它之上继续填业务——这点与 Next.js 类 starter 不同。</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ============================ 04 页面与布局 ============================ -->
+      <section id="pages" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">04</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">页面与布局</h2>
+              <p class="sk-card-sub">
+                内置一套常见后台页面，并提供了多套可切换的布局外壳，省去从零搭框架。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">常见后台页面</strong>：仪表盘/概览、分析（Analytics）、任务（Tasks）、报表（Reports）、表单、设置（Settings）等——覆盖了后台系统最常被复用的那批界面。</li>
+            <li><strong class="text-ink">布局变体</strong>：提供侧边栏（Sidebar）、顶栏（Header）、极简（Minimal）、全宽（Full）等多套布局外壳，可在不同页面间切换，快速搭出有层次的后台结构。</li>
+            <li><strong class="text-ink">响应式</strong>：移动端自动收起侧边栏、表格横向滚动、卡片重排，官方明确以 responsiveness 为目标。</li>
+            <li><strong class="text-ink">无障碍</strong>：基于 Radix 原语，对话框、下拉、标签页、开关等自带键盘操作与屏幕阅读器支持。</li>
+            <li><strong class="text-ink">导航与路由</strong>：页面由 TanStack Router 管理，路由定义、懒加载、类型安全链接都是现成的。</li>
+          </ul>
+
+          <div class="sk-tip">
+            <strong>用法：</strong>想做自己的后台时，直接从这里挑「布局外壳 + 需要的页面」复制过去，再替换成你的数据与接口，比从空白 Vite 工程起步快得多。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 05 主题与暗色模式 ============================ -->
+      <section id="theme" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">05</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">主题与暗色模式</h2>
+              <p class="sk-card-sub">
+                配色走 Shadcn 经典的 CSS 变量方案，浅色/深色一键切换，改主题不用改组件代码。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">CSS 变量驱动</strong>：颜色全部抽象成 <code>--background</code> / <code>--foreground</code> / <code>--primary</code> / <code>--muted</code> 等设计令牌，深色模式只是切一套变量值，组件本身零改动。</li>
+            <li><strong class="text-ink">Tailwind v4 集成</strong>：用 <code>@tailwindcss/vite</code> + <code>@theme</code> 把设计令牌注入 Tailwind 工具类，<code>bg-background</code> / <code>text-foreground</code> 等开箱即用。</li>
+            <li><strong class="text-ink">暗色切换</strong>：切换时给根元素加/去 <code>.dark</code> 类即可，配合 <code>prefers-color-scheme</code> 还能跟随系统。</li>
+            <li><strong class="text-ink">可定制</strong>：想换品牌色，只改那一组 CSS 变量就能全局生效，不用逐个组件调色。</li>
+          </ul>
+
+          <div class="sk-tip">
+            <strong>延伸：</strong>本指南页（以及本站 Skill 指南系列）的明暗切换逻辑与之同理——都是「根节点 class + CSS 变量」，所以你在 shadcn-admin 里学到的主题方案可以直接平移到任何 Tailwind 项目。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 06 组件与数据展示 ============================ -->
+      <section id="components" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">06</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">组件与数据展示</h2>
+              <p class="sk-card-sub">
+                表格、表单、对话框、下拉等后台高频组件都已就位，且都建立在无障碍原语之上。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">Shadcn 组件</strong>：按钮、卡片、输入框、表格、标签页、下拉菜单、对话框、开关、头像、工具提示等，全部基于 Radix UI，可访问性有保障。</li>
+            <li><strong class="text-ink">数据表格</strong>：用 <code>@tanstack/react-table</code> 做排序、分页、列显隐、行选择——复杂后台表格的标配能力都现成。</li>
+            <li><strong class="text-ink">表单</strong>：<code>react-hook-form</code> + <code>zod</code> 做受控字段与 schema 校验，提交/重置/错误提示都已封装好。</li>
+            <li><strong class="text-ink">图表</strong>：仪表盘页内置图表展示（基于 Shadcn charts，底层为 Recharts 类方案），适合做趋势、占比、KPI 等可视化。</li>
+            <li><strong class="text-ink">图标</strong>：界面图标用 <code>lucide-react</code>，品牌类图标用 Tabler（仅取品牌图集），风格统一、体积可控。</li>
+          </ul>
+
+          <div class="sk-tip">
+            <strong>为什么值得抄：</strong>这些组件的「无障碍 + 受控状态 + 主题适配」细节最容易踩坑，直接复用比自己手写稳得多，也是这份合集最大的价值所在。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 07 认证（部分集成） ============================ -->
+      <section id="auth" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">07</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">认证（部分集成）</h2>
+              <p class="sk-card-sub">
+                登录/注册等界面已经画好，但作者标注为 partial——真正的鉴权后端需要你自己接。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">Clerk 被引入</strong>：依赖里有 <code>@clerk/react</code>，登录、注册、找回密码等页面使用它来呈现。</li>
+            <li><strong class="text-ink">partial 的含义</strong>：README 在 Tech Stack 的 Auth 一项明确标了 <em>(partial)</em>——意思是「界面层做了，但不是一个开箱即用的完整鉴权方案」，路由守卫、服务端会话等需自行补齐。</li>
+            <li><strong class="text-ink">可替换为任意方案</strong>：既然认证只是「部分」，你完全可以把它换成自己的 JWT/Session、Supabase Auth、Auth.js 等，只要保留那套登录界面即可。</li>
+          </ul>
+
+          <div class="sk-tip">
+            <strong>建议：</strong>把它当「认证界面的前端样板」来用——抄走登录/注册页的布局与表单，鉴权逻辑接你自己的后端，别指望 clone 下来就能直接上线账号体系。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 08 适用场景与边界 ============================ -->
+      <section id="cases" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">08</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">适用场景与边界</h2>
+              <p class="sk-card-sub">
+                什么时候该用、什么时候不该用，以及怎么把它变成你自己的后台。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">适合：学习 Shadcn 模式</strong>：想知道「一个规范的后台该怎么组织组件、路由、主题」？这份合集是高质量范本。</li>
+            <li><strong class="text-ink">适合：快速搭后台界面</strong>：内部工具、管理后台、数据看板——复制布局外壳 + 需要的页面，替换数据即可。</li>
+            <li><strong class="text-ink">不适合：当业务脚手架</strong>：它没有服务端、没有状态管理范式、认证是 partial，不能像 Next.js starter 那样直接在上面填业务。</li>
+            <li><strong class="text-ink">MIT 可商用</strong>：许可宽松，个人与商业项目都能用，只需保留版权声明。</li>
+            <li><strong class="text-ink">二次开发</strong>：组件归你所有，可直接改源码；构建、预览、检查命令见下方。</li>
+          </ul>
+
+          <div class="sk-prompt">
+            <p class="mb-2 text-xs text-faint">构建 / 预览 / 检查</p>
+            <pre>{{ texts.build }}</pre>
+            <button class="sk-copy" :class="{ 'is-done': copied === 'build' }" @click="copy('build')">
+              {{ copied === 'build' ? '已复制' : '复制' }}
+            </button>
+          </div>
+
+          <div class="mt-6 flex flex-wrap items-center gap-3 border-t border-hair pt-5">
+            <a href="https://github.com/satnaing/shadcn-admin" target="_blank" rel="noopener" class="wl-src">
+              <svg class="h-4 w-4"><use href="#i-external"></use></svg>开源仓库
+            </a>
+            <a href="https://shadcn-admin.netlify.app/" target="_blank" rel="noopener" class="wl-src">
+              <svg class="h-4 w-4"><use href="#i-external"></use></svg>在线 Demo
+            </a>
+            <a href="skill.html" class="text-xs text-faint transition hover:text-accent">返回 Skill 指南</a>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="mt-10 border-t border-hair py-10">
+      <div class="mx-auto flex max-w-5xl flex-col items-center justify-between gap-2 px-5 text-xs text-faint sm:flex-row sm:px-6">
+        <p>内容整理自 satnaing/shadcn-admin 开源仓库（MIT）· 版权归原作者所有</p>
+        <p>共 8 篇 · Vue 3 · Tailwind CSS · Arco Design</p>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- 首屏骨架：脚本没跑完之前顶住版式（纯静态，脚本一到自动让位） -->
+  <div class="boot" aria-hidden="true">
+    <div class="boot-bar">
+      <span style="width:8rem;height:2rem;border-radius:.75rem;background:rgb(var(--c-dim) / .12)"></span>
+      <span style="width:6rem;height:2rem;border-radius:.75rem;background:rgb(var(--c-dim) / .12)"></span>
+    </div>
+    <div class="boot-row">
+      <div class="boot-main">
+        <div class="boot-block boot-block--sm"></div>
+        <div class="boot-block boot-block--lg"></div>
+        <div class="boot-block"></div>
+        <div class="boot-block boot-block--sm"></div>
+        <div class="boot-block" style="width:70%"></div>
+      </div>
+      <div class="boot-side"><div class="boot-card"></div></div>
+    </div>
+    <p class="boot-tip">网络有点慢，页面还在加载…</p>
+    <div class="boot-fail">
+      <p>页面脚本加载失败，通常是网络中断或浏览器拦截了资源。</p>
+      <p><button type="button" onclick="location.reload()" class="text-accent hover:underline">点击重试</button>
+        · <a href="index.html" class="text-accent hover:underline">返回首页</a></p>
+    </div>
+  </div>
+  <script>
+    // 6 秒还没挂载 → 提示慢；20 秒仍没挂载 → 给重试入口。正常网速不会触发
+    setTimeout(function () {
+      var app = document.getElementById('skill-app');
+      var boot = document.querySelector('.boot');
+      if (app && boot && app.hasAttribute('v-cloak')) boot.classList.add('is-slow');
+    }, 6000);
+    setTimeout(function () {
+      var app = document.getElementById('skill-app');
+      var boot = document.querySelector('.boot');
+      if (app && boot && app.hasAttribute('v-cloak')) boot.classList.add('is-failed');
+    }, 20000);
+  </script>
+
+  <script src="assets/js/weather.js?v=202610051"></script>
+  <script src="vendor/arco-bundle.js?v=20260923"></script>
+  <script src="assets/js/shadcn-admin-doc.js?v=20261103"></script>
+
+</body>
+</html>
