@@ -22,8 +22,9 @@ window.SITE_CONFIG = {
     enName: 'LI WENTAO',
     shortName: '李文涛',
     avatarText: 'WT',
-    // 放一张照片到 assets/avatar.jpg 就会自动替换掉字母头像
-    avatar: '',
+    // 一寸蓝底证件照：原图取自 李文涛_简历1.docx 的 word/media/image1.jpeg
+    // 网站头像（首页速览卡 / 在线简历页）用方形版；A4 模板与 PDF 用一寸比例版
+    avatar: 'assets/avatar.jpg?v=20261106c',
     title: 'IT 资产管理 / IT 支持',
     // 依次轮换展示的身份关键词
     roles: ['IT 资产全生命周期管理', '一线 Helpdesk 与桌面支持', '音视频会议保障', 'SOP 与合规文档'],

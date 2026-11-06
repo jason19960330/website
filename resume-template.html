@@ -83,9 +83,21 @@
 
     /* ---------------------------- 抬头 ---------------------------- */
     .masthead {
+      position: relative;
       background: var(--navy);
       color: #fff;
-      padding: 5.6mm 9.6mm 4.4mm;
+      padding: 5.6mm 36mm 4.4mm 9.6mm;
+      min-height: 38mm;
+    }
+    /* 一寸证件照（5:7），贴在抬头右侧 */
+    .masthead .portrait {
+      position: absolute;
+      top: 4.0mm;
+      right: 9.6mm;
+      width: 22mm;
+      height: 30.8mm;
+      border: 1mm solid rgba(255,255,255,.92);
+      background: #fff;
     }
     .masthead .name-line { display: flex; align-items: baseline; gap: 4mm; }
     .masthead h1 { margin: 0; font-size: 19.8pt; font-weight: 700; letter-spacing: 2px; line-height: 1.03; }
@@ -186,6 +198,7 @@
 
     <!-- ============================ 抬头 ============================ -->
     <div class="masthead">
+      <img class="portrait" src="assets/portrait.jpg?v=20261106c" alt="李文涛 · 一寸证件照">
       <div class="name-line">
         <h1>李文涛</h1>
         <span class="en">LI WENTAO</span>
