@@ -66,6 +66,8 @@
         projects: CONFIG.projects,
         education: CONFIG.education,
         honors: CONFIG.honors,
+        languages: CONFIG.languages,
+        personalTraits: CONFIG.personalTraits,
         skillGroups: CONFIG.skillGroups,
         toolStack: CONFIG.toolStack,
         theme: theme, toggleTheme: toggleTheme,

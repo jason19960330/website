@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>李文涛 · 简历 A4 模板（可打印 / 存为 PDF）</title>
+  <meta name="description" content="李文涛的 A4 版简历模板：7 年企业级 IT 技术支持，IT 资产全生命周期管理、一线 Helpdesk、音视频会议保障与 SOP 合规文档。可直接打印或另存为 PDF。">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://jason19960330.github.io/website/resume-template.html">
+  <link rel="icon" href="assets/favicon.svg?v=20260923" type="image/svg+xml">
+  <style>
+    /* ==================================================================
+       A4 简历模板 · 自包含样式（不依赖站点 CSS，可被浏览器直接打印 /
+       另存为 PDF，也可由 WeasyPrint 一次性导出 assets/resume.pdf）
+       ================================================================== */
+    @page { size: A4; margin: 0; }
+
+    :root {
+      --navy: #1F4E79;
+      --navy-soft: #eaf1f8;
+      --ink: #1f2937;
+      --dim: #4b5563;
+      --faint: #7b8794;
+      --line: #dbe4ee;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "Songti SC", sans-serif;
+      color: var(--ink);
+      font-size: 7.7pt;
+      line-height: 1.36;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    @media screen {
+      body { background: #eef2f7; padding: 22px 12px 48px; }
+      .page {
+        width: 210mm;
+        min-height: 297mm;
+        margin: 0 auto 22px;
+        background: #fff;
+        box-shadow: 0 10px 36px rgba(15, 40, 70, .16);
+      }
+      .toolbar { display: flex; }
+    }
+    @media print {
+      body { background: #fff; }
+      .page { width: 210mm; margin: 0; box-shadow: none; }
+      .toolbar { display: none !important; }
+    }
+
+    /* 屏幕端的工具条，打印时完全隐藏 */
+    .toolbar {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      max-width: 210mm;
+      margin: 0 auto 16px;
+      font-size: 13px;
+    }
+    .toolbar a, .toolbar button {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border: 1px solid #cbd8e6;
+      border-radius: 8px;
+      background: #fff;
+      color: var(--navy);
+      font: inherit;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .toolbar .primary { background: var(--navy); border-color: var(--navy); color: #fff; }
+    .toolbar a:hover, .toolbar button:hover { border-color: var(--navy); }
+    .toolbar .hint { flex-basis: 100%; text-align: center; color: #6b7a8c; font-size: 12px; }
+
+    /* ---------------------------- 抬头 ---------------------------- */
+    .masthead {
+      background: var(--navy);
+      color: #fff;
+      padding: 5.6mm 9.6mm 4.4mm;
+    }
+    .masthead .name-line { display: flex; align-items: baseline; gap: 4mm; }
+    .masthead h1 { margin: 0; font-size: 19.8pt; font-weight: 700; letter-spacing: 2px; line-height: 1.03; }
+    .masthead .en { font-size: 8.1pt; letter-spacing: 3px; opacity: .82; font-weight: 500; }
+    .masthead .tagline { margin: 1.8mm 0 0; font-size: 9.4pt; font-weight: 600; letter-spacing: .3px; }
+    .masthead .contact {
+      margin: 2.6mm 0 0;
+      padding-top: 2.1mm;
+      border-top: 1px solid rgba(255,255,255,.28);
+      font-size: 7.7pt;
+      color: rgba(255,255,255,.94);
+    }
+    .masthead .contact span { margin-right: 4.0mm; white-space: nowrap; }
+    .masthead .contact b { font-weight: 600; opacity: .7; margin-right: 0.8mm; }
+
+    /* ---------------------------- 双栏 ---------------------------- */
+    .body-wrap { padding: 4.4mm 9.6mm 5.6mm; }
+    .cols { display: table; width: 100%; table-layout: fixed; }
+    .col-left  { display: table-cell; width: 31%; padding-right: 6mm; vertical-align: top; }
+    .col-right { display: table-cell; width: 69%; padding-left: 6mm; vertical-align: top; border-left: 1px solid var(--line); }
+
+    h2.sec {
+      margin: 0 0 1.6mm;
+      padding: 0 0 1.3mm;
+      border-bottom: 1.5px solid var(--navy);
+      color: var(--navy);
+      font-size: 9.5pt;
+      font-weight: 700;
+      letter-spacing: .6px;
+      break-after: avoid;
+    }
+    .col-left h2.sec { font-size: 8.8pt; }
+    .block { margin: 0 0 2.2mm; break-inside: auto; }
+
+    /* 左栏：词条 */
+    .intent {
+      background: var(--navy-soft);
+      border-left: 3px solid var(--navy);
+      padding: 1.8mm 2.1mm;
+      font-size: 8.1pt;
+      font-weight: 600;
+      color: var(--navy);
+      line-height: 1.50;
+    }
+    .kv { margin: 0 0 1.8mm; break-inside: avoid; }
+    .kv .k { font-size: 8.1pt; font-weight: 700; color: var(--navy); margin: 0 0 0.5mm; }
+    .kv .v { margin: 0; font-size: 7.7pt; color: var(--dim); line-height: 1.50; }
+    ul.plain { margin: 0; padding: 0 0 0 2.9mm; }
+    ul.plain li { margin: 0 0 0.6mm; font-size: 7.5pt; color: var(--dim); line-height: 1.36; }
+    .edu-item { margin: 0 0 1.6mm; break-inside: avoid; }
+    .edu-item .school { font-weight: 700; font-size: 8.1pt; color: var(--ink); }
+    .edu-item .meta { font-size: 7.6pt; color: var(--dim); margin-top: 0.4mm; }
+
+    /* 右栏：总结 / 经历 / 项目 */
+    .summary {
+      background: #f7fafd;
+      border: 1px solid var(--line);
+      border-left: 3px solid var(--navy);
+      padding: 1.9mm 2.2mm;
+      font-size: 7.7pt;
+      line-height: 1.50;
+      color: var(--dim);
+      break-inside: avoid;
+    }
+    .job, .project { margin: 0 0 2.6mm; break-inside: avoid; }
+    .job-head, .project-head { display: table; width: 100%; }
+    .job-head .l, .project-head .l { display: table-cell; vertical-align: top; }
+    .job-head .r, .project-head .r { display: table-cell; vertical-align: top; text-align: right; white-space: nowrap; font-size: 7.4pt; color: var(--faint); }
+    .job-title, .project-title { margin: 0; font-size: 8.8pt; font-weight: 700; color: var(--ink); }
+    .job-org { margin: 0.5mm 0 0; font-size: 7.9pt; color: var(--navy); font-weight: 600; }
+    .job-org .period { color: var(--faint); font-weight: 400; margin-left: 1.6mm; }
+    ul.bullets { margin: 1.0mm 0 0; padding: 0 0 0 3.0mm; }
+    ul.bullets li { margin: 0 0 0.7mm; font-size: 7.5pt; line-height: 1.41; color: var(--dim); }
+    ul.bullets li strong { color: var(--ink); font-weight: 700; }
+    .tagline-num { color: var(--navy); font-weight: 700; margin-right: 1.2mm; }
+
+    .foot {
+      margin-top: 4.0mm;
+      padding-top: 1.8mm;
+      border-top: 1px solid var(--line);
+      font-size: 7.0pt;
+      color: var(--faint);
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 屏幕端工具条：打印 / 导出 PDF 时不出现 -->
+  <div class="toolbar">
+    <a href="resume.html">返回在线简历</a>
+    <button type="button" class="primary" onclick="window.print()">打印 / 存为 PDF</button>
+    <a href="assets/resume.pdf?v=20261106" target="_blank" rel="noopener">下载 PDF 版</a>
+    <span class="hint">A4 版式 · 打印时请选择「A4 / 100% / 勾选背景图形」，即可获得与下载版一致的 PDF</span>
+  </div>
+
+  <div class="page">
+
+    <!-- ============================ 抬头 ============================ -->
+    <div class="masthead">
+      <div class="name-line">
+        <h1>李文涛</h1>
+        <span class="en">LI WENTAO</span>
+      </div>
+      <p class="tagline">IT 资产管理 / IT 支持 &nbsp;·&nbsp; 7 年企业级 IT 服务经验</p>
+      <div class="contact">
+        <span><b>电话</b>139-3036-3901</span>
+        <span><b>邮箱</b>573164137@qq.com</span>
+        <span><b>所在地</b>北京 · 房山</span>
+      </div>
+    </div>
+
+    <div class="body-wrap">
+      <div class="cols">
+
+        <!-- ======================= 左栏 ======================= -->
+        <div class="col-left">
+
+          <section class="block">
+            <h2 class="sec">求职意向</h2>
+            <div class="intent">IT 资产管理 / IT 支持<br>HelpDesk · 桌面运维</div>
+          </section>
+
+          <section class="block">
+            <h2 class="sec">专业技能</h2>
+            <div class="kv"><p class="k">IT 资产全生命周期管理</p><p class="v">资产台账 · 盘点对账 · 库存控制</p></div>
+            <div class="kv"><p class="k">终端管理与硬件运维</p><p class="v">PC · 笔记本 · 显示器 · 移动设备</p></div>
+            <div class="kv"><p class="k">一线 Helpdesk 与桌面支持</p><p class="v">报障受理 · 派单跟踪 · SLA 响应 · 用户服务</p></div>
+            <div class="kv"><p class="k">音视频会议与业务系统支持</p><p class="v">腾讯会议 · Zoom · OA · 邮件 · CRM</p></div>
+            <div class="kv"><p class="k">打印机与外设运维</p><p class="v">安装配置 · 故障处置 · 耗材管理</p></div>
+            <div class="kv"><p class="k">SOP / 技术文档编写</p><p class="v">流程规范 · 合规报告 · 数据准确</p></div>
+            <div class="kv"><p class="k">跨部门协调与供应商统筹</p><p class="v">沟通对接 · 组织推进</p></div>
+          </section>
+
+          <section class="block">
+            <h2 class="sec">语言能力</h2>
+            <ul class="plain">
+              <li>普通话 · 母语</li>
+              <li>英语 · 读写熟练（技术文档）</li>
+            </ul>
+          </section>
+
+          <section class="block">
+            <h2 class="sec">证书荣誉</h2>
+            <ul class="plain">
+              <li>晖致医药优秀员工（2021）</li>
+              <li>年度优秀员工 ×2</li>
+              <li>校级优秀毕业生</li>
+            </ul>
+          </section>
+
+          <section class="block">
+            <h2 class="sec">教育背景</h2>
+            <div class="edu-item">
+              <div class="school">中国农业大学</div>
+              <div class="meta">计算机科学与技术 · 本科</div>
+              <div class="meta">2020.09 — 2024.01</div>
+            </div>
+            <div class="edu-item">
+              <div class="school">华北理工大学迁安学院</div>
+              <div class="meta">计算机应用技术 · 大专</div>
+              <div class="meta">2015 — 2018</div>
+            </div>
+          </section>
+
+          <section class="block">
+            <h2 class="sec">个人特质</h2>
+            <ul class="plain">
+              <li>7 年 IT 运维沉淀，实操与项目经验丰富</li>
+              <li>细节性强，数据准确性高</li>
+              <li>组织协调突出，善于统筹</li>
+              <li>自驱推进，可独立工作</li>
+              <li>抗压能力优秀，可并行多任务</li>
+            </ul>
+          </section>
+
+        </div>
+
+        <!-- ======================= 右栏 ======================= -->
+        <div class="col-right">
+
+          <section class="block">
+            <h2 class="sec">个人总结</h2>
+            <div class="summary">
+              7 年企业级 IT 技术支持经验，深耕终端全生命周期与职场 IT 支持。在晖致医药负责 500+ 员工办公终端与资产运营，覆盖桌面 Helpdesk、打印机外设、OA / 邮件 / CRM 业务系统一线运维及音视频会议保障；具备资产台账（准确率 99%+）、盘点对账、SOP 文档与跨部门供应商统筹能力，可独立承担资产盘点、用户支持与现场活动保障。
+            </div>
+          </section>
+
+          <section class="block">
+            <h2 class="sec"><span class="tagline-num">01</span>工作经历</h2>
+
+            <div class="job">
+              <div class="job-head">
+                <div class="l"><p class="job-title">晖致医药有限公司 · IT 技术支持</p></div>
+                <div class="r">2019.10 — 2026.09</div>
+              </div>
+              <ul class="bullets">
+                <li><strong>资产全生命周期与库存：</strong>负责办公终端（PC / 笔记本 / 显示器 / 打印机 / 移动设备）从接收、贴标、分配、转移、归还到报废处置全流程，维护资产台账准确率 99%+，定期盘点对账确保记录、系统、实物三者一致并闭环差异。</li>
+                <li><strong>一线 Helpdesk 与桌面 / 外设支持：</strong>受理 500+ 员工日常 IT 及办公设备（打印机、复印机、扫描仪）故障报障，熟练使用 Office 365、Teams、Intune、Apple ABM，按 SLA 分级、派单、跟踪闭环并沉淀知识库；负责外设安装配置、故障处置与耗材管理。</li>
+                <li><strong>业务系统运维：</strong>负责 OA 系统、企业邮件、ServiceNow（ITSM 事件 / 变更 / 资产）与 Intune（终端合规 / MDM）等平台日常支持、配置与一线排查；参与 CRM 上线测试、UAT 验证及操作手册整理，熟练配置 Windows、麒麟 UOS 系统。</li>
+                <li><strong>音视频会议保障：</strong>负责会议室视频会议终端（腾讯会议、Teams 会议、Zoom Rooms 等）调试、故障初判与会议保障，支持远程协作与大型会议音视频联通。</li>
+                <li><strong>合规文档与设备更新：</strong>编写标准化运维 SOP / 技术文档 20+ 份（推动效率提升 30%）；多次参与办公终端及外设批量更新换代，完成选型、部署、旧设备回收与用户切换，保障业务零中断。</li>
+                <li><strong>机房与网络运维：</strong>管理机房网络设备（交换机 / 路由器）、UPS 不间断电源，维护机房资产表格；负责服务器及网络设备上架、下架与跳线（网线 / 光纤）布放与维护，熟悉 Linux 系统基础运维。</li>
+              </ul>
+            </div>
+
+            <div class="job">
+              <div class="job-head">
+                <div class="l"><p class="job-title">北京鲨鱼公园教育有限公司 · IT 技术支持 / 系统工程师</p></div>
+                <div class="r">2019.02 — 2019.10</div>
+              </div>
+              <ul class="bullets">
+                <li>负责 IT 设备与系统选型、部署与培训，输出操作手册与台账。</li>
+                <li>主导新零售项目软硬件联调，完成长春科技馆等 3 个现场部署，沉淀标准化交付与回收流程。</li>
+              </ul>
+            </div>
+          </section>
+
+          <section class="block">
+            <h2 class="sec"><span class="tagline-num">02</span>项目经验</h2>
+            <div class="project">
+              <div class="project-head">
+                <div class="l">
+                  <p class="project-title">企业 IT 资产台账规范化与盘点对账项目</p>
+                  <p class="job-org">主导者<span class="period">2022.11 — 2023.08</span></p>
+                </div>
+              </div>
+              <ul class="bullets">
+                <li><strong>设备管理：</strong>统一终端命名、贴标与分类规则，完成 500+ 台终端信息梳理录入，记录与系统准确对应；组织跨部门盘点，差异率 &lt;1% 并全部闭环；输出盘点 SOP 作为公司标准范本复用。</li>
+                <li><strong>设备更新：</strong>参与多次电脑设备批量更新，建立「新机发放—旧机回收」闭环，逐台交付到用户并完成回收入库，资产数据准确率保持 100%，账实一致零差异。</li>
+              </ul>
+            </div>
+          </section>
+
+          <section class="block">
+            <h2 class="sec"><span class="tagline-num">03</span>核心优势</h2>
+            <ul class="bullets">
+              <li><strong>资产全流程管控：</strong>熟悉硬件从采购、部署、更新换代到报废的完整生命周期，台账准确率 99%+、差异闭环，具备合规报告与 IT 治理数据支撑。</li>
+              <li><strong>一线支持 + 音视频：</strong>兼具桌面 Helpdesk、打印机外设、OA / 邮件 / CRM 业务系统运维与视频会议保障经验，贴合「现场 IT + AV 综合支持」岗位。</li>
+              <li><strong>协调与自驱：</strong>晖致 7 年稳定任职，可独立推进资产运营，亦能高效协同服务台、供应商与用户；细节性强、数据准确、抗压优秀。</li>
+            </ul>
+          </section>
+
+        </div>
+      </div>
+
+      <div class="foot">李文涛 · IT 资产管理 / IT 支持 &nbsp;|&nbsp; 139-3036-3901 &nbsp;|&nbsp; 573164137@qq.com &nbsp;|&nbsp; 在线模板：jason19960330.github.io/website/resume-template.html</div>
+    </div>
+
+  </div>
+</body>
+</html>
