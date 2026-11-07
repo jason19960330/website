@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agent Autoloop 使用指南 · 让命令行 Agent 在后台自己接活 | 李文涛</title>
+  <meta name="description" content="Agent Autoloop 完整指南：它是什么、一轮任务怎么跑、安装与试跑、rules.json 规则写法、事件/Agent/通道/交付四向插件、8 套开箱场景、内核四个机制与实测性能、安全边界与适用判断，一页读完。">
+  <link rel="canonical" href="https://jason19960330.github.io/website/agent-autoloop-doc.html">
+
+  <!-- 分享卡片（微信 / 领英 / X 等平台抓取） -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="李文涛的个人主页">
+  <meta property="og:title" content="Agent Autoloop 使用指南 · 让命令行 Agent 在后台自己接活 | 李文涛">
+  <meta property="og:description" content="Agent Autoloop 完整指南：是什么、一轮怎么跑、安装、规则写法、四向插件、场景模板、内核机制、安全边界。">
+  <meta property="og:url" content="https://jason19960330.github.io/website/agent-autoloop-doc.html">
+  <meta property="og:image" content="https://jason19960330.github.io/website/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="zh_CN">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Agent Autoloop 使用指南 · 让命令行 Agent 在后台自己接活 | 李文涛">
+  <meta name="twitter:description" content="Agent Autoloop 完整指南：是什么、一轮怎么跑、安装、规则写法、四向插件、场景模板、内核机制、安全边界。">
+  <meta name="twitter:image" content="https://jason19960330.github.io/website/assets/og-image.png">
+
+  <link rel="icon" href="assets/favicon.svg?v=20260923" type="image/svg+xml">
+
+  <!-- 首屏主题前置脚本：避免深色偏好用户看到白屏闪一下（与首页共用 site.theme） -->
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('site.theme');
+        if (!saved) {
+          saved = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+        }
+        if (saved === 'dark') document.documentElement.classList.add('dark');
+      } catch (e) { /* 隐私模式忽略 */ }
+    })();
+  </script>
+
+  <!-- 预编译样式：Tailwind 产物 → Arco 按需样式 → 站点定制（后者覆盖前者） -->
+  <link rel="stylesheet" href="assets/css/tailwind.css?v=202610281">
+  <link rel="stylesheet" href="vendor/arco-bundle.css?v=20260923">
+  <link rel="stylesheet" href="assets/css/style.css?v=202610281">
+</head>
+
+<body class="bg-base">
+  <div id="skill-app" v-cloak>
+
+    <!-- ============================ 顶部导航 ============================ -->
+    <header class="site-header is-solid fixed inset-x-0 top-0 z-40 border-b border-hair">
+      <div class="mx-auto flex h-16 max-w-5xl items-center justify-between px-5 sm:px-6">
+        <a href="index.html" class="flex items-center gap-2.5">
+          <span class="grid h-8 w-8 place-items-center rounded-lg bg-gradient-to-tr from-sky-500 to-indigo-600 text-[11px] font-bold text-white">涛</span>
+          <span class="text-sm font-semibold tracking-tight text-ink">李文涛</span>
+        </a>
+        <div class="flex items-center gap-2">
+          <a href="resume.html" class="hidden text-xs text-dim transition hover:text-accent sm:inline">简历</a>
+          <a href="weekly.html" class="hidden text-xs text-dim transition hover:text-accent sm:inline">AI 速览</a>
+          <a href="hotnews.html" class="hidden text-xs text-dim transition hover:text-accent sm:inline">热点</a>
+          <a href="skill.html" class="hidden text-xs font-semibold text-accent sm:inline">Skill 指南</a>
+          <a href="aihot.html" class="hidden text-xs text-dim transition hover:text-accent sm:inline">AIHOT 指南</a>
+          <button @click="toggleTheme" aria-label="切换主题"
+                  class="grid h-9 w-9 place-items-center rounded-lg border border-hair text-dim transition hover:text-accent">
+            <svg class="theme-icon h-4 w-4"><use :href="theme === 'dark' ? '#i-moon' : '#i-sun'"></use></svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <svg class="hidden" aria-hidden="true">
+      <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 14.5A8.5 8.5 0 019.5 4a8.5 8.5 0 1010.5 10.5z"></path>
+      </symbol>
+      <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="4"></circle>
+        <path d="M12 3v2m0 14v2M3 12h2m14 0h2M5.6 5.6l1.4 1.4m10 10l1.4 1.4m0-12.8l-1.4 1.4m-10 10L5.6 18.4"></path>
+      </symbol>
+      <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M10.5 6l-6 6 6 6M4.5 12h15"></path>
+      </symbol>
+      <symbol id="i-external" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 4h6v6M20 4l-9 9M18 14v4a2 2 0 01-2 2H6a2 2 0 01-2-2V8a2 2 0 012-2h4"></path>
+      </symbol>
+    </svg>
+
+    <main id="main" class="pt-16" tabindex="-1">
+
+      <!-- ============================ 概览 ============================ -->
+      <section class="mx-auto max-w-5xl px-5 pt-6 sm:px-6 sm:pt-8">
+        <a href="skill.html" class="wl-back">
+          <svg class="h-3.5 w-3.5"><use href="#i-arrow-left"></use></svg>返回 Skill 指南
+        </a>
+
+        <div class="wl-hero card mt-4">
+          <span class="wl-hero-bar" aria-hidden="true"></span>
+          <div class="p-6 sm:p-8">
+            <div class="mt-4 flex flex-wrap items-start justify-between gap-5">
+              <div class="min-w-0">
+                <p class="text-xs font-semibold uppercase tracking-[0.2em] text-accent">自动化中台 · 使用指南</p>
+                <h1 class="mt-2 text-3xl font-bold tracking-tight text-ink sm:text-4xl">Agent Autoloop 完整指南</h1>
+                <p class="mt-3 max-w-2xl text-sm leading-relaxed text-dim">
+                  把 Claude Code、Codex 这类「人守着终端用」的命令行 Agent，变成<strong class="text-ink">后台自己接活、自己跟进到底</strong>的自动化中台：
+                  平时不烦你，遇到拿不准的事才推一张卡片找你拍板，你点一下它接着原会话干完。
+                  不用云服务器、不用公网端口、没有 Web 后台。指南整理自其公开仓库。
+                </p>
+              </div>
+
+              <a href="https://github.com/KKKKhazix/agent-autoloop" target="_blank" rel="noopener" class="wl-src">
+                <svg class="h-4 w-4"><use href="#i-external"></use></svg>
+                <span class="leading-tight">开源仓库<br>GitHub</span>
+              </a>
+            </div>
+
+            <dl class="wl-stats">
+              <div><dt>GitHub 收藏</dt><dd class="tnum">3.8k</dd></div>
+              <div><dt>内核依赖</dt><dd class="tnum">0</dd></div>
+              <div><dt>场景模板</dt><dd class="tnum">8 套</dd></div>
+              <div><dt>许可</dt><dd class="tnum">MIT</dd></div>
+            </dl>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 目录 ============================ -->
+      <section class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card p-5 sm:p-6">
+          <h2 class="text-sm font-semibold text-ink">本页目录（8 篇）</h2>
+          <nav class="sk-toc mt-3">
+            <a href="#what"><span>01</span>它到底是什么</a>
+            <a href="#flow"><span>02</span>一轮任务怎么跑</a>
+            <a href="#install"><span>03</span>安装与试跑</a>
+            <a href="#rules"><span>04</span>写规则 rules.json</a>
+            <a href="#plugins"><span>05</span>四向插件体系</a>
+            <a href="#recipes"><span>06</span>八套开箱场景</a>
+            <a href="#kernel"><span>07</span>内核机制与实测</a>
+            <a href="#cases"><span>08</span>安全边界与适用判断</a>
+          </nav>
+        </div>
+      </section>
+
+      <!-- ============================ 01 它是什么 ============================ -->
+      <section id="what" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">01</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">它到底是什么</h2>
+              <p class="sk-card-sub">
+                一个<strong class="text-ink">极轻量的个人自托管「Agent 自动化中台」</strong>，把任务调度做成零依赖内核，把其余全拆成插件。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">解决的是「人一走，活就断」</strong>：平时用命令行 Agent 要你输一句、盯着它跑、等它问下一步；关掉窗口事情就停了。它让事件（定时、Webhook、Issue、告警）自己进内核，Agent 在后台把活跟到做完。</li>
+            <li><strong class="text-ink">一台电脑、一条命令就能跑</strong>：装在自己的 Windows / macOS / Linux 上，不用买云服务器、不用开放公网端口、不需要 GitHub 账号；模型消耗走你本机已登录的 CLI 账号。</li>
+            <li><strong class="text-ink">没有后台界面</strong>：需要拍板时把卡片推到飞书、钉钉、企微、Slack、Discord 或桌面通知；想看全局进展敲一行 <code>agent-autoloop status</code>，也可以自己读 <code>GET /v1/state</code> 写页面。</li>
+            <li><strong class="text-ink">不绑定某一家 Agent</strong>：任何能「收提示词并打印最后一条回复」的命令行工具都能接，不需要 SDK、不用改 Agent 源码。TypeScript 编写，MIT 协议，Node.js 24 或更新。</li>
+            <li><strong class="text-ink">设计有六条原则</strong>：注意力最贵（默认安静）、一切都是事件、一切都连进来、Agent 就是一个进程、一轮不等人、规则才是指令。内核不主动连任何东西，凭据留在用它的插件里。</li>
+          </ul>
+
+          <div class="sk-tip">
+            <strong>形态：</strong>一个本地后台服务 + 命令行工具（不是网站、不是 App）。仓库 2026-11-03 创建，四天内冲到约 3.8k star / 695 fork，源码约 8,080 行 TypeScript、247 个文件，其中内核约 1,850 行且<strong>零运行时依赖</strong>。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 02 一轮怎么跑 ============================ -->
+      <section id="flow" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">02</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">一轮任务怎么跑</h2>
+              <p class="sk-card-sub">
+                五步走完，最妙的是「<strong class="text-ink">一轮不等人</strong>」。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">① 新事件进来</strong>：早上 9 点的定时任务、GitHub 新提的 Issue、业务系统报的错，都变成一条标准事件送进内核；你点卡片也是一条事件。</li>
+            <li><strong class="text-ink">② 按规则派活</strong>：内核照 <code>rules.json</code> 决定交给哪个 Agent、在哪个目录干；同一件事排队时又来的消息会合并成一轮处理。</li>
+            <li><strong class="text-ink">③ 干完一轮就退出</strong>：Agent 把结果写在最后一条回复里，进程直接退出，不占着后台干等。</li>
+            <li><strong class="text-ink">④ 拿不准才问你</strong>：碰到删数据、重启服务、花钱、对外发消息这类事，回执里附一段 <code>agent-autoloop</code> 代码块发起 <code>ask</code>，中台推一张带选项的卡片给你。</li>
+            <li><strong class="text-ink">⑤ 点一下接着干</strong>：你选完，它接上原来的对话把剩下的活做完。能自己搞定的事直接办完，或约个时间（如半小时后）再醒来复查，全程不打扰你。</li>
+          </ul>
+
+          <div class="sk-prompt">
+            <p class="mb-2 text-xs text-faint">Agent 在最后一条回复里附的回执（示例）</p>
+            <pre>{{ texts.receipt }}</pre>
+            <button class="sk-copy" :class="{ 'is-done': copied === 'receipt' }" @click="copy('receipt')">
+              {{ copied === 'receipt' ? '已复制' : '复制' }}
+            </button>
+          </div>
+
+          <div class="sk-tip">
+            <strong>挂起零消耗：</strong>等你拍板时进程已经退出、等待状态存在数据库里，你三天没回，这三天就没有 Agent 进程、不花 Token，只有很轻的中台在后台等着。回执除了提问 <code>ask</code>，还能发通知 <code>notice</code>、关闭已解决卡片 <code>resolve</code>、预约复查 <code>later</code>、触发新事件 <code>events</code>；JSON 写错只让它在原会话里重写最后这段，不会把已干完的业务重做一遍。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 03 安装 ============================ -->
+      <section id="install" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">03</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">安装与试跑</h2>
+              <p class="sk-card-sub">
+                前置：<strong class="text-ink">Node.js 24 或更新</strong>、Git，以及一个已经登录的命令行 Agent；macOS / Linux 另需 curl。
+              </p>
+            </div>
+          </div>
+
+          <div class="sk-prompt">
+            <p class="mb-2 text-xs text-faint">安装 → 体检 → 真实走一遍「提问 → 退出等回复 → 拍板 → 接着干完」</p>
+            <pre>{{ texts.install }}</pre>
+            <button class="sk-copy" :class="{ 'is-done': copied === 'install' }" @click="copy('install')">
+              {{ copied === 'install' ? '已复制' : '复制' }}
+            </button>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">Windows PowerShell</strong>：<code>irm .../install.ps1 | iex</code>；原生支持任务计划程序登录后台常驻，Win 10/11 都不需要管理员，退出 10 秒后自动重启，注销后停止。</li>
+            <li><strong class="text-ink">程序与数据分离</strong>：程序装进 <code>~/.agent-autoloop/app</code>，规则、配置、日志留在 <code>~/.agent-autoloop</code>；安装和 <code>update</code> 都取通过全部检查的最新 Release。</li>
+            <li><strong class="text-ink">默认开桌面通知</strong>：macOS 用 <code>osascript</code>、Linux 用 <code>notify-send</code>、Windows 用系统托盘；没有图形会话时安静跳过，问题仍能用 <code>status</code> 看到。</li>
+            <li><strong class="text-ink">试跑别跳过</strong>：<code>try</code> 会用你的模型额度真实跑一轮，非交互终端打印 <code>answer</code> 命令后退出是正常等待；把问题转给本人、回答后再 <code>status</code>，看到「试跑通过」才算接通。</li>
+            <li><strong class="text-ink">本地仓库安装</strong>：设 <code>AGENT_AUTOLOOP_REPO=/绝对路径</code> 后运行本地 <code>install.sh</code>，适合开发调试；临时 HOME / CI 环境加 <code>--no-service</code>。</li>
+          </ul>
+
+          <div class="sk-tip">
+            <strong>卸载：</strong><code>agent-autoloop uninstall</code> 只停服务、删自己的命令与 Skill 链接，默认保留规则、密钥和记录；<code>--yes</code> 仅跳过确认。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 04 规则 ============================ -->
+      <section id="rules" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">04</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">写规则 rules.json</h2>
+              <p class="sk-card-sub">
+                不需要写胶水代码，一条规则只回答五件事：<strong class="text-ink">什么事件、交给谁、在哪、照什么做、要不要告诉你</strong>。
+              </p>
+            </div>
+          </div>
+
+          <div class="sk-prompt">
+            <p class="mb-2 text-xs text-faint">~/.agent-autoloop/rules.json 示例 + 常用命令</p>
+            <pre>{{ texts.rules }}</pre>
+            <button class="sk-copy" :class="{ 'is-done': copied === 'rules' }" @click="copy('rules')">
+              {{ copied === 'rules' ? '已复制' : '复制' }}
+            </button>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">定时与外部事件写法一致</strong>：<code>when</code> 用 <code>cron</code> 就是定时，用 <code>source</code> + <code>types</code> 就是外部事件（先在 <code>sources</code> 登记来源）；<code>to</code> 填 <code>agents</code> 里已有的名字。</li>
+            <li><strong class="text-ink">并发与会话</strong>：<code>parallel</code> 让同一对象的事件互不等待（还受 <code>worker.capacity</code> 限制，默认 2）；把批量规则写进同一个 <code>group</code> 留出名额给对话；<code>resume: true</code> 让新事件接着上一轮会话，默认每次开新会话。</li>
+            <li><strong class="text-ink">先问清单</strong>：<code>askFirst</code> 默认列了删数据、停服、花钱、对外发消息，只有这几类事才先问你；暂停规则用 <code>pause &lt;规则&gt;</code>，恢复用 <code>resume</code>，立即跑一轮用 <code>run</code>，都不改 rules.json。</li>
+            <li><strong class="text-ink">改错了也不怕</strong>：保存后几秒自动生效；文件写错、被删或读不到，系统继续按旧规则跑并发卡片提醒。<code>check</code> 校验、<code>rules explain</code> 看生效规则和下次定时、<code>emit --dry-run</code> 预演一条事件会派给谁，后两个只看本机文件、不连中台。</li>
+            <li><strong class="text-ink">长期任务配一个 Skill</strong>：手册里写清「怎么算做完、怎么核实」，不用写怎么结束一轮；建议项目里放 <code>docs/decisions.md</code> 记你定过的事、<code>docs/declined.md</code> 记拒绝过的，让 Agent 先读，定过的不再问。</li>
+          </ul>
+
+          <div class="sk-tip">
+            <strong>本项目自带一份正式的 <code>SKILL.md</code></strong>（在 <code>skills/agent-autoloop/</code>），安装时也会提供给 Agent 使用，用来配置规则、接插件、部署服务器和查日志——这也是它和「一堆 shell 脚本」的区别。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 05 插件 ============================ -->
+      <section id="plugins" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">05</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">四向插件体系</h2>
+              <p class="sk-card-sub">
+                事件来源、Agent、通知通道、甚至 CI/CD 交付流水线，<strong class="text-ink">四个方向都能自由替换</strong>。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">事件（怎么发现新活）</strong>：内置 GitHub / GitLab Webhook、HTTP 接口、cron 定时、Issue 轮询脚本；对方推不过来或中台在家里，就定时跑脚本轮询。</li>
+            <li><strong class="text-ink">Agent（谁来干活）</strong>：内置 Claude Code、Codex、ACP、DeepSeek Harness、通用命令；会说 ACP 的 Gemini CLI / OpenCode 也能接，并支持跨进程续接原会话。</li>
+            <li><strong class="text-ink">通道（去哪找你拍板）</strong>：桌面通知（默认开启）、飞书（官方 lark-cli，支持按钮回调和卡片更新）、钉钉 / 企微 / Slack / Discord 的 Webhook 模板；文字通道靠回答链接拍板，需配 <code>hub.publicUrl</code>。</li>
+            <li><strong class="text-ink">交付（把 CI/CD 也做成插件）</strong>：给 GitHub PR 打上 <code>deliver</code> 标签后自动走「审代码 → 等 CI → 合并 → 等部署 → 核对线上版本」；审查和交付配置只从 <code>main</code> 读取，绝不在接单电脑上检出或运行 PR 代码。</li>
+            <li><strong class="text-ink">第三方插件</strong>：<code>agent-autoloop add &lt;git 地址&gt;</code> 克隆到 <code>~/.agent-autoloop/plugins/</code>；仓库根目录放 <code>agent.ts</code> / <code>channel.ts</code> / <code>source.ts</code> 即可，插件是可信本地代码，先读再装。</li>
+          </ul>
+
+          <div class="sk-prompt">
+            <p class="mb-2 text-xs text-faint">接一个新 Agent：只要能打印最后一条消息的命令，写一行配置就行</p>
+            <pre>{{ texts.agents }}</pre>
+            <button class="sk-copy" :class="{ 'is-done': copied === 'agents' }" @click="copy('agents')">
+              {{ copied === 'agents' ? '已复制' : '复制' }}
+            </button>
+          </div>
+
+          <div class="sk-tip">
+            <strong>和本站 Skill 指南的关系：</strong>README 里直接列了 <code>codebuddy -p {prompt}</code>（WorkBuddy / CodeBuddy）与 <code>dsh --profile headless {prompt}</code>（DeepSeek Harness）的接入写法，正好对得上之前整理过的 <a href="dsh-context-doc.html" class="text-accent hover:underline">dsh-context</a> 等卡片。不过作者注明：pi / OpenClaw / Cursor / 部分 ACP 的接入命令只是照各家官方文档整理，<strong>还没逐个跑过</strong>。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 06 场景 ============================ -->
+      <section id="recipes" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">06</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">八套拿来即用的场景</h2>
+              <p class="sk-card-sub">
+                每套模板都带规则、任务 Skill 和写明权限原因的启用说明，<strong class="text-ink">从例子改，别从零写</strong>。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">每日早报</strong>：默认每天 8 点整理本地笔记和 Git 提交，写入 <code>briefs/YYYY-MM-DD.md</code>；<strong class="text-ink">收件箱分诊</strong>：读过去 24 小时未读邮件写成清单与回复草稿，不发送、不改邮箱状态。</li>
+            <li><strong class="text-ink">跟进 GitHub Issue</strong>：每 5 分钟查新 Issue，在本地改代码并通知你查看，不提交、不推送、不回复 Issue；<strong class="text-ink">PR 自动交付</strong>：打 <code>deliver</code> 标签后一路跟到上线核对。</li>
+            <li><strong class="text-ink">线上告警排查</strong>：接收报错、对照代码查原因，需要重启时发卡片询问，回答后继续；<strong class="text-ink">网站巡检</strong>：每 5 分钟查状态和关键内容，持续异常不重复通知，恢复后更新原卡片。</li>
+            <li><strong class="text-ink">用户反馈处理</strong>：重读反馈当前状态、修复、交付核实、准备回复；<strong class="text-ink">飞书周报与业务摘要</strong>：周日 18 点按你的权限读汇报和表格，完整稿留本机、飞书只发简短摘要。</li>
+            <li><strong class="text-ink">还有更多</strong>：<code>Claude 委托 Codex 处理网页</code>（浏览器交接）、<code>每周代码清理</code>、<code>交付 PR</code> 三套独立任务手册与最小插件模板 <code>hello-agent</code> / <code>hello-channel</code> / <code>hello-source</code>。</li>
+          </ul>
+
+          <div class="sk-tip">
+            <strong>启用三步：</strong>把任务 Skill 放进所用 Agent 的 skills 目录 → 把示例规则合入 <code>rules.json</code> 并替换电脑名和路径 → 运行 <code>agent-autoloop check</code>。反馈、巡检、飞书摘要和收件箱分诊默认使用北京时间、只发本人飞书私聊；样例数据全是虚构的，脚本只用本地 HTTP 与假飞书 CLI 验证过。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 07 内核 ============================ -->
+      <section id="kernel" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">07</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">内核四个机制与实测</h2>
+              <p class="sk-card-sub">
+                把四个计算机领域的成熟做法，搬到了命令行 Agent 上。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">挂起零消耗</strong>：等你时进程退出、状态落库，回答后接回原会话；<strong class="text-ink">事件溯源</strong>：所有状态从一条只追加的日志算出，日志和索引同一事务落盘后才应答，强杀不丢已确认事实，<code>why 42</code> 查任意一轮来龙去脉。</li>
+            <li><strong class="text-ink">指令数据分离</strong>：思路和 SQL 参数化一样。Issue 标题正文等外部文字只作为资料放进文件，不拼进提示词；用哪个 Agent、在哪个目录、什么权限只由本机规则决定，事件里夹带 <code>cwd</code> / <code>agent</code> / <code>access</code> 字段会被直接拒收。</li>
+            <li><strong class="text-ink">跳数熔断</strong>：类似网络包 TTL，Agent 交回的事件再派给 Agent 时层数累加，经过人工提问和定时复查也不清零，超过 8 层只记录、不再派活并发卡片告诉你。</li>
+            <li><strong class="text-ink">确定性内核</strong>：约 1,850 行、零运行时依赖，不读系统时钟、不用随机数、不向外发请求，同样的输入永远得出同样的结果；插件主动连进来，账号凭据留在各自插件里。</li>
+            <li><strong class="text-ink">实测（M5 Pro / Node 24）</strong>：冷启动 88.78 ms、空闲内存 59.94 MB、持久化 2394 条/秒、派活 p99 1.82 ms、110 万条事实启动 99.8 ms；格式变化后首次全量重建 110 万条用 43.1 秒。</li>
+            <li><strong class="text-ink">测试很硬核</strong>：88 个测试文件，含 20 万步随机模拟（断网、丢包、崩溃、重复提交，一个种子可复现）、1000 次 SIGKILL 强杀验证、变异检查，以及 Windows / Linux / macOS 三平台 CI。</li>
+          </ul>
+
+          <div class="sk-tip">
+            <strong>边界诚实：</strong>作者明说这些验证覆盖的是「进程崩溃和有限场景」，<strong>不等同于断电恢复证明或完整安全审计</strong>；历史变大后状态汇总会变慢，日志和索引也继续占磁盘。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 08 安全与适用 ============================ -->
+      <section id="cases" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">08</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">安全边界与适用判断</h2>
+              <p class="sk-card-sub">
+                什么时候该装、有什么门槛，以及必须先知道的红线。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">默认只听本机</strong>：要对外必须在前面放做 HTTPS 的反向代理；macOS / Linux 数据目录设 <code>0700</code>，Windows 用 ACL 只留当前账号与 SYSTEM，数据库、事件正文和运行输出不向其他系统用户开放。</li>
+            <li><strong class="text-ink">不碰你的登录凭据</strong>：只启动你自己安装、自己登录的官方 CLI，不读取、不转存、不中转账号凭据；但作者坦承指令数据分离<strong>挡不住所有提示注入</strong>，默认权限是 <code>edit</code>，给 <code>full</code> 前要三思。</li>
+            <li><strong class="text-ink">卡片链接持有即授权</strong>：谁拿到链接谁就能回答那张卡片，7 天内有效，只发给配了 <code>"links": true</code> 的通道——绝不能转发到公开位置或共享群。备份里有主密钥和配置密钥，要和密钥一样保管。</li>
+            <li><strong class="text-ink">合规提醒</strong>：高频自动化建议改用 API Key，个人订阅额度主要是为日常人工交互设计的；本项目是独立开源项目，与 Anthropic / OpenAI 无隶属或背书关系。</li>
+            <li><strong class="text-ink">门槛要算清</strong>：Node 24 要求偏高、没有 Web 界面、卡片走文字通道需配可访问的 <code>publicUrl</code>；四种 Webhook 模板只在本地模拟服务验证过、没连真实 GitLab，场景样例数据全是虚构的，项目本身才创建几天。</li>
+            <li><strong class="text-ink">适合谁</strong>：想让本地 Agent 定时干活又不想被频繁打扰、能接受命令行、重视「数据留在本机」的人；不适合想要开箱即用图形界面、或需要团队级权限与审计的场景。</li>
+          </ul>
+
+          <div class="sk-tip">
+            <strong>建议的上手姿势：</strong>先在 <code>--no-service</code> 的临时环境里跑通 <code>try</code>，用假通知程序验证，别一上来就接真实飞书应用或生产仓库；确认行为符合预期后再写第一条规则和接通道。
+          </div>
+
+          <div class="mt-6 flex flex-wrap items-center gap-3 border-t border-hair pt-5">
+            <a href="https://github.com/KKKKhazix/agent-autoloop" target="_blank" rel="noopener" class="wl-src">
+              <svg class="h-4 w-4"><use href="#i-external"></use></svg>开源仓库
+            </a>
+            <a href="https://github.com/KKKKhazix/agent-autoloop/blob/main/SECURITY.md" target="_blank" rel="noopener" class="wl-src">
+              <svg class="h-4 w-4"><use href="#i-external"></use></svg>安全边界说明
+            </a>
+            <a href="skill.html" class="text-xs text-faint transition hover:text-accent">返回 Skill 指南</a>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="mt-10 border-t border-hair py-10">
+      <div class="mx-auto flex max-w-5xl flex-col items-center justify-between gap-2 px-5 text-xs text-faint sm:flex-row sm:px-6">
+        <p>内容整理自 KKKKhazix/agent-autoloop 开源仓库（MIT）· 版权归原作者所有</p>
+        <p>共 8 篇 · Vue 3 · Tailwind CSS · Arco Design</p>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- 首屏骨架：脚本没跑完之前顶住版式（纯静态，脚本一到自动让位） -->
+  <div class="boot" aria-hidden="true">
+    <div class="boot-bar">
+      <span style="width:8rem;height:2rem;border-radius:.75rem;background:rgb(var(--c-dim) / .12)"></span>
+      <span style="width:6rem;height:2rem;border-radius:.75rem;background:rgb(var(--c-dim) / .12)"></span>
+    </div>
+    <div class="boot-row">
+      <div class="boot-main">
+        <div class="boot-block boot-block--sm"></div>
+        <div class="boot-block boot-block--lg"></div>
+        <div class="boot-block"></div>
+        <div class="boot-block boot-block--sm"></div>
+        <div class="boot-block" style="width:70%"></div>
+      </div>
+      <div class="boot-side"><div class="boot-card"></div></div>
+    </div>
+    <p class="boot-tip">网络有点慢，页面还在加载…</p>
+    <div class="boot-fail">
+      <p>页面脚本加载失败，通常是网络中断或浏览器拦截了资源。</p>
+      <p><button type="button" onclick="location.reload()" class="text-accent hover:underline">点击重试</button>
+        · <a href="index.html" class="text-accent hover:underline">返回首页</a></p>
+    </div>
+  </div>
+  <script>
+    // 6 秒还没挂载 → 提示慢；20 秒仍没挂载 → 给重试入口。正常网速不会触发
+    setTimeout(function () {
+      var app = document.getElementById('skill-app');
+      var boot = document.querySelector('.boot');
+      if (app && boot && app.hasAttribute('v-cloak')) boot.classList.add('is-slow');
+    }, 6000);
+    setTimeout(function () {
+      var app = document.getElementById('skill-app');
+      var boot = document.querySelector('.boot');
+      if (app && boot && app.hasAttribute('v-cloak')) boot.classList.add('is-failed');
+    }, 20000);
+  </script>
+
+  <script src="assets/js/weather.js?v=202610051"></script>
+  <script src="vendor/arco-bundle.js?v=20260923"></script>
+  <script src="assets/js/agent-autoloop-doc.js?v=20261107"></script>
+
+</body>
+</html>
