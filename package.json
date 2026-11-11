@@ -6,7 +6,10 @@
   "type": "module",
   "scripts": {
     "build": "node tools/build.mjs",
-    "og": "python3 tools/make_og.py"
+    "og": "python3 tools/make_og.py",
+    "skills": "node tools/generate-skills.mjs",
+    "skills:check": "node tools/generate-skills.mjs --check",
+    "verify": "node tools/verify.mjs"
   },
   "devDependencies": {
     "@arco-design/web-vue": "2.58.0",

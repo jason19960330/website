@@ -1,0 +1,315 @@
+{
+  "schema": 1,
+  "site": "https://jason19960330.github.io/website/",
+  "entryText": "阅读完整指南 · 8 篇详解一页读完",
+  "cards": [
+    {
+      "id": "lieflat-charts",
+      "kicker": "Agent Skill",
+      "title": "Lieflat Charts 使用指南",
+      "desc": [
+        "一套给 AI Agent 用的数据可视化 Skill：把数据和场景交给它，它先判断数据结构，",
+        "再从 <span class=\"font-semibold text-ink\">63 张图型</span> 与",
+        "<span class=\"font-semibold text-ink\">12 套报告模板</span> 里挑最合适的实现，",
+        "直接产出可发布的 HTML。不需要你提前决定柱状图还是折线图。"
+      ],
+      "repo": "https://github.com/larashero3-dotcom/lieflat-charts",
+      "stats": [
+        {
+          "label": "内置图型",
+          "value": "63"
+        },
+        {
+          "label": "报告模板",
+          "value": "12"
+        },
+        {
+          "label": "色彩系统",
+          "value": "4"
+        },
+        {
+          "label": "GitHub 收藏",
+          "value": "5.7k"
+        }
+      ],
+      "doc": "skill-doc.html",
+      "featured": true,
+      "ariaLabel": "进入 Lieflat Charts 完整指南"
+    },
+    {
+      "id": "aihot",
+      "kicker": "开源框架 · 使用指南",
+      "title": "AIHOT 开源框架 使用指南",
+      "desc": [
+        "一套「自己找热点、自己写日报」的网站开源引擎：每天从一批信源里收资料，用大模型先筛一遍、再独立打两次分，",
+        "把不同来源说的同一件事聚成一个事件、按有多少人在说排出热点，每天出一份中文日报。",
+        "本站的「AI 速览」页正是用它搭建的。指南整理自其公开仓库。"
+      ],
+      "repo": "https://github.com/KKKKhazix/AIHOT",
+      "stats": [
+        {
+          "label": "信源类型",
+          "value": "6"
+        },
+        {
+          "label": "入选评分",
+          "value": "2×"
+        },
+        {
+          "label": "报告类型",
+          "value": "日/周/月"
+        },
+        {
+          "label": "许可",
+          "value": "MIT"
+        }
+      ],
+      "doc": "aihot-doc.html",
+      "comment": "AIHOT 开源框架指南入口卡"
+    },
+    {
+      "id": "ai-website-cloner",
+      "kicker": "开源模板 · 使用指南",
+      "title": "AI Website Cloner 使用指南",
+      "desc": [
+        "一套「一句话把任意网站克隆成现代代码」的 AI 智能体模板：预置好 Next.js 16 + shadcn/ui + Tailwind v4 的工程骨架，",
+        "把目标网址丢给 Claude Code / Codex 等编码智能体，它会先观察取证、再 1:1 复刻、最后同视口对比修复，",
+        "交付可编辑的真实代码而不是截图。指南整理自其公开仓库。"
+      ],
+      "repo": "https://github.com/JCodesMore/ai-website-cloner-template",
+      "stats": [
+        {
+          "label": "GitHub 收藏",
+          "value": "37.6k"
+        },
+        {
+          "label": "支持平台",
+          "value": "4"
+        },
+        {
+          "label": "克隆工作流",
+          "value": "4 步"
+        },
+        {
+          "label": "许可",
+          "value": "MIT"
+        }
+      ],
+      "doc": "cloner-doc.html",
+      "comment": "AI Website Cloner 使用指南入口卡"
+    },
+    {
+      "id": "dsh-context",
+      "kicker": "开源插件 · 使用指南",
+      "title": "dsh-context 使用指南",
+      "desc": [
+        "一款给 AI Agent 装的「上下文透视镜」——DeepSeek Harness 插件，把 Agent 此刻携带的上下文（系统提示词、工具定义、历史消息、模型思考、工具结果）可视化，看清它怎么构成、怎么随对话膨胀与压缩、多 Agent 协作时各自占了多大窗口。指南整理自其公开仓库。"
+      ],
+      "repo": "https://github.com/bowenliang123/dsh-context",
+      "stats": [
+        {
+          "label": "GitHub 收藏",
+          "value": "3.8k"
+        },
+        {
+          "label": "兼容版本",
+          "value": "0.2.0+"
+        },
+        {
+          "label": "功能入口",
+          "value": "5 个"
+        },
+        {
+          "label": "许可",
+          "value": "Apache-2.0"
+        }
+      ],
+      "doc": "dsh-context-doc.html",
+      "comment": "dsh-context 使用指南入口卡"
+    },
+    {
+      "id": "shadcn-admin",
+      "kicker": "开源仪表盘 · 使用指南",
+      "title": "shadcn-admin 使用指南",
+      "desc": [
+        "一套「用 Shadcn 与 Vite 现搭的后台面板 UI 合集」：可复用的仪表盘、表单、表格、图表与设置页，",
+        "响应式与无障碍优先，自带浅/深色主题与多套布局变体。指南整理自其公开仓库。"
+      ],
+      "repo": "https://github.com/satnaing/shadcn-admin",
+      "stats": [
+        {
+          "label": "GitHub 收藏",
+          "value": "16.4k"
+        },
+        {
+          "label": "构建工具",
+          "value": "Vite"
+        },
+        {
+          "label": "路由方案",
+          "value": "TanStack"
+        },
+        {
+          "label": "许可",
+          "value": "MIT"
+        }
+      ],
+      "doc": "shadcn-admin-doc.html",
+      "comment": "shadcn-admin 使用指南入口卡"
+    },
+    {
+      "id": "cicada",
+      "kicker": "实时字幕 · 使用指南",
+      "title": "知了 Cicada 使用指南",
+      "desc": [
+        "一款跨平台的实时会议/直播字幕、同声传译与 AI 会议纪要应用：直接读系统声音，",
+        "不往会里塞机器人，对方无感；Mac 端全程本机识别、声音不出电脑。指南整理自其公开仓库。"
+      ],
+      "repo": "https://github.com/wquguru/cicada",
+      "stats": [
+        {
+          "label": "GitHub 收藏",
+          "value": "1.4k"
+        },
+        {
+          "label": "支持平台",
+          "value": "4 端"
+        },
+        {
+          "label": "开发语言",
+          "value": "Swift"
+        },
+        {
+          "label": "许可",
+          "value": "Apache-2.0"
+        }
+      ],
+      "doc": "cicada-doc.html",
+      "comment": "cicada 使用指南入口卡"
+    },
+    {
+      "id": "answer-me-with-html",
+      "kicker": "Agent Skill · 使用指南",
+      "title": "Answer me with HTML 使用指南",
+      "desc": [
+        "一款给 AI 智能体装的 Agent Skill：遇到复杂问题，Agent 不再甩给你一堵文字墙，",
+        "而是写一份极短的 Markdown 稿件，由它自带的 CLI 在本地生成一页能看懂的单页 HTML。",
+        "模型要写的 token 只有直接手写 HTML 的约 1/8。指南整理自其公开仓库。"
+      ],
+      "repo": "https://github.com/QingYunA/answer-me-with-html",
+      "stats": [
+        {
+          "label": "GitHub 收藏",
+          "value": "5.3k"
+        },
+        {
+          "label": "兼容智能体",
+          "value": "70+"
+        },
+        {
+          "label": "省 token",
+          "value": "1/8"
+        },
+        {
+          "label": "许可",
+          "value": "MIT"
+        }
+      ],
+      "doc": "answer-me-with-html-doc.html",
+      "comment": "answer-me-with-html 使用指南入口卡"
+    },
+    {
+      "id": "agent-autoloop",
+      "kicker": "自动化中台 · 使用指南",
+      "title": "Agent Autoloop 使用指南",
+      "desc": [
+        "把 Claude Code、Codex 这类「人守着终端用」的 Agent 变成后台自动接活的中台：",
+        "定时与 Webhook 触发任务，Agent 干完一轮就退出，只有拿不准时才推卡片找你拍板，",
+        "你点一下它接上原会话继续干完。零依赖内核 + 四向插件，不用服务器、不用公网端口。指南整理自其公开仓库。"
+      ],
+      "repo": "https://github.com/KKKKhazix/agent-autoloop",
+      "stats": [
+        {
+          "label": "GitHub 收藏",
+          "value": "3.8k"
+        },
+        {
+          "label": "内核依赖",
+          "value": "0"
+        },
+        {
+          "label": "场景模板",
+          "value": "8 套"
+        },
+        {
+          "label": "许可",
+          "value": "MIT"
+        }
+      ],
+      "doc": "agent-autoloop-doc.html",
+      "comment": "agent-autoloop 使用指南入口卡"
+    },
+    {
+      "id": "agent-desktop",
+      "kicker": "桌面自动化 · 使用指南",
+      "title": "Agent Desktop 使用指南",
+      "desc": [
+        "Vercel Labs 出品的「给 AI Agent 用的桌面操作 CLI」：不截图、不做像素匹配，",
+        "直接读 macOS / Windows / Linux 的系统无障碍树，把界面变成带 ref 的 JSON。",
+        "Agent 靠 ref 点击输入、再读一次界面验证结果。项目本身不含模型，循环跑在调用的 Agent 里。指南整理自其公开仓库。"
+      ],
+      "repo": "https://github.com/vercel-labs/agent-desktop",
+      "stats": [
+        {
+          "label": "GitHub 收藏",
+          "value": "21k"
+        },
+        {
+          "label": "CLI 命令",
+          "value": "60"
+        },
+        {
+          "label": "支持平台",
+          "value": "3"
+        },
+        {
+          "label": "许可",
+          "value": "Apache-2.0"
+        }
+      ],
+      "doc": "agent-desktop-doc.html",
+      "comment": "agent-desktop 使用指南入口卡"
+    },
+    {
+      "id": "dsh-media-desk",
+      "kicker": "内容创作 · 使用指南",
+      "title": "自媒体工作台 使用指南",
+      "desc": [
+        "DeepSeek Harness 侧栏里的自媒体创作插件：一句话记灵感，一键生成口播脚本、标题、视频封面、",
+        "配图和六格分镜，左边聊一句右边就改。稿子拖到日历排期，发布后复盘数据还能提炼成写作规则。",
+        "数据全在本机，插件免费不带密钥。指南整理自其公开仓库。"
+      ],
+      "repo": "https://github.com/woniuniuniu/dsh-media-desk",
+      "stats": [
+        {
+          "label": "GitHub 收藏",
+          "value": "941"
+        },
+        {
+          "label": "工作页面",
+          "value": "5"
+        },
+        {
+          "label": "支持平台",
+          "value": "9"
+        },
+        {
+          "label": "许可",
+          "value": "MIT"
+        }
+      ],
+      "doc": "dsh-media-desk-doc.html",
+      "comment": "dsh-media-desk 使用指南入口卡"
+    }
+  ]
+}

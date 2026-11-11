@@ -10,7 +10,10 @@ website/
 ├── resume.html                # 简历页：一页式简历，可打印 / 存为 PDF
 ├── weekly.html                # 周刊归档页：最近 20 期 + 全量检索
 ├── hotnews.html               # 科技热点页：IT之家 / Hacker News / 少数派 三源热榜
-├── skill.html                 # Skill 指南页：Lieflat Charts（数据图表 Skill）使用文档
+├── skill.html                 # Skill 指南页：10 张仓库指南入口卡（由 content/skills.json 生成）
+├── *-doc.html                 # 10 个仓库的完整指南页（每页 8 节，各自手写）
+├── content/
+│   └── skills.json            # ★ Skill 卡片唯一录入源：标题 / 描述 / 仓库 / 统计 / 指南页
 ├── 404.html                   # GitHub Pages 自定义 404
 ├── robots.txt / sitemap.xml   # 搜索引擎收录
 ├── package.json               # 仅构建期依赖（devDependencies），运行时不需要
@@ -32,6 +35,8 @@ website/
 │       └── hotnews-page.js    # 热点页逻辑层：主题、跨源检索、相对时间
 │   └── skill-page.js          # Skill 指南页逻辑层：主题、指令复制
 ├── tools/
+│   ├── generate-skills.mjs    # ★ 由 skills.json 生成两处卡片区 + sitemap 的 doc 条目
+│   ├── verify.mjs             # ★ 全站结构 / 内容一致性校验（npm run verify）
 │   ├── sync_weekly.py         # 周刊同步脚本，生成 weekly-*.js
 │   ├── sync_hotnews.py        # 热点同步脚本，生成 hotnews.js
 │   ├── build.mjs              # ★ 构建总入口：下面三步一条命令跑完
@@ -42,8 +47,10 @@ website/
 │   ├── prerender.mjs          # 生成爬虫可见的静态快照（写入 noscript）
 │   └── make_og.py             # 重新生成分享卡片图（需 pillow）
 ├── .github/workflows/
-│   ├── sync-weekly.yml        # 每日定时同步周刊（GitHub Actions）
-│   └── sync-hotnews.yml       # 每日定时同步科技热点
+│   ├── sync-weekly.yml        # 每日定时同步科技爱好者周刊
+│   ├── sync-hotnews.yml       # 每日定时同步科技热点
+│   ├── sync-hot.yml           # 定时同步 AI 行业热点
+│   └── mail-digest.yml        # 邮件早报（凭据走 Secrets 或 Variables）
 └── vendor/
     ├── arco-bundle.js         # 自动生成：Vue 3 完整版 + 按需 Arco 组件
     ├── arco-bundle.css        # 自动生成：上述组件的样式
@@ -63,6 +70,44 @@ website/
 | 周刊数据来源与数量 | `tools/sync_weekly.py` | 跑一次脚本（勿手改 `weekly-*.js`） |
 | 热点页抓哪些源、每源几条 | `tools/sync_hotnews.py` 的 `SOURCES` / `--limit` | 跑一次脚本（勿手改 `hotnews.js`） |
 | 换 Arco 组件 / 升级依赖 | `tools/vendor-entry.js` + `package.json` | `npm run build` |
+| **新增 / 修改 Skill 指南卡片** | **`content/skills.json` 的 `cards`** | **`npm run skills`，再 `npm run verify`** |
+
+## Skill 卡片：一次录入，多处生成
+
+`skill.html` 下现有 10 张仓库指南入口卡。以前加一张卡要手工改 5 个地方（实时模板、SEO 快照、sitemap、一整个指南页、对应 JS），
+历史上有多次「快照标签损坏 / 卡片错位」都出在前两处的手工同步上。现在**加卡、改文案、改统计，只改 `content/skills.json` 一条记录**：
+
+```bash
+npm run skills        # 生成 skill.html 实时卡片区 + SEO 快照 + sitemap.xml 的 doc 条目
+npm run verify        # 全站校验（6 项，任一失败退出码 1）
+npm run skills:check  # 只比对不写入，适合 CI 或提交前确认没漏跑
+```
+
+生成器幂等，重复运行不会叠加卡片；内容没变就不写文件。
+
+`cards[]` 字段：
+
+| 字段 | 说明 |
+|---|---|
+| `id` | 唯一标识，小写连字符 |
+| `kicker` / `title` | 卡片上方小标题 / 主标题 |
+| `desc` | 描述；字符串数组按行输出（也可写成单行字符串），主卡允许内嵌 `<span class="font-semibold text-ink">` 强调 |
+| `repo` | 上游 GitHub 仓库地址 |
+| `stats` | 恰好 4 项 `{ label, value }` |
+| `doc` | 指南页文件名，必须 `*-doc.html`，对应 `assets/js/*-doc.js` |
+| `featured` | 只能有 1 张；主卡用 `<h1>`、整卡可点击跳转 |
+| `ariaLabel` / `comment` | 主卡无障碍标签 / 后续卡源码注释文字，可省略 |
+
+**为什么不用自定义标记**：生成器靠现有 HTML 的结构锚点切分两处卡片区，所以 `npm run build` 里的
+`prerender.mjs` 重新渲染 noscript 快照后锚点依然成立，随时可以再跑一次 `npm run skills` 把快照规范化
+（清掉手工补卡时混进来的 svg 装饰、补齐描述文字空格）。
+
+**指南页本身仍需手写**：10 个 `*-doc.html`（每页 8 节）与 `*-doc.js`（主题 + 复制块）属于创作内容、
+彼此不同，不进配置。新增卡片时复制同款页面改内容即可；`npm run verify` 会逐页检查 8 个章节与目录锚点、
+Vue 模板变量与 JS 复制块 key 一一对齐、本地链接可达、Vue 编译 0 错误、JS 语法与 `#skill-app` 挂载。
+
+`npm run verify` 的 6 项：配置与生成产物同步 / 四处卡片数一致 / `skill.html` 标签与编译 /
+指南页与脚本成对 / 10 个指南页逐页结构 / `sitemap.xml` 无重复 URL。
 
 ## 依赖是怎么构建的（重要）
 
@@ -84,8 +129,6 @@ npm run build      # 改了 tools/ 下的构建配置、页面类名或内容后
 ```
 
 产物必须提交进仓库（Pages 不跑构建）。快照那步会**改写 `index.html`、`resume.html`、`weekly.html`、`hotnews.html` 末尾的 noscript 区块**（页面清单在 `tools/prerender.mjs` 的 `PAGES`），幂等，重复运行只替换不叠加。
-
-产物必须提交进仓库（Pages 不跑构建）。
 
 ### Arco 的接入要点（排过的坑）
 
