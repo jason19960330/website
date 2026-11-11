@@ -217,9 +217,10 @@ check('生活首页 / 工作经历页 / sitemap / 内容层联动', () => {
   const sitemap = fs.readFileSync(path.join(root, 'sitemap.xml'), 'utf8');
   assert(sitemap.includes('/work.html'), 'sitemap 未登记 work.html');
   const cfg = fs.readFileSync(path.join(root, 'assets/js/data.js'), 'utf8');
-  assert(cfg.includes('life:') && cfg.includes('growth:'), 'data.js 缺少 life / growth');
+  assert(cfg.includes('life:') && cfg.includes('growth:') && cfg.includes('photos:'), 'data.js 缺少 life / growth / photos');
   const app = fs.readFileSync(path.join(root, 'assets/js/app.js'), 'utf8');
-  assert(app.includes('life: CONFIG.life') && app.includes('growth: CONFIG.growth'), 'app.js 未暴露 life / growth');
+  assert(app.includes('life: CONFIG.life') && app.includes('growth: CONFIG.growth')
+    && app.includes('photos: CONFIG.photos'), 'app.js 未暴露 life / growth / photos');
   return '首页 6 段、work.html、sitemap、内容层与逻辑层齐全';
 });
 

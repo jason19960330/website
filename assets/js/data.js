@@ -58,8 +58,8 @@ window.SITE_CONFIG = {
   nav: [
     { id: 'home',      label: '首页' },
     { id: 'life',      label: '这几年' },
+    { id: 'work',      label: '照片墙' },
     { id: 'growth',    label: '轨迹' },
-    { id: 'work',      label: '工作经历' },
     { id: 'calendar',  label: '日历' },
     { id: 'contact',   label: '联系' }
   ],
@@ -282,12 +282,26 @@ window.SITE_CONFIG = {
   },
 
   /* ------------------------------------------------------------------
+   * 11.5 照片墙（首页 02）
+   *     placeholder: true 显示虚线占位格；补照片时填 src / caption 并删掉 placeholder。
+   *     图片建议放 assets/photos/ 下，4:3、压缩到 300KB 以内。
+   * ---------------------------------------------------------------- */
+  photos: [
+    { label: '照片 01', src: '', caption: '', placeholder: true },
+    { label: '照片 02', src: '', caption: '', placeholder: true },
+    { label: '照片 03', src: '', caption: '', placeholder: true },
+    { label: '照片 04', src: '', caption: '', placeholder: true },
+    { label: '照片 05', src: '', caption: '', placeholder: true },
+    { label: '照片 06', src: '', caption: '', placeholder: true }
+  ],
+
+  /* ------------------------------------------------------------------
    * 12. 成长轨迹（首页热力图）
    *     days 是近 91 天每天站点仓库的提交量分级：0 无 / 1 少量 / 2 中 / 3 多 / 4 很多。
    *     由 git log 统计生成，属于「可核对的真实数据」，不用手工维护。
    * ---------------------------------------------------------------- */
   growth: {
-    kicker: 'CHAPTER 02 · 可回看的轨迹',
+    kicker: 'CHAPTER 03 · 可回看的轨迹',
     title: '站点更新热力图',
     desc: '每个格子是一天。颜色深浅按当天仓库提交次数分级，全部来自 git log，不是示意数据。',
     span: '2026-08-13 ~ 2026-11-11',

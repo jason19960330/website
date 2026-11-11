@@ -363,7 +363,7 @@
         home:     '生活首页 · 人格锚点 · 快速入口',
         life:     '这几年 · 生活年表 · 待补真实事件',
         growth:   '站点更新热力图 · 核心数据',
-        work:     '工作经历入口 · 五段式项目案例',
+        work:     '照片墙 · 生活照片',
         calendar: '更新日历 · 周刊发布节奏 · 可约面工作日',
         contact:  '邮箱 · 电话 · 社交链接'
       };
@@ -714,7 +714,7 @@
 
       return {
         meta: meta, nav: CONFIG.nav, social: CONFIG.social,
-        life: CONFIG.life, growth: CONFIG.growth,
+        life: CONFIG.life, growth: CONFIG.growth, photos: CONFIG.photos,
         stats: CONFIG.stats, skillGroups: CONFIG.skillGroups, toolStack: CONFIG.toolStack,
         timeline: CONFIG.timeline, projects: CONFIG.projects,
         education: CONFIG.education, honors: CONFIG.honors, strengths: CONFIG.strengths,

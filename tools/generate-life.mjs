@@ -14,8 +14,9 @@
  *    node tools/generate-life.mjs --out DIR      # 把结果写到 DIR，不动原文件
  *    node tools/generate-life.mjs --config F     # 指定别的 md
  *
- *  设计：靠结构锚点定位，不用自定义标记 —— 这样 prerender 重渲染快照后
- *  锚点依然成立。产物幂等，版本号取 md 内容的 hash，内容不变则字节不变。
+ *  设计：life 段靠结构锚点定位；SEO 快照的生成区用 <!-- life-snapshot:end -->
+ *  界定，后面的章节可以随意调序或改名。产物幂等，版本号取 md 与 data.js
+ *  非 life 段内容的 hash，任何一处内容不变则字节不变。
  * ============================================================================
  */
 import fs from 'node:fs';
@@ -151,10 +152,12 @@ const snapBlock = snapLines.join('\n') + '\n';
 const idx = fs.readFileSync(INDEX, 'utf8');
 const parts = idx.split('<!-- seo-snapshot:start -->');
 if (parts.length !== 2) throw new Error('index.html 找不到 seo-snapshot:start 锚点');
-const SNAP_RE = /(<h1>你好，我是李文涛<\/h1>\n)([\s\S]*?)(<h2>站点更新热力图<\/h2>)/;
-if (!SNAP_RE.test(parts[1])) throw new Error('SEO 快照找不到「这几年 → 站点更新热力图」区间');
+const SNAP_RE = /(<h1>你好，我是李文涛<\/h1>\n)([\s\S]*?)(<!-- life-snapshot:end -->)/;
+if (!SNAP_RE.test(parts[1])) throw new Error('SEO 快照找不到 life-snapshot:end 锚点');
 const tail = parts[1].replace(SNAP_RE, (m, a, b, c) => a + snapBlock + c);
-const version = 'life-' + crypto.createHash('sha1').update(md).digest('hex').slice(0, 8);
+const version = 'life-' + crypto.createHash('sha1')
+  .update(md + '\n' + data.replace(LIFE_RE, ''))
+  .digest('hex').slice(0, 8);
 let nextIdx = parts[0] + '<!-- seo-snapshot:start -->' + tail;
 // 脚本引用在 seo-snapshot 之前，版本号要对整份 index.html 替换
 if (!/data\.js\?v=[^"']+/.test(nextIdx)) throw new Error('index.html 找不到 data.js 缓存版本号');

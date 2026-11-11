@@ -359,10 +359,34 @@
           </aside>
         </div>
       </section>
-      <!-- ============================ 02 可回看的轨迹 ============================ -->
-      <section id="growth" class="mx-auto max-w-5xl px-5 py-16 sm:px-6 sm:py-20">
+      <!-- ============================ 02 照片墙 ============================ -->
+      <section id="work" class="mx-auto max-w-5xl px-5 py-16 sm:px-6 sm:py-20">
         <div class="chapter-head">
           <span class="chapter-no">02</span>
+          <h2 class="chapter-title">照片墙</h2>
+          <span class="chapter-kicker">Photos · 生活照片</span>
+        </div>
+        <div class="card p-6 sm:p-8">
+          <div class="photo-grid">
+            <figure v-for="(p, i) in photos" :key="'ph-' + i" class="photo-item">
+              <div class="photo-tile" :class="{ 'is-placeholder': p.placeholder }">
+                <img v-if="p.src" :src="p.src" :alt="p.caption || p.label" loading="lazy">
+                <p v-else class="photo-placeholder-text">{{ p.label }}<br>等待补上真实照片</p>
+              </div>
+              <figcaption v-if="p.caption" class="photo-caption">{{ p.caption }}</figcaption>
+            </figure>
+          </div>
+          <div class="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs">
+            <a href="work.html" class="photo-link">工作经历</a>
+            <a href="resume.html" class="photo-link">一页式简历</a>
+            <a href="assets/resume.pdf?v=20261106b" target="_blank" rel="noopener" class="photo-link">下载 PDF</a>
+          </div>
+        </div>
+      </section>
+      <!-- ============================ 03 可回看的轨迹 ============================ -->
+      <section id="growth" class="mx-auto max-w-5xl px-5 py-16 sm:px-6 sm:py-20">
+        <div class="chapter-head">
+          <span class="chapter-no">03</span>
           <h2 class="chapter-title">{{ growth.title }}</h2>
           <span class="chapter-kicker">{{ growth.kicker }}</span>
         </div>
@@ -391,27 +415,6 @@
           <div v-for="st in stats" :key="st.label" class="card p-5">
             <p class="case-metric-v tnum">{{ st.value }}{{ st.suffix }}</p>
             <p class="mt-1 text-xs text-faint">{{ st.label }}</p>
-          </div>
-        </div>
-      </section>
-      <!-- ============================ 03 工作经历入口 ============================ -->
-      <section id="work" class="mx-auto max-w-5xl px-5 py-16 sm:px-6 sm:py-20">
-        <div class="chapter-head">
-          <span class="chapter-no">03</span>
-          <h2 class="chapter-title">工作经历</h2>
-          <span class="chapter-kicker">Work · 独立页面</span>
-        </div>
-        <div class="card p-6 sm:p-8">
-          <p class="chapter-kicker">从生活首页分出去的一页</p>
-          <h3 class="mt-2 text-2xl font-semibold text-ink">做过的事，讲清楚来龙去脉</h3>
-          <p class="mt-3 max-w-2xl text-sm leading-relaxed text-dim">
-            两段工作经历、三个按「为什么做 → 重新定义问题 → 怎么落地 → 真实数据 → 复盘」展开的项目案例，
-            以及技能矩阵、教育背景，都搬到了独立页面。首页留给生活，简历留给求职，三者不再挤在一页里。
-          </p>
-          <div class="mt-6 flex flex-wrap items-center gap-3 text-sm">
-            <a href="work.html" class="rounded-lg border border-accent px-4 py-2 text-accent transition hover:bg-accent hover:text-white">打开工作经历页</a>
-            <a href="resume.html" class="rounded-lg border border-hair px-4 py-2 text-dim transition hover:border-accent hover:text-accent">一页式简历</a>
-            <a href="assets/resume.pdf?v=20261106b" target="_blank" rel="noopener" class="rounded-lg border border-hair px-4 py-2 text-dim transition hover:border-accent hover:text-accent">下载 PDF</a>
           </div>
         </div>
       </section>
@@ -571,7 +574,7 @@
   <!-- 按需打包产物：Vue 完整版 + 实际用到的 Arco 组件，暴露 window.Vue / window.ArcoVue -->
   <script src="assets/js/weather.js?v=202610051"></script>
   <script src="vendor/arco-bundle.js?v=20260923"></script>
-  <script src="assets/js/data.js?v=life-52cc5fec"></script>
+  <script src="assets/js/data.js?v=life-126dd3dd"></script>
   <script src="assets/js/hotnews.js?v=20260928"></script>
   <script src="assets/js/app.js?v=20261111"></script>
 
@@ -621,10 +624,11 @@
 <p>2026 · 给自己做了一整个工具箱：陆续整理并写下 10 个开源仓库的完整指南，从图表、网页克隆到 Agent 自动化与桌面操作。</p>
 <p>2026 · 把手工维护改成一次录入：给工具卡片做了配置化生成与全站校验，加一张卡不再需要改五处手工。</p>
 <p>2025、2022 — 2024、2019 — 2021 的条目目前是占位，等待补上真实事件与照片，不用示意内容冒充生活。</p>
+<!-- life-snapshot:end -->
+<h2>照片墙</h2>
+<p>首页留出生活照片的位置，目前是占位，等待补上真实照片。工作经历与项目案例仍在独立页面 work.html。</p>
 <h2>站点更新热力图</h2>
 <p>每个格子是一天，颜色深浅按当天仓库提交次数分级，全部来自 git log，不是示意数据。2026-08-13 ~ 2026-11-11 共 231 次提交。</p>
-<h2>工作经历</h2>
-<p>两段工作经历、三个按「为什么做 → 重新定义问题 → 怎么落地 → 真实数据 → 复盘」展开的项目案例，以及技能矩阵与教育背景，都搬到了独立页面 work.html。首页留给生活，简历留给求职。</p>
 <p>晖致医药 7 年企业级 IT 技术支持，500+ 员工办公终端与资产运营，资产台账准确率 95%以上，20+ 份标准化运维 SOP，ServiceNow / Intune / ABM、音视频会议保障、机房网络运维。</p>
 <h2>更新日历与联系</h2>
 <p>站点保留周刊发布节奏的更新日历、邮箱 573164137@qq.com、电话 139-3036-3901，以及留言板。</p>

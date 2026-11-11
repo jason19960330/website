@@ -79,12 +79,16 @@ website/
 
 | 页面 | 讲什么 | 数据来源 |
 |---|---|---|
-| `index.html` | 生活首页：人格锚点、这几年年表、站点更新热力图、工作经历入口、日历、联系、留言 | `data.js` 的 `life` / `growth` / `stats` |
+| `index.html` | 生活首页：人格锚点、这几年年表、照片墙、站点更新热力图、日历、联系、留言 | `data.js` 的 `life` / `photos` / `growth` / `stats` |
 | `work.html` | 工作经历：两段经历、三个五段式项目案例、技能矩阵、教育证书 | `data.js` 的 `timeline` / `projects` / `skillGroups` / `education`，逻辑层 `assets/js/work.js` |
 | `resume.html` / `resume-template.html` / `assets/resume.pdf` | 求职专用：一页式简历、A4 打印模板、PDF | `data.js`，与上面同源 |
 
 **生活年表目前是骨架**：三条 `tag: 站点记录` 是可核对的站点事实，其余 `placeholder: true` 是占位，
 等本人补真实年份、事件与照片；不要替他编生活内容。`growth.days` 是近 91 天 git 提交量分级，由 `git log` 统计，不用手工维护。
+
+**照片墙目前是骨架**：`data.js` 的 `photos` 六项均为 `placeholder: true` 虚线占位格；
+补照片时把图片放进 `assets/photos/`，填 `src` / `caption` 并删掉 `placeholder`，不要放示意图片。
+首页内部锚点仍叫 `#work`（暂时改名，方便以后改回），求职入口在首屏按钮、顶部导航与移动抽屉里。
 
 **视觉**：`assets/css/style.css` 的 `:root` / `html.dark` 两组变量统一控制原有的 slate 底色 + sky 蓝强调 +
 sky/indigo 渐变，标题与正文一律使用系统无衬线字体；`.chapter-*` / `.life-*` / `.heat-*` / `.case-*`
