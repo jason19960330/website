@@ -206,6 +206,23 @@ check('10 个指南页：标签 / 锚点 / 模板变量 / 链接 / Vue 编译', 
 });
 
 /* 6. sitemap 本身 */
+check('生活首页 / 工作经历页 / sitemap / 内容层联动', () => {
+  const idx = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+  const live = idx.split('<!-- seo-snapshot:start -->')[0];
+  assert(fs.existsSync(path.join(root, 'work.html')), '缺少 work.html');
+  for (const id of ['home', 'life', 'growth', 'work', 'calendar', 'contact']) {
+    assert(live.includes(`id="${id}"`), `index.html 实时区缺少 section #${id}`);
+  }
+  assert(!live.includes('id="timeline"'), 'index.html 仍残留旧的工作经历明细段');
+  const sitemap = fs.readFileSync(path.join(root, 'sitemap.xml'), 'utf8');
+  assert(sitemap.includes('/work.html'), 'sitemap 未登记 work.html');
+  const cfg = fs.readFileSync(path.join(root, 'assets/js/data.js'), 'utf8');
+  assert(cfg.includes('life:') && cfg.includes('growth:'), 'data.js 缺少 life / growth');
+  const app = fs.readFileSync(path.join(root, 'assets/js/app.js'), 'utf8');
+  assert(app.includes('life: CONFIG.life') && app.includes('growth: CONFIG.growth'), 'app.js 未暴露 life / growth');
+  return '首页 6 段、work.html、sitemap、内容层与逻辑层齐全';
+});
+
 check('sitemap.xml 结构完整且 URL 不重复', () => {
   const xml = fs.readFileSync(SITEMAP, 'utf8');
   const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);

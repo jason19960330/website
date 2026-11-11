@@ -26,6 +26,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 // query：渲染时附加在 URL 上的参数（目前没有页面需要，保留字段以备不时之需）
 const PAGES = [
   { file: 'index.html', appId: 'app' },
+  { file: 'work.html', appId: 'work-app' },
   { file: 'resume.html', appId: 'resume-app' },
   { file: 'weekly.html', appId: 'weekly-app' },
   { file: 'hotnews.html', appId: 'hot-app' },

@@ -360,14 +360,12 @@
       // 索引来源：站点板块 / 经历 / 项目 / 技能 / 教育 / 证书 + 页级入口 + 全部周刊标题。
       // 全部在浏览器内存里检索，无需后端；周刊索引由 tools/sync_weekly.py 每日更新。
       var SECTION_DESC = {
-        home:      '个人概览 · 求职意向 · 联系方式速览',
-        about:     '自我介绍 · 核心数据 · 核心优势',
-        skills:    '技能矩阵 · 能力雷达图 · 工具栈',
-        timeline:  '晖致医药 IT 技术支持 · 工作经历明细',
-        projects:  '资产台账规范化 · 终端资产运营 · 新零售交付',
-        education: '中国农业大学 · 华北理工大学迁安学院 · 证书荣誉',
-        calendar:  '更新日历 · 周刊发布节奏 · 可约面工作日',
-        contact:   '邮箱 · 电话 · 社交链接'
+        home:     '生活首页 · 人格锚点 · 快速入口',
+        life:     '这几年 · 生活年表 · 待补真实事件',
+        growth:   '站点更新热力图 · 核心数据',
+        work:     '工作经历入口 · 五段式项目案例',
+        calendar: '更新日历 · 周刊发布节奏 · 可约面工作日',
+        contact:  '邮箱 · 电话 · 社交链接'
       };
 
       // 同类结果之间的排序倾向：板块 / 页面 > 经历 > 项目 > 技能 / 教育 / 关于
@@ -389,6 +387,9 @@
         });
         // 2) 独立页面
         add({ kind: 'page', group: '页面', badge: '页面', title: '个人简历（完整版）', desc: '一页式简历 · 支持打印 / 导出 PDF · 与首页同源', href: 'resume.html' });
+        add({ kind: 'page', group: '页面', badge: '页面', title: '工作经历（五段式案例）',
+              desc: '两段经历、三个项目、技能矩阵与教育背景；项目按「为什么做—重新定义问题—怎么落地—真实数据—复盘」展开',
+              kw: '工作经历 项目 案例 技能 教育 work 晖致医药 资产台账', href: 'work.html' });
         add({ kind: 'page', group: '页面', badge: '页面', title: '自建行业热点站',
               desc: '自己找热点、自己写日报的网站框架：六步链路、六种信源、聚簇与热度算法',
               kw: '热点站 日报 聚簇 热度 信源 ai hot 框架 self-hosted 精选 mcp', href: 'weekly.html' });
@@ -402,32 +403,32 @@
         // 3) 内容条目：命中后跳到所属板块
         CONFIG.timeline.forEach(function (t) {
           add({ kind: 'site', group: '经历', badge: t.org, title: t.role + ' · ' + t.org,
-                desc: t.summary + ' ' + t.points.join(' '), section: 'timeline' });
+                desc: t.summary + ' ' + t.points.join(' '), href: 'work.html#experience' });
         });
         CONFIG.projects.forEach(function (p) {
           add({ kind: 'site', group: '项目', badge: p.period, title: p.name,
-                desc: p.summary + ' ' + p.details.join(' '), section: 'projects' });
+                desc: p.summary + ' ' + p.details.join(' '), href: 'work.html#projects' });
         });
         CONFIG.skillGroups.forEach(function (g) {
           g.skills.forEach(function (s) {
             add({ kind: 'site', group: '技能', badge: g.title, title: s.name,
-                  desc: g.title + ' · ' + g.desc + ' · ' + levelLabel(s.level), section: 'skills' });
+                  desc: g.title + ' · ' + g.desc + ' · ' + levelLabel(s.level), href: 'work.html#skills' });
           });
         });
         CONFIG.toolStack.forEach(function (cat) {
           cat.items.forEach(function (item) {
-            add({ kind: 'site', group: '技能', badge: '工具栈', title: item, desc: cat.title + ' · 日常在用工具', section: 'skills' });
+            add({ kind: 'site', group: '技能', badge: '工具栈', title: item, desc: cat.title + ' · 日常在用工具', href: 'work.html#skills' });
           });
         });
         CONFIG.strengths.forEach(function (s) {
-          add({ kind: 'site', group: '关于', badge: '核心优势', title: s.title, desc: s.desc, section: 'about' });
+          add({ kind: 'site', group: '关于', badge: '核心优势', title: s.title, desc: s.desc, href: 'work.html' });
         });
         CONFIG.education.forEach(function (e) {
           add({ kind: 'site', group: '教育', badge: e.degree, title: e.school,
-                desc: e.major + ' · ' + e.degree + (e.note ? ' · ' + e.note : '') + ' · ' + e.period, section: 'education' });
+                desc: e.major + ' · ' + e.degree + (e.note ? ' · ' + e.note : '') + ' · ' + e.period, href: 'work.html#education' });
         });
         CONFIG.honors.forEach(function (h) {
-          add({ kind: 'site', group: '教育', badge: '证书荣誉', title: h, desc: '证书与荣誉', section: 'education' });
+          add({ kind: 'site', group: '教育', badge: '证书荣誉', title: h, desc: '证书与荣誉', href: 'work.html#education' });
         });
 
 
@@ -713,6 +714,7 @@
 
       return {
         meta: meta, nav: CONFIG.nav, social: CONFIG.social,
+        life: CONFIG.life, growth: CONFIG.growth,
         stats: CONFIG.stats, skillGroups: CONFIG.skillGroups, toolStack: CONFIG.toolStack,
         timeline: CONFIG.timeline, projects: CONFIG.projects,
         education: CONFIG.education, honors: CONFIG.honors, strengths: CONFIG.strengths,

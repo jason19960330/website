@@ -14,34 +14,37 @@
 
 /* ------------------------------ 1. 主题变量 ------------------------------ */
 
-/* 浅色（Arco 默认主题） */
+/* 浅色：暖纸 + 墨绿（编辑式版式，配色参考 liushui029.com） */
 :root {
-  --c-base:     248 250 252;            /* slate-50   页面底色 */
-  --c-panel:    255 255 255;            /* white      卡片 */
-  --c-raise:    241 245 249;            /* slate-100  次级填充 */
-  --c-hair:     226 232 240;            /* slate-200  描边 */
-  --c-ink:      15 23 42;               /* slate-900  主文字 */
-  --c-dim:      71 85 105;              /* slate-600  次级文字 */
-  --c-faint:    148 163 184;            /* slate-400  弱文字 */
-  --c-accent:   2 132 199;              /* sky-600    强调色 */
-  --glow-op:    0.30;                   /* 背景光晕强度 */
+  --c-base:     240 237 231;            /* #f0ede7 暖纸底色 */
+  --c-panel:    250 248 244;            /* 纸白卡片 */
+  --c-raise:    233 229 220;            /* 次级填充 */
+  --c-hair:     213 207 193;            /* 纸边描线 */
+  --c-ink:      35 44 40;               /* 深墨主文字 */
+  --c-dim:      88 96 89;               /* 次级文字 */
+  --c-faint:    139 145 134;            /* 弱文字 */
+  --c-accent:   35 72 63;               /* #23483f 墨绿 */
+  --c-code:     24 92 120;              /* 代码保留冷色，技术页好读 */
+  --glow-op:    0.22;                   /* 背景光晕强度 */
   --card-op:    1;                      /* 卡片不透明度 */
-  --card-shadow: rgba(15, 23, 42, .06);
+  --card-shadow: rgba(74, 62, 45, .10);
+  --font-editorial: Georgia, 'Songti SC', 'Noto Serif CJK SC', 'Source Han Serif SC', 'STSong', serif;
 }
 
-/* 深色 */
+/* 深色：暖深棕纸 + 浅墨绿 */
 html.dark {
-  --c-base:     2 6 23;                 /* slate-950 */
-  --c-panel:    15 23 42;               /* slate-900 */
-  --c-raise:    30 41 59;               /* slate-800 */
-  --c-hair:     51 65 85;               /* slate-700 */
-  --c-ink:      226 232 240;            /* slate-200 */
-  --c-dim:      148 163 184;            /* slate-400 */
-  --c-faint:    100 116 139;            /* slate-500 */
-  --c-accent:   56 189 248;             /* sky-400 */
-  --glow-op:    0.65;
-  --card-op:    .72;
-  --card-shadow: rgba(2, 6, 23, .5);
+  --c-base:     26 30 28;
+  --c-panel:    36 41 38;
+  --c-raise:    48 54 49;
+  --c-hair:     66 74 67;
+  --c-ink:      237 234 226;
+  --c-dim:      186 188 176;
+  --c-faint:    130 138 128;
+  --c-accent:   143 190 168;
+  --c-code:     150 205 230;
+  --glow-op:    0.32;
+  --card-op:    .92;
+  --card-shadow: rgba(0, 0, 0, .45);
 }
 
 /* 深色下微调 Arco 组件，避免透明组件贴在光晕上发灰 */
@@ -191,9 +194,9 @@ body::before {
   z-index: -1;
   pointer-events: none;
   background:
-    radial-gradient(56rem 36rem at 10% -8%,  rgba(56, 189, 248, calc(.13 * var(--glow-op))), transparent 62%),
-    radial-gradient(50rem 38rem at 92% 4%,   rgba(99, 102, 241, calc(.15 * var(--glow-op))), transparent 60%),
-    radial-gradient(44rem 32rem at 50% 108%, rgba(16, 185, 129, calc(.10 * var(--glow-op))), transparent 62%);
+    radial-gradient(56rem 36rem at 10% -8%,  rgba(198, 168, 116, calc(.20 * var(--glow-op))), transparent 62%),
+    radial-gradient(50rem 38rem at 92% 4%,   rgba(120, 152, 130, calc(.22 * var(--glow-op))), transparent 60%),
+    radial-gradient(44rem 32rem at 50% 108%, rgba(180, 150, 108, calc(.16 * var(--glow-op))), transparent 62%);
 }
 
 section[id] { scroll-margin-top: 5rem; }
@@ -227,7 +230,7 @@ section[id] { scroll-margin-top: 5rem; }
 
 /* 渐变文字 */
 .text-gradient {
-  background: linear-gradient(100deg, rgb(var(--c-accent)) 0%, #6366f1 92%);
+  background: linear-gradient(100deg, rgb(var(--c-accent)) 0%, #6f8f63 92%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -391,7 +394,7 @@ section[id] { scroll-margin-top: 5rem; }
   position: absolute;
   inset: 0 0 auto 0;
   height: 4px;
-  background: linear-gradient(90deg, #0ea5e9, #6366f1 55%, #10b981);
+  background: linear-gradient(90deg, #7d9b6a, #6f8f63 55%, #b08d5a);
 }
 @media (min-width: 640px) { .resume-sheet { padding: 2.5rem 2.75rem 2.75rem; } }
 
@@ -487,7 +490,7 @@ section[id] { scroll-margin-top: 5rem; }
   box-shadow: 0 0 0 3px rgb(var(--c-accent) / .16);
 }
 /* 项目 / 教育用第二色，和首页「能力雷达」的配色语言一致 */
-.resume-tl--indigo > li::before { background: #6366f1; box-shadow: 0 0 0 3px rgba(99, 102, 241, .16); }
+.resume-tl--indigo > li::before { background: #6f8f63; box-shadow: 0 0 0 3px rgb(var(--c-accent) / .16); }
 
 .resume-item-head { display: flex; align-items: flex-start; justify-content: space-between; gap: .75rem; }
 .resume-item-title { font-size: .9375rem; font-weight: 600; color: rgb(var(--c-ink)); }
@@ -582,7 +585,7 @@ section[id] { scroll-margin-top: 5rem; }
 .wl-hero-bar {
   display: block;
   height: 3px;
-  background: linear-gradient(90deg, #0ea5e9, #4f46e5 55%, #10b981);
+  background: linear-gradient(90deg, #7d9b6a, rgb(var(--c-accent)) 55%, #b08d5a);
 }
 /* 返回个人主页按钮：卡片外的胶囊按钮，悬浮时上浮 + 变色 */
 .wl-back {
@@ -958,7 +961,7 @@ section[id] { scroll-margin-top: 5rem; }
   width: 2.25rem; height: 2.25rem; flex: none;
   display: grid; place-items: center;
   border-radius: 9999px;
-  background: linear-gradient(to top right, #0ea5e9, #4f46e5);
+  background: linear-gradient(to top right, #7d9b6a, rgb(var(--c-accent)));
   color: #fff; font-size: .72rem; font-weight: 700;
 }
 .sk-name { font-size: .9rem; font-weight: 700; color: rgb(var(--c-ink)); }
@@ -1055,9 +1058,9 @@ section[id] { scroll-margin-top: 5rem; }
 .fade-leave-to   { opacity: 0; transform: translateY(-8px); }
 
 @keyframes pulse-ring {
-  0%   { box-shadow: 0 0 0 0 rgba(52, 211, 153, .55); }
-  70%  { box-shadow: 0 0 0 7px rgba(52, 211, 153, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0); }
+  0%   { box-shadow: 0 0 0 0 rgb(var(--c-accent) / .55); }
+  70%  { box-shadow: 0 0 0 7px rgb(var(--c-accent) / 0); }
+  100% { box-shadow: 0 0 0 0 rgb(var(--c-accent) / 0); }
 }
 .pulse-dot { animation: pulse-ring 2.4s ease-out infinite; }
 
@@ -1202,7 +1205,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 .hs-hero-bar {
   display: block;
   height: 3px;
-  background: linear-gradient(90deg, #0ea5e9, #4f46e5 55%, #10b981);
+  background: linear-gradient(90deg, #7d9b6a, rgb(var(--c-accent)) 55%, #b08d5a);
 }
 
 /* 「自动同步」呼吸灯徽标 */
@@ -1286,7 +1289,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
   font-weight: 700;
   color: rgb(var(--c-dim));
 }
-.hs-rank.is-top { color: #fff; background: linear-gradient(135deg, #0ea5e9, #4f46e5); }
+.hs-rank.is-top { color: #fff; background: linear-gradient(135deg, #7d9b6a, rgb(var(--c-accent))); }
 .hs-topic-title {
   display: inline-flex;
   align-items: flex-start;
@@ -1773,3 +1776,82 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 }
 .hz-post-origin:hover { opacity: .8; }
 .hz-post-when { font-size: .72rem; color: rgb(var(--c-faint)); }
+
+
+/* ------------------------------ 编辑式版式：暖纸 / 墨绿 / 衬线 ------------------------------
+   全站共用；只依赖主题变量，深浅主题自动适配。代码块刻意保留冷色与等宽，
+   避免技术指南在暖纸底色上失去辨识度。 */
+
+h1, h2, .editorial { font-family: var(--font-editorial); letter-spacing: .005em; }
+code, pre, kbd, .font-mono, .sk-copy, .sk-prompt { color: rgb(var(--c-code)); }
+
+.chapter-head {
+  display: flex; align-items: baseline; gap: .9rem; flex-wrap: wrap;
+  border-bottom: 1px solid rgb(var(--c-hair));
+  padding-bottom: .9rem; margin-bottom: 1.9rem;
+}
+.chapter-no {
+  font-family: var(--font-editorial); font-size: 1rem; letter-spacing: .1em;
+  color: rgb(var(--c-accent)); white-space: nowrap;
+}
+.chapter-kicker { font-size: .7rem; letter-spacing: .24em; text-transform: uppercase; color: rgb(var(--c-faint)); }
+.chapter-title { font-size: 1.65rem; color: rgb(var(--c-ink)); }
+.chapter-sub { font-size: .86rem; line-height: 1.8; color: rgb(var(--c-dim)); }
+
+.paper-note {
+  background: rgb(var(--c-raise) / .5);
+  border-left: 3px solid rgb(var(--c-accent) / .65);
+  padding: 1rem 1.25rem; border-radius: 0 .6rem .6rem 0;
+  font-family: var(--font-editorial); font-size: .95rem;
+  line-height: 1.9; color: rgb(var(--c-dim));
+}
+.editorial-quote {
+  font-family: var(--font-editorial); font-size: 1.1rem;
+  line-height: 1.95; color: rgb(var(--c-ink));
+}
+
+.life-item {
+  position: relative; padding: 0 0 1.7rem 2.1rem;
+  border-left: 1px solid rgb(var(--c-hair)); margin-left: .4rem;
+}
+.life-item:last-child { border-left-color: transparent; padding-bottom: .2rem; }
+.life-dot {
+  position: absolute; left: -.44rem; top: .35rem;
+  width: .85rem; height: .85rem; border-radius: 50%;
+  background: rgb(var(--c-panel)); border: 2px solid rgb(var(--c-accent));
+}
+.life-year { font-family: var(--font-editorial); font-size: 1.02rem; letter-spacing: .05em; color: rgb(var(--c-accent)); }
+.life-title { font-size: .98rem; color: rgb(var(--c-ink)); }
+.life-desc { font-size: .86rem; line-height: 1.85; color: rgb(var(--c-dim)); }
+.life-placeholder {
+  border: 1px dashed rgb(var(--c-hair)); border-radius: .7rem;
+  padding: .85rem 1.05rem; font-size: .8rem; line-height: 1.75;
+  color: rgb(var(--c-faint)); background: rgb(var(--c-raise) / .35);
+}
+
+.heat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(11px, 1fr)); gap: 3px; }
+.heat-cell { aspect-ratio: 1; border-radius: 2px; background: rgb(var(--c-raise)); }
+.heat-cell[data-level="1"] { background: rgb(var(--c-accent) / .22); }
+.heat-cell[data-level="2"] { background: rgb(var(--c-accent) / .45); }
+.heat-cell[data-level="3"] { background: rgb(var(--c-accent) / .7); }
+.heat-cell[data-level="4"] { background: rgb(var(--c-accent)); }
+.heat-legend { display: flex; align-items: center; gap: .35rem; font-size: .72rem; color: rgb(var(--c-faint)); }
+.heat-legend .heat-cell { width: 10px; height: 10px; }
+
+.case-block { border-top: 1px solid rgb(var(--c-hair)); padding-top: 1.1rem; margin-top: 1.1rem; }
+.case-label { font-size: .68rem; letter-spacing: .2em; text-transform: uppercase; color: rgb(var(--c-accent)); margin-bottom: .4rem; }
+.case-text { font-size: .88rem; line-height: 1.85; color: rgb(var(--c-dim)); }
+.case-metric-v { font-family: var(--font-editorial); font-size: 1.35rem; color: rgb(var(--c-accent)); }
+
+/* 成长热力图：91 天按「每周一列」排布，而不是拉成一长条 */
+.heat-grid {
+  display: grid; grid-template-rows: repeat(7, 11px);
+  grid-auto-flow: column; grid-auto-columns: 11px;
+  gap: 3px; width: max-content; max-width: 100%;
+}
+
+/* 补齐新版首页 / 工作经历页用到、但未进 Tailwind 编译产物的 4 个类 */
+.border-accent { border-color: rgb(var(--c-accent)); }
+.hover\:bg-accent:hover { background-color: rgb(var(--c-accent)); }
+.hover\:text-white:hover { color: #fff; }
+.object-cover { object-fit: cover; }

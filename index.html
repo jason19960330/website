@@ -3,24 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>李文涛 | IT 资产管理 / IT 支持</title>
-  <meta name="description" content="李文涛的个人主页：7 年企业级 IT 技术支持经验，深耕终端全生命周期与职场 IT 支持，覆盖 IT 资产管理、一线 Helpdesk、音视频会议保障、ServiceNow / Intune 与 SOP 合规文档。">
+  <title>李文涛 · 这几年 | 生活记录与工作经历</title>
+  <meta name="description" content="李文涛的个人主页：这几年读过的、做过的、记下来的东西。生活年表与站点成长轨迹，另有独立的工作经历页、一页式简历与 10 篇开源工具指南。">
   <meta name="author" content="李文涛">
   <link rel="canonical" href="https://jason19960330.github.io/website/">
 
   <!-- 分享卡片（微信 / 领英 / X 等平台抓取） -->
   <meta property="og:type" content="profile">
   <meta property="og:site_name" content="李文涛的个人主页">
-  <meta property="og:title" content="李文涛 | IT 资产管理 / IT 支持">
-  <meta property="og:description" content="7 年企业级 IT 技术支持经验：资产台账准确率 95%以上、500+ 办公终端运营、一线 Helpdesk 与音视频会议保障、SOP 与合规文档 20+ 份。">
+  <meta property="og:title" content="李文涛 · 这几年 | 生活记录与工作经历">
+  <meta property="og:description" content="把复杂的事理顺，把做过的事记下来：生活年表、站点更新热力图，以及单独的工作经历页。">
   <meta property="og:url" content="https://jason19960330.github.io/website/">
   <meta property="og:image" content="https://jason19960330.github.io/website/assets/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:locale" content="zh_CN">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="李文涛 | IT 资产管理 / IT 支持">
-  <meta name="twitter:description" content="7 年企业级 IT 技术支持经验：资产台账准确率 95%以上、500+ 办公终端运营、一线 Helpdesk 与音视频会议保障、SOP 与合规文档 20+ 份。">
+  <meta name="twitter:title" content="李文涛 · 这几年 | 生活记录与工作经历">
+  <meta name="twitter:description" content="把复杂的事理顺，把做过的事记下来：生活年表、站点更新热力图，以及单独的工作经历页。">
   <meta name="twitter:image" content="https://jason19960330.github.io/website/assets/og-image.png">
 
   <!-- 结构化数据：让搜索引擎直接读取人物信息 -->
@@ -32,6 +32,7 @@
     "url": "https://jason19960330.github.io/website/",
     "image": "https://jason19960330.github.io/website/assets/og-image.png",
     "jobTitle": "IT 技术支持 / IT 资产管理",
+    "description": "生活年表与站点成长轨迹；工作经历与项目案例在独立页面 work.html。",
     "email": "mailto:573164137@qq.com",
     "address": { "@type": "PostalAddress", "addressLocality": "北京", "addressRegion": "房山区" },
     "alumniOf": [
@@ -64,7 +65,7 @@
   <!-- 预编译样式：Tailwind 产物 → Arco 按需样式 → 站点定制（后者覆盖前者） -->
   <link rel="stylesheet" href="assets/css/tailwind.css?v=202609302">
   <link rel="stylesheet" href="vendor/arco-bundle.css?v=20260923">
-  <link rel="stylesheet" href="assets/css/style.css?v=202609302">
+  <link rel="stylesheet" href="assets/css/style.css?v=20261111">
 </head>
 
 <!-- ======================================================================
@@ -151,13 +152,14 @@
             :class="{ 'is-solid': scrolled }">
       <div class="mx-auto flex h-16 max-w-5xl items-center justify-between gap-2 px-5 sm:px-6">
         <a href="#home" @click.prevent="jump('home')" class="flex shrink-0 items-center gap-2.5">
-          <span class="grid h-8 w-8 place-items-center rounded-lg bg-gradient-to-tr from-sky-500 to-indigo-600 text-[11px] font-bold text-white">{{ meta.avatarText }}</span>
+          <img src="assets/avatar.jpg?v=20261106c" alt="" class="h-8 w-8 rounded-lg object-cover">
           <span class="whitespace-nowrap text-sm font-semibold tracking-tight text-ink">{{ meta.name }}</span>
         </a>
 
         <!-- 锚点导航已移除（板块入口保留在移动端抽屉与页面内）；桌面端仅保留外部页面入口，右对齐排列 -->
         <div class="flex shrink-0 items-center gap-1.5">
           <nav class="mr-1 hidden items-center gap-0.5 md:flex" aria-label="页面入口">
+            <a href="work.html" class="nav-link">工作经历</a>
             <a href="weekly.html" class="nav-link">AI 速览</a>
             <a href="hotnews.html" class="nav-link">热点</a>
             <a href="skill.html" class="nav-link">Skill</a>
@@ -269,6 +271,7 @@
                 @click="jump(item.id)"
                 class="rounded-lg px-3 py-2.5 text-left text-sm transition hover:bg-raise"
                 :class="activeSection === item.id ? 'text-accent' : 'text-dim'">{{ item.label }}</button>
+        <a href="work.html" class="rounded-lg px-3 py-2.5 text-left text-sm text-dim transition hover:bg-raise">工作经历（独立页）</a>
         <a href="resume.html" class="rounded-lg px-3 py-2.5 text-left text-sm text-dim transition hover:bg-raise">个人简历</a>
         <a href="weekly.html" class="rounded-lg px-3 py-2.5 text-left text-sm text-dim transition hover:bg-raise">AI 热点速览</a>
         <a href="hotnews.html" class="rounded-lg px-3 py-2.5 text-left text-sm text-dim transition hover:bg-raise">科技热点</a>
@@ -285,402 +288,134 @@
 
     <main id="main" tabindex="-1">
 
-      <!-- ============================ Hero ============================ -->
+      <!-- ============================ Hero · 生活首页 ============================ -->
       <section id="home" class="mx-auto max-w-5xl px-5 pb-14 pt-28 sm:px-6 sm:pt-32 lg:pb-20 lg:pt-36">
         <div class="grid items-start gap-8 lg:grid-cols-[1.5fr_1fr]">
           <div v-reveal>
-            <div v-if="meta.available" class="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs text-emerald-600 dark:text-emerald-400">
-              <span class="pulse-dot h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
-              {{ meta.availabilityText }}
-            </div>
-
+            <p class="chapter-kicker">LIFE · 这几年</p>
             <h1 class="mt-5 text-3xl font-bold leading-tight tracking-tight sm:text-4xl lg:text-[2.9rem]">
               你好，我是<span class="text-gradient"> {{ meta.name }}</span>
             </h1>
-            <p class="mt-2 text-sm font-medium uppercase tracking-[0.18em] text-faint">{{ meta.enName }}</p>
+            <p class="editorial-quote mt-5">{{ life.tagline }}</p>
+            <p class="mt-4 max-w-xl text-sm leading-relaxed text-dim">{{ life.lead }}</p>
 
-            <p class="mt-5 flex min-h-[1.75rem] items-center gap-2 text-base text-dim sm:text-lg">
-              <svg class="h-4 w-4 shrink-0 text-accent"><use href="#i-target"></use></svg>
-              <transition name="fade" mode="out-in">
-                <span :key="roleIndex" class="font-medium text-ink">{{ meta.roles[roleIndex] }}</span>
-              </transition>
-            </p>
-
-            <p class="mt-3 max-w-xl text-sm font-medium leading-relaxed text-ink">{{ meta.headline }}</p>
-            <p class="mt-3 max-w-xl text-sm leading-relaxed text-dim">{{ meta.bio }}</p>
-
-            <div class="mt-6 flex flex-wrap items-center gap-2">
-              <span class="text-xs text-faint">求职意向</span>
-              <a-tag v-for="intent in meta.intentions" :key="intent" size="small" bordered class="tag-intent">{{ intent }}</a-tag>
+            <div class="mt-8 flex flex-wrap items-center gap-3 text-sm">
+              <a href="#life" class="rounded-lg border border-accent px-4 py-2 text-accent transition hover:bg-accent hover:text-white">读这几年</a>
+              <a href="work.html" class="rounded-lg border border-hair px-4 py-2 text-dim transition hover:border-accent hover:text-accent">看工作经历</a>
+              <a href="resume.html" class="rounded-lg border border-hair px-4 py-2 text-dim transition hover:border-accent hover:text-accent">完整简历</a>
             </div>
 
-            <div class="mt-8 flex flex-wrap items-center gap-3">
-              <a-button type="primary" size="large" @click="jump('timeline')">
-                <template #icon>
-                  <svg class="h-4 w-4"><use href="#i-briefcase"></use></svg>
-                </template>
-                查看工作经历
-              </a-button>
-              <a-button size="large" @click="jump('contact')">联系我</a-button>
-              <a href="resume.html">
-                <a-button size="large" type="outline">完整简历</a-button>
-              </a>
-              <a-button v-if="meta.resumeUrl" size="large" type="outline" :href="meta.resumeUrl" target="_blank">下载 PDF</a-button>
-            </div>
-
-            <!-- 联系信息：从右侧速览卡片移到按钮下方，两列排布让页面更整齐 -->
-            <dl class="mt-7 grid gap-x-8 gap-y-3 border-t border-hair pt-6 text-sm sm:grid-cols-2">
-              <div class="flex items-center gap-3">
-                <svg class="h-4 w-4 shrink-0 text-faint"><use href="#i-pin"></use></svg>
-                <dt class="w-14 shrink-0 text-faint">所在地</dt>
-                <dd class="truncate text-ink">{{ meta.location }}</dd>
-              </div>
-              <div class="flex items-center gap-3">
-                <svg class="h-4 w-4 shrink-0 text-faint"><use href="#i-phone"></use></svg>
-                <dt class="w-14 shrink-0 text-faint">电话</dt>
-                <dd class="tnum truncate text-ink">{{ meta.phone }}</dd>
-              </div>
-              <div class="flex items-center gap-3">
-                <svg class="h-4 w-4 shrink-0 text-faint"><use href="#i-mail"></use></svg>
-                <dt class="w-14 shrink-0 text-faint">邮箱</dt>
-                <dd class="truncate font-mono text-xs text-ink">{{ meta.email }}</dd>
-              </div>
-              <div class="flex items-center gap-3">
-                <svg class="h-4 w-4 shrink-0 text-faint"><use href="#i-briefcase"></use></svg>
-                <dt class="w-14 shrink-0 text-faint">经验</dt>
-                <dd class="text-ink">{{ meta.experienceYears }} 年企业级 IT 支持</dd>
-              </div>
-            </dl>
-
-            <div class="mt-7 flex items-center gap-2">
-              <a-tooltip v-for="link in social" :key="'h-' + link.name" :content="link.name">
-                <a :href="link.url" target="_blank" rel="noopener"
-                   class="grid h-9 w-9 place-items-center rounded-lg border border-hair text-dim transition hover:border-accent hover:text-accent">
-                  <svg class="h-4 w-4"><use :href="'#i-' + link.icon"></use></svg>
-                </a>
-              </a-tooltip>
-            </div>
+            <p class="paper-note mt-8">{{ life.quote }}</p>
           </div>
 
-          <!-- 速览卡片 -->
-          <aside v-reveal="120" class="card spot p-6 sm:p-7" v-spotlight>
-            <div class="flex items-center gap-4">
-              <a-avatar :size="64" :image-url="meta.avatar || undefined" shape="square"
-                        class="!rounded-xl !bg-gradient-to-tr !from-sky-500 !to-indigo-600 !text-xl !font-bold !text-white">
-                <span v-if="!meta.avatar">{{ meta.avatarText }}</span>
-              </a-avatar>
-              <div class="min-w-0">
-                <p class="truncate text-lg font-semibold text-ink">{{ meta.name }}</p>
-                <p class="mt-0.5 text-xs leading-relaxed text-accent">{{ meta.title }}</p>
+          <div v-reveal class="card p-6">
+            <img src="assets/avatar.jpg?v=20261106c" alt="李文涛"
+                 style="width:6rem;height:6rem"
+                 class="mx-auto rounded-full border border-hair object-cover">
+            <p class="mt-4 text-center text-base font-semibold text-ink">{{ meta.name }}</p>
+            <p class="mt-1 text-center text-xs text-faint">{{ meta.title }} · {{ meta.location }}</p>
+            <div class="my-5 border-t border-hair"></div>
+            <dl class="space-y-3 text-sm">
+              <div class="flex items-center justify-between gap-3">
+                <dt class="text-faint">工作之外</dt><dd class="text-dim">记录、整理、慢慢攒</dd>
               </div>
-            </div>
-
-            <div class="mt-6 border-t border-hair pt-5">
-              <p class="text-xs text-faint">当前状态</p>
-              <p class="mt-1 text-sm text-ink">{{ meta.availabilityText }}</p>
-            </div>
-
-
-            <!-- 热点速览：每个源最新 1 条，数据来自 assets/js/hotnews.js（Actions 每日同步） -->
-            <div v-if="hotBrief.length" class="mt-5 border-t border-hair pt-5">
-              <div class="flex items-center justify-between gap-2">
-                <p class="text-xs text-faint">热点速览</p>
-                <a href="hotnews.html" class="text-xs text-faint transition hover:text-accent">更多 →</a>
+              <div class="flex items-center justify-between gap-3">
+                <dt class="text-faint">工具指南</dt><dd class="tnum text-dim">10 篇</dd>
               </div>
-              <ul class="mt-2.5 space-y-2">
-                <li v-for="n in hotBrief" :key="n.url">
-                  <a :href="n.url" target="_blank" rel="noopener"
-                     class="hn-brief-item text-[13px] leading-snug text-dim transition hover:text-accent">
-                    <span class="hn-brief-src">{{ n.source }}</span>
-                    <span class="hn-brief-title">{{ n.title }}</span>
-                  </a>
-                </li>
-              </ul>
+              <div class="flex items-center justify-between gap-3">
+                <dt class="text-faint">近 13 周提交</dt><dd class="tnum text-dim">{{ growth.totalCommits }} 次</dd>
+              </div>
+            </dl>
+            <p class="mt-5 text-xs leading-relaxed text-faint">这一页只讲生活与记录；工作明细、项目案例与技能矩阵都在独立的工作经历页。</p>
+          </div>
+        </div>
+      </section>
+      <!-- ============================ 01 这几年 ============================ -->
+      <section id="life" class="mx-auto max-w-5xl px-5 py-16 sm:px-6 sm:py-20">
+        <div class="chapter-head">
+          <span class="chapter-no">01</span>
+          <h2 class="chapter-title">这几年</h2>
+          <span class="chapter-kicker">{{ life.kicker }}</span>
+        </div>
+        <p class="chapter-sub mb-8">只写能核对的事。虚线框是留给本人补真实事件与照片的占位，不用示意内容冒充生活。</p>
+
+        <div class="grid gap-8 lg:grid-cols-[1.5fr_1fr]">
+          <div>
+            <div v-for="(e, i) in life.entries" :key="i" class="life-item">
+              <span class="life-dot" aria-hidden="true"></span>
+              <p class="life-year">{{ e.year }}</p>
+              <p class="life-title mt-1">{{ e.title }}</p>
+              <p class="life-desc mt-1.5">{{ e.desc }}</p>
+              <p v-if="e.tag" class="mt-2 text-xs text-accent">{{ e.tag }}</p>
+              <p v-if="e.placeholder" class="life-placeholder mt-3">占位 · 等待补上真实事件 / 照片</p>
+            </div>
+          </div>
+          <aside>
+            <div class="card p-6">
+              <p class="chapter-kicker">A NOTE TO SELF</p>
+              <p class="editorial-quote mt-3">{{ life.quote }}</p>
+              <p class="mt-4 text-sm leading-relaxed text-dim">{{ life.note }}</p>
             </div>
           </aside>
         </div>
-
-        <a href="#about" @click.prevent="jump('about')"
-           class="float mt-12 hidden items-center justify-center gap-1.5 text-xs text-faint transition hover:text-dim lg:flex">
-          <svg class="h-3.5 w-3.5"><use href="#i-arrow-down"></use></svg>向下浏览
-        </a>
       </section>
+      <!-- ============================ 02 可回看的轨迹 ============================ -->
+      <section id="growth" class="mx-auto max-w-5xl px-5 py-16 sm:px-6 sm:py-20">
+        <div class="chapter-head">
+          <span class="chapter-no">02</span>
+          <h2 class="chapter-title">{{ growth.title }}</h2>
+          <span class="chapter-kicker">{{ growth.kicker }}</span>
+        </div>
+        <p class="chapter-sub mb-6">{{ growth.desc }}</p>
 
-      <!-- ============================ 关于 ============================ -->
-      <section id="about" class="mx-auto max-w-5xl px-5 py-16 sm:px-6 sm:py-20">
-        <div v-reveal class="mb-10 flex items-center gap-4">
-          <div>
-            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-accent">About</p>
-            <h2 class="mt-2 text-2xl font-bold tracking-tight text-ink sm:text-3xl">关于我</h2>
+        <div class="card p-6">
+          <div class="heat-grid">
+            <span v-for="(lvl, i) in growth.days" :key="i" class="heat-cell" :data-level="lvl"
+                  :title="'第 ' + (i + 1) + ' 天 · 等级 ' + lvl"></span>
           </div>
-          <span class="hidden h-px flex-1 bg-gradient-to-r from-hair to-transparent sm:block"></span>
-        </div>
-
-        <div v-reveal class="space-y-4 text-[15px] leading-relaxed text-dim">
-          <p v-for="(para, i) in meta.intro" :key="'intro-' + i">{{ para }}</p>
-        </div>
-
-        <!-- 核心数据 -->
-        <div class="mt-9 grid grid-cols-2 gap-3 sm:grid-cols-4">
-          <div v-for="stat in stats" :key="stat.label" v-reveal="100"
-               class="card spot p-4 text-center sm:text-left" v-spotlight>
-            <div class="flex items-baseline justify-center gap-0.5 sm:justify-start">
-              <span v-count="stat.value" class="tnum text-2xl font-bold text-ink">0</span>
-              <span class="text-sm text-dim">{{ stat.suffix }}</span>
+          <div class="mt-5 flex flex-wrap items-center justify-between gap-3">
+            <p class="text-xs text-faint">{{ growth.span }} · 共 {{ growth.totalCommits }} 次提交</p>
+            <div class="heat-legend">
+              <span>{{ growth.legend[0] }}</span>
+              <span class="heat-cell" data-level="0"></span>
+              <span class="heat-cell" data-level="1"></span>
+              <span class="heat-cell" data-level="2"></span>
+              <span class="heat-cell" data-level="3"></span>
+              <span class="heat-cell" data-level="4"></span>
+              <span>{{ growth.legend[1] }}</span>
             </div>
-            <p class="mt-1 text-xs text-faint">{{ stat.label }}</p>
           </div>
         </div>
 
-        <!-- 核心优势 -->
-        <div class="mt-3 grid gap-3 sm:grid-cols-2">
-          <div v-for="(s, si) in strengths" :key="s.title" v-reveal="si * 70"
-               class="card card-hover spot p-5" v-spotlight>
-            <div class="flex items-start gap-3">
-              <span class="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-accent/10 text-accent">
-                <svg class="h-4 w-4"><use href="#i-cube"></use></svg>
-              </span>
-              <div>
-                <h3 class="text-sm font-semibold text-ink">{{ s.title }}</h3>
-                <p class="mt-1.5 text-sm leading-relaxed text-dim">{{ s.desc }}</p>
-              </div>
-            </div>
+        <div class="mt-4 grid gap-4 sm:grid-cols-2">
+          <div v-for="st in stats" :key="st.label" class="card p-5">
+            <p class="case-metric-v tnum">{{ st.value }}{{ st.suffix }}</p>
+            <p class="mt-1 text-xs text-faint">{{ st.label }}</p>
           </div>
         </div>
       </section>
-
-      <!-- ============================ 技能 ============================ -->
-      <section id="skills" class="mx-auto max-w-5xl px-5 py-16 sm:px-6 sm:py-20">
-        <div v-reveal class="mb-10 flex items-center gap-4">
-          <div>
-            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-accent">Skills</p>
-            <h2 class="mt-2 text-2xl font-bold tracking-tight text-ink sm:text-3xl">技能矩阵</h2>
-          </div>
-          <span class="hidden h-px flex-1 bg-gradient-to-r from-hair to-transparent sm:block"></span>
+      <!-- ============================ 03 工作经历入口 ============================ -->
+      <section id="work" class="mx-auto max-w-5xl px-5 py-16 sm:px-6 sm:py-20">
+        <div class="chapter-head">
+          <span class="chapter-no">03</span>
+          <h2 class="chapter-title">工作经历</h2>
+          <span class="chapter-kicker">Work · 独立页面</span>
         </div>
-
-        <div class="grid gap-3 sm:grid-cols-2">
-          <article v-for="(group, gi) in skillGroups" :key="group.title"
-                   v-reveal="gi * 80" class="card card-hover spot p-5" v-spotlight>
-            <header class="flex items-start gap-3">
-              <span class="mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full" :style="{ background: barColor(group.color).line }"></span>
-              <div>
-                <h3 class="text-sm font-semibold text-ink">{{ group.title }}</h3>
-                <p class="mt-0.5 text-xs text-faint">{{ group.desc }}</p>
-              </div>
-            </header>
-
-            <ul class="mt-5 space-y-3.5">
-              <li v-for="skill in group.skills" :key="group.title + skill.name">
-                <div class="flex items-center justify-between gap-2 text-xs">
-                  <span class="text-ink">{{ skill.name }}</span>
-                  <a-tooltip :content="levelLabel(skill.level) + ' · 自评 ' + skill.level + '/100'">
-                    <span class="tnum text-faint">{{ skill.level }}</span>
-                  </a-tooltip>
-                </div>
-                <div class="mt-1.5 h-1.5 overflow-hidden rounded-full" :style="{ background: barColor(group.color).soft }">
-                  <div class="bar-fill h-full rounded-full" :style="{ '--w': skill.level + '%', background: barColor(group.color).line }"></div>
-                </div>
-              </li>
-            </ul>
-          </article>
-        </div>
-
-        <div class="mt-3 grid gap-3 lg:grid-cols-2">
-          <!-- 能力雷达 -->
-          <div v-reveal class="card p-5 sm:p-6">
-            <h3 class="text-sm font-semibold text-ink">能力雷达</h3>
-            <p class="mt-1 text-xs text-faint">按技能大类取平均分自动绘制</p>
-            <svg v-if="radar" viewBox="-45 -20 390 336" class="mx-auto mt-2 h-auto w-full max-w-[20rem]">
-              <defs>
-                <linearGradient id="radarFill" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="#0ea5e9" stop-opacity="0.34"></stop>
-                  <stop offset="100%" stop-color="#6366f1" stop-opacity="0.18"></stop>
-                </linearGradient>
-                <linearGradient id="radarStroke" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%" stop-color="#0ea5e9"></stop>
-                  <stop offset="100%" stop-color="#6366f1"></stop>
-                </linearGradient>
-              </defs>
-              <polygon v-for="(ring, i) in radar.rings" :key="'ring-' + i" :points="ring"
-                       fill="none" stroke="rgb(var(--c-hair))" stroke-width="1"></polygon>
-              <line v-for="(axis, i) in radar.axes" :key="'axis-' + i"
-                    :x1="axis.x1" :y1="axis.y1" :x2="axis.x2" :y2="axis.y2"
-                    stroke="rgb(var(--c-hair))" stroke-width="1"></line>
-              <polygon class="pop-in" :points="radar.dataPoints" fill="url(#radarFill)"
-                       stroke="url(#radarStroke)" stroke-width="2" stroke-linejoin="round"></polygon>
-              <circle v-for="(dot, i) in radar.dots" :key="'dot-' + i"
-                      :cx="dot.x" :cy="dot.y" r="3.5" fill="rgb(var(--c-base))" stroke="#0ea5e9" stroke-width="2"></circle>
-              <text v-for="(label, i) in radar.labels" :key="'label-' + i"
-                    :x="label.x" :y="label.y" :text-anchor="label.anchor"
-                    font-size="11" fill="rgb(var(--c-dim))">{{ label.text }}</text>
-            </svg>
-            <div class="mt-3 grid grid-cols-2 gap-2">
-              <div v-for="g in skillGroups" :key="'legend-' + g.title" class="flex items-center gap-2 text-[11px]">
-                <span class="h-2 w-2 shrink-0 rounded-full" :style="{ background: barColor(g.color).line }"></span>
-                <span class="truncate text-dim">{{ g.title }}</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- 工具栈 -->
-          <div v-reveal="80" class="card p-5 sm:p-6">
-            <h3 class="text-sm font-semibold text-ink">工具栈</h3>
-            <p class="mt-1 text-xs text-faint">日常在用的平台与工具</p>
-            <div class="mt-5 space-y-4">
-              <div v-for="cat in toolStack" :key="cat.title">
-                <p class="text-xs font-medium uppercase tracking-wider text-accent">{{ cat.title }}</p>
-                <div class="mt-2 flex flex-wrap gap-1.5">
-                  <a-tag v-for="item in cat.items" :key="cat.title + item" size="small" bordered>{{ item }}</a-tag>
-                </div>
-              </div>
-            </div>
+        <div class="card p-6 sm:p-8">
+          <p class="chapter-kicker">从生活首页分出去的一页</p>
+          <h3 class="mt-2 text-2xl font-semibold text-ink">做过的事，讲清楚来龙去脉</h3>
+          <p class="mt-3 max-w-2xl text-sm leading-relaxed text-dim">
+            两段工作经历、三个按「为什么做 → 重新定义问题 → 怎么落地 → 真实数据 → 复盘」展开的项目案例，
+            以及技能矩阵、教育背景，都搬到了独立页面。首页留给生活，简历留给求职，三者不再挤在一页里。
+          </p>
+          <div class="mt-6 flex flex-wrap items-center gap-3 text-sm">
+            <a href="work.html" class="rounded-lg border border-accent px-4 py-2 text-accent transition hover:bg-accent hover:text-white">打开工作经历页</a>
+            <a href="resume.html" class="rounded-lg border border-hair px-4 py-2 text-dim transition hover:border-accent hover:text-accent">一页式简历</a>
+            <a href="assets/resume.pdf?v=20261106b" target="_blank" rel="noopener" class="rounded-lg border border-hair px-4 py-2 text-dim transition hover:border-accent hover:text-accent">下载 PDF</a>
           </div>
         </div>
       </section>
-
-      <!-- ============================ 工作经历 ============================ -->
-      <section id="timeline" class="mx-auto max-w-5xl px-5 py-16 sm:px-6 sm:py-20">
-        <div v-reveal class="mb-10 flex items-center gap-4">
-          <div>
-            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-accent">Experience</p>
-            <h2 class="mt-2 text-2xl font-bold tracking-tight text-ink sm:text-3xl">工作经历</h2>
-          </div>
-          <span class="hidden h-px flex-1 bg-gradient-to-r from-hair to-transparent sm:block"></span>
-        </div>
-
-        <div v-reveal class="card p-5 sm:p-7">
-          <a-timeline>
-            <a-timeline-item v-for="(item, ti) in timeline" :key="item.org + item.period"
-                             :label="item.period"
-                             :dot-color="item.current ? '#0ea5e9' : 'rgb(var(--c-faint))'">
-              <div class="pb-6">
-                <div class="flex flex-wrap items-center gap-2">
-                  <h3 class="text-base font-semibold text-ink">{{ item.role }}</h3>
-                  <a-tag v-if="item.current" size="small" color="green">在职</a-tag>
-                </div>
-                <p class="mt-0.5 text-xs text-accent">{{ item.org }}</p>
-                <p class="mt-0.5 font-mono text-[11px] text-faint">{{ item.period }}</p>
-                <p class="mt-2.5 max-w-2xl text-sm leading-relaxed text-dim">{{ item.summary }}</p>
-
-                <div class="mt-3 flex flex-wrap gap-1.5">
-                  <a-tag v-for="tag in item.tags" :key="item.org + tag" size="small" color="arcoblue">{{ tag }}</a-tag>
-                </div>
-
-                <a-collapse class="mt-3" :bordered="false" :default-active-key="ti === 0 ? ['p0'] : []">
-                  <a-collapse-item key="p0" :header="'工作明细（' + item.points.length + ' 条）'">
-                    <ul class="space-y-2.5">
-                      <li v-for="(pt, pi) in item.points" :key="'pt-' + pi"
-                          class="flex gap-2.5 text-sm leading-relaxed text-dim">
-                        <span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full" style="background: #0ea5e9"></span>
-                        <span>{{ pt }}</span>
-                      </li>
-                    </ul>
-                  </a-collapse-item>
-                </a-collapse>
-              </div>
-            </a-timeline-item>
-          </a-timeline>
-        </div>
-      </section>
-
-      <!-- ============================ 项目经验 ============================ -->
-      <section id="projects" class="mx-auto max-w-5xl px-5 py-16 sm:px-6 sm:py-20">
-        <div v-reveal class="mb-10 flex items-center gap-4">
-          <div>
-            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-accent">Projects</p>
-            <h2 class="mt-2 text-2xl font-bold tracking-tight text-ink sm:text-3xl">项目经验</h2>
-          </div>
-          <span class="hidden h-px flex-1 bg-gradient-to-r from-hair to-transparent sm:block"></span>
-        </div>
-
-        <div class="grid gap-3 sm:grid-cols-2">
-          <article v-for="(p, pi) in projects" :key="p.name" v-reveal="pi * 70"
-                   class="card card-hover spot p-5" :class="p.featured ? 'sm:col-span-2' : ''" v-spotlight>
-            <div class="flex flex-wrap items-start justify-between gap-3">
-              <div>
-                <h3 class="text-base font-semibold text-ink">{{ p.name }}</h3>
-                <p class="mt-1 text-xs text-dim">{{ p.role }} · <span class="font-mono">{{ p.period }}</span></p>
-              </div>
-              <a-tag v-if="p.featured" size="small" color="orange">重点项目</a-tag>
-            </div>
-
-            <p class="mt-3 text-sm leading-relaxed text-dim">{{ p.summary }}</p>
-
-            <div class="mt-3 flex flex-wrap gap-1.5">
-              <a-tag v-for="tag in p.tags" :key="p.name + tag" size="small" bordered>{{ tag }}</a-tag>
-            </div>
-
-            <a-collapse class="mt-3" :bordered="false" :default-active-key="[]">
-              <a-collapse-item key="d0" :header="'展开明细（' + p.details.length + ' 条）'">
-                <ul class="space-y-2.5">
-                  <li v-for="(d, di) in p.details" :key="'d-' + di"
-                      class="flex gap-2.5 text-sm leading-relaxed text-dim">
-                    <span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full" style="background: #0ea5e9"></span>
-                    <span>{{ d }}</span>
-                  </li>
-                </ul>
-              </a-collapse-item>
-            </a-collapse>
-          </article>
-        </div>
-      </section>
-
-      <!-- ============================ 教育背景 ============================ -->
-      <section id="education" class="mx-auto max-w-5xl px-5 py-16 sm:px-6 sm:py-20">
-        <div v-reveal class="mb-10 flex items-center gap-4">
-          <div>
-            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-accent">Education</p>
-            <h2 class="mt-2 text-2xl font-bold tracking-tight text-ink sm:text-3xl">教育背景</h2>
-          </div>
-          <span class="hidden h-px flex-1 bg-gradient-to-r from-hair to-transparent sm:block"></span>
-        </div>
-
-        <div class="grid gap-3 lg:grid-cols-[1.4fr_1fr]">
-          <div v-reveal class="card p-5 sm:p-7">
-            <a-timeline>
-              <a-timeline-item v-for="edu in education" :key="edu.school"
-                               :label="edu.period" dot-color="#6366f1">
-                <div class="pb-5">
-                  <h3 class="text-base font-semibold text-ink">{{ edu.school }}</h3>
-                  <p class="mt-0.5 text-sm text-dim">{{ edu.major }} · {{ edu.degree }}</p>
-                  <p v-if="edu.note" class="mt-1 text-xs text-faint">{{ edu.note }}</p>
-                </div>
-              </a-timeline-item>
-            </a-timeline>
-          </div>
-
-          <div v-reveal="90" class="card p-5 sm:p-7">
-            <div class="flex items-center gap-2">
-              <svg class="h-4 w-4 text-accent"><use href="#i-award"></use></svg>
-              <h3 class="text-sm font-semibold text-ink">证书与荣誉</h3>
-            </div>
-            <ul class="mt-4 space-y-2.5">
-              <li v-for="honor in honors" :key="honor" class="flex gap-2.5 text-sm leading-relaxed text-dim">
-                <span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full" style="background: #f59e0b"></span>
-                <span>{{ honor }}</span>
-              </li>
-            </ul>
-
-            <a-divider class="my-5"></a-divider>
-
-            <div class="flex items-center gap-2">
-              <svg class="h-4 w-4 text-accent"><use href="#i-doc"></use></svg>
-              <h3 class="text-sm font-semibold text-ink">语言能力</h3>
-            </div>
-            <div class="mt-3 flex flex-wrap gap-1.5">
-              <a-tag size="small" bordered>普通话 · 母语</a-tag>
-              <a-tag size="small" bordered>英语 · 读写熟练</a-tag>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ============================ 日历 ============================ -->
-      <!-- 依赖 v-calendar（vendor/calendar-bundle.js），由 app.js 滚到附近才加载；
-           未加载时只显示骨架文字，不影响首屏。顶部导航不放「日历」入口，
-           这里保留板块，可从下方锚点或站内搜索进入。 -->
-      <section id="calendar" class="mx-auto max-w-5xl px-5 py-16 sm:px-6 sm:py-20">
+<section id="calendar" class="mx-auto max-w-5xl px-5 py-16 sm:px-6 sm:py-20">
         <div class="mb-8 flex items-end gap-4">
           <div>
             <p class="text-xs font-semibold uppercase tracking-[0.2em] text-accent">Calendar</p>
@@ -734,7 +469,8 @@
       </section>
 
       <!-- ============================ 联系 ============================ -->
-      <section id="contact" class="mx-auto max-w-5xl px-5 py-16 sm:px-6 sm:py-20">
+      
+<section id="contact" class="mx-auto max-w-5xl px-5 py-16 sm:px-6 sm:py-20">
         <div v-reveal class="card spot relative overflow-hidden p-8 text-center sm:p-12" v-spotlight>
           <span class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent to-transparent"></span>
           <svg class="mx-auto h-8 w-8 text-accent"><use href="#i-mail"></use></svg>
@@ -765,6 +501,7 @@
         </div>
       </section>
 
+    
     </main>
 
     <!-- ============================ 留言板（giscus） ============================ -->
@@ -834,9 +571,9 @@
   <!-- 按需打包产物：Vue 完整版 + 实际用到的 Arco 组件，暴露 window.Vue / window.ArcoVue -->
   <script src="assets/js/weather.js?v=202610051"></script>
   <script src="vendor/arco-bundle.js?v=20260923"></script>
-  <script src="assets/js/data.js?v=20260923"></script>
+  <script src="assets/js/data.js?v=20261111"></script>
   <script src="assets/js/hotnews.js?v=20260928"></script>
-  <script src="assets/js/app.js?v=202609295"></script>
+  <script src="assets/js/app.js?v=20261111"></script>
 
   <!-- 首屏骨架：脚本没跑完之前顶住版式（纯静态，脚本一到自动让位） -->
   <div class="boot" aria-hidden="true">
@@ -877,7 +614,21 @@
 
 <noscript id="seo-snapshot">
 <!-- seo-snapshot:start -->
-<a href="#main" class="skip-link">跳到主要内容</a><header class="site-header fixed inset-x-0 top-0 z-40 border-b border-transparent"><div class="mx-auto flex h-16 max-w-5xl items-center justify-between gap-2 px-5 sm:px-6"><a href="#home" class="flex shrink-0 items-center gap-2.5"><div class="wx-left"><div style="display: flex; align-items: center; gap: .625rem;"><span class="grid h-8 w-8 place-items-center rounded-lg bg-gradient-to-tr from-sky-500 to-indigo-600 text-[11px] font-bold text-white">WT</span><span class="whitespace-nowrap text-sm font-semibold tracking-tight text-ink">李文涛</span></div><span class="wx-pill" id="wx-pill" role="img" aria-label="实时天气" style="display: none;">天气…</span></div></a><div class="flex shrink-0 items-center gap-1.5"><nav class="mr-1 hidden items-center gap-0.5 md:flex" aria-label="页面入口"><a href="weekly.html" class="nav-link">AI 速览</a><a href="hotnews.html" class="nav-link">热点</a><a href="skill.html" class="nav-link">Skill</a><a href="aihot.html" class="nav-link">AIHOT</a></nav><div class="relative"><div class="relative hidden lg:block"><input type="text" autocomplete="off" class="search-input w-44 xl:w-52" placeholder="搜索内容 / 关键词…" aria-label="站内搜索" aria-haspopup="listbox"><kbd class="search-kbd pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2">/</kbd></div><div class="search-panel" role="listbox" aria-label="搜索结果" style="display: none;"><div class="border-b border-hair p-3 lg:hidden"><input type="text" autocomplete="off" class="search-input" placeholder="搜索内容 / 关键词…" aria-label="站内搜索"></div><div class="search-list"><p class="px-2 pb-1 pt-1.5 text-[11px] font-medium uppercase tracking-wider text-faint">快速跳转</p></div><div class="hidden items-center justify-between border-t border-hair px-3 py-2 text-[11px] text-faint lg:flex"><span>↑↓ 选择 · Enter 打开 · Esc 关闭</span><span class="font-mono">/ 唤起搜索</span></div></div></div></div></div></header><main id="main" tabindex="-1"><section id="home" class="mx-auto max-w-5xl px-5 pb-14 pt-28 sm:px-6 sm:pt-32 lg:pb-20 lg:pt-36"><div class="grid items-start gap-8 lg:grid-cols-[1.5fr_1fr]"><div class="reveal is-visible"><div class="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs text-emerald-600 dark:text-emerald-400"><span class="pulse-dot h-1.5 w-1.5 rounded-full bg-emerald-500"></span> 开放新的工作机会</div><h1 class="mt-5 text-3xl font-bold leading-tight tracking-tight sm:text-4xl lg:text-[2.9rem]"> 你好，我是<span class="text-gradient">李文涛</span></h1><p class="mt-2 text-sm font-medium uppercase tracking-[0.18em] text-faint">LI WENTAO</p><p class="mt-5 flex min-h-[1.75rem] items-center gap-2 text-base text-dim sm:text-lg"><span class="font-medium text-ink">IT 资产全生命周期管理</span></p><p class="mt-3 max-w-xl text-sm font-medium leading-relaxed text-ink">7 年企业级 IT 技术支持经验，深耕终端全生命周期与职场 IT 支持。</p><p class="mt-3 max-w-xl text-sm leading-relaxed text-dim">在晖致医药负责 500+ 员工办公终端与资产运营，覆盖桌面 Helpdesk、打印机外设、OA / 邮件 / CRM 业务系统一线运维及音视频会议保障；具备资产台账（准确率 95%以上）、盘点对账、SOP 文档与跨部门供应商统筹能力。</p><div class="mt-6 flex flex-wrap items-center gap-2"><span class="text-xs text-faint">求职意向</span><span class="arco-tag arco-tag-size-small arco-tag-bordered arco-tag-checked tag-intent"><!--v-if-->IT 资产管理 / IT 支持<!--v-if--><!--v-if--></span><span class="arco-tag arco-tag-size-small arco-tag-bordered arco-tag-checked tag-intent"><!--v-if-->HelpDesk · 桌面运维<!--v-if--><!--v-if--></span></div><div class="mt-8 flex flex-wrap items-center gap-3"><a href="resume.html"></a><a class="arco-btn arco-btn-outline arco-btn-shape-square arco-btn-size-large arco-btn-status-normal arco-btn-link" href="assets/resume.pdf?v=20261106b" target="_blank"><!--v-if-->下载 PDF</a></div><dl class="mt-7 grid gap-x-8 gap-y-3 border-t border-hair pt-6 text-sm sm:grid-cols-2"><div class="flex items-center gap-3"><dt class="w-14 shrink-0 text-faint">所在地</dt><dd class="truncate text-ink">北京 · 房山</dd></div><div class="flex items-center gap-3"><dt class="w-14 shrink-0 text-faint">电话</dt><dd class="tnum truncate text-ink">139-3036-3901</dd></div><div class="flex items-center gap-3"><dt class="w-14 shrink-0 text-faint">邮箱</dt><dd class="truncate font-mono text-xs text-ink">573164137@qq.com</dd></div><div class="flex items-center gap-3"><dt class="w-14 shrink-0 text-faint">经验</dt><dd class="text-ink">7 年企业级 IT 支持</dd></div></dl><div class="mt-7 flex items-center gap-2"><a href="https://github.com/jason19960330" target="_blank" rel="noopener" class="grid h-9 w-9 place-items-center rounded-lg border border-hair text-dim transition hover:border-accent hover:text-accent"></a><a href="https://jason19960330.github.io/website/" target="_blank" rel="noopener" class="grid h-9 w-9 place-items-center rounded-lg border border-hair text-dim transition hover:border-accent hover:text-accent"></a><a href="mailto:573164137@qq.com" target="_blank" rel="noopener" class="grid h-9 w-9 place-items-center rounded-lg border border-hair text-dim transition hover:border-accent hover:text-accent"></a></div></div><aside class="card spot p-6 sm:p-7 reveal is-visible" style="transition-delay: 120ms;"><div class="flex items-center gap-4"><div style="width: 64px; height: 64px; font-size: 32px;" class="arco-avatar arco-avatar-square !rounded-xl !bg-gradient-to-tr !from-sky-500 !to-indigo-600 !text-xl !font-bold !text-white"><span class="arco-avatar-image"><!--v-if--><div class="arco-avatar-image-icon"></div><img src="assets/avatar.jpg?v=20261106c" style="width: 64px; height: 64px;" alt="avatar"></span><!--v-if--></div><div class="min-w-0"><p class="truncate text-lg font-semibold text-ink">李文涛</p><p class="mt-0.5 text-xs leading-relaxed text-accent">IT 资产管理 / IT 支持</p></div></div><div class="mt-6 border-t border-hair pt-5"><p class="text-xs text-faint">当前状态</p><p class="mt-1 text-sm text-ink">开放新的工作机会</p></div><div class="mt-5 border-t border-hair pt-5"><div class="flex items-center justify-between gap-2"><p class="text-xs text-faint">热点速览</p><a href="hotnews.html" class="text-xs text-faint transition hover:text-accent">更多 →</a></div><ul class="mt-2.5 space-y-2"><li><a href="https://www.ithome.com/1/023/398.htm" target="_blank" rel="noopener" class="hn-brief-item text-[13px] leading-snug text-dim transition hover:text-accent"><span class="hn-brief-src">IT 之家</span><span class="hn-brief-title">创维推出 F22B21F 显示器：21.45 英寸 1080P 120Hz，到手价 379 元</span></a></li><li><a href="https://news.ycombinator.com/item?id=50389448" target="_blank" rel="noopener" class="hn-brief-item text-[13px] leading-snug text-dim transition hover:text-accent"><span class="hn-brief-src">Hacker News</span><span class="hn-brief-title">App Store 2026 in numbers: AI, pricing, abandoned apps</span></a></li><li><a href="https://sspai.com/post/118240" target="_blank" rel="noopener" class="hn-brief-item text-[13px] leading-snug text-dim transition hover:text-accent"><span class="hn-brief-src">少数派</span><span class="hn-brief-title">派评 | 近期值得关注的 App</span></a></li></ul></div></aside></div><a href="#about" class="float mt-12 hidden items-center justify-center gap-1.5 text-xs text-faint transition hover:text-dim lg:flex">向下浏览 </a></section><section id="about" class="mx-auto max-w-5xl px-5 py-16 sm:px-6 sm:py-20"><div class="mb-10 flex items-center gap-4 reveal is-visible"><div><p class="text-xs font-semibold uppercase tracking-[0.2em] text-accent">About</p><h2 class="mt-2 text-2xl font-bold tracking-tight text-ink sm:text-3xl">关于我</h2></div><span class="hidden h-px flex-1 bg-gradient-to-r from-hair to-transparent sm:block"></span></div><div class="space-y-4 text-[15px] leading-relaxed text-dim reveal is-visible"><p>7 年企业级 IT 技术支持经验，深耕终端全生命周期与职场 IT 支持。在晖致医药负责 500+ 员工办公终端与资产运营，覆盖桌面 Helpdesk、打印机外设、OA / 邮件 / CRM 业务系统一线运维及音视频会议保障。</p><p>具备资产台账（准确率 95%以上）、盘点对账、SOP 文档与跨部门供应商统筹能力，可独立承担资产盘点、用户支持与现场活动保障；累计输出标准化运维 SOP 与技术文档 20+ 份，推动团队响应效率提升 30%。</p></div><div class="mt-9 grid grid-cols-2 gap-3 sm:grid-cols-4"><div class="card spot p-4 text-center sm:text-left reveal is-visible" style="transition-delay: 100ms;"><div class="flex items-baseline justify-center gap-0.5 sm:justify-start"><span class="tnum text-2xl font-bold text-ink">7</span><span class="text-sm text-dim"> 年</span></div><p class="mt-1 text-xs text-faint">企业级 IT 服务年限</p></div><div class="card spot p-4 text-center sm:text-left reveal is-visible" style="transition-delay: 100ms;"><div class="flex items-baseline justify-center gap-0.5 sm:justify-start"><span class="tnum text-2xl font-bold text-ink">500</span><span class="text-sm text-dim">+</span></div><p class="mt-1 text-xs text-faint">在管员工办公终端</p></div><div class="card spot p-4 text-center sm:text-left reveal is-visible" style="transition-delay: 100ms;"><div class="flex items-baseline justify-center gap-0.5 sm:justify-start"><span class="tnum text-2xl font-bold text-ink">95</span><span class="text-sm text-dim">%</span></div><p class="mt-1 text-xs text-faint">资产台账准确率</p></div><div class="card spot p-4 text-center sm:text-left reveal is-visible" style="transition-delay: 100ms;"><div class="flex items-baseline justify-center gap-0.5 sm:justify-start"><span class="tnum text-2xl font-bold text-ink">20</span><span class="text-sm text-dim">+ 份</span></div><p class="mt-1 text-xs text-faint">输出 SOP 与技术文档</p></div></div><div class="mt-3 grid gap-3 sm:grid-cols-2"><div class="card card-hover spot p-5 reveal is-visible"><div class="flex items-start gap-3"><span class="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-accent/10 text-accent"></span><div><h3 class="text-sm font-semibold text-ink">资产全流程管控</h3><p class="mt-1.5 text-sm leading-relaxed text-dim">熟悉硬件从采购、部署、更新换代到报废的完整生命周期，台账准确率 95%以上、差异闭环，具备合规报告与 IT 治理数据支撑能力。</p></div></div></div><div class="card card-hover spot p-5 reveal is-visible" style="transition-delay: 70ms;"><div class="flex items-start gap-3"><span class="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-accent/10 text-accent"></span><div><h3 class="text-sm font-semibold text-ink">一线支持 + 音视频</h3><p class="mt-1.5 text-sm leading-relaxed text-dim">兼具桌面 Helpdesk、打印机外设、OA / 邮件 / CRM 业务系统运维与视频会议保障经验，贴合「现场 IT + AV 综合支持」岗位。</p></div></div></div><div class="card card-hover spot p-5 reveal is-visible" style="transition-delay: 140ms;"><div class="flex items-start gap-3"><span class="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-accent/10 text-accent"></span><div><h3 class="text-sm font-semibold text-ink">协调与自驱</h3><p class="mt-1.5 text-sm leading-relaxed text-dim">晖致 7 年稳定任职，可独立推进资产运营，亦能高效协同服务台、供应商与用户。</p></div></div></div><div class="card card-hover spot p-5 reveal is-visible" style="transition-delay: 210ms;"><div class="flex items-start gap-3"><span class="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-accent/10 text-accent"></span><div><h3 class="text-sm font-semibold text-ink">细节与抗压</h3><p class="mt-1.5 text-sm leading-relaxed text-dim">细节性强、数据准确性高，自驱推进、可独立工作；抗压能力优秀，习惯在并行多任务下保持交付节奏。</p></div></div></div></div></section><section id="skills" class="mx-auto max-w-5xl px-5 py-16 sm:px-6 sm:py-20"><div class="mb-10 flex items-center gap-4 reveal is-visible"><div><p class="text-xs font-semibold uppercase tracking-[0.2em] text-accent">Skills</p><h2 class="mt-2 text-2xl font-bold tracking-tight text-ink sm:text-3xl">技能矩阵</h2></div><span class="hidden h-px flex-1 bg-gradient-to-r from-hair to-transparent sm:block"></span></div><div class="grid gap-3 sm:grid-cols-2"><article class="card card-hover spot p-5 reveal is-visible"><header class="flex items-start gap-3"><span class="mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full" style="background: rgb(14, 165, 233);"></span><div><h3 class="text-sm font-semibold text-ink">IT 资产与终端管理</h3><p class="mt-0.5 text-xs text-faint">从接收贴标到报废处置，全流程负责到底</p></div></header><ul class="mt-5 space-y-3.5"><li><div class="flex items-center justify-between gap-2 text-xs"><span class="text-ink">资产全生命周期管理</span><span class="tnum text-faint">95</span></div><div class="mt-1.5 h-1.5 overflow-hidden rounded-full" style="background: rgba(14, 165, 233, 0.16);"><div class="bar-fill h-full rounded-full" style="--w: 95%; background: rgb(14, 165, 233);"></div></div></li><li><div class="flex items-center justify-between gap-2 text-xs"><span class="text-ink">盘点对账与库存控制</span><span class="tnum text-faint">92</span></div><div class="mt-1.5 h-1.5 overflow-hidden rounded-full" style="background: rgba(14, 165, 233, 0.16);"><div class="bar-fill h-full rounded-full" style="--w: 92%; background: rgb(14, 165, 233);"></div></div></li><li><div class="flex items-center justify-between gap-2 text-xs"><span class="text-ink">终端管理与硬件运维</span><span class="tnum text-faint">90</span></div><div class="mt-1.5 h-1.5 overflow-hidden rounded-full" style="background: rgba(14, 165, 233, 0.16);"><div class="bar-fill h-full rounded-full" style="--w: 90%; background: rgb(14, 165, 233);"></div></div></li><li><div class="flex items-center justify-between gap-2 text-xs"><span class="text-ink">设备更新与报废处置</span><span class="tnum text-faint">88</span></div><div class="mt-1.5 h-1.5 overflow-hidden rounded-full" style="background: rgba(14, 165, 233, 0.16);"><div class="bar-fill h-full rounded-full" style="--w: 88%; background: rgb(14, 165, 233);"></div></div></li></ul></article><article class="card card-hover spot p-5 reveal is-visible" style="transition-delay: 80ms;"><header class="flex items-start gap-3"><span class="mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full" style="background: rgb(16, 185, 129);"></span><div><h3 class="text-sm font-semibold text-ink">一线支持与业务系统</h3><p class="mt-0.5 text-xs text-faint">桌面 Helpdesk、外设、业务系统与会议保障</p></div></header><ul class="mt-5 space-y-3.5"><li><div class="flex items-center justify-between gap-2 text-xs"><span class="text-ink">一线 Helpdesk / SLA 响应</span><span class="tnum text-faint">94</span></div><div class="mt-1.5 h-1.5 overflow-hidden rounded-full" style="background: rgba(16, 185, 129, 0.16);"><div class="bar-fill h-full rounded-full" style="--w: 94%; background: rgb(16, 185, 129);"></div></div></li><li><div class="flex items-center justify-between gap-2 text-xs"><span class="text-ink">打印机与外设运维</span><span class="tnum text-faint">90</span></div><div class="mt-1.5 h-1.5 overflow-hidden rounded-full" style="background: rgba(16, 185, 129, 0.16);"><div class="bar-fill h-full rounded-full" style="--w: 90%; background: rgb(16, 185, 129);"></div></div></li><li><div class="flex items-center justify-between gap-2 text-xs"><span class="text-ink">OA / 邮件 / CRM 系统支持</span><span class="tnum text-faint">86</span></div><div class="mt-1.5 h-1.5 overflow-hidden rounded-full" style="background: rgba(16, 185, 129, 0.16);"><div class="bar-fill h-full rounded-full" style="--w: 86%; background: rgb(16, 185, 129);"></div></div></li><li><div class="flex items-center justify-between gap-2 text-xs"><span class="text-ink">音视频会议保障</span><span class="tnum text-faint">88</span></div><div class="mt-1.5 h-1.5 overflow-hidden rounded-full" style="background: rgba(16, 185, 129, 0.16);"><div class="bar-fill h-full rounded-full" style="--w: 88%; background: rgb(16, 185, 129);"></div></div></li></ul></article><article class="card card-hover spot p-5 reveal is-visible" style="transition-delay: 160ms;"><header class="flex items-start gap-3"><span class="mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full" style="background: rgb(245, 158, 11);"></span><div><h3 class="text-sm font-semibold text-ink">流程与文档</h3><p class="mt-0.5 text-xs text-faint">把一次性的经验沉淀成可复用的标准</p></div></header><ul class="mt-5 space-y-3.5"><li><div class="flex items-center justify-between gap-2 text-xs"><span class="text-ink">SOP / 技术文档编写</span><span class="tnum text-faint">95</span></div><div class="mt-1.5 h-1.5 overflow-hidden rounded-full" style="background: rgba(245, 158, 11, 0.16);"><div class="bar-fill h-full rounded-full" style="--w: 95%; background: rgb(245, 158, 11);"></div></div></li><li><div class="flex items-center justify-between gap-2 text-xs"><span class="text-ink">资产合规报告与数据准确</span><span class="tnum text-faint">92</span></div><div class="mt-1.5 h-1.5 overflow-hidden rounded-full" style="background: rgba(245, 158, 11, 0.16);"><div class="bar-fill h-full rounded-full" style="--w: 92%; background: rgb(245, 158, 11);"></div></div></li><li><div class="flex items-center justify-between gap-2 text-xs"><span class="text-ink">流程规范与标准化落地</span><span class="tnum text-faint">88</span></div><div class="mt-1.5 h-1.5 overflow-hidden rounded-full" style="background: rgba(245, 158, 11, 0.16);"><div class="bar-fill h-full rounded-full" style="--w: 88%; background: rgb(245, 158, 11);"></div></div></li></ul></article><article class="card card-hover spot p-5 reveal is-visible" style="transition-delay: 240ms;"><header class="flex items-start gap-3"><span class="mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full" style="background: rgb(139, 92, 246);"></span><div><h3 class="text-sm font-semibold text-ink">工具与平台</h3><p class="mt-0.5 text-xs text-faint">日常真正上手在用的家伙什</p></div></header><ul class="mt-5 space-y-3.5"><li><div class="flex items-center justify-between gap-2 text-xs"><span class="text-ink">Office 365 / Teams / Intune</span><span class="tnum text-faint">88</span></div><div class="mt-1.5 h-1.5 overflow-hidden rounded-full" style="background: rgba(139, 92, 246, 0.16);"><div class="bar-fill h-full rounded-full" style="--w: 88%; background: rgb(139, 92, 246);"></div></div></li><li><div class="flex items-center justify-between gap-2 text-xs"><span class="text-ink">ServiceNow（ITSM）</span><span class="tnum text-faint">84</span></div><div class="mt-1.5 h-1.5 overflow-hidden rounded-full" style="background: rgba(139, 92, 246, 0.16);"><div class="bar-fill h-full rounded-full" style="--w: 84%; background: rgb(139, 92, 246);"></div></div></li><li><div class="flex items-center justify-between gap-2 text-xs"><span class="text-ink">Windows / 麒麟 UOS / Linux</span><span class="tnum text-faint">84</span></div><div class="mt-1.5 h-1.5 overflow-hidden rounded-full" style="background: rgba(139, 92, 246, 0.16);"><div class="bar-fill h-full rounded-full" style="--w: 84%; background: rgb(139, 92, 246);"></div></div></li><li><div class="flex items-center justify-between gap-2 text-xs"><span class="text-ink">机房与网络基础运维</span><span class="tnum text-faint">80</span></div><div class="mt-1.5 h-1.5 overflow-hidden rounded-full" style="background: rgba(139, 92, 246, 0.16);"><div class="bar-fill h-full rounded-full" style="--w: 80%; background: rgb(139, 92, 246);"></div></div></li></ul></article></div><div class="mt-3 grid gap-3 lg:grid-cols-2"><div class="card p-5 sm:p-6 reveal is-visible"><h3 class="text-sm font-semibold text-ink">能力雷达</h3><p class="mt-1 text-xs text-faint">按技能大类取平均分自动绘制</p><div class="mt-3 grid grid-cols-2 gap-2"><div class="flex items-center gap-2 text-[11px]"><span class="h-2 w-2 shrink-0 rounded-full" style="background: rgb(14, 165, 233);"></span><span class="truncate text-dim">IT 资产与终端管理</span></div><div class="flex items-center gap-2 text-[11px]"><span class="h-2 w-2 shrink-0 rounded-full" style="background: rgb(16, 185, 129);"></span><span class="truncate text-dim">一线支持与业务系统</span></div><div class="flex items-center gap-2 text-[11px]"><span class="h-2 w-2 shrink-0 rounded-full" style="background: rgb(245, 158, 11);"></span><span class="truncate text-dim">流程与文档</span></div><div class="flex items-center gap-2 text-[11px]"><span class="h-2 w-2 shrink-0 rounded-full" style="background: rgb(139, 92, 246);"></span><span class="truncate text-dim">工具与平台</span></div></div></div><div class="card p-5 sm:p-6 reveal is-visible" style="transition-delay: 80ms;"><h3 class="text-sm font-semibold text-ink">工具栈</h3><p class="mt-1 text-xs text-faint">日常在用的平台与工具</p><div class="mt-5 space-y-4"><div><p class="text-xs font-medium uppercase tracking-wider text-accent">资产与终端</p><div class="mt-2 flex flex-wrap gap-1.5"><span class="arco-tag arco-tag-size-small arco-tag-bordered arco-tag-checked"><!--v-if-->ServiceNow ITSM<!--v-if--><!--v-if--></span><span class="arco-tag arco-tag-size-small arco-tag-bordered arco-tag-checked"><!--v-if-->Intune / MDM<!--v-if--><!--v-if--></span><span class="arco-tag arco-tag-size-small arco-tag-bordered arco-tag-checked"><!--v-if-->Apple ABM<!--v-if--><!--v-if--></span><span class="arco-tag arco-tag-size-small arco-tag-bordered arco-tag-checked"><!--v-if-->资产台账 Excel<!--v-if--><!--v-if--></span></div></div><div><p class="text-xs font-medium uppercase tracking-wider text-accent">系统与办公</p><div class="mt-2 flex flex-wrap gap-1.5"><span class="arco-tag arco-tag-size-small arco-tag-bordered arco-tag-checked"><!--v-if-->Windows<!--v-if--><!--v-if--></span><span class="arco-tag arco-tag-size-small arco-tag-bordered arco-tag-checked"><!--v-if-->麒麟 UOS<!--v-if--><!--v-if--></span><span class="arco-tag arco-tag-size-small arco-tag-bordered arco-tag-checked"><!--v-if-->Linux<!--v-if--><!--v-if--></span><span class="arco-tag arco-tag-size-small arco-tag-bordered arco-tag-checked"><!--v-if-->Office 365<!--v-if--><!--v-if--></span><span class="arco-tag arco-tag-size-small arco-tag-bordered arco-tag-checked"><!--v-if-->Teams<!--v-if--><!--v-if--></span></div></div><div><p class="text-xs font-medium uppercase tracking-wider text-accent">会议与业务</p><div class="mt-2 flex flex-wrap gap-1.5"><span class="arco-tag arco-tag-size-small arco-tag-bordered arco-tag-checked"><!--v-if-->腾讯会议<!--v-if--><!--v-if--></span><span class="arco-tag arco-tag-size-small arco-tag-bordered arco-tag-checked"><!--v-if-->Teams 会议<!--v-if--><!--v-if--></span><span class="arco-tag arco-tag-size-small arco-tag-bordered arco-tag-checked"><!--v-if-->Zoom Rooms<!--v-if--><!--v-if--></span><span class="arco-tag arco-tag-size-small arco-tag-bordered arco-tag-checked"><!--v-if-->OA<!--v-if--><!--v-if--></span><span class="arco-tag arco-tag-size-small arco-tag-bordered arco-tag-checked"><!--v-if-->企业邮件<!--v-if--><!--v-if--></span><span class="arco-tag arco-tag-size-small arco-tag-bordered arco-tag-checked"><!--v-if-->CRM<!--v-if--><!--v-if--></span></div></div><div><p class="text-xs font-medium uppercase tracking-wider text-accent">语言能力</p><div class="mt-2 flex flex-wrap gap-1.5"><span class="arco-tag arco-tag-size-small arco-tag-bordered arco-tag-checked"><!--v-if-->普通话 · 母语<!--v-if--><!--v-if--></span><span class="arco-tag arco-tag-size-small arco-tag-bordered arco-tag-checked"><!--v-if-->英语 · 读写熟练（技术文档）<!--v-if--><!--v-if--></span></div></div></div></div></div></section><section id="timeline" class="mx-auto max-w-5xl px-5 py-16 sm:px-6 sm:py-20"><div class="mb-10 flex items-center gap-4 reveal is-visible"><div><p class="text-xs font-semibold uppercase tracking-[0.2em] text-accent">Experience</p><h2 class="mt-2 text-2xl font-bold tracking-tight text-ink sm:text-3xl">工作经历</h2></div><span class="hidden h-px flex-1 bg-gradient-to-r from-hair to-transparent sm:block"></span></div><div class="card p-5 sm:p-7 reveal is-visible"><div role="list" class="arco-timeline arco-timeline-left arco-timeline-direction-vertical"><div role="listitem" class="arco-timeline-item arco-timeline-item-vertical-left arco-timeline-item-label-same"><div class="arco-timeline-item-dot-wrapper"><div class="arco-timeline-item-dot-line arco-timeline-item-dot-line-is-vertical" style="border-left-style: solid;"></div><div class="arco-timeline-item-dot-content"><div class="arco-timeline-item-dot arco-timeline-item-dot-solid"></div></div></div><div class="arco-timeline-item-content-wrapper"><div class="arco-timeline-item-content"><div class="pb-6"><div class="flex flex-wrap items-center gap-2"><h3 class="text-base font-semibold text-ink">IT 技术支持</h3><!----></div><p class="mt-0.5 text-xs text-accent">晖致医药有限公司</p><p class="mt-0.5 font-mono text-[11px] text-faint">2019.10 — 2026.09</p><p class="mt-2.5 max-w-2xl text-sm leading-relaxed text-dim">负责 500+ 员工办公终端与资产运营，覆盖资产全生命周期、一线 Helpdesk、业务系统、音视频会议与机房网络运维。</p><div class="mt-3 flex flex-wrap gap-1.5"><span class="arco-tag arco-tag-size-small arco-tag-arcoblue arco-tag-checked"><!--v-if-->资产全生命周期<!--v-if--><!--v-if--></span><span class="arco-tag arco-tag-size-small arco-tag-arcoblue arco-tag-checked"><!--v-if-->一线 Helpdesk<!--v-if--><!--v-if--></span><span class="arco-tag arco-tag-size-small arco-tag-arcoblue arco-tag-checked"><!--v-if-->ServiceNow / Intune<!--v-if--><!--v-if--></span><span class="arco-tag arco-tag-size-small arco-tag-arcoblue arco-tag-checked"><!--v-if-->音视频会议<!--v-if--><!--v-if--></span><span class="arco-tag arco-tag-size-small arco-tag-arcoblue arco-tag-checked"><!--v-if-->机房网络<!--v-if--><!--v-if--></span></div><div class="arco-collapse arco-collapse-borderless mt-3"><div class="arco-collapse-item arco-collapse-item-active"><div role="button" aria-disabled="false" aria-expanded="true" tabindex="0" class="arco-collapse-item-header arco-collapse-item-header-left"><span class="arco-icon-hover arco-collapse-item-icon-hover"></span><div class="arco-collapse-item-header-title">工作明细（6 条）</div><!----></div><div role="region" class="arco-collapse-item-content arco-collapse-item-content-expend" style="display: block; height: auto;"><div class="arco-collapse-item-content-box"><ul class="space-y-2.5"><li class="flex gap-2.5 text-sm leading-relaxed text-dim"><span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full" style="background: rgb(14, 165, 233);"></span><span>资产全生命周期与库存：负责办公终端（PC / 笔记本 / 显示器 / 打印机 / 移动设备）从接收、贴标、分配、转移、归还到报废处置全流程，维护资产台账准确率 95%以上，定期盘点对账确保记录、系统、实物三者一致并闭环差异。</span></li><li class="flex gap-2.5 text-sm leading-relaxed text-dim"><span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full" style="background: rgb(14, 165, 233);"></span><span>一线 Helpdesk 与桌面 / 外设支持：受理 500+ 员工日常 IT 及办公设备（打印机、复印机、扫描仪）故障报障，熟练使用 Office 365、Teams、Intune、Apple ABM，按 SLA 分级、派单、跟踪闭环并沉淀知识库；负责外设安装配置、故障处置与耗材管理。</span></li><li class="flex gap-2.5 text-sm leading-relaxed text-dim"><span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full" style="background: rgb(14, 165, 233);"></span><span>业务系统运维：负责 OA 系统、企业邮件、ServiceNow（ITSM 事件 / 变更 / 资产）与 Intune（终端合规 / MDM）等平台日常支持、配置与一线排查；参与 CRM 上线测试、UAT 验证及操作手册整理，熟练配置 Windows、麒麟 UOS 系统。</span></li><li class="flex gap-2.5 text-sm leading-relaxed text-dim"><span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full" style="background: rgb(14, 165, 233);"></span><span>音视频会议保障：负责会议室视频会议终端（腾讯会议、Teams 会议、Zoom Rooms 等）调试、故障初判与会议保障，支持远程协作与大型会议音视频联通。</span></li><li class="flex gap-2.5 text-sm leading-relaxed text-dim"><span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full" style="background: rgb(14, 165, 233);"></span><span>合规文档与设备更新：编写标准化运维 SOP / 技术文档 20+ 份（推动效率提升 30%）；多次参与办公终端及外设批量更新换代，完成选型、部署、旧设备回收与用户切换，保障业务零中断。</span></li><li class="flex gap-2.5 text-sm leading-relaxed text-dim"><span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full" style="background: rgb(14, 165, 233);"></span><span>机房与网络运维：管理机房网络设备（交换机 / 路由器）、UPS 不间断电源，维护机房资产表格；负责服务器及网络设备上架、下架与跳线（网线 / 光纤）布放与维护，熟悉 Linux 系统基础运维。</span></li></ul></div></div></div></div></div></div><div class="arco-timeline-item-label">2019.10 — 2026.09</div></div><!--v-if--></div><div role="listitem" class="arco-timeline-item arco-timeline-item-vertical-left arco-timeline-item-label-same arco-timeline-item-last"><div class="arco-timeline-item-dot-wrapper"><div class="arco-timeline-item-dot-line arco-timeline-item-dot-line-is-vertical" style="border-left-style: solid;"></div><div class="arco-timeline-item-dot-content"><div class="arco-timeline-item-dot arco-timeline-item-dot-solid"></div></div></div><div class="arco-timeline-item-content-wrapper"><div class="arco-timeline-item-content"><div class="pb-6"><div class="flex flex-wrap items-center gap-2"><h3 class="text-base font-semibold text-ink">IT 技术支持 / 系统工程师</h3><!----></div><p class="mt-0.5 text-xs text-accent">北京鲨鱼公园教育有限公司</p><p class="mt-0.5 font-mono text-[11px] text-faint">2019.02 — 2019.10</p><p class="mt-2.5 max-w-2xl text-sm leading-relaxed text-dim">负责 IT 设备与系统选型、部署与培训，并主导新零售项目的软硬件联调与现场交付。</p><div class="mt-3 flex flex-wrap gap-1.5"><span class="arco-tag arco-tag-size-small arco-tag-arcoblue arco-tag-checked"><!--v-if-->系统集成<!--v-if--><!--v-if--></span><span class="arco-tag arco-tag-size-small arco-tag-arcoblue arco-tag-checked"><!--v-if-->现场交付<!--v-if--><!--v-if--></span><span class="arco-tag arco-tag-size-small arco-tag-arcoblue arco-tag-checked"><!--v-if-->设备选型<!--v-if--><!--v-if--></span></div><div class="arco-collapse arco-collapse-borderless mt-3"><div class="arco-collapse-item"><div role="button" aria-disabled="false" aria-expanded="false" tabindex="0" class="arco-collapse-item-header arco-collapse-item-header-left"><span class="arco-icon-hover arco-collapse-item-icon-hover"></span><div class="arco-collapse-item-header-title">工作明细（3 条）</div><!----></div><div role="region" class="arco-collapse-item-content" style="display: block; height: auto;"><div class="arco-collapse-item-content-box"><ul class="space-y-2.5"><li class="flex gap-2.5 text-sm leading-relaxed text-dim"><span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full" style="background: rgb(14, 165, 233);"></span><span>负责 IT 设备与系统选型、部署与培训，输出操作手册与台账。</span></li><li class="flex gap-2.5 text-sm leading-relaxed text-dim"><span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full" style="background: rgb(14, 165, 233);"></span><span>主导新零售项目软硬件联调，完成长春科技馆等 3 个现场部署。</span></li><li class="flex gap-2.5 text-sm leading-relaxed text-dim"><span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full" style="background: rgb(14, 165, 233);"></span><span>沉淀标准化现场交付与回收流程，形成可复用的交付模板。</span></li></ul></div></div></div></div></div></div><div class="arco-timeline-item-label">2019.02 — 2019.10</div></div><!--v-if--></div></div></div></section><section id="projects" class="mx-auto max-w-5xl px-5 py-16 sm:px-6 sm:py-20"><div class="mb-10 flex items-center gap-4 reveal is-visible"><div><p class="text-xs font-semibold uppercase tracking-[0.2em] text-accent">Projects</p><h2 class="mt-2 text-2xl font-bold tracking-tight text-ink sm:text-3xl">项目经验</h2></div><span class="hidden h-px flex-1 bg-gradient-to-r from-hair to-transparent sm:block"></span></div><div class="grid gap-3 sm:grid-cols-2"><article class="card card-hover spot p-5 sm:col-span-2 reveal is-visible"><div class="flex flex-wrap items-start justify-between gap-3"><div><h3 class="text-base font-semibold text-ink">企业 IT 资产台账规范化与盘点对账项目</h3><p class="mt-1 text-xs text-dim">主导者 · <span class="font-mono">2022.11 — 2023.08</span></p></div><span class="arco-tag arco-tag-size-small arco-tag-orange arco-tag-checked"><!--v-if-->重点项目<!--v-if--><!--v-if--></span></div><p class="mt-3 text-sm leading-relaxed text-dim">统一终端命名与资产口径，完成 500+ 台终端梳理与跨部门盘点，把「台账、系统、实物」三者对齐的过程做成公司标准范本。</p><div class="mt-3 flex flex-wrap gap-1.5"><span class="arco-tag arco-tag-size-small arco-tag-bordered arco-tag-checked"><!--v-if-->资产台账<!--v-if--><!--v-if--></span><span class="arco-tag arco-tag-size-small arco-tag-bordered arco-tag-checked"><!--v-if-->盘点对账<!--v-if--><!--v-if--></span><span class="arco-tag arco-tag-size-small arco-tag-bordered arco-tag-checked"><!--v-if-->SOP 标准化<!--v-if--><!--v-if--></span><span class="arco-tag arco-tag-size-small arco-tag-bordered arco-tag-checked"><!--v-if-->账实一致<!--v-if--><!--v-if--></span></div><div class="arco-collapse arco-collapse-borderless mt-3"><div class="arco-collapse-item"><div role="button" aria-disabled="false" aria-expanded="false" tabindex="0" class="arco-collapse-item-header arco-collapse-item-header-left"><span class="arco-icon-hover arco-collapse-item-icon-hover"></span><div class="arco-collapse-item-header-title">展开明细（4 条）</div><!----></div><div role="region" class="arco-collapse-item-content" style="display: block; height: auto;"><div class="arco-collapse-item-content-box"><ul class="space-y-2.5"><li class="flex gap-2.5 text-sm leading-relaxed text-dim"><span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full" style="background: rgb(14, 165, 233);"></span><span>设备管理：统一终端命名、贴标与分类规则，完成 500+ 台终端信息梳理录入，记录与系统准确对应。</span></li><li class="flex gap-2.5 text-sm leading-relaxed text-dim"><span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full" style="background: rgb(14, 165, 233);"></span><span>组织跨部门盘点，逐一完成用户确认与位置核实，盘点差异率 &lt;1% 并全部闭环。</span></li><li class="flex gap-2.5 text-sm leading-relaxed text-dim"><span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full" style="background: rgb(14, 165, 233);"></span><span>输出盘点流程与 SOP，作为公司标准范本复用。</span></li><li class="flex gap-2.5 text-sm leading-relaxed text-dim"><span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full" style="background: rgb(14, 165, 233);"></span><span>设备更新：参与多次电脑设备批量更新，建立「新机发放—旧机回收」闭环，逐台交付到用户并完成回收入库，资产数据准确率保持 100%，账实一致零差异。</span></li></ul></div></div></div></div></article><article class="card card-hover spot p-5 reveal is-visible" style="transition-delay: 70ms;"><div class="flex flex-wrap items-start justify-between gap-3"><div><h3 class="text-base font-semibold text-ink">晖致医药办公终端资产运营与批量更新</h3><p class="mt-1 text-xs text-dim">负责人 · <span class="font-mono">2019.10 — 2026.09</span></p></div><!----></div><p class="mt-3 text-sm leading-relaxed text-dim">500+ 员工办公终端的日常规划与运维，覆盖从新机发放、旧机回收到报废处置的持续运营。</p><div class="mt-3 flex flex-wrap gap-1.5"><span class="arco-tag arco-tag-size-small arco-tag-bordered arco-tag-checked"><!--v-if-->终端运维<!--v-if--><!--v-if--></span><span class="arco-tag arco-tag-size-small arco-tag-bordered arco-tag-checked"><!--v-if-->库存管理<!--v-if--><!--v-if--></span><span class="arco-tag arco-tag-size-small arco-tag-bordered arco-tag-checked"><!--v-if-->SLA 保障<!--v-if--><!--v-if--></span></div><div class="arco-collapse arco-collapse-borderless mt-3"><div class="arco-collapse-item"><div role="button" aria-disabled="false" aria-expanded="false" tabindex="0" class="arco-collapse-item-header arco-collapse-item-header-left"><span class="arco-icon-hover arco-collapse-item-icon-hover"></span><div class="arco-collapse-item-header-title">展开明细（3 条）</div><!----></div><div role="region" class="arco-collapse-item-content" style="display: block; height: auto;"><div class="arco-collapse-item-content-box"><ul class="space-y-2.5"><li class="flex gap-2.5 text-sm leading-relaxed text-dim"><span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full" style="background: rgb(14, 165, 233);"></span><span>建立「新机发放—旧机回收」闭环，多次完成终端及外设批量更新换代，保障业务零中断。</span></li><li class="flex gap-2.5 text-sm leading-relaxed text-dim"><span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full" style="background: rgb(14, 165, 233);"></span><span>维护资产记录、管理系统与实际库存三者一致，形成常态核对与差异闭环机制。</span></li><li class="flex gap-2.5 text-sm leading-relaxed text-dim"><span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full" style="background: rgb(14, 165, 233);"></span><span>配合服务台、供应商与终端用户完成设备部署、更换、维修与回收。</span></li></ul></div></div></div></div></article><article class="card card-hover spot p-5 reveal is-visible" style="transition-delay: 140ms;"><div class="flex flex-wrap items-start justify-between gap-3"><div><h3 class="text-base font-semibold text-ink">新零售项目软硬件联调与现场交付</h3><p class="mt-1 text-xs text-dim">主导者 · <span class="font-mono">2019.02 — 2019.10</span></p></div><!----></div><p class="mt-3 text-sm leading-relaxed text-dim">把实验室里的软硬件方案真正落到展厅现场，并沉淀出可复制的交付流程。</p><div class="mt-3 flex flex-wrap gap-1.5"><span class="arco-tag arco-tag-size-small arco-tag-bordered arco-tag-checked"><!--v-if-->软硬件联调<!--v-if--><!--v-if--></span><span class="arco-tag arco-tag-size-small arco-tag-bordered arco-tag-checked"><!--v-if-->现场部署<!--v-if--><!--v-if--></span><span class="arco-tag arco-tag-size-small arco-tag-bordered arco-tag-checked"><!--v-if-->交付流程<!--v-if--><!--v-if--></span></div><div class="arco-collapse arco-collapse-borderless mt-3"><div class="arco-collapse-item"><div role="button" aria-disabled="false" aria-expanded="false" tabindex="0" class="arco-collapse-item-header arco-collapse-item-header-left"><span class="arco-icon-hover arco-collapse-item-icon-hover"></span><div class="arco-collapse-item-header-title">展开明细（3 条）</div><!----></div><div role="region" class="arco-collapse-item-content" style="display: block; height: auto;"><div class="arco-collapse-item-content-box"><ul class="space-y-2.5"><li class="flex gap-2.5 text-sm leading-relaxed text-dim"><span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full" style="background: rgb(14, 165, 233);"></span><span>主导新零售项目软硬件联调，输出操作手册与使用规范。</span></li><li class="flex gap-2.5 text-sm leading-relaxed text-dim"><span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full" style="background: rgb(14, 165, 233);"></span><span>完成长春科技馆等 3 个现场部署，覆盖安装调试到验收全流程。</span></li><li class="flex gap-2.5 text-sm leading-relaxed text-dim"><span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full" style="background: rgb(14, 165, 233);"></span><span>沉淀标准化现场交付与回收流程。</span></li></ul></div></div></div></div></article></div></section><section id="education" class="mx-auto max-w-5xl px-5 py-16 sm:px-6 sm:py-20"><div class="mb-10 flex items-center gap-4 reveal is-visible"><div><p class="text-xs font-semibold uppercase tracking-[0.2em] text-accent">Education</p><h2 class="mt-2 text-2xl font-bold tracking-tight text-ink sm:text-3xl">教育背景</h2></div><span class="hidden h-px flex-1 bg-gradient-to-r from-hair to-transparent sm:block"></span></div><div class="grid gap-3 lg:grid-cols-[1.4fr_1fr]"><div class="card p-5 sm:p-7 reveal is-visible"><div role="list" class="arco-timeline arco-timeline-left arco-timeline-direction-vertical"><div role="listitem" class="arco-timeline-item arco-timeline-item-vertical-left arco-timeline-item-label-same"><div class="arco-timeline-item-dot-wrapper"><div class="arco-timeline-item-dot-line arco-timeline-item-dot-line-is-vertical" style="border-left-style: solid;"></div><div class="arco-timeline-item-dot-content"><div class="arco-timeline-item-dot arco-timeline-item-dot-solid" style="background-color: rgb(99, 102, 241);"></div></div></div><div class="arco-timeline-item-content-wrapper"><div class="arco-timeline-item-content"><div class="pb-5"><h3 class="text-base font-semibold text-ink">中国农业大学</h3><p class="mt-0.5 text-sm text-dim">计算机科学与技术 · 本科</p><p class="mt-1 text-xs text-faint">在职深造</p></div></div><div class="arco-timeline-item-label">2020.09 — 2024.01</div></div><!--v-if--></div><div role="listitem" class="arco-timeline-item arco-timeline-item-vertical-left arco-timeline-item-label-same arco-timeline-item-last"><div class="arco-timeline-item-dot-wrapper"><div class="arco-timeline-item-dot-line arco-timeline-item-dot-line-is-vertical" style="border-left-style: solid;"></div><div class="arco-timeline-item-dot-content"><div class="arco-timeline-item-dot arco-timeline-item-dot-solid" style="background-color: rgb(99, 102, 241);"></div></div></div><div class="arco-timeline-item-content-wrapper"><div class="arco-timeline-item-content"><div class="pb-5"><h3 class="text-base font-semibold text-ink">华北理工大学迁安学院</h3><p class="mt-0.5 text-sm text-dim">计算机应用技术 · 大专</p><!----></div></div><div class="arco-timeline-item-label">2015 — 2018</div></div><!--v-if--></div></div></div><div class="card p-5 sm:p-7 reveal is-visible" style="transition-delay: 90ms;"><div class="flex items-center gap-2"><h3 class="text-sm font-semibold text-ink">证书与荣誉</h3></div><ul class="mt-4 space-y-2.5"><li class="flex gap-2.5 text-sm leading-relaxed text-dim"><span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full" style="background: rgb(245, 158, 11);"></span><span>晖致医药优秀员工（2021）</span></li><li class="flex gap-2.5 text-sm leading-relaxed text-dim"><span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full" style="background: rgb(245, 158, 11);"></span><span>年度优秀员工 ×2</span></li><li class="flex gap-2.5 text-sm leading-relaxed text-dim"><span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full" style="background: rgb(245, 158, 11);"></span><span>校级优秀毕业生</span></li></ul><div role="separator" class="arco-divider arco-divider-horizontal my-5"><!----></div><div class="flex items-center gap-2"><h3 class="text-sm font-semibold text-ink">语言能力</h3></div><div class="mt-3 flex flex-wrap gap-1.5"><span class="arco-tag arco-tag-size-small arco-tag-bordered arco-tag-checked"><!--v-if-->普通话 · 母语<!--v-if--><!--v-if--></span><span class="arco-tag arco-tag-size-small arco-tag-bordered arco-tag-checked"><!--v-if-->英语 · 读写熟练<!--v-if--><!--v-if--></span></div></div></div></section><section id="calendar" class="mx-auto max-w-5xl px-5 py-16 sm:px-6 sm:py-20"><div class="mb-8 flex items-end gap-4"><div><p class="text-xs font-semibold uppercase tracking-[0.2em] text-accent">Calendar</p><h2 class="mt-2 text-2xl font-bold tracking-tight text-ink sm:text-3xl">更新日历</h2><p class="mt-2 text-sm text-dim">站点每周三的更新节奏与可约面时间；点绿色日期可直接发邮件约面试。</p></div><span class="hidden h-px flex-1 bg-gradient-to-r from-hair to-transparent sm:block"></span></div><div class="grid gap-5 lg:grid-cols-[1.1fr_1fr]"><div class="card p-4 sm:p-5"><div class="cal-host"><div class="vc-popover-content-wrapper is-interactive"><!----></div><div class="vc-popover-content-wrapper is-interactive"><!----></div></div><ul class="cal-legend"><li><span class="cal-dot"></span>站点更新（每周三）</li><li><span class="cal-dot"></span>可约面工作日</li></ul></div><div class="card p-5"><p class="text-xs font-semibold uppercase tracking-[0.2em] text-faint">当前月份</p><h3 class="mt-2 text-lg font-semibold text-ink">2026 年 11 月</h3><p class="mt-1 text-sm text-dim">本月有 3 次站点更新（每周三）</p><div class="mt-6 flex items-center gap-3"><a href="weekly.html" class="text-xs text-faint transition hover:text-accent">AI 行业热点速览 →</a></div></div></div></section><section id="contact" class="mx-auto max-w-5xl px-5 py-16 sm:px-6 sm:py-20"><div class="card spot relative overflow-hidden p-8 text-center sm:p-12 reveal is-visible"><span class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent to-transparent"></span><h2 class="mt-4 text-2xl font-bold tracking-tight text-ink sm:text-3xl">正在寻找机会，欢迎聊聊</h2><p class="mx-auto mt-3 max-w-md text-sm leading-relaxed text-dim"> 求职方向：<span>IT 资产管理 / IT 支持<span> · </span></span><span>HelpDesk · 桌面运维<!----></span></p><div class="mt-7 flex flex-wrap items-center justify-center gap-3"><a href="mailto:573164137@qq.com"></a></div><div class="mt-7 flex items-center justify-center gap-2"><a href="https://github.com/jason19960330" target="_blank" rel="noopener" class="grid h-10 w-10 place-items-center rounded-xl border border-hair text-dim transition hover:border-accent hover:text-accent"></a><a href="https://jason19960330.github.io/website/" target="_blank" rel="noopener" class="grid h-10 w-10 place-items-center rounded-xl border border-hair text-dim transition hover:border-accent hover:text-accent"></a><a href="mailto:573164137@qq.com" target="_blank" rel="noopener" class="grid h-10 w-10 place-items-center rounded-xl border border-hair text-dim transition hover:border-accent hover:text-accent"></a></div><p class="mt-6 flex items-center justify-center gap-1.5 text-xs text-faint">北京 · 房山</p></div></section></main><section id="guestbook" class="mx-auto max-w-5xl px-5 pb-16 pt-4 sm:px-6"><div class="mb-6 flex items-center gap-4 reveal is-visible"><div><p class="text-xs font-semibold uppercase tracking-[0.2em] text-accent">Guestbook</p><h2 class="mt-2 text-2xl font-bold tracking-tight text-ink sm:text-3xl">留言板</h2></div><span class="hidden h-px flex-1 bg-gradient-to-r from-hair to-transparent sm:block"></span></div><div class="card p-5 sm:p-6 reveal is-visible"><div class="flex flex-wrap items-start justify-between gap-3"><p class="max-w-2xl text-sm leading-relaxed text-dim"> 欢迎留下你的想法、建议或招聘线索。留言由 GitHub Discussions 承载， <span class="text-ink">使用 GitHub 账号登录后即可发言</span>，内容公开可见。 </p><a href="https://github.com/jason19960330/website/discussions" target="_blank" rel="noopener" class="shrink-0 text-xs text-faint transition hover:text-accent">在 GitHub 查看全部 →</a></div><div class="giscus mt-6"></div><!----></div></section><footer class="border-t border-hair py-10"><div class="mx-auto flex max-w-5xl flex-col items-center justify-between gap-2 px-5 text-xs text-faint sm:flex-row sm:px-6"><p>© 2026 李文涛 · IT 资产管理 / IT 支持</p><p>Vue 3 · Tailwind CSS · Arco Design</p></div></footer>
+<h1>你好，我是李文涛</h1>
+<p>把复杂的事理顺，把做过的事记下来。这一页留给工作之外的日子：读过的东西、做过的东西、慢慢攒下来的习惯。时间线先用站点里能核对的事实搭起骨架，其余年份留了占位，等补上真实的小事。</p>
+<h2>这几年</h2>
+<p>2026 · 开始把读过的东西写下来：站点接上科技爱好者周刊、行业热点与邮件早报的自动同步，每天留下一份可回看的记录。</p>
+<p>2026 · 给自己做了一整个工具箱：陆续整理并写下 10 个开源仓库的完整指南，从图表、网页克隆到 Agent 自动化与桌面操作。</p>
+<p>2026 · 把手工维护改成一次录入：给工具卡片做了配置化生成与全站校验，加一张卡不再需要改五处手工。</p>
+<p>2025、2022 — 2024、2019 — 2021 三年的条目目前是占位，等待补上真实事件与照片，不用示意内容冒充生活。</p>
+<h2>站点更新热力图</h2>
+<p>每个格子是一天，颜色深浅按当天仓库提交次数分级，全部来自 git log，不是示意数据。2026-08-13 ~ 2026-11-11 共 231 次提交。</p>
+<h2>工作经历</h2>
+<p>两段工作经历、三个按「为什么做 → 重新定义问题 → 怎么落地 → 真实数据 → 复盘」展开的项目案例，以及技能矩阵与教育背景，都搬到了独立页面 work.html。首页留给生活，简历留给求职。</p>
+<p>晖致医药 7 年企业级 IT 技术支持，500+ 员工办公终端与资产运营，资产台账准确率 95%以上，20+ 份标准化运维 SOP，ServiceNow / Intune / ABM、音视频会议保障、机房网络运维。</p>
+<h2>更新日历与联系</h2>
+<p>站点保留周刊发布节奏的更新日历、邮箱 573164137@qq.com、电话 139-3036-3901，以及留言板。</p>
+<p>完整简历见 resume.html，A4 模板见 resume-template.html，PDF 见 assets/resume.pdf；10 篇开源工具指南见 skill.html。</p>
 <!-- seo-snapshot:end -->
 </noscript>
 </body>

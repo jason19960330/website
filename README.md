@@ -72,6 +72,22 @@ website/
 | 换 Arco 组件 / 升级依赖 | `tools/vendor-entry.js` + `package.json` | `npm run build` |
 | **新增 / 修改 Skill 指南卡片** | **`content/skills.json` 的 `cards`** | **`npm run skills`，再 `npm run verify`** |
 
+## 页面分工（2026-11 改版）
+
+站点现在是「一页讲生活、一页讲工作、一页给求职」的三分结构：
+
+| 页面 | 讲什么 | 数据来源 |
+|---|---|---|
+| `index.html` | 生活首页：人格锚点、这几年年表、站点更新热力图、工作经历入口、日历、联系、留言 | `data.js` 的 `life` / `growth` / `stats` |
+| `work.html` | 工作经历：两段经历、三个五段式项目案例、技能矩阵、教育证书 | `data.js` 的 `timeline` / `projects` / `skillGroups` / `education`，逻辑层 `assets/js/work.js` |
+| `resume.html` / `resume-template.html` / `assets/resume.pdf` | 求职专用：一页式简历、A4 打印模板、PDF | `data.js`，与上面同源 |
+
+**生活年表目前是骨架**：三条 `tag: 站点记录` 是可核对的站点事实，其余 `placeholder: true` 是占位，
+等本人补真实年份、事件与照片；不要替他编生活内容。`growth.days` 是近 91 天 git 提交量分级，由 `git log` 统计，不用手工维护。
+
+**视觉**：`assets/css/style.css` 的 `:root` / `html.dark` 两组变量统一控制暖纸色 + 墨绿 + 衬线标题；
+`.chapter-*` / `.life-*` / `.heat-*` / `.case-*` 是编辑式版式类，代码块刻意保留冷色等宽。改配色只改变量，不要重写 DOM。
+
 ## Skill 卡片：一次录入，多处生成
 
 `skill.html` 下现有 10 张仓库指南入口卡。以前加一张卡要手工改 5 个地方（实时模板、SEO 快照、sitemap、一整个指南页、对应 JS），
@@ -106,7 +122,7 @@ npm run skills:check  # 只比对不写入，适合 CI 或提交前确认没漏�
 彼此不同，不进配置。新增卡片时复制同款页面改内容即可；`npm run verify` 会逐页检查 8 个章节与目录锚点、
 Vue 模板变量与 JS 复制块 key 一一对齐、本地链接可达、Vue 编译 0 错误、JS 语法与 `#skill-app` 挂载。
 
-`npm run verify` 的 6 项：配置与生成产物同步 / 四处卡片数一致 / `skill.html` 标签与编译 /
+`npm run verify` 的 7 项：配置与生成产物同步 / 四处卡片数一致 / `skill.html` 标签与编译 /
 指南页与脚本成对 / 10 个指南页逐页结构 / `sitemap.xml` 无重复 URL。
 
 ## 依赖是怎么构建的（重要）

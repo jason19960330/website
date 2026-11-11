@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>工作经历 | 李文涛</title>
+  <meta name="description" content="李文涛的工作经历页：晖致医药 7 年企业级 IT 技术支持、IT 资产全生命周期管理、500+ 终端盘点对账、ServiceNow / Intune / ABM 落地、20+ 份 SOP，以及按「为什么做—重新定义问题—怎么落地—真实数据—复盘」展开的项目案例。">
+  <meta name="author" content="李文涛">
+  <link rel="canonical" href="https://jason19960330.github.io/website/work.html">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="李文涛的个人主页">
+  <meta property="og:title" content="工作经历 | 李文涛">
+  <meta property="og:description" content="7 年 IT 技术支持经历与三个项目案例，按五段式讲清楚来龙去脉。">
+  <meta property="og:url" content="https://jason19960330.github.io/website/work.html">
+  <meta property="og:image" content="https://jason19960330.github.io/website/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="zh_CN">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="工作经历 | 李文涛">
+  <meta name="twitter:description" content="7 年 IT 技术支持经历与三个项目案例，按五段式讲清楚来龙去脉。">
+  <meta name="twitter:image" content="https://jason19960330.github.io/website/assets/og-image.png">
+
+  <link rel="icon" href="assets/favicon.svg?v=20260923" type="image/svg+xml">
+
+  <!-- 主题前置：与全站共用 site.theme，避免深色偏好用户白屏闪一下 -->
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('site.theme');
+        if (!saved) {
+          saved = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+        }
+        if (saved === 'dark') document.documentElement.classList.add('dark');
+        document.addEventListener('DOMContentLoaded', function () {
+          document.body.setAttribute('arco-theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+        });
+      } catch (e) { /* 隐私模式忽略 */ }
+    })();
+  </script>
+
+  <link rel="stylesheet" href="assets/css/tailwind.css?v=202609302">
+  <link rel="stylesheet" href="vendor/arco-bundle.css?v=20260923">
+  <link rel="stylesheet" href="assets/css/style.css?v=20261111">
+</head>
+
+<!-- 工作经历页：内容同样取自 assets/js/data.js；与首页（生活）、resume.html（求职）分工明确 -->
+<body class="min-h-screen bg-base font-sans text-ink antialiased selection:bg-accent/20">
+
+  <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+    <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M10.5 6l-6 6 6 6M4.5 12h15"></path>
+    </symbol>
+    <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M13.5 6l6 6-6 6M19.5 12h-15"></path>
+    </symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+      <circle cx="12" cy="12" r="4"></circle>
+      <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path>
+    </symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+      <path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"></path>
+    </symbol>
+  </svg>
+
+  <a class="skip-link" href="#main">跳到正文</a>
+
+  <div id="work-app">
+    <header class="site-header is-solid border-b border-hair">
+      <div class="mx-auto flex h-16 max-w-3xl items-center justify-between gap-3 px-5 sm:px-6">
+        <a href="index.html" class="inline-flex items-center gap-2 text-sm text-dim transition hover:text-accent">
+          <svg class="h-4 w-4"><use href="#i-arrow-left"></use></svg>
+          <span class="hidden sm:inline">回到生活首页</span><span class="sm:hidden">首页</span>
+        </a>
+        <nav class="hidden items-center gap-0.5 md:flex" aria-label="页面入口">
+          <a href="work.html" class="nav-link is-active">工作经历</a>
+          <a href="resume.html" class="nav-link">完整简历</a>
+          <a href="skill.html" class="nav-link">工具箱</a>
+        </nav>
+        <button type="button" @click="toggleTheme" :aria-label="theme === 'dark' ? '切换到浅色' : '切换到深色'"
+                class="grid h-9 w-9 place-items-center rounded-lg border border-hair text-dim transition hover:border-accent hover:text-accent">
+          <svg class="h-4 w-4"><use :href="theme === 'dark' ? '#i-sun' : '#i-moon'"></use></svg>
+        </button>
+      </div>
+    </header>
+
+    <main id="main" tabindex="-1" class="mx-auto max-w-3xl px-5 pb-20 pt-20 sm:px-6 sm:pt-24">
+
+      <!-- 扉页 -->
+      <header class="mb-16">
+        <p class="chapter-kicker">WORK · 工作经历</p>
+        <h1 class="mt-3 text-3xl leading-tight tracking-tight sm:text-4xl">做过的事，讲清楚来龙去脉</h1>
+        <p class="mt-4 max-w-2xl text-sm leading-relaxed text-dim">
+          这一页只放工作：待过哪里、做过什么项目、手上有哪些工具和平台。
+          内容和生活首页、完整简历同源于 <code>assets/js/data.js</code>，改一处三处同步。
+        </p>
+        <p class="paper-note mt-6">
+          参考作品档案的写法，项目不只列职责，而是按「为什么做 → 重新定义问题 → 怎么落地 → 真实数据 → 复盘」展开。
+          所有数字都来自简历里可核对的口径，没有为了好看往上加。
+        </p>
+        <div class="mt-6 flex flex-wrap items-center gap-3 text-sm">
+          <a href="assets/resume.pdf?v=20261106b" target="_blank" rel="noopener" class="inline-flex items-center gap-2 rounded-lg border border-hair px-4 py-2 text-dim transition hover:border-accent hover:text-accent">
+            下载 PDF 简历 <svg class="h-4 w-4"><use href="#i-arrow-right"></use></svg>
+          </a>
+          <a href="resume.html" class="inline-flex items-center gap-2 rounded-lg border border-hair px-4 py-2 text-dim transition hover:border-accent hover:text-accent">
+            在线完整简历
+          </a>
+        </div>
+      </header>
+
+      <!-- 01 工作经历 -->
+      <section id="experience" class="mb-16">
+        <div class="chapter-head">
+          <span class="chapter-no">01</span>
+          <h2 class="chapter-title">工作经历</h2>
+          <span class="chapter-kicker">Experience</span>
+        </div>
+        <p class="chapter-sub mb-6">按时间倒序。两段经历合起来是 7 年企业级 IT 技术支持，主线一直是「把终端和资产管清楚，把一线支持接住」。</p>
+
+        <article v-for="job in timeline" :key="job.period" class="card mb-5 p-6">
+          <div class="flex flex-wrap items-start justify-between gap-2">
+            <div>
+              <h3 class="text-lg font-semibold text-ink">{{ job.role }} · {{ job.org }}</h3>
+              <p class="tnum mt-1 text-sm text-faint">{{ job.period }}</p>
+            </div>
+            <span v-if="job.current" class="rounded-full border border-hair px-2.5 py-0.5 text-xs text-accent">在职</span>
+          </div>
+          <p class="mt-4 text-sm leading-relaxed text-dim">{{ job.summary }}</p>
+          <ul class="mt-4 space-y-2">
+            <li v-for="(pt, i) in job.points" :key="i" class="flex gap-2.5 text-sm leading-relaxed text-dim">
+              <span class="mt-2 h-1 w-1 shrink-0 rounded-full bg-accent"></span>
+              <span>{{ pt }}</span>
+            </li>
+          </ul>
+          <div class="mt-5 flex flex-wrap gap-2">
+            <span v-for="t in job.tags" :key="t" class="rounded-md border border-hair px-2 py-0.5 text-xs text-dim">{{ t }}</span>
+          </div>
+        </article>
+      </section>
+
+      <!-- 02 项目案例（五段式） -->
+      <section id="projects" class="mb-16">
+        <div class="chapter-head">
+          <span class="chapter-no">02</span>
+          <h2 class="chapter-title">项目案例</h2>
+          <span class="chapter-kicker">Case studies</span>
+        </div>
+        <p class="chapter-sub mb-6">每个项目五段：先说为什么做，再说问题被重新定义成什么，然后是落地动作、可核对的数据，最后一条不留情面的复盘。</p>
+
+        <article v-for="(p, idx) in projects" :key="p.name" class="card mb-6 p-6">
+          <div class="flex flex-wrap items-start justify-between gap-2">
+            <h3 class="text-lg font-semibold leading-snug text-ink">{{ p.name }}</h3>
+            <span class="tnum shrink-0 text-xs text-faint">{{ p.period }}</span>
+          </div>
+          <p class="mt-2 text-xs text-faint">{{ p.role }} · {{ p.tags.join(' / ') }}</p>
+
+          <div class="case-block">
+            <p class="case-label">01 为什么做</p>
+            <p class="case-text">{{ p.summary }}</p>
+          </div>
+          <div class="case-block">
+            <p class="case-label">02 重新定义问题</p>
+            <p class="case-text">{{ caseReframe[idx] }}</p>
+          </div>
+          <div class="case-block">
+            <p class="case-label">03 怎么落地</p>
+            <ul class="space-y-1.5">
+              <li v-for="(d, di) in p.details" :key="di" class="flex gap-2.5 case-text">
+                <span class="mt-2 h-1 w-1 shrink-0 rounded-full bg-accent"></span><span>{{ d }}</span>
+              </li>
+            </ul>
+          </div>
+          <div class="case-block">
+            <p class="case-label">04 真实数据</p>
+            <div class="flex flex-wrap gap-x-10 gap-y-4">
+              <div v-for="m in caseMetrics[idx]" :key="m.label">
+                <p class="case-metric-v">{{ m.value }}</p>
+                <p class="mt-0.5 text-xs text-faint">{{ m.label }}</p>
+              </div>
+            </div>
+          </div>
+          <div class="case-block">
+            <p class="case-label">05 复盘</p>
+            <p class="case-text">{{ caseReview[idx] }}</p>
+          </div>
+        </article>
+      </section>
+
+      <!-- 03 技能与工具 -->
+      <section id="skills" class="mb-16">
+        <div class="chapter-head">
+          <span class="chapter-no">03</span>
+          <h2 class="chapter-title">技能与工具</h2>
+          <span class="chapter-kicker">Skills &amp; tools</span>
+        </div>
+        <p class="chapter-sub mb-6">按「资产 / 支持 / 流程 / 平台」四组归拢，数值是熟练度参考值，不是认证等级。</p>
+
+        <div class="grid gap-4 sm:grid-cols-2">
+          <div v-for="g in skillGroups" :key="g.title" class="card p-5">
+            <h3 class="text-base font-semibold text-ink">{{ g.title }}</h3>
+            <p class="mt-1 text-xs text-faint">{{ g.desc }}</p>
+            <ul class="mt-4 space-y-2.5">
+              <li v-for="s in g.skills" :key="s.name">
+                <div class="flex items-center justify-between gap-2 text-xs">
+                  <span class="text-dim">{{ s.name }}</span>
+                  <span class="tnum text-faint">{{ s.level }}</span>
+                </div>
+                <div class="mt-1 h-1 overflow-hidden rounded-full bg-raise">
+                  <div class="h-full rounded-full bg-accent" :style="{ width: s.level + '%' }"></div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card mt-4 p-5">
+          <h3 class="text-base font-semibold text-ink">日常在用的平台</h3>
+          <div class="mt-4 grid gap-4 sm:grid-cols-2">
+            <div v-for="t in toolStack" :key="t.title">
+              <p class="text-xs text-faint">{{ t.title }}</p>
+              <p class="mt-1 text-sm leading-relaxed text-dim">{{ t.items.join(' · ') }}</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 04 教育与证书 -->
+      <section id="education" class="mb-16">
+        <div class="chapter-head">
+          <span class="chapter-no">04</span>
+          <h2 class="chapter-title">教育与证书</h2>
+          <span class="chapter-kicker">Education</span>
+        </div>
+        <div v-for="e in education" :key="e.school" class="card mb-4 p-5">
+          <div class="flex flex-wrap items-start justify-between gap-2">
+            <div>
+              <h3 class="text-base font-semibold text-ink">{{ e.school }}</h3>
+              <p class="mt-1 text-sm text-dim">{{ e.major }} · {{ e.degree }}</p>
+            </div>
+            <span class="tnum text-xs text-faint">{{ e.period }}</span>
+          </div>
+          <p v-if="e.note" class="mt-2 text-xs text-faint">{{ e.note }}</p>
+        </div>
+        <div class="card p-5">
+          <h3 class="text-base font-semibold text-ink">证书与荣誉</h3>
+          <ul class="mt-3 flex flex-wrap gap-2">
+            <li v-for="h in honors" :key="h" class="rounded-md border border-hair px-2 py-0.5 text-xs text-dim">{{ h }}</li>
+          </ul>
+          <h3 class="mt-5 text-base font-semibold text-ink">语言</h3>
+          <p class="mt-2 text-sm text-dim">{{ languages.join(' · ') }}</p>
+        </div>
+      </section>
+
+      <footer class="border-t border-hair pt-8 text-sm text-dim">
+        <p>工作之外的内容在<a href="index.html" class="text-accent hover:underline">生活首页</a>；求职用的一页式版本在<a href="resume.html" class="text-accent hover:underline">完整简历</a>。</p>
+        <p class="mt-3 text-xs text-faint">© {{ year }} {{ meta.name }} · 本页内容由 data.js 驱动</p>
+      </footer>
+    </main>
+  </div>
+
+  <noscript id="seo-snapshot">
+<!-- seo-snapshot:start -->
+<h1>做过的事，讲清楚来龙去脉</h1>
+<p>李文涛的工作经历页：晖致医药 7 年企业级 IT 技术支持，负责 500+ 员工办公终端与资产运营，覆盖资产全生命周期、一线 Helpdesk、ServiceNow / Intune / ABM、音视频会议保障与 SOP 合规文档。</p>
+<h2>工作经历</h2>
+<p>2019.10 — 2026.09 晖致医药有限公司 IT 技术支持：资产台账准确率 95%以上、20+ 份标准化运维 SOP、按 SLA 承接 500+ 员工一线报障、会议室音视频保障、机房与网络运维。</p>
+<p>2019.02 — 2019.10 北京鲨鱼公园教育有限公司 IT 技术支持 / 系统工程师：设备选型部署与培训，主导新零售项目软硬件联调，完成长春科技馆等 3 个现场部署。</p>
+<h2>项目案例</h2>
+<p>企业 IT 资产台账规范化与盘点对账项目（2022.11 — 2023.08）：统一终端命名与资产口径，完成 500+ 台终端梳理与跨部门盘点，盘点差异率小于 1% 并全部闭环，输出盘点流程与 SOP 作为公司标准范本。</p>
+<p>晖致医药办公终端资产运营与批量更新：建立新机发放—旧机回收闭环，多次完成终端批量更新换代，保障业务零中断。</p>
+<p>新零售项目软硬件联调与现场交付：完成 3 个现场部署，沉淀标准化现场交付与回收流程。</p>
+<h2>技能与工具</h2>
+<p>IT 资产与终端管理、一线支持与业务系统、流程与文档、工具与平台四组技能；ServiceNow ITSM、Intune / MDM、Apple ABM、Office 365、Teams、Windows、麒麟 UOS、Linux、腾讯会议、Zoom Rooms、OA、CRM。</p>
+<h2>教育与证书</h2>
+<p>中国农业大学 计算机科学与技术 本科（在职深造，2020.09 — 2024.01）；华北理工大学迁安学院 计算机应用技术 大专（2015 — 2018）。晖致医药优秀员工（2021）、年度优秀员工 ×2、校级优秀毕业生。普通话母语，英语读写熟练（技术文档）。</p>
+<!-- seo-snapshot:end -->
+  </noscript>
+
+  <script src="assets/js/weather.js?v=202610051"></script>
+  <script src="vendor/arco-bundle.js?v=20260923"></script>
+  <script src="assets/js/data.js?v=20261111"></script>
+  <script src="assets/js/work.js?v=20261111"></script>
+</body>
+</html>
