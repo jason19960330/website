@@ -60,7 +60,7 @@ website/
 
 | 我想改什么 | 改哪个文件 | 改完要做什么 |
 |---|---|---|
-| 个人信息、经历、项目、技能、教育、荣誉 | `assets/js/data.js` | 直接刷新即可 |
+| 个人信息、经历、项目、技能、教育、荣誉（不含生活年表） | `assets/js/data.js` | 直接刷新即可 |
 | 配色（含深浅两套） | `assets/css/style.css` 里的 `:root` 与 `html.dark` | 直接刷新 |
 | 主站板块顺序、布局、增删区块 | `index.html` | 若新增了 Tailwind 类，需重新 `npm run build` |
 | 简历页版式 | `resume.html`（打印样式在 `style.css` 的 `.resume-*`） | 同上 |
@@ -71,6 +71,7 @@ website/
 | 热点页抓哪些源、每源几条 | `tools/sync_hotnews.py` 的 `SOURCES` / `--limit` | 跑一次脚本（勿手改 `hotnews.js`） |
 | 换 Arco 组件 / 升级依赖 | `tools/vendor-entry.js` + `package.json` | `npm run build` |
 | **新增 / 修改 Skill 指南卡片** | **`content/skills.json` 的 `cards`** | **`npm run skills`，再 `npm run verify`** |
+| **修改生活年表（这几年）** | **`content/life.md`** | **`npm run life`，再 `npm run verify`** |
 
 ## 页面分工（2026-11 改版）
 
@@ -89,6 +90,32 @@ website/
 sky/indigo 渐变，标题与正文一律使用系统无衬线字体；`.chapter-*` / `.life-*` / `.heat-*` / `.case-*`
 只负责生活首页与工作经历页的版式，颜色全部继承主题变量。改配色只改变量，不要重写 DOM。
 （曾短暂改成暖纸 + 墨绿的编辑式配色，2026-11-11 已按本人偏好回退。）
+
+## 生活年表：一份 Markdown 管全部
+
+`content/life.md` 是首页「01 这几年」的唯一内容源，条目的写法：
+
+```markdown
+### 2019 — 2021 | 第一份工作
+那年从校园走进机房，第一次独立扛下一件事。
+- 标签：生活
+```
+
+- `### 年份 | 标题` 起一条，下面的正文是描述，可写多行。
+- `- 占位：是` 会显示虚线占位框；补上真实内容时删掉这一行，框就消失。
+- `- 标签：xxx` 可选，显示蓝色小标签；不写就不显示。
+- 「## 章节文案」的五个键对应章节标签、首屏金句、导语、便签金句、侧栏备注。
+
+改完运行：
+
+```bash
+npm run life        # 同步 data.js 的 life 段、SEO 快照、data.js 缓存版本号
+npm run verify      # 8 项校验，其中一项是 life:check
+```
+
+`npm run life:check` 只校验不写文件。版本号取 md 内容 hash，内容不变则产物字节不变，可以反复运行。
+生成器靠结构锚点定位，不依赖自定义标记；但首页的 SEO 快照目前是**手写精简文字**，
+别用 `npm run build` 去重渲染（会把整份快照换成 jsdom DOM 并重新打包 vendor，diff 很大）。
 
 ## Skill 卡片：一次录入，多处生成
 

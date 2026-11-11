@@ -223,6 +223,13 @@ check('生活首页 / 工作经历页 / sitemap / 内容层联动', () => {
   return '首页 6 段、work.html、sitemap、内容层与逻辑层齐全';
 });
 
+check('生活年表：life.md 与生成产物一致', () => {
+  execFileSync(process.execPath, [path.join(root, 'tools/generate-life.mjs'), '--check'], {
+    cwd: root, stdio: 'pipe'
+  });
+  return 'data.js / SEO 快照 / 缓存版本号均由 content/life.md 生成';
+});
+
 check('sitemap.xml 结构完整且 URL 不重复', () => {
   const xml = fs.readFileSync(SITEMAP, 'utf8');
   const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);

@@ -9,6 +9,8 @@
     "og": "python3 tools/make_og.py",
     "skills": "node tools/generate-skills.mjs",
     "skills:check": "node tools/generate-skills.mjs --check",
+    "life": "node tools/generate-life.mjs",
+    "life:check": "node tools/generate-life.mjs --check",
     "verify": "node tools/verify.mjs"
   },
   "devDependencies": {
