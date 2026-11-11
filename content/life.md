@@ -1,9 +1,10 @@
 # 生活年表 · 这几年
 
 > 这是首页「01 这几年」的**唯一内容源**，但只管这一块；简历、Skill 卡片、周刊热点、配色各有各的来源（见 README 维护表）。
-> 改完运行 `npm run life`，会自动同步 `assets/js/data.js` 的 life 段、`index.html` 的 SEO 快照和缓存版本号。
-> ⚠️ 网站是静态站，GitHub Pages 不跑构建：只改这份 md，线上**不会**自动变。
-> 完整流程是：改 md → `npm run life`（生成产物）→ `npm run verify` → `git commit` + `git push`，线上才更新。
+> ✅ 改完这份 md 并推到 GitHub（或在 GitHub 网页直接编辑），`life-sync` 工作流会自动运行 `npm run life`，
+>    生成 `assets/js/data.js` 的 life 段、`index.html` 的 SEO 快照与缓存版本号并提交，网站随之更新。
+> ⚠️ 只在本机保存、不推送，线上不会变；本地也可手动 `npm run life` → `npm run verify` → commit + push。
+> 远程自动提交产物后，本地先 `git pull` 再跑校验，避免本地产物落后。
 > 也可以直接把写好的 md 发给助手代跑，不用自己敲命令。
 > 只写能核对的真实事情；还没想好的条目保留「占位：是」，不要用示意内容冒充生活。
 > 补真实内容时：改「年份 / 标题 / 描述」，删掉「- 占位：是」那一行，虚线占位框就会自动消失。

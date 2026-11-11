@@ -113,9 +113,11 @@ npm run life        # 同步 data.js 的 life 段、SEO 快照、data.js 缓存�
 npm run verify      # 8 项校验，其中一项是 life:check
 ```
 
-> ⚠️ **注意是静态站，GitHub Pages 不跑构建**：只改 md，线上不会自动变。完整流程是
-> 改 md → `npm run life` 生成产物 → `npm run verify` → `git commit` + `git push`（把 md、
-> `assets/js/data.js`、`index.html` 一起提交），线上才更新。这份 md 只管生活年表，其它内容见上面的维护表。
+> ✅ **推荐流程**：改 `content/life.md` → 推到 GitHub（或在 GitHub 网页直接编辑）→
+> `.github/workflows/life-sync.yml` 自动跑生成器、校验，并提交 `assets/js/data.js` / `index.html`
+> → Pages 自动更新。产物只在有变化时提交；远程自动同步后本地记得 `git pull`。
+> ⚠️ 只在本机保存、不推送，线上不会变；也可本地手动 `npm run life` → `npm run verify` → commit + push。
+> 这份 md 只管生活年表，其它内容见上面的维护表。
 
 `npm run life:check` 只校验不写文件。版本号取 md 内容 hash，内容不变则产物字节不变，可以反复运行。
 生成器靠结构锚点定位，不依赖自定义标记；但首页的 SEO 快照目前是**手写精简文字**，

@@ -1,0 +1,46 @@
+name: 同步生活年表
+
+# 只要 content/life.md 被推到 main（本地 push 或在 GitHub 网页直接编辑），
+# 就自动生成首页产物并提交，让「改 md → 网站更新」真正闭环。
+on:
+  push:
+    branches: [main]
+    paths:
+      - content/life.md
+  workflow_dispatch:        # 也支持在 Actions 页面手动点一下立刻执行
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出仓库
+        uses: actions/checkout@v4
+
+      - name: 准备 Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 由 life.md 生成首页产物
+        run: node tools/generate-life.mjs
+
+      - name: 校验产物
+        run: |
+          npm run life:check
+          node --check assets/js/data.js
+
+      - name: 有变化才提交
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if [ -n "$(git status --porcelain assets/js/data.js index.html)" ]; then
+            git add assets/js/data.js index.html
+            git commit -m "chore: 由 content/life.md 同步首页生活年表 [skip ci]"
+            git push
+            echo "已同步并提交生成产物"
+          else
+            echo "产物无变化，跳过提交"
+          fi
