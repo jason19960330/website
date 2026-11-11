@@ -85,8 +85,10 @@ website/
 **生活年表目前是骨架**：三条 `tag: 站点记录` 是可核对的站点事实，其余 `placeholder: true` 是占位，
 等本人补真实年份、事件与照片；不要替他编生活内容。`growth.days` 是近 91 天 git 提交量分级，由 `git log` 统计，不用手工维护。
 
-**视觉**：`assets/css/style.css` 的 `:root` / `html.dark` 两组变量统一控制暖纸色 + 墨绿 + 衬线标题；
-`.chapter-*` / `.life-*` / `.heat-*` / `.case-*` 是编辑式版式类，代码块刻意保留冷色等宽。改配色只改变量，不要重写 DOM。
+**视觉**：`assets/css/style.css` 的 `:root` / `html.dark` 两组变量统一控制原有的 slate 底色 + sky 蓝强调 +
+sky/indigo 渐变，标题与正文一律使用系统无衬线字体；`.chapter-*` / `.life-*` / `.heat-*` / `.case-*`
+只负责生活首页与工作经历页的版式，颜色全部继承主题变量。改配色只改变量，不要重写 DOM。
+（曾短暂改成暖纸 + 墨绿的编辑式配色，2026-11-11 已按本人偏好回退。）
 
 ## Skill 卡片：一次录入，多处生成
 
