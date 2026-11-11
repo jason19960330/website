@@ -182,8 +182,8 @@
                   <span class="text-dim">{{ s.name }}</span>
                   <span class="tnum text-faint">{{ s.level }}</span>
                 </div>
-                <div class="mt-1 h-1 overflow-hidden rounded-full bg-raise">
-                  <div class="h-full rounded-full bg-accent" :style="{ width: s.level + '%' }"></div>
+                <div class="resume-bar-track mt-1.5" :style="{ background: barColor(g.color).soft }">
+                  <div class="resume-bar-fill" :style="{ '--w': s.level + '%', background: barColor(g.color).line }"></div>
                 </div>
               </li>
             </ul>
@@ -256,6 +256,6 @@
   <script src="assets/js/weather.js?v=202610051"></script>
   <script src="vendor/arco-bundle.js?v=20260923"></script>
   <script src="assets/js/data.js?v=20261111e"></script>
-  <script src="assets/js/work.js?v=20261111"></script>
+  <script src="assets/js/work.js?v=20261111f"></script>
 </body>
 </html>

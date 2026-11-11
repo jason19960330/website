@@ -20,6 +20,17 @@
 
   var theme = ref(document.documentElement.classList.contains('dark') ? 'dark' : 'light');
 
+  /* 技能条配色：与 resume.js / app.js 同一组色板，按 skillGroups[].color 取色 */
+  var BAR_COLORS = {
+    sky:     { line: '#0ea5e9', soft: 'rgba(14,165,233,.16)' },
+    indigo:  { line: '#6366f1', soft: 'rgba(99,102,241,.16)' },
+    emerald: { line: '#10b981', soft: 'rgba(16,185,129,.16)' },
+    amber:   { line: '#f59e0b', soft: 'rgba(245,158,11,.16)' },
+    violet:  { line: '#8b5cf6', soft: 'rgba(139,92,246,.16)' },
+    rose:    { line: '#f43f5e', soft: 'rgba(244,63,94,.16)' }
+  };
+  function barColor(name) { return BAR_COLORS[name] || BAR_COLORS.sky; }
+
   function toggleTheme() {
     theme.value = theme.value === 'dark' ? 'light' : 'dark';
     document.documentElement.classList.toggle('dark', theme.value === 'dark');
@@ -79,6 +90,7 @@
         caseReframe: caseReframe,
         caseReview: caseReview,
         caseMetrics: caseMetrics,
+        barColor: barColor,
         theme: theme,
         toggleTheme: toggleTheme,
         year: new Date().getFullYear()
