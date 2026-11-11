@@ -22,9 +22,9 @@ window.SITE_CONFIG = {
     enName: 'LI WENTAO',
     shortName: '李文涛',
     avatarText: 'WT',
-    // 网站头像：取自 IMG_3879.JPG，方形裁切版 assets/avatar.jpg（原图备份 assets/avatar-source-2026.jpg）
-    // 用于首页两处头像、全站页头小图标与在线简历页；A4 模板与 PDF 仍用一寸证件照 assets/portrait.jpg
-    avatar: 'assets/avatar.jpg?v=20261111d',
+    // 网站头像（首页两处 + 全站页头）：IMG_3879.JPG 方形版 assets/avatar.jpg，原图备份 assets/avatar-source-2026.jpg
+    // 简历一律沿用原一寸蓝底证件照：在线简历页用方形版 assets/avatar-id.jpg；A4 模板与 PDF 用 assets/portrait.jpg
+    avatar: 'assets/avatar-id.jpg?v=20261111e',
     title: 'IT 资产管理 / IT 支持',
     // 依次轮换展示的身份关键词
     roles: ['IT 资产全生命周期管理', '一线 Helpdesk 与桌面支持', '音视频会议保障', 'SOP 与合规文档'],
