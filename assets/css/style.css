@@ -1782,7 +1782,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 .chapter-head {
   display: flex; align-items: baseline; gap: .9rem; flex-wrap: wrap;
   border-bottom: 1px solid rgb(var(--c-hair));
-  padding-bottom: .9rem; margin-bottom: 1.9rem;
+  padding-bottom: .7rem; margin-bottom: 1.35rem;
 }
 .chapter-no {
   font-size: 1rem; letter-spacing: .1em;
@@ -1795,17 +1795,17 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 .paper-note {
   background: rgb(var(--c-raise) / .5);
   border-left: 3px solid rgb(var(--c-accent) / .65);
-  padding: 1rem 1.25rem; border-radius: 0 .6rem .6rem 0;
+  padding: .85rem 1.1rem; border-radius: 0 .6rem .6rem 0;
   font-size: .95rem;
-  line-height: 1.9; color: rgb(var(--c-dim));
+  line-height: 1.8; color: rgb(var(--c-dim));
 }
 .editorial-quote {
   font-size: 1.1rem;
-  line-height: 1.95; color: rgb(var(--c-ink));
+  line-height: 1.8; color: rgb(var(--c-ink));
 }
 
 .life-item {
-  position: relative; padding: 0 0 1.7rem 2.1rem;
+  position: relative; padding: 0 0 1.4rem 2.1rem;
   border-left: 1px solid rgb(var(--c-hair)); margin-left: .4rem;
 }
 .life-item:last-child { border-left-color: transparent; padding-bottom: .2rem; }
@@ -1843,11 +1843,16 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
   gap: 3px; width: max-content; max-width: 100%;
 }
 
-/* 补齐新版首页 / 工作经历页用到、但未进 Tailwind 编译产物的 4 个类 */
+/* 补齐新版首页 / 工作经历页用到、但未进 Tailwind 编译产物的 5 个类 */
 .border-accent { border-color: rgb(var(--c-accent)); }
 .hover\:bg-accent:hover { background-color: rgb(var(--c-accent)); }
 .hover\:text-white:hover { color: #fff; }
 .object-cover { object-fit: cover; }
+.pb-8 { padding-bottom: 2rem; }
+
+/* 首页垂直节奏：各章节 py-10（40px）+ 首屏底部 pb-8（32px），
+   相邻章节合计约 80px，避免上下 padding 叠加出大片空白。
+   章节标题与内容之间的间距由 .chapter-head 的 margin-bottom 统一控制。 */
 
 /* 照片墙：占位格与真实照片共用 4:3 网格，颜色跟随主题变量 */
 .photo-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
