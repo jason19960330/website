@@ -225,6 +225,120 @@ section[id] { scroll-margin-top: 5rem; }
   box-shadow: 0 22px 46px -24px rgb(var(--c-accent) / .5);
 }
 
+/* 首屏个人名片：横向人像 + 两格统计 + 工作经历入口。
+   全部走主题变量，深浅主题自动适配；不依赖 Tailwind 预编译产物。 */
+.profile-card { padding: 1.25rem; }
+.profile-head { display: flex; align-items: center; gap: .875rem; }
+.profile-photo {
+  flex: none;
+  width: 4.75rem;
+  height: 5.375rem;
+  border: 1px solid rgb(var(--c-hair));
+  border-radius: .75rem;
+  background: rgb(var(--c-raise));
+  object-fit: cover;
+  object-position: 50% 18%;
+}
+.profile-id { min-width: 0; }
+.profile-name {
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: .03em;
+  color: rgb(var(--c-ink));
+}
+.profile-title {
+  margin-top: .3rem;
+  font-size: .8125rem;
+  line-height: 1.55;
+  letter-spacing: .01em;
+  color: rgb(var(--c-dim));
+}
+.profile-loc {
+  display: inline-block;
+  margin-top: .45rem;
+  padding: .1rem .55rem;
+  border-radius: 999px;
+  font-size: .75rem;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: .04em;
+  color: rgb(var(--c-accent));
+  background: rgb(var(--c-accent) / .10);
+}
+.profile-note {
+  margin-top: .875rem;
+  font-size: .8125rem;
+  line-height: 1.75;
+  letter-spacing: .02em;
+  color: rgb(var(--c-dim));
+}
+.profile-rule {
+  height: 1px;
+  margin: .875rem 0;
+  background: rgb(var(--c-hair));
+}
+.profile-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .625rem;
+}
+.profile-stat {
+  display: block;
+  padding: .625rem .75rem;
+  border-radius: .75rem;
+  background: rgb(var(--c-raise) / .7);
+  text-decoration: none;
+  transition: background-color .2s ease, transform .2s ease;
+}
+.profile-stat:hover {
+  background: rgb(var(--c-accent) / .12);
+  transform: translateY(-2px);
+}
+.profile-stat-num {
+  display: block;
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -.02em;
+  font-variant-numeric: tabular-nums;
+  color: rgb(var(--c-ink));
+}
+.profile-stat-unit {
+  font-size: .75rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  color: rgb(var(--c-faint));
+}
+.profile-stat-label {
+  display: block;
+  margin-top: .3rem;
+  font-size: .75rem;
+  letter-spacing: .03em;
+  color: rgb(var(--c-faint));
+}
+.profile-link {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  margin-top: .875rem;
+  font-size: .8125rem;
+  font-weight: 500;
+  letter-spacing: .02em;
+  color: rgb(var(--c-accent));
+  text-decoration: none;
+}
+.profile-link:hover { text-decoration: underline; }
+.profile-link svg { width: .875rem; height: .875rem; }
+/* 渐变文字落在姓名与统计数字上：收缩到文字宽度，避免 block 撑满把渐变拉平 */
+.profile-name.text-gradient,
+.profile-stat-num.text-gradient {
+  width: fit-content;
+}
+@media (max-width: 359px) {
+  .profile-stats { grid-template-columns: 1fr; }
+}
+
 /* 渐变文字 */
 .text-gradient {
   background: linear-gradient(100deg, rgb(var(--c-accent)) 0%, #6366f1 92%);

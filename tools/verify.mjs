@@ -240,8 +240,8 @@ check('归档页：滚动切分 / 加载更多 / sitemap / 快照', () => {
   assert(arc.includes('archive.entries') && arc.includes('archive.empty'), '归档页模板未渲染条目 / 空态');
   assert(arc.includes('<!-- seo-snapshot:start -->'), '归档页缺少 SEO 快照锚点');
   const idx = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
-  assert(idx.includes('class="life-more"') && idx.includes('href="archive.html"'), '首页缺少「加载更多」入口');
-  assert(idx.includes('>归档</a>'), '顶部导航缺少归档入口');
+  // 归档入口只保留在首页底部「加载更多」；顶部导航按需求不再挂「归档」链接
+  assert(/<a[^>]*href="archive\.html"[^>]*class="life-more"/.test(idx), '首页「加载更多」未指向归档页');
   const cfg = fs.readFileSync(path.join(root, 'assets/js/data.js'), 'utf8');
   assert(cfg.includes('\n  archive: {'), 'data.js 缺少 archive 段');
   const seg = (key) => cfg.split('\n  ' + key + ': {')[1].split('\n  },')[0];

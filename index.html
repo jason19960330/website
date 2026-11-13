@@ -65,7 +65,7 @@
   <!-- 预编译样式：Tailwind 产物 → Arco 按需样式 → 站点定制（后者覆盖前者） -->
   <link rel="stylesheet" href="assets/css/tailwind.css?v=202609302">
   <link rel="stylesheet" href="vendor/arco-bundle.css?v=20260923">
-  <link rel="stylesheet" href="assets/css/style.css?v=20261113a">
+  <link rel="stylesheet" href="assets/css/style.css?v=20261113d">
 </head>
 
 <!-- ======================================================================
@@ -160,7 +160,6 @@
         <div class="flex shrink-0 items-center gap-1.5">
           <nav class="mr-1 hidden items-center gap-0.5 md:flex" aria-label="页面入口">
             <a href="work.html" class="nav-link">工作经历</a>
-            <a href="archive.html" class="nav-link">归档</a>
             <a href="weekly.html" class="nav-link">AI 速览</a>
             <a href="hotnews.html" class="nav-link">热点</a>
             <a href="skill.html" class="nav-link">Skill</a>
@@ -272,7 +271,6 @@
                 @click="jump(item.id)"
                 class="rounded-lg px-3 py-2.5 text-left text-sm transition hover:bg-raise"
                 :class="activeSection === item.id ? 'text-accent' : 'text-dim'">{{ item.label }}</button>
-        <a href="archive.html" class="rounded-lg px-3 py-2.5 text-left text-sm text-dim transition hover:bg-raise">归档（更早的日常）</a>
         <a href="work.html" class="rounded-lg px-3 py-2.5 text-left text-sm text-dim transition hover:bg-raise">工作经历（独立页）</a>
         <a href="resume.html" class="rounded-lg px-3 py-2.5 text-left text-sm text-dim transition hover:bg-raise">个人简历</a>
         <a href="weekly.html" class="rounded-lg px-3 py-2.5 text-left text-sm text-dim transition hover:bg-raise">AI 热点速览</a>
@@ -310,25 +308,34 @@
             <p class="paper-note mt-6">{{ life.quote }}</p>
           </div>
 
-          <div v-reveal class="card p-6">
-            <img src="assets/avatar.jpg?v=20261111d" alt="李文涛"
-                 style="width:6rem;height:6rem"
-                 class="mx-auto rounded-full border border-hair object-cover">
-            <p class="mt-4 text-center text-base font-semibold text-ink">{{ meta.name }}</p>
-            <p class="mt-1 text-center text-xs text-faint">{{ meta.title }} · {{ meta.location }}</p>
-            <div class="my-5 border-t border-hair"></div>
-            <dl class="space-y-3 text-sm">
-              <div class="flex items-center justify-between gap-3">
-                <dt class="text-faint">工作之外</dt><dd class="text-dim">记录、整理、慢慢攒</dd>
+          <div v-reveal class="card profile-card">
+            <div class="profile-head">
+              <img src="assets/avatar-life.jpg?v=20261113b" alt="李文涛" class="profile-photo">
+              <div class="profile-id">
+                <p class="profile-name text-gradient">{{ meta.name }}</p>
+                <p class="profile-title">{{ meta.title }}</p>
+                <span class="profile-loc">{{ meta.location }}</span>
               </div>
-              <div class="flex items-center justify-between gap-3">
-                <dt class="text-faint">工具指南</dt><dd class="tnum text-dim">10 篇</dd>
-              </div>
-              <div class="flex items-center justify-between gap-3">
-                <dt class="text-faint">近 13 周提交</dt><dd class="tnum text-dim">{{ growth.totalCommits }} 次</dd>
-              </div>
-            </dl>
-            <p class="mt-5 text-xs leading-relaxed text-faint">这一页只讲生活与记录；工作明细、项目案例与技能矩阵都在独立的工作经历页。</p>
+            </div>
+            <p class="profile-note">工作之外，记录、整理、慢慢攒。</p>
+            <div class="profile-rule"></div>
+            <div class="profile-stats">
+              <a class="profile-stat" href="skill.html" aria-label="查看 10 篇工具指南">
+                <span class="profile-stat-num tnum text-gradient">10 <span class="profile-stat-unit">篇</span></span>
+                <span class="profile-stat-label">工具指南</span>
+              </a>
+              <a class="profile-stat" href="#growth" aria-label="查看近 13 周提交热力图">
+                <span class="profile-stat-num tnum text-gradient">{{ growth.totalCommits }} <span class="profile-stat-unit">次</span></span>
+                <span class="profile-stat-label">近 13 周提交</span>
+              </a>
+            </div>
+            <a class="profile-link" href="work.html">
+              去看工作经历
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                   stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M5 12h14M13 6l6 6-6 6"></path>
+              </svg>
+            </a>
           </div>
         </div>
       </section>

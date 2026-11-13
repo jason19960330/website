@@ -132,6 +132,7 @@ npm run verify      # 9 项校验，其中两项覆盖 life:check 与归档切�
 - 写第 4 条真实记录并推送，最旧的一条会自动从首页沉到归档页；
 - 占位条目不进归档；不足 3 个占位槽时生成器自动补空槽；
 - 归档页固定文案（标题 / 标签 / 空态）在 `tools/generate-life.mjs` 顶部的 `ARCHIVE_META`。
+- 归档页入口**只在首页底部「加载更多」**；顶部导航、移动端抽屉与其他页面都不再放「归档」链接，避免重复入口。
 
 `life-sync` 工作流会把 `assets/js/data.js`、`index.html`、`archive.html` 三份产物一起自动提交。
 
