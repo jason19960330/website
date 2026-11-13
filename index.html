@@ -65,7 +65,7 @@
   <!-- 预编译样式：Tailwind 产物 → Arco 按需样式 → 站点定制（后者覆盖前者） -->
   <link rel="stylesheet" href="assets/css/tailwind.css?v=202609302">
   <link rel="stylesheet" href="vendor/arco-bundle.css?v=20260923">
-  <link rel="stylesheet" href="assets/css/style.css?v=20261112b">
+  <link rel="stylesheet" href="assets/css/style.css?v=20261113a">
 </head>
 
 <!-- ======================================================================
@@ -160,6 +160,7 @@
         <div class="flex shrink-0 items-center gap-1.5">
           <nav class="mr-1 hidden items-center gap-0.5 md:flex" aria-label="页面入口">
             <a href="work.html" class="nav-link">工作经历</a>
+            <a href="archive.html" class="nav-link">归档</a>
             <a href="weekly.html" class="nav-link">AI 速览</a>
             <a href="hotnews.html" class="nav-link">热点</a>
             <a href="skill.html" class="nav-link">Skill</a>
@@ -271,6 +272,7 @@
                 @click="jump(item.id)"
                 class="rounded-lg px-3 py-2.5 text-left text-sm transition hover:bg-raise"
                 :class="activeSection === item.id ? 'text-accent' : 'text-dim'">{{ item.label }}</button>
+        <a href="archive.html" class="rounded-lg px-3 py-2.5 text-left text-sm text-dim transition hover:bg-raise">归档（更早的日常）</a>
         <a href="work.html" class="rounded-lg px-3 py-2.5 text-left text-sm text-dim transition hover:bg-raise">工作经历（独立页）</a>
         <a href="resume.html" class="rounded-lg px-3 py-2.5 text-left text-sm text-dim transition hover:bg-raise">个人简历</a>
         <a href="weekly.html" class="rounded-lg px-3 py-2.5 text-left text-sm text-dim transition hover:bg-raise">AI 热点速览</a>
@@ -349,6 +351,13 @@
               <p v-if="e.tag" class="mt-2 text-xs text-accent">{{ e.tag }}</p>
               <p v-if="e.placeholder" class="life-placeholder mt-3">占位 · 等待补上真实事件 / 照片</p>
             </div>
+            <a href="archive.html" class="life-more">
+              加载更多
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                   stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M5 12h14M13 6l6 6-6 6"></path>
+              </svg>
+            </a>
           </div>
           <aside>
             <div class="card p-6">
@@ -574,7 +583,7 @@
   <!-- 按需打包产物：Vue 完整版 + 实际用到的 Arco 组件，暴露 window.Vue / window.ArcoVue -->
   <script src="assets/js/weather.js?v=202610051"></script>
   <script src="vendor/arco-bundle.js?v=20260923"></script>
-  <script src="assets/js/data.js?v=life-126dd3dd"></script>
+  <script src="assets/js/data.js?v=life-0b5568f8"></script>
   <script src="assets/js/hotnews.js?v=20260928"></script>
   <script src="assets/js/app.js?v=20261111"></script>
 

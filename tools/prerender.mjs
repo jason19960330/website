@@ -27,6 +27,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const PAGES = [
   { file: 'index.html', appId: 'app' },
   { file: 'work.html', appId: 'work-app' },
+  { file: 'archive.html', appId: 'archive-app' },
   { file: 'resume.html', appId: 'resume-app' },
   { file: 'weekly.html', appId: 'weekly-app' },
   { file: 'hotnews.html', appId: 'hot-app' },

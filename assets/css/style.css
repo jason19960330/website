@@ -1868,3 +1868,24 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 .photo-caption { margin-top: .5rem; font-size: .75rem; color: rgb(var(--c-dim)); }
 .photo-link { color: rgb(var(--c-faint)); transition: color .2s; }
 .photo-link:hover { color: rgb(var(--c-accent)); }
+
+/* 首页「加载更多」与归档页空态：沿用主题变量，不引入新配色 */
+.life-more {
+  display: inline-flex; align-items: center; gap: .5rem;
+  margin: .25rem 0 0 .4rem; padding: .55rem 1.1rem;
+  border: 1px solid rgb(var(--c-accent) / .45); border-radius: .6rem;
+  font-size: .82rem; color: rgb(var(--c-accent));
+  transition: background-color .2s ease, border-color .2s ease;
+}
+.life-more:hover { background: rgb(var(--c-accent) / .08); border-color: rgb(var(--c-accent)); }
+.life-more svg { width: .9rem; height: .9rem; }
+.life-empty {
+  border: 1px dashed rgb(var(--c-hair)); border-radius: .75rem;
+  padding: 1.5rem 1.25rem; font-size: .88rem; line-height: 1.9;
+  color: rgb(var(--c-dim)); background: rgb(var(--c-raise) / .35);
+}
+.life-back {
+  display: inline-block; margin-top: 1.5rem;
+  font-size: .8rem; color: rgb(var(--c-faint)); transition: color .2s ease;
+}
+.life-back:hover { color: rgb(var(--c-accent)); }

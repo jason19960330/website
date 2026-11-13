@@ -118,9 +118,22 @@ sky/indigo 渐变，标题与正文一律使用系统无衬线字体；`.chapter
 改完运行：
 
 ```bash
-npm run life        # 同步 data.js 的 life 段、SEO 快照、data.js 缓存版本号
-npm run verify      # 8 项校验，其中一项是 life:check
+npm run life        # 同步 data.js 的 life/archive 段、两页 SEO 快照、缓存版本号
+npm run verify      # 9 项校验，其中两项覆盖 life:check 与归档切分
 ```
+
+
+### 首页固定 6 条 + 归档页自动切分
+
+`archive.html`（「更早的日常」）由同一个 `content/life.md` 自动生成，不需要单独维护：
+
+- 非占位记录按 md 书写顺序，**前 3 条** + **3 个占位槽** = 首页固定 6 条，版面不变；
+- **第 4 条起**全部进归档页，旧记录永久留在 md 里，不会丢；
+- 写第 4 条真实记录并推送，最旧的一条会自动从首页沉到归档页；
+- 占位条目不进归档；不足 3 个占位槽时生成器自动补空槽；
+- 归档页固定文案（标题 / 标签 / 空态）在 `tools/generate-life.mjs` 顶部的 `ARCHIVE_META`。
+
+`life-sync` 工作流会把 `assets/js/data.js`、`index.html`、`archive.html` 三份产物一起自动提交。
 
 > ✅ **推荐流程**：改 `content/life.md` → 推到 GitHub（或在 GitHub 网页直接编辑）→
 > `.github/workflows/life-sync.yml` 自动跑生成器、校验，并提交 `assets/js/data.js` / `index.html`

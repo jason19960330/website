@@ -36,9 +36,9 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          if [ -n "$(git status --porcelain assets/js/data.js index.html)" ]; then
-            git add assets/js/data.js index.html
-            git commit -m "chore: 由 content/life.md 同步首页生活年表 [skip ci]"
+          if [ -n "$(git status --porcelain assets/js/data.js index.html archive.html)" ]; then
+            git add assets/js/data.js index.html archive.html
+            git commit -m "chore: 由 content/life.md 同步首页年表与归档页 [skip ci]"
             git push
             echo "已同步并提交生成产物"
           else

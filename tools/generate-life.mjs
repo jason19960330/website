@@ -1,6 +1,6 @@
 /**
  * ============================================================================
- *  generate-life.mjs —— 从 content/life.md 生成首页「这几年」的全部内容
+ *  generate-life.mjs —— 从 content/life.md 生成首页「这几年」与归档页「更早的日常」
  * ============================================================================
  *  解决的问题：以前改一条生活记录要手动动三处（data.js 的 life 段、
  *  index.html 的 SEO 快照、index.html 里 data.js 的缓存版本号），漏一处就会
@@ -9,14 +9,16 @@
  *  现在只编辑 content/life.md，运行 `npm run life` 即可。
  *
  *  用法：
- *    node tools/generate-life.mjs                # 写回 data.js + index.html
- *    node tools/generate-life.mjs --check        # 只校验是否一致（供 verify 调用）
+ *    node tools/generate-life.mjs                # 写回 data.js / index.html / archive.html
+ *    node tools/generate-life.mjs --check        # 只校验三份产物是否一致（供 verify 调用）
  *    node tools/generate-life.mjs --out DIR      # 把结果写到 DIR，不动原文件
  *    node tools/generate-life.mjs --config F     # 指定别的 md
  *
- *  设计：life 段靠结构锚点定位；SEO 快照的生成区用 <!-- life-snapshot:end -->
- *  界定，后面的章节可以随意调序或改名。产物幂等，版本号取 md 与 data.js
- *  非 life 段内容的 hash，任何一处内容不变则字节不变。
+ *  滚动窗口规则（按 md 书写顺序，第一条最新）：
+ *    · 非占位记录前 3 条 + 3 个占位槽 = 首页固定 6 条
+ *    · 第 4 条起的非占位记录全部进归档页，永不丢弃
+ *    · 占位条目不进归档；不足 3 条时由生成器补空槽，保证首页版面不变
+ *  产物幂等，版本号取 md 与 data.js 非 life/archive 段内容的 hash。
  * ============================================================================
  */
 import fs from 'node:fs';
@@ -35,6 +37,22 @@ const OUT = argOf('--out');
 const MD = argOf('--config') ? path.resolve(argOf('--config')) : path.join(root, 'content/life.md');
 const DATA = path.join(root, 'assets/js/data.js');
 const INDEX = path.join(root, 'index.html');
+const ARCHIVE = path.join(root, 'archive.html');
+
+const HOME_REAL = 3;
+const HOME_SLOTS = 3;
+const ARCHIVE_META = {
+  kicker: 'ARCHIVE · 旧记录',
+  title: '更早的日常',
+  empty: '还没有更早的记录。首页只保留最新 3 条分享，等第 4 条出现时，最早的一条会自动移到这里。',
+  intro: '生活年表里更早的日常分享。首页只保留最新 3 条，更早的记录会自动收进这一页。'
+};
+const EMPTY_SLOT = {
+  year: '待补充',
+  title: '留一个位置给还没写下的事',
+  desc: '想好了再补上，不用示意内容冒充生活。',
+  placeholder: true
+};
 
 /* ---------------------------------------------------------------- 1. 解析 md */
 const md = fs.readFileSync(MD, 'utf8');
@@ -97,7 +115,16 @@ for (const e of entries) {
   if (!e.year || !e.title || !e.desc) throw new Error(`条目不完整：${e.year} | ${e.title}`);
 }
 
-/* ------------------------------------------------------------ 2. 生成 life 段 */
+/* ------------------------------------------------------- 2. 滚动窗口切分 */
+const real = entries.filter((e) => !e.placeholder);
+const pending = entries.filter((e) => e.placeholder);
+const homeReal = real.slice(0, HOME_REAL);
+const archived = real.slice(HOME_REAL);
+const slots = pending.slice(0, HOME_SLOTS).map((e) => ({ ...e }));
+while (slots.length < HOME_SLOTS) slots.push({ ...EMPTY_SLOT });
+const homeEntries = homeReal.concat(slots);
+
+/* -------------------------------------------------- 3. 生成 data.js 的两段 */
 const q = (s) => "'" + String(s).replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/\r?\n/g, ' ') + "'";
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
@@ -105,14 +132,16 @@ const entrySrc = (e) => {
   const extra = [];
   if (e.tag) extra.push(`tag: ${q(e.tag)}`);
   if (e.placeholder) extra.push('placeholder: true');
-  const body = [
+  return [
     `      { year: ${q(e.year)}, title: ${q(e.title)},`,
     `        desc: ${q(e.desc)}${extra.length ? ',\n        ' + extra.join(', ') : ''} },`
   ].join('\n');
-  return body;
 };
-const entryBlocks = entries.map(entrySrc);
-entryBlocks[entryBlocks.length - 1] = entryBlocks[entryBlocks.length - 1].replace(/,$/, '');
+const toBlocks = (list) => {
+  const blocks = list.map(entrySrc);
+  if (blocks.length) blocks[blocks.length - 1] = blocks[blocks.length - 1].replace(/,$/, '');
+  return blocks;
+};
 
 const lifeBlock = [
   '  life: {',
@@ -121,33 +150,76 @@ const lifeBlock = [
   `    lead: ${q(meta['导语'])},`,
   `    quote: ${q(meta['便签'])},`,
   '    entries: [',
-  ...entryBlocks,
+  ...toBlocks(homeEntries),
   '    ],',
   `    note: ${q(meta['备注'])}`,
   '  },'
 ].join('\n');
 
+const archiveBlock = [
+  '  archive: {',
+  `    kicker: ${q(ARCHIVE_META.kicker)},`,
+  `    title: ${q(ARCHIVE_META.title)},`,
+  `    empty: ${q(ARCHIVE_META.empty)},`,
+  '    entries: [',
+  ...toBlocks(archived),
+  '    ]',
+  '  },'
+].join('\n');
+
 const data = fs.readFileSync(DATA, 'utf8');
 const LIFE_RE = /^  life: \{[\s\S]*?^  \},$/m;
+const ARCHIVE_RE = /^  archive: \{[\s\S]*?^  \},$/m;
 if (!LIFE_RE.test(data)) throw new Error('assets/js/data.js 找不到 life 段的结构锚点');
-const nextData = data.replace(LIFE_RE, lifeBlock);
+let nextData = data.replace(LIFE_RE, lifeBlock);
+if (ARCHIVE_RE.test(nextData)) {
+  nextData = nextData.replace(ARCHIVE_RE, archiveBlock);
+} else {
+  // 首次运行：把 archive 段插在 life 段之后
+  nextData = nextData.replace(/(^  life: \{[\s\S]*?^  \},$)/m, (m) => m + '\n' + archiveBlock);
+}
 
-/* ------------------------------------------------------ 3. 生成 SEO 快照片段 */
-const real = entries.filter((e) => !e.placeholder);
-const pending = entries.filter((e) => e.placeholder);
+/* ---------------------------------------------------- 4. 生成两份 SEO 快照 */
 const snapLines = [
   `<p>${esc(meta['金句'])}。${esc(meta['导语'])}</p>`,
   '<h2>这几年</h2>'
 ];
-for (const e of real) {
+for (const e of homeReal) {
   snapLines.push(`<p>${esc(e.year)} · ${esc(e.title)}：${esc(e.desc)}</p>`);
 }
-if (pending.length) {
+if (slots.length) {
+  const years = pending.length ? pending.map((e) => esc(e.year)).join('、') : '部分年份';
   snapLines.push(
-    `<p>${pending.map((e) => esc(e.year)).join('、')} 的条目目前是占位，等待补上真实事件与照片，不用示意内容冒充生活。</p>`
+    `<p>${years} 的条目目前是占位，等待补上真实事件与照片，不用示意内容冒充生活。</p>`
   );
 }
+if (archived.length) {
+  snapLines.push(`<p>更早的 ${archived.length} 条日常分享收录在归档页「更早的日常」（archive.html）。</p>`);
+}
 const snapBlock = snapLines.join('\n') + '\n';
+
+const arcSnapLines = [
+  `<h1>${esc(ARCHIVE_META.title)} | 李文涛</h1>`,
+  `<p>${esc(ARCHIVE_META.intro)}</p>`,
+  `<h2>${esc(ARCHIVE_META.title)}</h2>`
+];
+if (archived.length) {
+  for (const e of archived) {
+    arcSnapLines.push(`<p>${esc(e.year)} · ${esc(e.title)}：${esc(e.desc)}</p>`);
+  }
+} else {
+  arcSnapLines.push(`<p>${esc(ARCHIVE_META.empty)}</p>`);
+}
+const arcSnapBlock = arcSnapLines.join('\n') + '\n';
+
+/* --------------------------------------------------------- 5. 版本号与落盘 */
+// 只让「md 内容 + data.js 里非 life/archive 的配置」影响版本号。
+// 过滤空行是为了首次插入 archive 段前后结构等价，避免 --check 因版本号漂移而误报。
+const stableTail = data.replace(LIFE_RE, '').replace(ARCHIVE_RE, '')
+  .split('\n').filter((l) => l.trim() !== '').join('\n');
+const version = 'life-' + crypto.createHash('sha1')
+  .update(md + '\n' + stableTail)
+  .digest('hex').slice(0, 8);
 
 const idx = fs.readFileSync(INDEX, 'utf8');
 const parts = idx.split('<!-- seo-snapshot:start -->');
@@ -155,20 +227,26 @@ if (parts.length !== 2) throw new Error('index.html 找不到 seo-snapshot:start
 const SNAP_RE = /(<h1>你好，我是李文涛<\/h1>\n)([\s\S]*?)(<!-- life-snapshot:end -->)/;
 if (!SNAP_RE.test(parts[1])) throw new Error('SEO 快照找不到 life-snapshot:end 锚点');
 const tail = parts[1].replace(SNAP_RE, (m, a, b, c) => a + snapBlock + c);
-const version = 'life-' + crypto.createHash('sha1')
-  .update(md + '\n' + data.replace(LIFE_RE, ''))
-  .digest('hex').slice(0, 8);
 let nextIdx = parts[0] + '<!-- seo-snapshot:start -->' + tail;
-// 脚本引用在 seo-snapshot 之前，版本号要对整份 index.html 替换
 if (!/data\.js\?v=[^"']+/.test(nextIdx)) throw new Error('index.html 找不到 data.js 缓存版本号');
 nextIdx = nextIdx.replace(/data\.js\?v=[^"']+/, `data.js?v=${version}`);
 
-/* -------------------------------------------------------- 4. 校验 / 落盘 */
-const summary = `${entries.length} 条（${real.length} 条真实 / ${pending.length} 条占位），版本 ${version}`;
+const arc = fs.readFileSync(ARCHIVE, 'utf8');
+const arcParts = arc.split('<!-- seo-snapshot:start -->');
+if (arcParts.length !== 2) throw new Error('archive.html 找不到 seo-snapshot:start 锚点');
+const ARC_SNAP_RE = /([\s\S]*?)(<!-- seo-snapshot:end -->)/;
+if (!ARC_SNAP_RE.test(arcParts[1])) throw new Error('archive.html 找不到 seo-snapshot:end 锚点');
+const arcTail = arcParts[1].replace(ARC_SNAP_RE, (m, a, c) => '\n' + arcSnapBlock + c);
+let nextArc = arcParts[0] + '<!-- seo-snapshot:start -->' + arcTail;
+if (!/data\.js\?v=[^"']+/.test(nextArc)) throw new Error('archive.html 找不到 data.js 缓存版本号');
+nextArc = nextArc.replace(/data\.js\?v=[^"']+/, `data.js?v=${version}`);
+
+const summary = `首页 ${homeEntries.length} 条（${homeReal.length} 真实 / ${slots.length} 占位），归档 ${archived.length} 条，版本 ${version}`;
 if (CHECK) {
   const bad = [];
-  if (fs.readFileSync(DATA, 'utf8') !== nextData) bad.push('assets/js/data.js 的 life 段');
+  if (fs.readFileSync(DATA, 'utf8') !== nextData) bad.push('assets/js/data.js 的 life / archive 段');
   if (fs.readFileSync(INDEX, 'utf8') !== nextIdx) bad.push('index.html 的 SEO 快照 / data.js 版本号');
+  if (fs.readFileSync(ARCHIVE, 'utf8') !== nextArc) bad.push('archive.html 的 SEO 快照 / data.js 版本号');
   if (bad.length) {
     console.error(`[life] 与 content/life.md 不一致：${bad.join('、')}；请运行 npm run life`);
     process.exit(1);
@@ -181,9 +259,11 @@ if (OUT) {
   fs.mkdirSync(OUT, { recursive: true });
   fs.writeFileSync(path.join(OUT, 'data.js'), nextData);
   fs.writeFileSync(path.join(OUT, 'index.html'), nextIdx);
+  fs.writeFileSync(path.join(OUT, 'archive.html'), nextArc);
   console.log(`[life] 已生成到 ${OUT} · ${summary}`);
 } else {
   fs.writeFileSync(DATA, nextData);
   fs.writeFileSync(INDEX, nextIdx);
-  console.log(`[life] 已同步 data.js / index.html · ${summary}`);
+  fs.writeFileSync(ARCHIVE, nextArc);
+  console.log(`[life] 已同步 data.js / index.html / archive.html · ${summary}`);
 }

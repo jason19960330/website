@@ -231,6 +231,34 @@ check('生活年表：life.md 与生成产物一致', () => {
   return 'data.js / SEO 快照 / 缓存版本号均由 content/life.md 生成';
 });
 
+check('归档页：滚动切分 / 加载更多 / sitemap / 快照', () => {
+  const arcPath = path.join(root, 'archive.html');
+  assert(fs.existsSync(arcPath), '缺少 archive.html');
+  assert(fs.existsSync(path.join(root, 'assets/js/archive.js')), '缺少 assets/js/archive.js');
+  const arc = fs.readFileSync(arcPath, 'utf8');
+  assert(arc.includes('id="archive-app"') && arc.includes('archive.js'), '归档页挂载点 / 脚本缺失');
+  assert(arc.includes('archive.entries') && arc.includes('archive.empty'), '归档页模板未渲染条目 / 空态');
+  assert(arc.includes('<!-- seo-snapshot:start -->'), '归档页缺少 SEO 快照锚点');
+  const idx = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+  assert(idx.includes('class="life-more"') && idx.includes('href="archive.html"'), '首页缺少「加载更多」入口');
+  assert(idx.includes('>归档</a>'), '顶部导航缺少归档入口');
+  const cfg = fs.readFileSync(path.join(root, 'assets/js/data.js'), 'utf8');
+  assert(cfg.includes('\n  archive: {'), 'data.js 缺少 archive 段');
+  const seg = (key) => cfg.split('\n  ' + key + ': {')[1].split('\n  },')[0];
+  const count = (s) => (s.match(/\{ year:/g) || []).length;
+  const homeCount = count(seg('life'));
+  const arcCount = count(seg('archive'));
+  assert(homeCount === 6, `首页应固定 6 条，实际 ${homeCount} 条`);
+  const md = fs.readFileSync(path.join(root, 'content/life.md'), 'utf8');
+  const realCount = (md.match(/^### /gm) || []).length - (md.match(/^- 占位：是/gm) || []).length;
+  assert(arcCount === Math.max(0, realCount - 3), '归档条数与「真实记录 - 3」不符');
+  const sitemap = fs.readFileSync(SITEMAP, 'utf8');
+  assert(sitemap.includes('/archive.html'), 'sitemap 未登记 archive.html');
+  const pre = fs.readFileSync(path.join(root, 'tools/prerender.mjs'), 'utf8');
+  assert(pre.includes("file: 'archive.html'"), 'prerender.mjs 未登记归档页');
+  return `首页 6 条 / 归档 ${arcCount} 条，入口与快照齐全`;
+});
+
 check('sitemap.xml 结构完整且 URL 不重复', () => {
   const xml = fs.readFileSync(SITEMAP, 'utf8');
   const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
