@@ -98,6 +98,8 @@ for (const raw of md.split(/\r?\n/)) {
     } else if (section === '年表' && cur) {
       if (key === '标签') cur.tag = val;
       if (key === '占位' && (val === '是' || val.toLowerCase() === 'true')) cur.placeholder = true;
+      if (key === '照片' && val === '待补') cur.photoPending = true;
+      if (key === '封面') cur.cover = val;
     }
     continue;
   }
@@ -131,6 +133,8 @@ const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replac
 const entrySrc = (e) => {
   const extra = [];
   if (e.tag) extra.push(`tag: ${q(e.tag)}`);
+  if (e.cover) extra.push(`cover: ${q(e.cover)}`);
+  if (e.photoPending) extra.push('photoPending: true');
   if (e.placeholder) extra.push('placeholder: true');
   return [
     `      { year: ${q(e.year)}, title: ${q(e.title)},`,

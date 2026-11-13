@@ -2003,3 +2003,9 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
   font-size: .8rem; color: rgb(var(--c-faint)); transition: color .2s ease;
 }
 .life-back:hover { color: rgb(var(--c-accent)); }
+
+/* 生活卡片封面：已上传显示图片，待补时显示虚线占位（与 .life-placeholder 同语言） */
+.life-cover { margin-top: .75rem; border-radius: .7rem; overflow: hidden; background: rgb(var(--c-raise) / .35); }
+.life-cover img { display: block; width: 100%; height: auto; max-height: 15rem; object-fit: cover; }
+.life-cover.is-empty { border: 1px dashed rgb(var(--c-hair)); }
+.life-cover-empty { margin: 0; padding: 2.4rem 1rem; text-align: center; font-size: .8rem; line-height: 1.75; letter-spacing: .02em; color: rgb(var(--c-faint)); }
