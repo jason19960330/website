@@ -26,6 +26,33 @@
   var onMounted = VueNS.onMounted;
   var onUnmounted = VueNS.onUnmounted;
 
+  /* 首页「03 可回看的轨迹」下方四格：每次加载从 skill-cards.js 的技能池
+     随机抽 4 个；用 sessionStorage 记住上一次组合，尽量避免刷新后完全一样。 */
+  var ALL_SKILLS = Array.isArray(window.SKILL_CARDS) ? window.SKILL_CARDS.slice() : [];
+  function shuffleSkills(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+  function pickRandomSkills() {
+    if (!ALL_SKILLS.length) return [];
+    var key = 'site.skillSpin';
+    var last = null;
+    try { last = window.sessionStorage.getItem(key); } catch (e) { /* 隐私模式忽略 */ }
+    var picked = [], sig = '';
+    for (var n = 0; n < 4; n++) {
+      picked = shuffleSkills(ALL_SKILLS).slice(0, 4);
+      sig = picked.map(function (s) { return s.id; }).join(',');
+      if (sig !== last) break;
+    }
+    try { window.sessionStorage.setItem(key, sig); } catch (e) { /* 隐私模式忽略 */ }
+    return picked;
+  }
+  var RANDOM_SKILLS = pickRandomSkills();
+
   var THEME_KEY = 'site.theme';
 
   /* ================= 留言板：giscus（GitHub Discussions） =================
@@ -716,6 +743,7 @@
         meta: meta, nav: CONFIG.nav, social: CONFIG.social,
         life: CONFIG.life, growth: CONFIG.growth, photos: CONFIG.photos,
         stats: CONFIG.stats, skillGroups: CONFIG.skillGroups, toolStack: CONFIG.toolStack,
+        randomSkills: RANDOM_SKILLS,
         timeline: CONFIG.timeline, projects: CONFIG.projects,
         education: CONFIG.education, honors: CONFIG.honors, strengths: CONFIG.strengths,
         scrolled: scrolled, showTop: showTop, activeSection: activeSection, menuOpen: menuOpen,

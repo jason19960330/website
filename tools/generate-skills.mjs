@@ -22,6 +22,7 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
+import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 
 const args = process.argv.slice(2);
@@ -30,6 +31,8 @@ const cfgIdx = args.indexOf('--config');
 const CONFIG = cfgIdx >= 0 ? path.resolve(args[cfgIdx + 1]) : path.join(root, 'content/skills.json');
 const SKILL = path.join(root, 'skill.html');
 const SITEMAP = path.join(root, 'sitemap.xml');
+const CARDS_JS = path.join(root, 'assets/js/skill-cards.js');
+const INDEX = path.join(root, 'index.html');
 
 /* skill.html 里两处卡片区的结构锚点（勿随意改动） */
 const SNAP_START = '<!-- seo-snapshot:start -->';
@@ -214,6 +217,35 @@ function buildSitemap(xml, cfg) {
   return out;
 }
 
+/* ------------------------------------------------------------------
+ * 首页随机技能池：从同一份 skills.json 抽 id / 短名 / 指南页，供首页四格
+ * 每次刷新随机展示 4 个。短名去掉「使用指南」后缀，卡片里更简洁。
+ * index.html 里 skill-cards.js 的缓存版本号也由这里幂等维护。
+ * ---------------------------------------------------------------- */
+function shortTitle(title) {
+  return String(title).replace(/\s*使用指南\s*$/, '').trim();
+}
+function buildCardsJs(cfg) {
+  const list = cfg.cards.map((c) => ({
+    id: c.id,
+    name: shortTitle(c.title) || c.title,
+    title: c.title,
+    doc: c.doc,
+    kicker: c.kicker
+  }));
+  const version = 'skills-' + crypto.createHash('sha1')
+    .update(JSON.stringify(list)).digest('hex').slice(0, 8);
+  const content = '/* 由 tools/generate-skills.mjs 从 content/skills.json 生成，请勿手改。\n'
+    + '   首页「03 可回看的轨迹」下方四格每次刷新从这里随机抽 4 个。 */\n'
+    + 'window.SKILL_CARDS = ' + JSON.stringify(list, null, 2) + ';\n';
+  return { content, version };
+}
+function buildIndex(html, version) {
+  const re = /skill-cards\.js\?v=[^"']+/;
+  if (!re.test(html)) throw new Error('index.html 找不到 skill-cards.js 的缓存版本号');
+  return html.replace(re, 'skill-cards.js?v=' + version);
+}
+
 /* ------------------------------------------------------------------- 主流程 */
 function firstDiff(a, b) {
   const A = a.split('\n');
@@ -227,16 +259,19 @@ function firstDiff(a, b) {
 
 function main() {
   const cfg = loadConfig();
+  const cards = buildCardsJs(cfg);
   const results = [
     { file: SKILL, content: buildSkillHtml(fs.readFileSync(SKILL, 'utf8'), cfg) },
-    { file: SITEMAP, content: buildSitemap(fs.readFileSync(SITEMAP, 'utf8'), cfg) }
+    { file: SITEMAP, content: buildSitemap(fs.readFileSync(SITEMAP, 'utf8'), cfg) },
+    { file: CARDS_JS, content: cards.content },
+    { file: INDEX, content: buildIndex(fs.readFileSync(INDEX, 'utf8'), cards.version) }
   ];
 
   console.log(`[generate] content/skills.json  ${cfg.cards.length} 张卡`);
   let dirty = false;
 
   for (const r of results) {
-    const old = fs.readFileSync(r.file, 'utf8');
+    const old = fs.existsSync(r.file) ? fs.readFileSync(r.file, 'utf8') : '';
     const same = old === r.content;
     console.log(`[generate] ${path.basename(r.file).padEnd(14)} ${same ? '一致' : (CHECK ? '需要重新生成' : '已更新')}`);
     if (!same) {

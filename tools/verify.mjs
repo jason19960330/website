@@ -313,6 +313,33 @@ check('日常分享文章页：标题可点 / 静态全文 / sitemap / SEO 快�
   return `${slugs.length} 篇文章，标题 / 全文快照 / sitemap 全链路打通`;
 });
 
+check('首页随机技能四格：技能池 / 模板 / 随机逻辑齐全且不影响简历', () => {
+  const cfgJson = JSON.parse(fs.readFileSync(CONFIG, 'utf8'));
+  const js = fs.readFileSync(path.join(root, 'assets/js/skill-cards.js'), 'utf8');
+  const idx = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+  const app = fs.readFileSync(path.join(root, 'assets/js/app.js'), 'utf8');
+  const m = js.match(/window\.SKILL_CARDS\s*=\s*(\[[\s\S]*?\]);/);
+  assert(m, 'skill-cards.js 未暴露 window.SKILL_CARDS 数组');
+  const list = JSON.parse(m[1]);
+  assert(list.length === cfgJson.cards.length,
+    `技能池 ${list.length} 项，与 skills.json 的 ${cfgJson.cards.length} 张卡不一致`);
+  for (const c of cfgJson.cards) {
+    const hit = list.find((x) => x.id === c.id);
+    assert(hit, `技能池缺少 ${c.id}`);
+    assert(hit.doc === c.doc, `${c.id} 的指南页链接不一致`);
+    assert(hit.name && !/使用指南/.test(hit.name), `${c.id} 的短名没有去掉「使用指南」后缀`);
+    assert(fs.existsSync(path.join(root, hit.doc)), `${c.id} 指向的指南页不存在：${hit.doc}`);
+  }
+  assert(/skill-cards\.js\?v=skills-[0-9a-f]{8}/.test(idx), 'index.html 未引入 skill-cards.js 或未刷版本号');
+  assert(/v-for="s in randomSkills"/.test(idx), '首页四格未绑定 randomSkills');
+  assert(!/v-for="st in stats"/.test(idx), '首页仍残留旧的固定数字四格');
+  assert(/randomSkills:\s*RANDOM_SKILLS/.test(app), 'app.js 未把随机结果暴露给模板');
+  assert(/Math\.random/.test(app) && /sessionStorage/.test(app), 'app.js 缺少随机抽取 / 避开上次组合逻辑');
+  const resume = fs.readFileSync(path.join(root, 'resume.html'), 'utf8');
+  assert(/v-for="stat in stats"/.test(resume), '简历页核心数据条应保持不变');
+  return `${list.length} 个技能进池，首页每次刷新抽 4 个；简历页数据条不受影响`;
+});
+
 check('sitemap.xml 结构完整且 URL 不重复', () => {
   const xml = fs.readFileSync(SITEMAP, 'utf8');
   const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);

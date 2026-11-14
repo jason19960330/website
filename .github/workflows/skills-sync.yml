@@ -1,0 +1,47 @@
+name: 同步 Skill 卡片
+
+# content/skills.json 或生成器被推到 main 时，自动重生成两处卡片区、
+# sitemap 的 doc 条目，以及首页四格用的随机技能池，让「改配置 → 网站更新」闭环。
+on:
+  push:
+    branches: [main]
+    paths:
+      - content/skills.json
+      - tools/generate-skills.mjs
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出仓库
+        uses: actions/checkout@v4
+
+      - name: 准备 Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 由 skills.json 生成卡片区与首页随机技能池
+        run: node tools/generate-skills.mjs
+
+      - name: 校验产物
+        run: |
+          npm run skills:check
+          node --check assets/js/skill-cards.js
+
+      - name: 有变化才提交
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if [ -n "$(git status --porcelain)" ]; then
+            git add -A
+            git commit -m "chore: 由 content/skills.json 同步技能卡与首页随机池 [skip ci]"
+            git push
+            echo "已同步并提交生成产物"
+          else
+            echo "产物无变化，跳过提交"
+          fi

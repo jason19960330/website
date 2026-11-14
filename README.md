@@ -35,7 +35,7 @@ website/
 │       └── hotnews-page.js    # 热点页逻辑层：主题、跨源检索、相对时间
 │   └── skill-page.js          # Skill 指南页逻辑层：主题、指令复制
 ├── tools/
-│   ├── generate-skills.mjs    # ★ 由 skills.json 生成两处卡片区 + sitemap 的 doc 条目
+│   ├── generate-skills.mjs    # ★ 由 skills.json 生成两处卡片区 + sitemap + 首页随机技能池
 │   ├── verify.mjs             # ★ 全站结构 / 内容一致性校验（npm run verify）
 │   ├── sync_weekly.py         # 周刊同步脚本，生成 weekly-*.js
 │   ├── sync_hotnews.py        # 热点同步脚本，生成 hotnews.js
@@ -80,7 +80,7 @@ website/
 
 | 页面 | 讲什么 | 数据来源 |
 |---|---|---|
-| `index.html` | 生活首页：人格锚点、这几年年表、照片墙、站点更新热力图、日历、联系、留言 | `data.js` 的 `life` / `photos` / `growth` / `stats` |
+| `index.html` | 生活首页：人格锚点、这几年年表、照片墙、站点更新热力图、日历、联系、留言 | `data.js` 的 `life` / `photos` / `growth` + `skill-cards.js` 的随机技能池 |
 | `work.html` | 工作经历：两段经历、三个五段式项目案例、技能矩阵、教育证书 | `data.js` 的 `timeline` / `projects` / `skillGroups` / `education`，逻辑层 `assets/js/work.js` |
 | `resume.html` / `resume-template.html` / `assets/resume.pdf` | 求职专用：一页式简历、A4 打印模板、PDF | `data.js`，与上面同源 |
 
@@ -173,7 +173,7 @@ npm run verify      # 校验，覆盖 life:check、归档切分与文章页全�
 历史上有多次「快照标签损坏 / 卡片错位」都出在前两处的手工同步上。现在**加卡、改文案、改统计，只改 `content/skills.json` 一条记录**：
 
 ```bash
-npm run skills        # 生成 skill.html 实时卡片区 + SEO 快照 + sitemap.xml 的 doc 条目
+npm run skills        # 生成 skill.html 实时卡片区 + SEO 快照 + sitemap.xml + 首页随机技能池
 npm run verify        # 全站校验（6 项，任一失败退出码 1）
 npm run skills:check  # 只比对不写入，适合 CI 或提交前确认没漏跑
 ```
@@ -192,6 +192,17 @@ npm run skills:check  # 只比对不写入，适合 CI 或提交前确认没漏�
 | `doc` | 指南页文件名，必须 `*-doc.html`，对应 `assets/js/*-doc.js` |
 | `featured` | 只能有 1 张；主卡用 `<h1>`、整卡可点击跳转 |
 | `ariaLabel` / `comment` | 主卡无障碍标签 / 后续卡源码注释文字，可省略 |
+
+### 首页四格：每次刷新随机换一批技能
+
+首页「03 可回看的轨迹」热力图下方的四格，不再写死数字，而是每次加载从
+`assets/js/skill-cards.js`（由同一个 `skills.json` 生成）里**随机抽 4 个技能名**展示，
+点卡片可进对应指南页；刷新页面重新抽，并用 `sessionStorage` 尽量避免和上一次完全相同。
+`assets/js/app.js` 负责抽取，`.skill-spin-*` 样式在 `style.css` 末尾。
+
+加卡 / 改标题后跑一次 `npm run skills` 即可，随机池会自动跟着变，**不用改首页 HTML 或 JS**。
+`content/skills.json` 或生成器被推到 `main` 时，`.github/workflows/skills-sync.yml` 也会自动同步。
+简历页顶部那四个数字仍读 `data.js` 的 `stats`，不受首页随机影响（简历和 PDF 需要稳定）。
 
 **为什么不用自定义标记**：生成器靠现有 HTML 的结构锚点切分两处卡片区，所以 `npm run build` 里的
 `prerender.mjs` 重新渲染 noscript 快照后锚点依然成立，随时可以再跑一次 `npm run skills` 把快照规范化

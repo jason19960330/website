@@ -2168,3 +2168,20 @@ html.dark .post-icon-moon { display: block; }
   .post-nav-cell.is-right { text-align: left; }
   .post-p { line-height: 1.95; }
 }
+
+
+/* ==========================================================================
+   首页「03 可回看的轨迹」下方：每次刷新随机展示 4 个 Skill 名
+   只放技能名，整卡可点进对应指南页；颜色继承主题变量。
+   ========================================================================== */
+.skill-spin-card {
+  display: flex; align-items: center; min-height: 5.6rem;
+  text-decoration: none;
+  transition: border-color .2s ease, transform .2s ease, background-color .2s ease;
+}
+.skill-spin-card:hover { transform: translateY(-2px); border-color: rgb(var(--c-accent) / .55); }
+.skill-spin-name {
+  margin: 0; font-size: 1.1rem; font-weight: 650; line-height: 1.55;
+  letter-spacing: .01em; color: rgb(var(--c-accent)); overflow-wrap: anywhere;
+}
+.skill-spin-card:hover .skill-spin-name { text-decoration: underline; text-underline-offset: 3px; }
