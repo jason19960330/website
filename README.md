@@ -204,6 +204,21 @@ npm run skills:check  # 只比对不写入，适合 CI 或提交前确认没漏�
 `content/skills.json` 或生成器被推到 `main` 时，`.github/workflows/skills-sync.yml` 也会自动同步。
 简历页顶部那四个数字仍读 `data.js` 的 `stats`，不受首页随机影响（简历和 PDF 需要稳定）。
 
+### 新增一张 Skill 的完整清单（首页随机池是硬要求）
+
+**首页这四格必须自动包含以后新增的每一张 Skill**，这是明确约定，不要手工去改 `index.html`
+或 `assets/js/app.js`、也不要在别处另建一份技能清单：
+
+1. 在 `content/skills.json` 的 `cards` 里加一张（字段见上表；`featured` 全站仍只能有 1 张）。
+2. 写好对应的 `*-doc.html` 指南页与 `*-doc.js`（`npm run verify` 会检查文件存在、8 节结构与目录锚点）。
+3. 跑 `npm run skills`：一次重算 skill.html 实时卡片区 + SEO 快照、sitemap.xml、
+   `assets/js/skill-cards.js` 随机池，并自动刷新首页 `skill-cards.js?v=skills-<hash>` 缓存版本。
+4. 跑 `npm run verify`：第 12 项断言会逐卡比对 `skills.json` 与随机池的 id / 短名 / 指南页，
+   **少一张就报错**，防止新卡没进池或指南页漏建导致死链。
+
+推到 `main` 后 `skills-sync.yml` 会自动再跑一遍生成 + `skills:check` + `npm run verify`，
+所以即使本地忘了第 3 步，线上产物也会被自动补齐；校验不通过则不会提交。
+
 **为什么不用自定义标记**：生成器靠现有 HTML 的结构锚点切分两处卡片区，所以 `npm run build` 里的
 `prerender.mjs` 重新渲染 noscript 快照后锚点依然成立，随时可以再跑一次 `npm run skills` 把快照规范化
 （清掉手工补卡时混进来的 svg 装饰、补齐描述文字空格）。
