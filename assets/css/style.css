@@ -2008,7 +2008,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 .life-cover { margin-top: .75rem; border-radius: .7rem; overflow: hidden; background: rgb(var(--c-raise) / .35); }
 .life-cover:not(.is-empty) { padding: .55rem; text-align: center; }
 /* 竖构图老照片保持原始比例居中，不横向拉伸、不裁切 */
-.life-cover img { display: block; width: auto; max-width: 100%; height: auto; max-height: 13rem; margin-inline: auto; border-radius: .4rem; object-fit: contain; }
+.life-cover img { display: block; width: auto; max-width: 100%; height: auto; max-height: 11rem; margin-inline: auto; border-radius: .4rem; object-fit: contain; }
 .life-cover.is-empty { border: 1px dashed rgb(var(--c-hair)); }
 .life-cover-empty { margin: 0; padding: 2.4rem 1rem; text-align: center; font-size: .8rem; line-height: 1.75; letter-spacing: .02em; color: rgb(var(--c-faint)); }
 
