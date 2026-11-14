@@ -10,9 +10,10 @@
  *  本脚本从配置生成两处卡片区 + sitemap 的 doc 条目，幂等（重复运行不叠加）。
  *
  *  ！硬约束（用户 2026-11-14 明确要求）：首页「03 可回看的轨迹」下方四格，每次刷新
- *  从 assets/js/skill-cards.js 随机抽 4 个技能名展示。以后每新增一张 Skill，这张卡
- *  必须自动进入首页随机池 —— buildCardsJs() 全量读取 cfg.cards 并自动刷新 index.html
- *  的 skill-cards.js?v=skills-<hash> 缓存版本，已保证这一点。
+ *  从 assets/js/skill-cards.js 随机抽 4 个，显示「技能名 + 一行 blurb 简短说明」。
+ *  以后每新增一张 Skill，这张卡必须自动进入首页随机池 —— buildCardsJs() 全量读取
+ *  cfg.cards 并自动刷新 index.html 的 skill-cards.js?v=skills-<hash> 缓存版本。
+ *  blurb 是 skills.json 每张卡的必填字段（≤40 字），新增卡必须一起写。
  *  所以不要手工往首页四格 / app.js 写技能名，也不要另建第二份技能清单。
  *
  *  定位方式刻意不用自定义标记：两处卡片区都用现有 HTML 的结构锚点切分，
@@ -71,6 +72,9 @@ function loadConfig() {
     }
     if (!c.desc || !(Array.isArray(c.desc) || typeof c.desc === 'string') || c.desc.length === 0) {
       throw new Error(`${label}.desc 缺失（字符串或字符串数组）`);
+    }
+    if (!c.blurb || typeof c.blurb !== 'string' || c.blurb.length > 40) {
+      throw new Error(`${label}.blurb 缺失或超过 40 字（首页四格的一行简短说明）`);
     }
     if (!Array.isArray(c.stats) || c.stats.length !== 4) throw new Error(`${label}.stats 必须 4 项`);
     c.stats.forEach((s) => {
@@ -235,6 +239,7 @@ function buildCardsJs(cfg) {
   const list = cfg.cards.map((c) => ({
     id: c.id,
     name: shortTitle(c.title) || c.title,
+    blurb: c.blurb,
     title: c.title,
     doc: c.doc,
     kicker: c.kicker

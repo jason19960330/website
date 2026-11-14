@@ -323,15 +323,20 @@ check('首页随机技能四格：技能池 / 模板 / 随机逻辑齐全且不�
   const list = JSON.parse(m[1]);
   assert(list.length === cfgJson.cards.length,
     `技能池 ${list.length} 项，与 skills.json 的 ${cfgJson.cards.length} 张卡不一致`);
+  assert(cfgJson.cards.every((c) => typeof c.blurb === 'string' && c.blurb.length > 0 && c.blurb.length <= 40),
+    'skills.json 每张卡都要有一行 ≤40 字的 blurb 简短说明');
   for (const c of cfgJson.cards) {
     const hit = list.find((x) => x.id === c.id);
     assert(hit, `技能池缺少 ${c.id}`);
+    assert(hit.blurb === c.blurb, `${c.id} 的 blurb 没同步进首页随机池`);
     assert(hit.doc === c.doc, `${c.id} 的指南页链接不一致`);
     assert(hit.name && !/使用指南/.test(hit.name), `${c.id} 的短名没有去掉「使用指南」后缀`);
     assert(fs.existsSync(path.join(root, hit.doc)), `${c.id} 指向的指南页不存在：${hit.doc}`);
   }
   assert(/skill-cards\.js\?v=skills-[0-9a-f]{8}/.test(idx), 'index.html 未引入 skill-cards.js 或未刷版本号');
   assert(/v-for="s in randomSkills"/.test(idx), '首页四格未绑定 randomSkills');
+  assert(/class="skill-spin-blurb"[^>]*>\s*\{\{\s*s\.blurb\s*\}\}/.test(idx),
+    '首页四格未渲染 blurb 简短说明');
   assert(!/v-for="st in stats"/.test(idx), '首页仍残留旧的固定数字四格');
   assert(/randomSkills:\s*RANDOM_SKILLS/.test(app), 'app.js 未把随机结果暴露给模板');
   assert(/Math\.random/.test(app) && /sessionStorage/.test(app), 'app.js 缺少随机抽取 / 避开上次组合逻辑');

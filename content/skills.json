@@ -6,6 +6,7 @@
     {
       "id": "lieflat-charts",
       "kicker": "Agent Skill",
+      "blurb": "Agent 自动挑图型，把数据变成网页",
       "title": "Lieflat Charts 使用指南",
       "desc": [
         "一套给 AI Agent 用的数据可视化 Skill：把数据和场景交给它，它先判断数据结构，",
@@ -39,6 +40,7 @@
     {
       "id": "aihot",
       "kicker": "开源框架 · 使用指南",
+      "blurb": "自动找热点、每天生成中文日报的开源引擎",
       "title": "AIHOT 开源框架 使用指南",
       "desc": [
         "一套「自己找热点、自己写日报」的网站开源引擎：每天从一批信源里收资料，用大模型先筛一遍、再独立打两次分，",
@@ -70,6 +72,7 @@
     {
       "id": "ai-website-cloner",
       "kicker": "开源模板 · 使用指南",
+      "blurb": "一句话把网站复刻成可编辑的前端代码",
       "title": "AI Website Cloner 使用指南",
       "desc": [
         "一套「一句话把任意网站克隆成现代代码」的 AI 智能体模板：预置好 Next.js 16 + shadcn/ui + Tailwind v4 的工程骨架，",
@@ -101,6 +104,7 @@
     {
       "id": "dsh-context",
       "kicker": "开源插件 · 使用指南",
+      "blurb": "把 Agent 的上下文可视化，看清它怎么占满",
       "title": "dsh-context 使用指南",
       "desc": [
         "一款给 AI Agent 装的「上下文透视镜」——DeepSeek Harness 插件，把 Agent 此刻携带的上下文（系统提示词、工具定义、历史消息、模型思考、工具结果）可视化，看清它怎么构成、怎么随对话膨胀与压缩、多 Agent 协作时各自占了多大窗口。指南整理自其公开仓库。"
@@ -130,6 +134,7 @@
     {
       "id": "shadcn-admin",
       "kicker": "开源仪表盘 · 使用指南",
+      "blurb": "现成的后台面板 UI 合集，仪表盘表单都齐",
       "title": "shadcn-admin 使用指南",
       "desc": [
         "一套「用 Shadcn 与 Vite 现搭的后台面板 UI 合集」：可复用的仪表盘、表单、表格、图表与设置页，",
@@ -160,6 +165,7 @@
     {
       "id": "cicada",
       "kicker": "实时字幕 · 使用指南",
+      "blurb": "实时字幕与同声传译，不往会议里塞机器人",
       "title": "知了 Cicada 使用指南",
       "desc": [
         "一款跨平台的实时会议/直播字幕、同声传译与 AI 会议纪要应用：直接读系统声音，",
@@ -190,6 +196,7 @@
     {
       "id": "answer-me-with-html",
       "kicker": "Agent Skill · 使用指南",
+      "blurb": "让 Agent 用极短稿件生成一页看得懂的网页",
       "title": "Answer me with HTML 使用指南",
       "desc": [
         "一款给 AI 智能体装的 Agent Skill：遇到复杂问题，Agent 不再甩给你一堵文字墙，",
@@ -221,6 +228,7 @@
     {
       "id": "agent-autoloop",
       "kicker": "自动化中台 · 使用指南",
+      "blurb": "让 Agent 在后台自己接活，拿不准才找你",
       "title": "Agent Autoloop 使用指南",
       "desc": [
         "把 Claude Code、Codex 这类「人守着终端用」的 Agent 变成后台自动接活的中台：",
@@ -252,6 +260,7 @@
     {
       "id": "agent-desktop",
       "kicker": "桌面自动化 · 使用指南",
+      "blurb": "不截图，读系统无障碍树来操作桌面",
       "title": "Agent Desktop 使用指南",
       "desc": [
         "Vercel Labs 出品的「给 AI Agent 用的桌面操作 CLI」：不截图、不做像素匹配，",
@@ -283,6 +292,7 @@
     {
       "id": "dsh-media-desk",
       "kicker": "内容创作 · 使用指南",
+      "blurb": "一句话记灵感，一键出脚本、封面与分镜",
       "title": "自媒体工作台 使用指南",
       "desc": [
         "DeepSeek Harness 侧栏里的自媒体创作插件：一句话记灵感，一键生成口播脚本、标题、视频封面、",

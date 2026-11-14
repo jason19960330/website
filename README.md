@@ -190,14 +190,16 @@ npm run skills:check  # 只比对不写入，适合 CI 或提交前确认没漏�
 | `repo` | 上游 GitHub 仓库地址 |
 | `stats` | 恰好 4 项 `{ label, value }` |
 | `doc` | 指南页文件名，必须 `*-doc.html`，对应 `assets/js/*-doc.js` |
+| `blurb` | **必填**；≤40 字的一句话说明，显示在首页随机四格技能名下方 | 
 | `featured` | 只能有 1 张；主卡用 `<h1>`、整卡可点击跳转 |
 | `ariaLabel` / `comment` | 主卡无障碍标签 / 后续卡源码注释文字，可省略 |
 
 ### 首页四格：每次刷新随机换一批技能
 
 首页「03 可回看的轨迹」热力图下方的四格，不再写死数字，而是每次加载从
-`assets/js/skill-cards.js`（由同一个 `skills.json` 生成）里**随机抽 4 个技能名**展示，
-点卡片可进对应指南页；刷新页面重新抽，并用 `sessionStorage` 尽量避免和上一次完全相同。
+`assets/js/skill-cards.js`（由同一个 `skills.json` 生成）里**随机抽 4 个**，每张卡显示
+「技能名 + 一行 `blurb` 简短说明」，点卡片可进对应指南页；刷新页面重新抽，
+并用 `sessionStorage` 尽量避免和上一次完全相同。
 `assets/js/app.js` 负责抽取，`.skill-spin-*` 样式在 `style.css` 末尾。
 
 加卡 / 改标题后跑一次 `npm run skills` 即可，随机池会自动跟着变，**不用改首页 HTML 或 JS**。
@@ -209,7 +211,8 @@ npm run skills:check  # 只比对不写入，适合 CI 或提交前确认没漏�
 **首页这四格必须自动包含以后新增的每一张 Skill**，这是明确约定，不要手工去改 `index.html`
 或 `assets/js/app.js`、也不要在别处另建一份技能清单：
 
-1. 在 `content/skills.json` 的 `cards` 里加一张（字段见上表；`featured` 全站仍只能有 1 张）。
+1. 在 `content/skills.json` 的 `cards` 里加一张（字段见上表；`featured` 全站仍只能有 1 张），
+   并写好 `blurb`：一句 ≤40 字的话，说明这技能是干嘛的，会显示在首页四格里。
 2. 写好对应的 `*-doc.html` 指南页与 `*-doc.js`（`npm run verify` 会检查文件存在、8 节结构与目录锚点）。
 3. 跑 `npm run skills`：一次重算 skill.html 实时卡片区 + SEO 快照、sitemap.xml、
    `assets/js/skill-cards.js` 随机池，并自动刷新首页 `skill-cards.js?v=skills-<hash>` 缓存版本。
