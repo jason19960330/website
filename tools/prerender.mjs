@@ -22,7 +22,9 @@ const require = createRequire(import.meta.url);
 const { JSDOM } = require('jsdom');
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
-// 新增页面时在这里登记一行即可，appId 与页面里挂载 Vue 的根元素 id 对应
+// 新增 Vue 页面时在这里登记一行即可，appId 与页面里挂载 Vue 的根元素 id 对应。
+// 注意：posts/*.html 是 generate-life.mjs 直接生成的纯静态文章页（连正文一起写死在 HTML 里），
+// 不依赖 Vue、也不需要预渲染，所以不用登记在下面。
 // query：渲染时附加在 URL 上的参数（目前没有页面需要，保留字段以备不时之需）
 const PAGES = [
   { file: 'index.html', appId: 'app' },

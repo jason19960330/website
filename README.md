@@ -72,6 +72,7 @@ website/
 | 换 Arco 组件 / 升级依赖 | `tools/vendor-entry.js` + `package.json` | `npm run build` |
 | **新增 / 修改 Skill 指南卡片** | **`content/skills.json` 的 `cards`** | **`npm run skills`，再 `npm run verify`** |
 | **修改生活年表（这几年）** | **`content/life.md`** | **`npm run life`，再 `npm run verify`** |
+| **新增 / 修改日常分享全文** | **`content/posts/<短名>.md` + `content/life.md` 里一行 `- 文章：<短名>`** | **`npm run life`，再 `npm run verify`** |
 
 ## 页面分工（2026-11 改版）
 
@@ -113,14 +114,30 @@ sky/indigo 渐变，标题与正文一律使用系统无衬线字体；`.chapter
 - `### 年份 | 标题` 起一条，下面的正文是描述，可写多行。
 - `- 占位：是` 会显示虚线占位框；补上真实内容时删掉这一行，框就消失。
 - `- 标签：xxx` 可选，显示蓝色小标签；不写就不显示。
+- `- 文章：<短名>` 可选，见下节「点标题看全文」。
+- `- 照片：待补` 显示虚线照片占位；改成 `- 封面：assets/xxx.jpg` 即出图。
 - 「## 章节文案」的五个键对应章节标签、首屏金句、导语、便签金句、侧栏备注。
 
 改完运行：
 
 ```bash
-npm run life        # 同步 data.js 的 life/archive 段、两页 SEO 快照、缓存版本号
-npm run verify      # 9 项校验，其中两项覆盖 life:check 与归档切分
+npm run life        # 同步 data.js 的 life/archive 段、两页 SEO 快照、文章页、sitemap、缓存版本号
+npm run verify      # 校验，覆盖 life:check、归档切分与文章页全链路
 ```
+
+### 点标题看全文：独立文章页
+
+年表卡片默认只显示摘要。想让某条能点进去读全文，两步（都只改 md）：
+
+1. 新建 `content/posts/<英文短名>.md`，开头可写 `---` / `title: "标题"` / `---`，
+   正文用 `# 小标题` 分节，`**加粗**` 会保留；`#` 小标题自动生成页首目录。
+2. 在 `content/life.md` 对应条目加一行 `- 文章：<英文短名>`。
+
+生成器会产出静态 `posts/<短名>.html`（含全文 SEO 快照、章节目录、照片占位框、
+返回与相邻文章）、把 data.js 条目注入 `url`、首页与归档页标题变成可点链接、
+并把文章页登记进 `sitemap.xml`。**不用手写 HTML、不用改 CSS、不用改导航。**
+文章页是纯静态页，不依赖 Vue，所以不用在 `tools/prerender.mjs` 里登记。
+
 
 
 ### 首页固定 6 条 + 归档页自动切分
@@ -134,10 +151,11 @@ npm run verify      # 9 项校验，其中两项覆盖 life:check 与归档切�
 - 归档页固定文案（标题 / 标签 / 空态）在 `tools/generate-life.mjs` 顶部的 `ARCHIVE_META`。
 - 归档页入口**只在首页底部「加载更多」**；顶部导航、移动端抽屉与其他页面都不再放「归档」链接，避免重复入口。
 
-`life-sync` 工作流会把 `assets/js/data.js`、`index.html`、`archive.html` 三份产物一起自动提交。
+`life-sync` 工作流监听 `content/life.md`、`content/posts/**` 与生成器本身，
+把 `assets/js/data.js`、`index.html`、`archive.html`、`sitemap.xml`、`posts/*.html` 一起自动提交。
 
 > ✅ **推荐流程**：改 `content/life.md` → 推到 GitHub（或在 GitHub 网页直接编辑）→
-> `.github/workflows/life-sync.yml` 自动跑生成器、校验，并提交 `assets/js/data.js` / `index.html`
+> `.github/workflows/life-sync.yml` 自动跑生成器、校验，并提交年表 / 归档 / 文章页 / sitemap
 > → Pages 自动更新。产物只在有变化时提交；远程自动同步后本地记得 `git pull`。
 > ⚠️ 只在本机保存、不推送，线上不会变；也可本地手动 `npm run life` → `npm run verify` → commit + push。
 > 这份 md 只管生活年表，其它内容见上面的维护表。

@@ -39,7 +39,7 @@
 
   <link rel="stylesheet" href="assets/css/tailwind.css?v=202609302">
   <link rel="stylesheet" href="vendor/arco-bundle.css?v=20260923">
-  <link rel="stylesheet" href="assets/css/style.css?v=20261113e">
+  <link rel="stylesheet" href="assets/css/style.css?v=20261113f">
 </head>
 <body>
   <a class="skip-link" href="#main">跳到正文</a>
@@ -76,7 +76,11 @@
           <div v-for="(e, i) in archive.entries" :key="'ar-' + i" class="life-item">
             <span class="life-dot" aria-hidden="true"></span>
             <p class="life-year">{{ e.year }}</p>
-            <p class="life-title mt-1">{{ e.title }}</p>
+            <a v-if="e.url" :href="e.url" class="life-title-link mt-1">
+              <span class="life-title">{{ e.title }}</span>
+              <svg class="life-title-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+            </a>
+            <p v-else class="life-title mt-1">{{ e.title }}</p>
             <p class="life-desc mt-1.5">{{ e.desc }}</p>
             <p v-if="e.tag" class="mt-2 text-xs text-accent">{{ e.tag }}</p>
           </div>
@@ -101,7 +105,7 @@
 
   <script src="assets/js/weather.js?v=202610051"></script>
   <script src="vendor/arco-bundle.js?v=20260923"></script>
-  <script src="assets/js/data.js?v=life-2ad26da3"></script>
+  <script src="assets/js/data.js?v=life-43749ece"></script>
   <script src="assets/js/archive.js?v=20261113a"></script>
 </body>
 </html>

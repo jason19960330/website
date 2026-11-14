@@ -100,4 +100,11 @@
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
+<!-- posts:start -->
+  <url>
+    <loc>https://jason19960330.github.io/website/posts/2015-gaosan.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+<!-- posts:end -->
 </urlset>

@@ -259,6 +259,50 @@ check('归档页：滚动切分 / 加载更多 / sitemap / 快照', () => {
   return `首页 6 条 / 归档 ${arcCount} 条，入口与快照齐全`;
 });
 
+
+check('日常分享文章页：标题可点 / 静态全文 / sitemap / SEO 快照', () => {
+  const md = fs.readFileSync(path.join(root, 'content/life.md'), 'utf8');
+  const slugs = [...md.matchAll(/^- 文章：(.+)$/gm)]
+    .map((m) => m[1].trim().replace(/\.md$/i, ''));
+  assert(slugs.length, 'life.md 里没有任何带全文的条目');
+  assert(new Set(slugs).size === slugs.length, 'life.md 里「- 文章：」短名重复');
+
+  for (const f of ['index.html', 'archive.html']) {
+    const html = fs.readFileSync(path.join(root, f), 'utf8');
+    assert(html.includes(':href="e.url"'), `${f} 卡片标题没有绑定 e.url`);
+    assert(html.includes('life-title-link'), `${f} 缺少可点标题样式类`);
+  }
+  const cfg = fs.readFileSync(path.join(root, 'assets/js/data.js'), 'utf8');
+  const sitemap = fs.readFileSync(SITEMAP, 'utf8');
+  const idx = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+  for (const slug of slugs) {
+    assert(/^[a-z0-9][a-z0-9-]*$/.test(slug), `文章短名不合法：${slug}`);
+    const src = path.join(root, 'content/posts', slug + '.md');
+    assert(fs.existsSync(src), `缺少 content/posts/${slug}.md`);
+    assert(fs.readFileSync(src, 'utf8').includes('# '), `content/posts/${slug}.md 没有章节小标题`);
+    const page = path.join(root, 'posts', slug + '.html');
+    assert(fs.existsSync(page), `缺少 posts/${slug}.html`);
+    const html = fs.readFileSync(page, 'utf8');
+    assertBalanced(html, `posts/${slug}.html`);
+    assert(html.includes('<!-- seo-snapshot:start -->') && html.includes('<!-- seo-snapshot:end -->'),
+      `posts/${slug}.html 缺少 SEO 快照`);
+    for (const cls of ['post-toc', 'post-cover', 'post-nav', 'post-body']) {
+      assert(html.includes(cls), `posts/${slug}.html 缺少 .${cls}`);
+    }
+    assert(html.includes('../index.html') && html.includes('../archive.html'),
+      `posts/${slug}.html 缺少返回入口`);
+    // 文章页在 posts/ 子目录：../ 前缀要剥掉再按站点根解析
+    const refs = [...html.matchAll(/(?:href|src)="(\.\.\/[^"#?]+)"/g)].map((m) => m[1]);
+    const missing = [...new Set(refs)]
+      .filter((r) => !fs.existsSync(path.join(root, r.replace(/^\.\.\//, ''))));
+    assert(!missing.length, `posts/${slug}.html 引用了不存在的文件：${missing.slice(0, 4).join(', ')}`);
+    assert(cfg.includes(`posts/${slug}.html`), `data.js 未写入 posts/${slug}.html`);
+    assert(idx.includes(`href="posts/${slug}.html"`), `首页 SEO 快照未链接 posts/${slug}.html`);
+    assert(sitemap.includes(`/posts/${slug}.html`), `sitemap 未登记 posts/${slug}.html`);
+  }
+  return `${slugs.length} 篇文章，标题 / 全文快照 / sitemap 全链路打通`;
+});
+
 check('sitemap.xml 结构完整且 URL 不重复', () => {
   const xml = fs.readFileSync(SITEMAP, 'utf8');
   const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
