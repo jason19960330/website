@@ -65,7 +65,7 @@
   <!-- 预编译样式：Tailwind 产物 → Arco 按需样式 → 站点定制（后者覆盖前者） -->
   <link rel="stylesheet" href="assets/css/tailwind.css?v=202609302">
   <link rel="stylesheet" href="vendor/arco-bundle.css?v=20260923">
-  <link rel="stylesheet" href="assets/css/style.css?v=20261113f">
+  <link rel="stylesheet" href="assets/css/style.css?v=20261114a">
 </head>
 
 <!-- ======================================================================
@@ -361,7 +361,7 @@
               <p class="life-desc mt-1.5">{{ e.desc }}</p>
               <p v-if="e.tag" class="mt-2 text-xs text-accent">{{ e.tag }}</p>
               <div v-if="e.cover || e.photoPending" class="life-cover" :class="{ 'is-empty': !e.cover }">
-                <img v-if="e.cover" :src="e.cover" :alt="e.title" loading="lazy">
+                <img v-if="e.cover" :src="e.cover" :alt="e.caption || e.title" loading="lazy">
                 <p v-else class="life-cover-empty">等待补上照片</p>
               </div>
               <p v-if="e.placeholder" class="life-placeholder mt-3">占位 · 等待补上真实事件 / 照片</p>
@@ -598,7 +598,7 @@
   <!-- 按需打包产物：Vue 完整版 + 实际用到的 Arco 组件，暴露 window.Vue / window.ArcoVue -->
   <script src="assets/js/weather.js?v=202610051"></script>
   <script src="vendor/arco-bundle.js?v=20260923"></script>
-  <script src="assets/js/data.js?v=life-43749ece"></script>
+  <script src="assets/js/data.js?v=life-80936a39"></script>
   <script src="assets/js/hotnews.js?v=20260928"></script>
   <script src="assets/js/app.js?v=20261111"></script>
 

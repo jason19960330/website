@@ -259,6 +259,16 @@ check('归档页：滚动切分 / 加载更多 / sitemap / 快照', () => {
   return `首页 6 条 / 归档 ${arcCount} 条，入口与快照齐全`;
 });
 
+check('生活年表：封面图片已入库且写进 data.js', () => {
+  const md = fs.readFileSync(path.join(root, 'content/life.md'), 'utf8');
+  const covers = [...md.matchAll(/^- 封面：(.+)$/gm)].map((m) => m[1].trim());
+  const missing = covers.filter((c) => !fs.existsSync(path.join(root, c)));
+  assert(!missing.length, `封面图片不存在：${missing.join('、')}`);
+  const cfg = fs.readFileSync(path.join(root, 'assets/js/data.js'), 'utf8');
+  for (const c of covers) assert(cfg.includes(c), `data.js 未写入封面 ${c}`);
+  return covers.length ? `${covers.length} 张封面已入库并写入 data.js` : '暂无封面图片';
+});
+
 
 check('日常分享文章页：标题可点 / 静态全文 / sitemap / SEO 快照', () => {
   const md = fs.readFileSync(path.join(root, 'content/life.md'), 'utf8');

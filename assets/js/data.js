@@ -261,7 +261,7 @@ window.SITE_CONFIG = {
     entries: [
       { year: '2015', title: '故事的开始，属于我的那个高三',
         desc: '很多人的高三，是黑板角落的高考倒计时、粉笔灰落下的试卷、同桌悄悄碰你胳膊提醒别走神。而属于我的 2015 高三，是一段特殊的记忆——题海战术里，有自嘲、有遗憾，也有独属于我们这一代人、无法复刻的十八岁。',
-        tag: '生活', photoPending: true, url: 'posts/2015-gaosan.html' },
+        tag: '生活', cover: 'assets/2015-gaosan-school.jpg', caption: '卢龙县刘田庄中学，故事开始的地方', url: 'posts/2015-gaosan.html' },
       { year: '2026', title: '开始把读过的东西写下来',
         desc: '站点接上科技爱好者周刊、行业热点与邮件早报的自动同步，每天留下一份可回看的记录。',
         tag: '站点记录' },

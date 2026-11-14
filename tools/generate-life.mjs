@@ -113,6 +113,7 @@ for (const raw of md.split(/\r?\n/)) {
       if (key === '占位' && (val === '是' || val.toLowerCase() === 'true')) cur.placeholder = true;
       if (key === '照片' && val === '待补') cur.photoPending = true;
       if (key === '封面') cur.cover = val;
+      if (key === '图注') cur.caption = val;
       if (key === '文章') cur.post = val.replace(/\.md$/i, '').trim();
     }
     continue;
@@ -201,6 +202,7 @@ const entrySrc = (e) => {
   const extra = [];
   if (e.tag) extra.push(`tag: ${q(e.tag)}`);
   if (e.cover) extra.push(`cover: ${q(e.cover)}`);
+  if (e.caption) extra.push(`caption: ${q(e.caption)}`);
   if (e.photoPending) extra.push('photoPending: true');
   if (e.post) extra.push(`url: ${q(postUrl(e.post))}`);
   if (e.placeholder) extra.push('placeholder: true');
@@ -318,7 +320,9 @@ function renderPost(e, post, neighbors) {
 
   const cover = e.cover || e.photoPending
     ? (e.cover
-        ? `<figure class="post-cover"><img src="${esc(up(e.cover))}" alt="${esc(title)}" loading="lazy"></figure>`
+        ? `<figure class="post-cover"><img src="${esc(up(e.cover))}" alt="${esc(e.caption || title)}" loading="lazy">` +
+          (e.caption ? `<figcaption class="post-caption">${esc(e.caption)}</figcaption>` : '') +
+          `</figure>`
         : `<div class="post-cover is-empty"><p class="life-cover-empty">等待补上照片</p></div>`)
     : '';
 
@@ -340,6 +344,7 @@ function renderPost(e, post, neighbors) {
     author: { '@type': 'Person', name: '李文涛', url: SITE },
     publisher: { '@type': 'Person', name: '李文涛' },
     mainEntityOfPage: canon,
+    ...(e.cover ? { image: `${SITE}${e.cover}` } : {}),
     isPartOf: { '@type': 'WebSite', name: '李文涛 · 这几年', url: SITE }
   }, null, 2).replace(/</g, '\\u003c');
 

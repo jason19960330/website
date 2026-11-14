@@ -2006,7 +2006,9 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 
 /* 生活卡片封面：已上传显示图片，待补时显示虚线占位（与 .life-placeholder 同语言） */
 .life-cover { margin-top: .75rem; border-radius: .7rem; overflow: hidden; background: rgb(var(--c-raise) / .35); }
-.life-cover img { display: block; width: 100%; height: auto; max-height: 15rem; object-fit: cover; }
+.life-cover:not(.is-empty) { padding: .55rem; text-align: center; }
+/* 竖构图老照片保持原始比例居中，不横向拉伸、不裁切 */
+.life-cover img { display: block; width: auto; max-width: 100%; height: auto; max-height: 18rem; margin-inline: auto; border-radius: .4rem; object-fit: contain; }
 .life-cover.is-empty { border: 1px dashed rgb(var(--c-hair)); }
 .life-cover-empty { margin: 0; padding: 2.4rem 1rem; text-align: center; font-size: .8rem; line-height: 1.75; letter-spacing: .02em; color: rgb(var(--c-faint)); }
 
@@ -2092,9 +2094,14 @@ html.dark .post-icon-moon { display: block; }
   margin: 1.8rem 0 0; border-radius: .8rem; overflow: hidden;
   background: rgb(var(--c-raise) / .35);
 }
-.post-cover img { display: block; width: 100%; height: auto; max-height: 24rem; object-fit: cover; }
+.post-cover:not(.is-empty) { padding: .7rem; text-align: center; }
+.post-cover img { display: block; width: auto; max-width: 100%; height: auto; max-height: 26rem; margin-inline: auto; border-radius: .45rem; object-fit: contain; }
 .post-cover.is-empty { border: 1px dashed rgb(var(--c-hair)); }
 .post-cover .life-cover-empty { padding: 3.2rem 1rem; }
+.post-caption {
+  margin: .75rem .4rem .2rem; font-size: .78rem; line-height: 1.7;
+  letter-spacing: .03em; color: rgb(var(--c-faint));
+}
 
 .post-toc {
   margin: 2rem 0 0; padding: 1.15rem 1.4rem;
