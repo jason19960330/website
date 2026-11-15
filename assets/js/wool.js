@@ -7,57 +7,57 @@ window.WOOL_DATA = {
   "source": "https://radar.zichuanlan.top/",
   "sourceName": "资源雷达",
   "intervalMinutes": 30,
-  "updatedAt": "2026-11-15T15:37:22.845Z",
+  "updatedAt": "2026-11-15T21:00:02.885Z",
   "items": [
     {
-      "id": "27382",
-      "title": "不要浪费B站大会员 ，怎么才能最大限度使用",
-      "summary": "恭喜BLG 夺冠 接着就是B站送福利 7天大会员 一开始是一天的 一天我就不说什么了 后来改7天 那还说什么 冲！ 下午才领 晚上到账 PS： 我看大会员最优惠的有 188 2年 算下来一天2毛 但我看B站还有个超级大…",
-      "url": "https://linux.do/t/topic/3181554",
+      "id": "28687",
+      "title": "跟风送几个muse号",
+      "summary": "cdk.linux.do LINUX DO CDK Linux Do 社区 CDK 快速分享平台 - 让分享变得更简单 26 个帖子 - 9 位参与者 阅读完整话题",
+      "url": "https://linux.do/t/topic/3182017",
       "tag": "有条件领",
       "obtain": "conditional",
       "source": "LINUX DO 福利",
-      "publishedAt": "2026-11-15T15:21:15.000Z"
+      "publishedAt": "2026-11-15T19:57:54.000Z"
     },
     {
-      "id": "27225",
-      "title": "🇭🇰 香港八达通迎新福利｜消费 HK$100 送 HK$150！",
-      "summary": "🇭🇰 香港八达通迎新福利｜消费 HK$100 送 HK$150！",
-      "url": "https://t.me/s/nodeseekc/1010824",
-      "tag": "有条件领",
-      "obtain": "conditional",
-      "source": "tg cn deals",
-      "publishedAt": "2026-11-15T14:57:25.000Z"
-    },
-    {
-      "id": "27137",
-      "title": "【盘点】原1135现0！全平台喜加一+限免游戏盘点汇总！",
-      "summary": "【盘点】原1135现0！全平台喜加一+限免游戏盘点汇总！",
-      "url": "https://www.bilibili.com/video/av117621018140217",
+      "id": "28441",
+      "title": "BLG夺冠 bilibili赠送大会员7天",
+      "summary": "这个链接点进去就是，时间是今天 15 号12:00-16 号 12:00 bilibili.com BLG夺冠时刻 赠送大会员 恭喜BLG夺冠！！我们是冠军！！ 已领到 4 个帖子 - 3 位参与者 阅读完整话题",
+      "url": "https://linux.do/t/topic/3181987",
       "tag": "直接白嫖",
       "obtain": "free",
-      "source": "bili freebies",
-      "publishedAt": "2026-11-15T14:53:46.000Z"
+      "source": "LINUX DO 福利",
+      "publishedAt": "2026-11-15T19:00:27.000Z"
     },
     {
-      "id": "27048",
-      "title": "【0成本】免费领取英国 esim tgbot！！",
-      "summary": "【0成本】免费领取英国 esim tgbot！！",
-      "url": "https://t.me/s/nodeseekc/1010802",
-      "tag": "直接白嫖",
-      "obtain": "free",
-      "source": "tg cn deals",
-      "publishedAt": "2026-11-15T14:44:18.000Z"
-    },
-    {
-      "id": "27047",
-      "title": "腾讯版的muse也来了 2c+8g+45g硬盘 新用户首月免费体验",
-      "summary": "腾讯版的muse也来了 2c+8g+45g硬盘 新用户首月免费体验",
-      "url": "https://t.me/s/nodeseekc/1010801",
+      "id": "28266",
+      "title": "高缓存3秒内首字体验",
+      "summary": "有需要的可以免费体验站点注册链接： https://stars739.top/ 邀请码（仅可使用一次）：86447f8c111b0959eb3af735fe023ed 站点注册链接： https://stars739.…",
+      "url": "https://linux.do/t/topic/3181949",
       "tag": "有条件领",
       "obtain": "conditional",
-      "source": "tg cn deals",
-      "publishedAt": "2026-11-15T14:44:09.000Z"
+      "source": "LINUX DO 福利",
+      "publishedAt": "2026-11-15T18:17:20.000Z"
+    },
+    {
+      "id": "27856",
+      "title": "再送一个muse号，已经有的佬点麻烦让给没有的",
+      "summary": "同题目，已经有的让点给没有的吧 cdk.linux.do LINUX DO CDK Linux Do 社区 CDK 快速分享平台 - 让分享变得更简单 5 个帖子 - 4 位参与者 阅读完整话题",
+      "url": "https://linux.do/t/topic/3181832",
+      "tag": "直接白嫖",
+      "obtain": "free",
+      "source": "LINUX DO 福利",
+      "publishedAt": "2026-11-15T16:58:42.000Z"
+    },
+    {
+      "id": "28046",
+      "title": "暗喻幻想官方表情、个人资料图片、壁纸分享",
+      "summary": "[sframe]2679460[/sframe] 为庆祝《暗喻幻想》Switch版发行，Atlus发布了相关表情、个人资料图片、壁纸，看着感觉还行，遂水一贴。 下载地址：链接",
+      "url": "https://keylol.com/t1055535-1-1",
+      "tag": "直接白嫖",
+      "obtain": "free",
+      "source": "其乐 Keylol",
+      "publishedAt": "2026-11-15T16:55:32.000Z"
     }
   ]
 };
