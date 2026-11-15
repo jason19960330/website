@@ -88,5 +88,13 @@ window.SKILL_CARDS = [
     "title": "LoopForge 使用指南",
     "doc": "loopforge-doc.html",
     "kicker": "交付工作台 · 使用指南"
+  },
+  {
+    "id": "ricoui-blocks",
+    "name": "RicoUI Blocks",
+    "blurb": "复制源码到项目，专做有记忆点的动效组件",
+    "title": "RicoUI Blocks 使用指南",
+    "doc": "ricoui-blocks-doc.html",
+    "kicker": "动效组件库 · 使用指南"
   }
 ];

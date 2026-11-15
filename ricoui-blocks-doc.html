@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RicoUI Blocks 完整指南 · 把动效组件源码装进项目 | 李文涛</title>
+  <meta name="description" content="RicoUI Blocks 完整指南：它是什么、15 个组件与 5 个分类、官网与 Registry 三层架构、shadcn Registry 安装与复制源码、组件规范与可访问性、本地开发、分发流程、授权与适用边界，一页读完。">
+  <link rel="canonical" href="https://jason19960330.github.io/website/ricoui-blocks-doc.html">
+
+  <!-- 分享卡片（微信 / 领英 / X 等平台抓取） -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="李文涛的个人主页">
+  <meta property="og:title" content="RicoUI Blocks 完整指南 · 把动效组件源码装进项目 | 李文涛">
+  <meta property="og:description" content="React 19 + Tailwind 4 的强视觉动效组件库：15 个组件、Copy Source 分发、三层架构、安装与授权边界。">
+  <meta property="og:url" content="https://jason19960330.github.io/website/ricoui-blocks-doc.html">
+  <meta property="og:image" content="https://jason19960330.github.io/website/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="zh_CN">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="RicoUI Blocks 完整指南 · 把动效组件源码装进项目 | 李文涛">
+  <meta name="twitter:description" content="React 19 + Tailwind 4 的强视觉动效组件库：15 个组件、Copy Source 分发、三层架构、安装与授权边界。">
+  <meta name="twitter:image" content="https://jason19960330.github.io/website/assets/og-image.png">
+
+  <link rel="icon" href="assets/favicon.svg?v=20260923" type="image/svg+xml">
+
+  <!-- 首屏主题前置脚本：避免深色偏好用户看到白屏闪一下（与首页共用 site.theme） -->
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('site.theme');
+        if (!saved) {
+          saved = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+        }
+        if (saved === 'dark') document.documentElement.classList.add('dark');
+      } catch (e) { /* 隐私模式忽略 */ }
+    })();
+  </script>
+
+  <!-- 预编译样式：Tailwind 产物 → Arco 按需样式 → 站点定制（后者覆盖前者） -->
+  <link rel="stylesheet" href="assets/css/tailwind.css?v=202610281">
+  <link rel="stylesheet" href="vendor/arco-bundle.css?v=20260923">
+  <link rel="stylesheet" href="assets/css/style.css?v=20261115a">
+</head>
+
+<body class="bg-base">
+  <div id="skill-app" v-cloak>
+
+    <!-- ============================ 顶部导航 ============================ -->
+    <header class="site-header is-solid fixed inset-x-0 top-0 z-40 border-b border-hair">
+      <div class="mx-auto flex h-16 max-w-5xl items-center justify-between px-5 sm:px-6">
+        <a href="index.html" class="flex items-center gap-2.5">
+          <img src="assets/avatar.jpg?v=20261111d" alt="" class="h-8 w-8 rounded-lg object-cover">
+          <span class="text-sm font-semibold tracking-tight text-ink">李文涛</span>
+        </a>
+        <div class="flex items-center gap-2">
+          <a href="resume.html" class="hidden text-xs text-dim transition hover:text-accent sm:inline">简历</a>
+          <a href="weekly.html" class="hidden text-xs text-dim transition hover:text-accent sm:inline">AI 速览</a>
+          <a href="hotnews.html" class="hidden text-xs text-dim transition hover:text-accent sm:inline">热点</a>
+          <a href="skill.html" class="hidden text-xs font-semibold text-accent sm:inline">Skill 指南</a>
+          <a href="aihot.html" class="hidden text-xs text-dim transition hover:text-accent sm:inline">AIHOT 指南</a>
+          <button @click="toggleTheme" aria-label="切换主题"
+                  class="grid h-9 w-9 place-items-center rounded-lg border border-hair text-dim transition hover:text-accent">
+            <svg class="theme-icon h-4 w-4"><use :href="theme === 'dark' ? '#i-moon' : '#i-sun'"></use></svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <svg class="hidden" aria-hidden="true">
+      <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 14.5A8.5 8.5 0 019.5 4a8.5 8.5 0 1010.5 10.5z"></path>
+      </symbol>
+      <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="4"></circle>
+        <path d="M12 3v2m0 14v2M3 12h2m14 0h2M5.6 5.6l1.4 1.4m10 10l1.4 1.4m0-12.8l-1.4 1.4m-10 10L5.6 18.4"></path>
+      </symbol>
+      <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M10.5 6l-6 6 6 6M4.5 12h15"></path>
+      </symbol>
+      <symbol id="i-external" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 4h6v6M20 4l-9 9M18 14v4a2 2 0 01-2 2H6a2 2 0 01-2-2V8a2 2 0 012-2h4"></path>
+      </symbol>
+    </svg>
+
+    <main id="main" class="pt-16" tabindex="-1">
+
+      <!-- ============================ 概览 ============================ -->
+      <section class="mx-auto max-w-5xl px-5 pt-6 sm:px-6 sm:pt-8">
+        <a href="skill.html" class="wl-back">
+          <svg class="h-3.5 w-3.5"><use href="#i-arrow-left"></use></svg>返回 Skill 指南
+        </a>
+
+        <div class="wl-hero card mt-4">
+          <span class="wl-hero-bar" aria-hidden="true"></span>
+          <div class="p-6 sm:p-8">
+            <div class="mt-4 flex flex-wrap items-start justify-between gap-5">
+              <div class="min-w-0">
+                <p class="text-xs font-semibold uppercase tracking-[0.2em] text-accent">动效组件库 · 使用指南</p>
+                <h1 class="mt-2 text-3xl font-bold tracking-tight text-ink sm:text-4xl">RicoUI Blocks 完整指南</h1>
+                <p class="mt-3 max-w-2xl text-sm leading-relaxed text-dim">
+                  <strong class="text-ink">专注视觉与交互动画的 React 19 + Tailwind CSS 4 组件库</strong>：不做基础控件，
+                  只做落地页、作品集、产品展示与 AI 产品界面里那些有视觉记忆点的组件。
+                  通过 shadcn Registry 安装或直接复制源码，组件代码直接进你的项目、归你所有。指南整理自其公开仓库。
+                </p>
+              </div>
+
+              <a href="https://github.com/ricocc/ricoui-blocks" target="_blank" rel="noopener" class="wl-src">
+                <svg class="h-4 w-4"><use href="#i-external"></use></svg>
+                <span class="leading-tight">开源仓库<br>GitHub</span>
+              </a>
+            </div>
+
+            <dl class="wl-stats">
+              <div><dt>GitHub 收藏</dt><dd class="tnum">44</dd></div>
+              <div><dt>收录组件</dt><dd class="tnum">15 个</dd></div>
+              <div><dt>组件分类</dt><dd class="tnum">5 类</dd></div>
+              <div><dt>许可</dt><dd class="tnum">MIT</dd></div>
+            </dl>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 目录 ============================ -->
+      <section class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card p-5 sm:p-6">
+          <h2 class="text-sm font-semibold text-ink">本页目录（8 篇）</h2>
+          <nav class="sk-toc mt-3">
+            <a href="#what"><span>01</span>它到底是什么</a>
+            <a href="#components"><span>02</span>15 个组件 / 5 类</a>
+            <a href="#arch"><span>03</span>三层架构与硬约束</a>
+            <a href="#install"><span>04</span>安装：Registry 与复制源码</a>
+            <a href="#rules"><span>05</span>组件规范与可访问性</a>
+            <a href="#dev"><span>06</span>本地跑官网</a>
+            <a href="#registry"><span>07</span>分发细节与新增组件</a>
+            <a href="#cases"><span>08</span>适用判断、授权与限制</a>
+          </nav>
+        </div>
+      </section>
+
+      <!-- ============================ 01 它是什么 ============================ -->
+      <section id="what" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">01</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">它到底是什么</h2>
+              <p class="sk-card-sub">
+                一句话：<strong class="text-ink">不是 npm 依赖，是把源码交到你手里的强视觉组件集</strong>。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">定位</strong>：RicoUI Blocks V1.0，官网 <code>blocks.ricoui.com</code>，MIT 开源，作者 <code>@ricouii</code>。基于 React 19、Tailwind CSS 4、TypeScript，专注落地页、作品集、产品展示和 AI 产品界面里「有明显视觉记忆点」的组件、交互与背景效果。</li>
+            <li><strong class="text-ink">补的空位</strong>：shadcn/ui 这类基础库覆盖按钮、表单、弹层，但不管网点波普插画、光学放大镜、ASCII 流动背景、多层幕布 Preloader。项目明确写了「不试图替代基础 UI 库，而是补足它们不覆盖的强视觉组件」。</li>
+            <li><strong class="text-ink">Copy Source</strong>：安装后源码归你所有，随意改；没有运行时包、没有版本锁定。分发走两条路 —— shadcn Registry URL，或直接在官网组件页复制源码。Registry 只是分发协议，不代表依赖 shadcn/ui、Radix 或 <code>cn()</code>。</li>
+            <li><strong class="text-ink">动效优先</strong>：实体交互、惯性拖拽、序列动画；<code>motion</code> / <code>gsap</code> / <code>three</code> 按组件需要引入，并在 Registry 里逐组件显式声明，绝不偷偷带进来。</li>
+            <li><strong class="text-ink">零运行时锁定</strong>：不依赖 shadcn/ui，不依赖 TanStack Start，任意 React + Tailwind 项目可用 —— Next.js、Vite、TanStack、Astro + React / React Router 都行。官网自己用什么框架，与你无关。</li>
+          </ul>
+
+          <div class="sk-tip">
+            <strong>体量：</strong>仓库创建于 2026-10-15，最近提交 11-13，约 44 star / 2 fork / 0 open issue。语言构成 TypeScript 约 78%、CSS 约 18%、HTML 约 4%，仓库约 18 MB。文档相当齐：<code>AGENTS.md</code> 加 <code>docs/</code> 下项目规格、架构、开发流程、组件规范、Registry 与 Dither Pop 全套规范。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 02 组件清单 ============================ -->
+      <section id="components" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">02</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">15 个组件 / 5 类</h2>
+              <p class="sk-card-sub">
+                少而偏门，<strong class="text-ink">每一类都不是基础控件</strong>。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">Dither Pop</strong>（4 个）：File Organizer、Flip Switch、Dither Progress、GitHub Repo。独立视觉系列，三渲二 2.5D 矢量插画语言 —— 深藏蓝描边、饱和蓝橙黄、规则半调网点、统一左上光源、有支点的实体交互；单独维护一套设计规范与四个组件专项文档。</li>
+            <li><strong class="text-ink">Display</strong>（5 个）：Magnifier（光学放大镜）、Contribution Graph（网点贡献日历）、Empty States、Kubai Empty States、Social Card。Buttons 有 Button 与 Bell Button；Backgrounds 只有 ASCII Background（WebGL + Canvas 兜底）；Preloader 有 Popin、Clip Image、Step Overlap 三个多层幕布效果。</li>
+            <li><strong class="text-ink">依赖很克制</strong>：<code>flip-switch</code> 与 <code>file-organizer</code> 用 <code>motion</code>，三个 Preloader 用 <code>gsap</code>，其余组件零第三方依赖。Registry 里实际是 16 个 item，多出的 <code>github-contributions</code> 是 <code>registry:lib</code> 类型的服务端数据辅助函数，不算官网展示组件。</li>
+            <li><strong class="text-ink">独立 HTML 版</strong>：ASCII Background 与 Social Card 各有一份 <code>.html</code>，可从详情页复制或下载，不依赖 React 工程、不加载远程图片字体脚本；Registry 仍只分发对应的 <code>.tsx</code>，两版效果要人工保持同步。</li>
+            <li><strong class="text-ink">详情页给什么</strong>：每个组件页有 Preview、Props、Interaction Type、Dependencies 和源码；Interaction Type 是一句人话，例如「悬停把卡片扇开，再点击打开文件夹」。</li>
+          </ul>
+
+          <div class="sk-prompt">
+            <p class="mb-2 text-xs text-faint">组件 slug 速查 · 换掉安装 URL 里的名字即可</p>
+            <pre>{{ texts.components }}</pre>
+            <button class="sk-copy" :class="{ 'is-done': copied === 'components' }" @click="copy('components')">
+              {{ copied === 'components' ? '已复制' : '复制' }}
+            </button>
+          </div>
+
+          <div class="sk-tip">
+            <strong>别被「15 个」劝退：</strong>它的价值不在数量，而在每个组件都带完整默认视觉与交互，拿来就能成为页面里的一个记忆点。真要用时挑一两个即可，不必整套搬。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 03 架构 ============================ -->
+      <section id="arch" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">03</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">三层架构与硬约束</h2>
+              <p class="sk-card-sub">
+                官网、可分发源码、消费者项目，<strong class="text-ink">三层互不越界</strong>。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">官网层</strong>：TanStack Start + React 19 + Vite + TypeScript + Tailwind 4，部署在 Cloudflare Workers，负责路由、文档、组件 Preview 与人工策展的首页。<code>src/routes/</code> 是路由，<code>src/components/site/</code> 是官网自身 UI，<code>src/components/previews/</code> 是演示画布，<code>src/data/</code> 是组件元数据。</li>
+            <li><strong class="text-ink">Registry 源码层</strong>：顶层 <code>registry/</code> 放真正分发给用户的 <code>.tsx</code> / <code>.ts</code> 源码，<code>registry.json</code> 是清单，<code>public/r/</code> 是构建产物。组件只能是 React + Tailwind，需要动效时按组件声明第三方包。</li>
+            <li><strong class="text-ink">消费者层</strong>：任意 React + Tailwind 项目。最重要的一条约束原文是 ——「<strong class="text-ink">网站可以依赖 TanStack Start，但 Registry 组件不能依赖 TanStack Start</strong>」；组件也不得引用 <code>@/lib/utils</code>、<code>@tanstack/*</code>、<code>@/components/site/*</code> 这类只在官网存在的东西。</li>
+            <li><strong class="text-ink">显式优于魔法</strong>：<code>src/data/components.ts</code> 是官网目录的唯一显式数据源；Preview 用 lazy 显式映射、Source Code 用 Vite <code>?raw</code> 读真实 registry 文件，都不做文件扫描或 AST 自动解析。当前规模不用 monorepo、不提前优化。</li>
+            <li><strong class="text-ink">Preview 与源码严格分离</strong>：Preview 可以提供背景画布、variant 切换、模拟内容，但这些代码绝不进入 Registry 组件；需要 helper 就组件内部实现，或作为 item 文件一起安装。官网 Demo 好看，不代表组件真能独立跑。</li>
+          </ul>
+
+          <div class="sk-tip">
+            <strong>性能上最在意的点：</strong>组件库网站的压力不在普通页面，而在一屏里同时跑很多 Preview。规则是 GSAP / Three / WebGL 这类重型演示 lazy 加载、接近视口才初始化，长时间运行的 Canvas / RAF 动画离开视口要暂停，首页不一次拉起所有重型动画。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 04 安装 ============================ -->
+      <section id="install" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">04</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">安装：Registry 与复制源码</h2>
+              <p class="sk-card-sub">
+                一条命令装一个组件，<strong class="text-ink">不用装 RicoUI 这个包</strong>。
+              </p>
+            </div>
+          </div>
+
+          <div class="sk-prompt">
+            <p class="mb-2 text-xs text-faint">把 URL 末尾的组件名换成任意 slug</p>
+            <pre>{{ texts.install }}</pre>
+            <button class="sk-copy" :class="{ 'is-done': copied === 'install' }" @click="copy('install')">
+              {{ copied === 'install' ? '已复制' : '复制' }}
+            </button>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">shadcn CLI 路径</strong>：<code>npx shadcn@latest add https://blocks.ricoui.com/r/flip-switch.json</code>，把 <code>flip-switch</code> 换成任意 slug。用到的 <code>motion</code> / <code>gsap</code> 会在安装时自动声明，不用手动处理；Registry item 的 <code>files[].target</code> 决定源码落到你项目的哪个路径（如 <code>@ui/flip-switch.tsx</code>）。</li>
+            <li><strong class="text-ink">Manual 路径</strong>：完全不用 shadcn CLI 也能用 —— 打开组件详情页看 Dependencies，手动装包，再 Copy Source 把 <code>.tsx</code> 复制进项目并 import。README 明确写了「用户如果完全不使用 shadcn CLI，也能使用 RicoUI」。</li>
+            <li><strong class="text-ink">装完做什么</strong>：源码已经属于你，改颜色、改尺寸、改动效参数都直接改文件；组件默认带 <code>className</code> 与少量视觉 Props，方便覆盖。没有升级命令，也没有上游包版本这个概念。</li>
+            <li><strong class="text-ink">两条补充通道</strong>：ASCII Background 与 Social Card 有独立 <code>.html</code>，详情页可直接复制或下载；shadcn 也支持从公开 GitHub 仓库根的 <code>registry.json</code> 安装，但官网主入口始终是 <code>blocks.ricoui.com/r/*.json</code>。</li>
+          </ul>
+
+          <div class="sk-tip">
+            <strong>一个常见误解：</strong>看到 <code>npx shadcn</code> 就以为必须先把 shadcn/ui 装进项目。不是的 —— 这里只是借用它的 Registry 分发协议，组件本身不依赖 shadcn/ui、不依赖 Radix、也不假定你项目里有 <code>cn()</code>。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 05 规范 ============================ -->
+      <section id="rules" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">05</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">组件规范与可访问性</h2>
+              <p class="sk-card-sub">
+                目标是「拿走即可成为项目的一部分」，<strong class="text-ink">不是只能在 Demo 里成立的视觉实验</strong>。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">默认视觉</strong>：RicoUI 不是 Headless UI，组件应该有完成度较高的默认视觉，不该要求用户传十几个 class 才能复现官网效果；同时接受 <code>className</code> 与必要的视觉 Props 以便覆盖。</li>
+            <li><strong class="text-ink">Props 克制</strong>：只暴露真正有使用价值的参数（如 <code>color</code>、<code>size</code>、<code>className</code>），不为「可配置」把每个动画中间值都做成 Prop。组件可以有自己的视觉 variant，与网站全局浅/深色无关。</li>
+            <li><strong class="text-ink">可访问性</strong>：键盘可操作、正确的 aria 属性与焦点反馈；明显运动型组件要合理处理 <code>prefers-reduced-motion</code> —— 用 CSS、<code>useReducedMotion</code>，或直接关掉非必要动画、减少位移。不要求取消所有视觉。</li>
+            <li><strong class="text-ink">use client 不滥用</strong>：只有真需要 state / effect、事件处理、动效 runtime、<code>window</code> / <code>document</code>、Pointer / Canvas / WebGL / ResizeObserver / IntersectionObserver 时才加；纯静态 React / CSS 组件不机械加。它存在的意义是兼容消费者项目，不代表依赖 Next.js。</li>
+            <li><strong class="text-ink">依赖透明</strong>：允许 <code>motion</code>、<code>gsap</code>、<code>three</code>、<code>@react-three/fiber</code> 等，但 Registry 必须准确声明；无依赖的组件在官网直接显示「Dependencies None」。禁止隐藏依赖前文已列明。</li>
+            <li><strong class="text-ink">署名规则</strong>：原创组件不需要 Credits；Inspired 要写 Inspired by / 作者 / 来源，Based on 要写原项目 / 许可 / 来源；上游许可不明确时，不复制原代码。</li>
+          </ul>
+
+          <div class="sk-tip">
+            <strong>浅色 / 深色怎么要求：</strong>普通 UI 与交互组件尽量兼容两种主题，但不强制细节完全一致；Effects / Backgrounds 这类纯视觉效果不强制，保持设计表达优先。这是很务实的取舍。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 06 本地开发 ============================ -->
+      <section id="dev" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">06</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">本地跑官网</h2>
+              <p class="sk-card-sub">
+                Node.js 22.12+ 与 pnpm，<strong class="text-ink">每个新终端先 nvm use</strong>。
+              </p>
+            </div>
+          </div>
+
+          <div class="sk-prompt">
+            <p class="mb-2 text-xs text-faint">克隆 → 起服务 → 构建 / 预览 / 部署</p>
+            <pre>{{ texts.dev }}</pre>
+            <button class="sk-copy" :class="{ 'is-done': copied === 'dev' }" @click="copy('dev')">
+              {{ copied === 'dev' ? '已复制' : '复制' }}
+            </button>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">版本要求</strong>：Node.js 22.12 或更高（<code>.nvmrc</code> 固定 22.23.3，是 Vite、TanStack Start 与 Wrangler 的共同要求），Node 18 跑不动当前工具链；包管理器用 pnpm。没装对应版本先 <code>nvm install</code>。</li>
+            <li><strong class="text-ink">可用脚本</strong>：<code>pnpm dev</code> 起开发服务器，<code>pnpm build</code> 生产构建并执行类型检查，<code>pnpm preview</code> 预览产物，<code>pnpm deploy</code> 构建并部署到 Cloudflare Workers，另有 <code>registry:validate</code> 与 <code>registry:build</code>。</li>
+            <li><strong class="text-ink">可选 GA4</strong>：把 <code>.env.example</code> 复制成 <code>.env</code> 并填 <code>VITE_GOOGLE_ANALYTICS_ID</code>，仅生产构建加载，本地开发不受影响。</li>
+            <li><strong class="text-ink">先读文档</strong>：参与开发前先读 <code>AGENTS.md</code>，再按需查 <code>docs/PROJECT-SPEC.md</code>、<code>ARCHITECTURE.md</code>、<code>DEVELOPMENT.md</code>、<code>COMPONENT-GUIDELINES.md</code> 与 Dither Pop 系列规范。仓库刻意保持目录浅、直接、可搜索。</li>
+            <li><strong class="text-ink">验证范围</strong>：只跑与本次修改相关的检查，局部改动不做全量重型回归；涉及 Registry、构建配置、部署或跨模块修改时才跑完整 build。</li>
+          </ul>
+
+          <div class="sk-tip">
+            <strong>不要提前优化：</strong>开发文档明确列出「metadata 太多、Registry JSON 太大、Preview map 太长、分类太多」等问题在真实出现之前一律不处理，当前组件规模下显式手工配置是允许且被推荐的。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 07 Registry ============================ -->
+      <section id="registry" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">07</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">分发细节与新增组件</h2>
+              <p class="sk-card-sub">
+                一个组件一次走完整条链路，<strong class="text-ink">最后一步必须是安装验证</strong>。
+              </p>
+            </div>
+          </div>
+
+          <div class="sk-prompt">
+            <p class="mb-2 text-xs text-faint">Registry 校验 / 构建 / 新增组件的固定流程</p>
+            <pre>{{ texts.registry }}</pre>
+            <button class="sk-copy" :class="{ 'is-done': copied === 'registry' }" @click="copy('registry')">
+              {{ copied === 'registry' ? '已复制' : '复制' }}
+            </button>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">源与产物</strong>：根目录 <code>registry.json</code> 声明 name、homepage 与 items；每个 item 写 <code>type</code>（<code>registry:ui</code> / <code>registry:lib</code>）、<code>title</code>、<code>description</code>、<code>dependencies</code> 与 <code>files[].path</code> / <code>target</code>。<code>shadcn build</code> 生成 <code>public/r/*.json</code>，那是产物、不要手改。</li>
+            <li><strong class="text-ink">两种依赖别混</strong>：npm 包写 <code>dependencies</code>，Registry item 之间的依赖写 <code>registryDependencies</code>。校验以官方 CLI 为准，不自己另写一套 validator。</li>
+            <li><strong class="text-ink">固定链路</strong>：<code>component source → preview → metadata → registry item → docs → install verification → next component</code>。一个组件一次做完，不先批量建空壳；首页 Latest 按首次发布日期 <code>publishedAt</code> 倒序，日常改组件不更新这个日期。</li>
+            <li><strong class="text-ink">安装验证七项</strong>：schema 正确、文件存在、dependencies 完整、build 成功、<code>public/r/*.json</code> 生成、JSON URL 可访问、临时 React + Tailwind 项目里装完能跑。原文强调「<strong class="text-ink">官网 Demo 正常不等于 Registry 一定可安装</strong>」。</li>
+            <li><strong class="text-ink">分类与路由</strong>：五个分类通过 <code>/components</code> 的 filter / search params 实现，不为分类建独立路由，这样以后换分类不会改变详情页 URL；首页是人工策展，不是 Registry 自动生成的页面。</li>
+          </ul>
+
+          <div class="sk-tip">
+            <strong>GitHub Registry：</strong>shadcn 也支持直接从公开仓库根的 <code>registry.json</code> 安装，但 RicoUI 把官网 <code>blocks.ricoui.com/r/*.json</code> 作为主入口，GitHub 只是补充，不需要同时设计两套用户界面。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 08 适用与限制 ============================ -->
+      <section id="cases" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">08</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">适用判断、授权与限制</h2>
+              <p class="sk-card-sub">
+                什么时候值得用，以及几条必须先知道的边界。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">适合谁</strong>：做落地页、作品集、产品展示或 AI 产品界面，需要一两个「让人记住」的视觉组件；已经是 React + Tailwind 工程，愿意把源码拿进来自己维护；看重键盘操作与减少动态效果这类细节。</li>
+            <li><strong class="text-ink">不适合谁</strong>：纯静态 / 非 React 项目（只有两个组件有独立 HTML 版）、只需要按钮表单表格这类基础控件、需要一套中性可换肤的设计系统、或希望「装个包然后等上游发版」。它的视觉主张很强，与既有设计系统混用通常要调色改源码。</li>
+            <li><strong class="text-ink">没有升级通道</strong>：源码一旦装进项目就与上游脱钩，上游修了问题要自己比对合并 —— 这既是「代码归你」的代价，也是它和 npm 组件库最本质的区别。</li>
+            <li><strong class="text-ink">授权要分开看</strong>：项目自有代码是 MIT（版权 <code>2026 RICOUI</code>，使用或分发要保留版权与许可声明）；但官网 TechText / PixelReveal 是 <strong class="text-ink">MIT + Commons Clause</strong>，本地字体遵循 OFL，<code>Kubai Empty States</code> 等基于他人作品重写的组件要在详情页保留 Credits 并遵循原始授权。别把「仓库 MIT」理解成「所有素材都能随便商用」。</li>
+            <li><strong class="text-ink">还很新</strong>：仓库 2026-10-15 创建、V1.0 只有 15 个组件、44 star，长期维护节奏与生态仍需观察。反馈与新组件方向走 GitHub Issues。</li>
+          </ul>
+
+          <div class="sk-tip">
+            <strong>建议姿势：</strong>先去官网组件页挑一个真正用得上的（比如 Flip Switch 或 ASCII Background），用 <code>npx shadcn add</code> 装进一个临时项目跑一遍，看默认视觉与依赖是否合口味；确认顺手，再考虑把它放进正式页面并按需改源码。别一上来整套搬。
+          </div>
+
+          <div class="mt-6 flex flex-wrap items-center gap-3 border-t border-hair pt-5">
+            <a href="https://github.com/ricocc/ricoui-blocks" target="_blank" rel="noopener" class="wl-src">
+              <svg class="h-4 w-4"><use href="#i-external"></use></svg>开源仓库
+            </a>
+            <a href="https://github.com/ricocc/ricoui-blocks/blob/main/README.zh-CN.md" target="_blank" rel="noopener" class="wl-src">
+              <svg class="h-4 w-4"><use href="#i-external"></use></svg>中文 README
+            </a>
+            <a href="https://blocks.ricoui.com/components" target="_blank" rel="noopener" class="wl-src">
+              <svg class="h-4 w-4"><use href="#i-external"></use></svg>组件列表
+            </a>
+            <a href="https://github.com/ricocc/ricoui-blocks/blob/main/docs/dither-pop/README.md" target="_blank" rel="noopener" class="wl-src">
+              <svg class="h-4 w-4"><use href="#i-external"></use></svg>Dither Pop 规范
+            </a>
+            <a href="skill.html" class="text-xs text-faint transition hover:text-accent">返回 Skill 指南</a>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="mt-10 border-t border-hair py-10">
+      <div class="mx-auto flex max-w-5xl flex-col items-center justify-between gap-2 px-5 text-xs text-faint sm:flex-row sm:px-6">
+        <p>内容整理自 ricocc/ricoui-blocks 开源仓库（MIT）· 版权归原作者所有</p>
+        <p>共 8 篇 · Vue 3 · Tailwind CSS · Arco Design</p>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- 首屏骨架：脚本没跑完之前顶住版式（纯静态，脚本一到自动让位） -->
+  <div class="boot" aria-hidden="true">
+    <div class="boot-bar">
+      <span style="width:8rem;height:2rem;border-radius:.75rem;background:rgb(var(--c-dim) / .12)"></span>
+      <span style="width:6rem;height:2rem;border-radius:.75rem;background:rgb(var(--c-dim) / .12)"></span>
+    </div>
+    <div class="boot-row">
+      <div class="boot-main">
+        <div class="boot-block boot-block--sm"></div>
+        <div class="boot-block boot-block--lg"></div>
+        <div class="boot-block"></div>
+        <div class="boot-block boot-block--sm"></div>
+        <div class="boot-block" style="width:70%"></div>
+      </div>
+      <div class="boot-side"><div class="boot-card"></div></div>
+    </div>
+    <p class="boot-tip">网络有点慢，页面还在加载…</p>
+    <div class="boot-fail">
+      <p>页面脚本加载失败，通常是网络中断或浏览器拦截了资源。</p>
+      <p><button type="button" onclick="location.reload()" class="text-accent hover:underline">点击重试</button>
+        · <a href="index.html" class="text-accent hover:underline">返回首页</a></p>
+    </div>
+  </div>
+  <script>
+    // 6 秒还没挂载 → 提示慢；20 秒仍没挂载 → 给重试入口。正常网速不会触发
+    setTimeout(function () {
+      var app = document.getElementById('skill-app');
+      var boot = document.querySelector('.boot');
+      if (app && boot && app.hasAttribute('v-cloak')) boot.classList.add('is-slow');
+    }, 6000);
+    setTimeout(function () {
+      var app = document.getElementById('skill-app');
+      var boot = document.querySelector('.boot');
+      if (app && boot && app.hasAttribute('v-cloak')) boot.classList.add('is-failed');
+    }, 20000);
+  </script>
+
+  <script src="assets/js/weather.js?v=202610051"></script>
+  <script src="vendor/arco-bundle.js?v=20260923"></script>
+  <script src="assets/js/ricoui-blocks-doc.js?v=20261115a"></script>
+
+</body>
+</html>

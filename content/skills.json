@@ -340,6 +340,26 @@
       ],
       "doc": "loopforge-doc.html",
       "comment": "LoopForge 使用指南入口卡"
+    },
+    {
+      "id": "ricoui-blocks",
+      "kicker": "动效组件库 · 使用指南",
+      "blurb": "复制源码到项目，专做有记忆点的动效组件",
+      "title": "RicoUI Blocks 使用指南",
+      "desc": [
+        "一套专注视觉与交互动画的 <span class=\"font-semibold text-ink\">React 19 + Tailwind CSS 4</span> 组件库：不做基础控件，只做落地页、作品集与 AI 产品界面里那些有视觉记忆点的组件。",
+        "V1.0 收录 <span class=\"font-semibold text-ink\">15 个组件 / 5 个分类</span>：网点波普 Dither Pop、光学放大镜、ASCII 流动背景、多层幕布 Preloader；用 shadcn Registry 安装或直接复制源码，组件代码直接进你的项目。",
+        "不是 npm 依赖，也不锁定 shadcn/ui 或 TanStack Start，任意 React + Tailwind 工程可用；动效组件兼顾键盘操作、aria 与 prefers-reduced-motion。指南整理自其公开仓库。"
+      ],
+      "repo": "https://github.com/ricocc/ricoui-blocks",
+      "stats": [
+        { "label": "GitHub 收藏", "value": "44" },
+        { "label": "收录组件", "value": "15 个" },
+        { "label": "组件分类", "value": "5 类" },
+        { "label": "许可", "value": "MIT" }
+      ],
+      "doc": "ricoui-blocks-doc.html",
+      "comment": "RicoUI Blocks 使用指南入口卡"
     }
   ]
 }
