@@ -53,6 +53,29 @@
   }
   var RANDOM_SKILLS = pickRandomSkills();
 
+  /* 首页「羊毛速递」小工具：数据由同步脚本写进 window.WOOL_DATA，
+     页面每 30 分钟重新挂一次带时间戳的 <script>，绕开 CDN 缓存。 */
+  function readWoolItems() {
+    var d = window.WOOL_DATA;
+    return d && Array.isArray(d.items) ? d.items.slice() : [];
+  }
+  function woolIndex(i) { return i < 9 ? '0' + (i + 1) : String(i + 1); }
+  function woolTime(iso) {
+    var t = Date.parse(iso || '');
+    if (!Number.isFinite(t)) return '';
+    var diff = Date.now() - t;
+    if (diff < 0) return '即将开始';
+    var m = Math.floor(diff / 60000);
+    if (m < 1) return '刚刚';
+    if (m < 60) return m + ' 分钟前';
+    var h = Math.floor(m / 60);
+    if (h < 24) return h + ' 小时前';
+    var d = Math.floor(h / 24);
+    if (d < 7) return d + ' 天前';
+    var dt = new Date(t);
+    return (dt.getMonth() + 1) + '-' + String(dt.getDate()).padStart(2, '0');
+  }
+
   var THEME_KEY = 'site.theme';
 
   /* ================= 留言板：giscus（GitHub Discussions） =================
@@ -354,6 +377,53 @@
           if (d.getFullYear() + '-' + pad2(d.getMonth() + 1) === ym) n++;
         });
         return n ? '本月有 ' + n + ' 次站点更新（每周三）' : '本月没有站点更新记录';
+      });
+
+      /* ---------------- 羊毛速递（更新日历右侧） ---------------- */
+      var WOOL_REFRESH_MS = 30 * 60 * 1000;
+      var woolItems = ref(readWoolItems());
+      var woolUpdatedAt = ref(window.WOOL_DATA && window.WOOL_DATA.updatedAt ? window.WOOL_DATA.updatedAt : '');
+      var woolLoading = ref(false);
+      var woolTimer = null;
+      var woolLastSync = Date.now();
+
+      function applyWool(d) {
+        if (!d || !Array.isArray(d.items)) return;
+        woolItems.value = d.items;
+        if (d.updatedAt) woolUpdatedAt.value = d.updatedAt;
+        woolLastSync = Date.now();
+      }
+      function refreshWool() {
+        if (woolLoading.value) return;
+        woolLoading.value = true;
+        var tag = document.createElement('script');
+        var settled = false;
+        /* 网络挂起时 onload / onerror 都可能不来，8 秒后强制收尾，别让按钮一直转 */
+        var guard = setTimeout(function () { done(false); }, 8000);
+        function done(ok) {
+          if (settled) return;
+          settled = true;
+          clearTimeout(guard);
+          if (tag.parentNode) tag.parentNode.removeChild(tag);
+          if (ok) applyWool(window.WOOL_DATA);
+          woolLoading.value = false;
+        }
+        tag.onload = function () { done(true); };
+        tag.onerror = function () { done(false); };
+        tag.src = 'assets/js/wool.js?t=' + Date.now();
+        document.head.appendChild(tag);
+      }
+      function onWoolEvent(e) { applyWool(e && e.detail ? e.detail : window.WOOL_DATA); }
+      /* 后台标签页的定时器会被浏览器节流，切回来时补一次 */
+      function onWoolVisible() {
+        if (!document.hidden && Date.now() - woolLastSync >= WOOL_REFRESH_MS) refreshWool();
+      }
+      var woolUpdatedLabel = computed(function () {
+        var t = Date.parse(woolUpdatedAt.value || '');
+        if (!Number.isFinite(t)) return '刚刚';
+        var d = new Date(t);
+        return (d.getMonth() + 1) + '月' + d.getDate() + '日 ' +
+          String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
       });
 
       // 翻月：payload 是 pages 数组，取第一个
@@ -678,6 +748,11 @@
 
       onMounted(function () {
         applyTheme(theme.value);
+        /* 羊毛速递：先拉一次最新版，之后每 30 分钟自动刷新 */
+        window.addEventListener('wool:update', onWoolEvent);
+        document.addEventListener('visibilitychange', onWoolVisible);
+        woolTimer = setInterval(refreshWool, WOOL_REFRESH_MS);
+        setTimeout(refreshWool, 1200);
         window.addEventListener('scroll', onScroll, { passive: true });
         document.addEventListener('pointerdown', onDocDown);
         document.addEventListener('keydown', onGlobalKey);
@@ -734,6 +809,9 @@
         document.removeEventListener('keydown', onGlobalKey);
         clearInterval(roleTimer);
         clearInterval(gbTimer);
+        clearInterval(woolTimer);
+        window.removeEventListener('wool:update', onWoolEvent);
+        document.removeEventListener('visibilitychange', onWoolVisible);
         if (spyObserver) spyObserver.disconnect();
         if (calIo) calIo.disconnect();
         if (gbIo) gbIo.disconnect();
@@ -744,6 +822,9 @@
         life: CONFIG.life, growth: CONFIG.growth, photos: CONFIG.photos,
         stats: CONFIG.stats, skillGroups: CONFIG.skillGroups, toolStack: CONFIG.toolStack,
         randomSkills: RANDOM_SKILLS,
+        /* 羊毛速递 */
+        woolItems: woolItems, woolUpdatedLabel: woolUpdatedLabel, woolLoading: woolLoading,
+        refreshWool: refreshWool, woolIndex: woolIndex, woolTime: woolTime,
         timeline: CONFIG.timeline, projects: CONFIG.projects,
         education: CONFIG.education, honors: CONFIG.honors, strengths: CONFIG.strengths,
         scrolled: scrolled, showTop: showTop, activeSection: activeSection, menuOpen: menuOpen,

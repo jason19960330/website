@@ -345,6 +345,49 @@ check('首页随机技能四格：技能池 / 模板 / 随机逻辑齐全且不�
   return `${list.length} 个技能进池，首页每次刷新抽 4 个；简历页数据条不受影响`;
 });
 
+check('首页羊毛速递：数据 / 模板 / 30 分钟刷新 / 定时同步工作流', () => {
+  const idx = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+  const app = fs.readFileSync(path.join(root, 'assets/js/app.js'), 'utf8');
+  const css = fs.readFileSync(path.join(root, 'assets/css/style.css'), 'utf8');
+  const js = fs.readFileSync(path.join(root, 'assets/js/wool.js'), 'utf8');
+  const wf = fs.readFileSync(path.join(root, '.github/workflows/sync-wool.yml'), 'utf8');
+  const sandbox = {
+    window: {
+      dispatchEvent: function () {},
+      CustomEvent: function (type, init) { this.type = type; this.detail = init && init.detail; }
+    }
+  };
+  new vm.Script(js, { filename: 'wool.js' }).runInNewContext(sandbox);
+  const d = sandbox.window.WOOL_DATA;
+  assert(d && d.schemaVersion === 1 && d.intervalMinutes === 30, 'wool.js 缺少 schemaVersion / 30 分钟间隔');
+  assert(String(d.source || '').includes('radar.zichuanlan.top'), 'wool.js 未标注数据来源');
+  assert(Number.isFinite(Date.parse(d.updatedAt || '')), 'wool.js 的 updatedAt 不合法');
+  assert(Array.isArray(d.items) && d.items.length >= 1 && d.items.length <= 5, 'wool.js 条目数异常');
+  for (const it of d.items) {
+    for (const k of ['id', 'title', 'url', 'tag', 'obtain', 'source', 'publishedAt']) {
+      assert(it[k], 'wool.js 条目缺字段 ' + k);
+    }
+    assert(/^https:\/\//.test(it.url), '羊毛条目链接不是 https');
+    assert(Number.isFinite(Date.parse(it.publishedAt)), '羊毛条目时间不合法');
+    assert(['free', 'conditional'].includes(it.obtain), '羊毛条目领取方式异常');
+  }
+  assert(!idx.includes('当前月份'), '旧的「当前月份」卡仍残留在首页');
+  assert(idx.includes('<script src="assets/js/wool.js"></script>'), 'index.html 未引入 wool.js');
+  assert(/v-for="\(w, i\) in woolItems"/.test(idx), '模板未渲染 woolItems');
+  assert(idx.includes('每 30 分钟自动刷新') && idx.includes('radar.zichuanlan.top/'),
+    '卡片未标注刷新频率 / 数据来源');
+  assert(/30 \* 60 \* 1000/.test(app) && /setInterval\(refreshWool/.test(app),
+    'app.js 未做 30 分钟定时刷新');
+  assert(/wool:update/.test(app) && /wool\.js\?t=/.test(app),
+    'app.js 缺少事件监听 / 时间戳破缓存');
+  assert(/woolItems:\s*woolItems/.test(app) && /refreshWool:\s*refreshWool/.test(app),
+    'app.js 未把羊毛数据暴露给模板');
+  assert(css.includes('.wool-card') && css.includes('.wool-refresh'), 'style.css 缺少羊毛卡样式');
+  assert(/cron: '7,37 \* \* \* \*'/.test(wf), '同步工作流不是每 30 分钟');
+  assert(wf.includes('git pull --rebase origin main'), '同步工作流缺少 rebase，易与其它自动同步冲突');
+  return `${d.items.length} 条羊毛 · 30 分钟同步 + 页面自动刷新`;
+});
+
 check('sitemap.xml 结构完整且 URL 不重复', () => {
   const xml = fs.readFileSync(SITEMAP, 'utf8');
   const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);

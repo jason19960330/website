@@ -2190,3 +2190,67 @@ html.dark .post-icon-moon { display: block; }
   display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
 }
 .skill-spin-card:hover .skill-spin-name { text-decoration: underline; text-underline-offset: 3px; }
+
+/* ==========================================================================
+   首页「更新日历」右侧：羊毛速递（资源雷达真福利，每 30 分钟刷新）
+   颜色全部走主题变量，浅色 / 深色自动跟随。
+   ========================================================================== */
+.wool-card { display: flex; flex-direction: column; }
+.wool-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
+.wool-refresh {
+  flex: none; width: 2rem; height: 2rem; border-radius: 999px;
+  border: 1px solid rgb(var(--c-hair)); background: rgb(var(--c-raise) / .6);
+  color: rgb(var(--c-dim)); font-size: 1.05rem; line-height: 1; cursor: pointer;
+  transition: color .2s ease, border-color .2s ease, transform .3s ease, background-color .2s ease;
+}
+.wool-refresh:hover:not(:disabled) {
+  color: rgb(var(--c-accent)); border-color: rgb(var(--c-accent) / .5); transform: rotate(90deg);
+}
+.wool-refresh:disabled { opacity: .55; cursor: default; }
+.wool-meta { margin: .55rem 0 0; font-size: .75rem; color: rgb(var(--c-faint)); }
+.wool-loading { margin-left: .5rem; color: rgb(var(--c-accent)); }
+.wool-list {
+  margin: 1.1rem 0 0; padding: 0; list-style: none;
+  display: flex; flex-direction: column;
+}
+.wool-item + .wool-item { border-top: 1px solid rgb(var(--c-hair) / .8); }
+.wool-link {
+  display: flex; gap: .75rem; align-items: flex-start; padding: .7rem .15rem;
+  text-decoration: none; color: inherit; border-radius: .5rem;
+  transition: background-color .2s ease;
+}
+.wool-link:hover { background: rgb(var(--c-raise) / .55); }
+.wool-index {
+  flex: none; width: 1.4rem; padding-top: .1rem;
+  font-size: .75rem; font-variant-numeric: tabular-nums; color: rgb(var(--c-faint));
+}
+.wool-body { min-width: 0; display: flex; flex-direction: column; gap: .28rem; }
+.wool-title {
+  font-size: .875rem; font-weight: 600; line-height: 1.45; color: rgb(var(--c-ink));
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  overflow-wrap: anywhere; transition: color .2s ease;
+}
+.wool-link:hover .wool-title { color: rgb(var(--c-accent)); }
+.wool-sub {
+  display: flex; align-items: center; flex-wrap: wrap; gap: .45rem;
+  font-size: .6875rem; color: rgb(var(--c-faint));
+}
+.wool-tag {
+  padding: .1rem .4rem; border-radius: .35rem; font-weight: 600;
+  color: rgb(var(--c-accent)); background: rgb(var(--c-accent) / .1);
+  border: 1px solid rgb(var(--c-accent) / .18);
+}
+.wool-tag[data-obtain="conditional"] {
+  color: rgb(var(--c-dim)); background: rgb(var(--c-raise) / .8); border-color: rgb(var(--c-hair));
+}
+.wool-time { margin-left: auto; white-space: nowrap; }
+.wool-empty { margin: 1.6rem 0; font-size: .875rem; color: rgb(var(--c-dim)); }
+.wool-foot {
+  margin-top: auto; padding-top: 1rem;
+  display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 1rem;
+}
+.wool-more { font-size: .75rem; color: rgb(var(--c-accent)); text-decoration: none; }
+.wool-more:hover { text-decoration: underline; text-underline-offset: 3px; }
+.wool-more.muted { color: rgb(var(--c-faint)); }
+.wool-credit { margin: .5rem 0 0; font-size: .6875rem; color: rgb(var(--c-faint)); }
+.wool-credit a { color: rgb(var(--c-dim)); text-decoration: underline; text-underline-offset: 2px; }

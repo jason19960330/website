@@ -65,7 +65,7 @@
   <!-- 预编译样式：Tailwind 产物 → Arco 按需样式 → 站点定制（后者覆盖前者） -->
   <link rel="stylesheet" href="assets/css/tailwind.css?v=202609302">
   <link rel="stylesheet" href="vendor/arco-bundle.css?v=20260923">
-  <link rel="stylesheet" href="assets/css/style.css?v=20261114e">
+  <link rel="stylesheet" href="assets/css/style.css?v=20261115a">
 </head>
 
 <!-- ======================================================================
@@ -447,7 +447,7 @@
           <div>
             <p class="text-xs font-semibold uppercase tracking-[0.2em] text-accent">Calendar</p>
             <h2 class="mt-2 text-2xl font-bold tracking-tight text-ink sm:text-3xl">更新日历</h2>
-            <p class="mt-2 text-sm text-dim">站点每周三的更新节奏与可约面时间；点绿色日期可直接发邮件约面试。</p>
+            <p class="mt-2 text-sm text-dim">左侧是站点每周三的更新节奏与可约面时间，点绿色日期可直接发邮件约面试；右侧每 30 分钟同步一次羊毛速递。</p>
           </div>
           <span class="hidden h-px flex-1 bg-gradient-to-r from-hair to-transparent sm:block"></span>
         </div>
@@ -481,16 +481,42 @@
             </ul>
           </div>
 
-          <div class="card p-5">
-            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-faint">当前月份</p>
-            <h3 class="mt-2 text-lg font-semibold text-ink">{{ calMonthLabel }}</h3>
-            <p class="mt-1 text-sm text-dim">{{ calMonthSummary }}</p>
-
-
-            <div class="mt-6 flex items-center gap-3">
-              <a-button type="primary" @click="jump('contact')">约个时间聊聊</a-button>
-              <a href="weekly.html" class="text-xs text-faint transition hover:text-accent">AI 行业热点速览 →</a>
+          <!-- 羊毛速递：数据由 tools/sync_wool.mjs 每 30 分钟同步，页面开着也会自动重载 -->
+          <div class="card p-5 wool-card">
+            <div class="wool-head">
+              <div>
+                <p class="text-xs font-semibold uppercase tracking-[0.2em] text-faint">Wool Radar · 真福利精选</p>
+                <h3 class="mt-2 text-lg font-semibold text-ink">羊毛速递</h3>
+              </div>
+              <button type="button" class="wool-refresh" @click="refreshWool"
+                      :disabled="woolLoading" :aria-busy="woolLoading"
+                      aria-label="立即刷新羊毛速递" title="立即刷新">↻</button>
             </div>
+            <p class="wool-meta">每 30 分钟自动刷新 · 更新于 {{ woolUpdatedLabel }}<span v-if="woolLoading" class="wool-loading">同步中…</span></p>
+
+            <ul v-if="woolItems.length" class="wool-list">
+              <li v-for="(w, i) in woolItems" :key="w.id" class="wool-item">
+                <a class="wool-link" :href="w.url" target="_blank" rel="noopener noreferrer" :title="w.summary">
+                  <span class="wool-index">{{ woolIndex(i) }}</span>
+                  <span class="wool-body">
+                    <span class="wool-title">{{ w.title }}</span>
+                    <span class="wool-sub">
+                      <span class="wool-tag" :data-obtain="w.obtain">{{ w.tag }}</span>
+                      <span class="wool-source">{{ w.source }}</span>
+                      <span class="wool-time">{{ woolTime(w.publishedAt) }}</span>
+                    </span>
+                  </span>
+                </a>
+              </li>
+            </ul>
+            <p v-else class="wool-empty">暂时没有新的羊毛，稍后再来看看。</p>
+
+            <div class="wool-foot">
+              <a class="wool-more" href="https://radar.zichuanlan.top/" target="_blank" rel="noopener noreferrer">查看全部羊毛 →</a>
+              <a class="wool-more muted" href="weekly.html">AI 行业热点速览 →</a>
+              <a class="wool-more muted" href="#contact" @click.prevent="jump('contact')">约个时间聊聊</a>
+            </div>
+            <p class="wool-credit">数据来源：<a href="https://radar.zichuanlan.top/" target="_blank" rel="noopener noreferrer">资源雷达</a>，条目直达原文</p>
           </div>
         </div>
       </section>
@@ -600,8 +626,10 @@
   <script src="vendor/arco-bundle.js?v=20260923"></script>
   <script src="assets/js/data.js?v=life-fcf2197d"></script>
   <script src="assets/js/skill-cards.js?v=skills-64c64d59"></script>
+  <!-- 羊毛速递数据：不带版本号，页面用时间戳重载以绕开 CDN 缓存 -->
+  <script src="assets/js/wool.js"></script>
   <script src="assets/js/hotnews.js?v=20260928"></script>
-  <script src="assets/js/app.js?v=20261114a"></script>
+  <script src="assets/js/app.js?v=20261115a"></script>
 
   <!-- 首屏骨架：脚本没跑完之前顶住版式（纯静态，脚本一到自动让位） -->
   <div class="boot" aria-hidden="true">
@@ -658,6 +686,7 @@
 <p>晖致医药 7 年企业级 IT 技术支持，500+ 员工办公终端与资产运营，资产台账准确率 95%以上，20+ 份标准化运维 SOP，ServiceNow / Intune / ABM、音视频会议保障、机房网络运维。</p>
 <h2>更新日历与联系</h2>
 <p>站点保留周刊发布节奏的更新日历、邮箱 573164137@qq.com、电话 139-3036-3901，以及留言板。</p>
+<p>羊毛速递同步资源雷达（radar.zichuanlan.top）的真福利精选，每 30 分钟刷新一次，条目直达原始来源。</p>
 <p>完整简历见 resume.html，A4 模板见 resume-template.html，PDF 见 assets/resume.pdf；11 篇开源工具指南见 skill.html。</p>
 <!-- seo-snapshot:end -->
 </noscript>

@@ -11,6 +11,8 @@
     "skills:check": "node tools/generate-skills.mjs --check",
     "life": "node tools/generate-life.mjs",
     "life:check": "node tools/generate-life.mjs --check",
+    "wool": "node tools/sync_wool.mjs",
+    "wool:check": "node tools/sync_wool.mjs --check",
     "verify": "node tools/verify.mjs"
   },
   "devDependencies": {

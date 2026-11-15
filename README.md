@@ -32,6 +32,7 @@ website/
 │       ├── weekly-index.js    # 自动生成：全量索引（期号/标题/年月）
 │       ├── weekly-latest.js   # 自动生成：最近 20 期正文条目
 │       ├── hotnews.js         # 自动生成：三个科技源的热榜（window.HOTNEWS）
+│       ├── wool.js            # 自动生成：首页羊毛速递（window.WOOL_DATA，30 分钟同步）
 │       └── hotnews-page.js    # 热点页逻辑层：主题、跨源检索、相对时间
 │   └── skill-page.js          # Skill 指南页逻辑层：主题、指令复制
 ├── tools/
@@ -39,6 +40,7 @@ website/
 │   ├── verify.mjs             # ★ 全站结构 / 内容一致性校验（npm run verify）
 │   ├── sync_weekly.py         # 周刊同步脚本，生成 weekly-*.js
 │   ├── sync_hotnews.py        # 热点同步脚本，生成 hotnews.js
+│   ├── sync_wool.mjs          # 羊毛速递同步脚本，生成 wool.js（公开接口，无需密钥）
 │   ├── build.mjs              # ★ 构建总入口：下面三步一条命令跑完
 │   ├── vendor-entry.js        # 打包入口：声明实际用到的 Arco 组件
 │   ├── calendar-entry.js      # 打包入口：v-calendar 的 Calendar 组件
@@ -50,6 +52,7 @@ website/
 │   ├── sync-weekly.yml        # 每日定时同步科技爱好者周刊
 │   ├── sync-hotnews.yml       # 每日定时同步科技热点
 │   ├── sync-hot.yml           # 定时同步 AI 行业热点
+│   ├── sync-wool.yml          # 每 30 分钟同步羊毛速递（有变化才提交）
 │   └── mail-digest.yml        # 邮件早报（凭据走 Secrets 或 Variables）
 └── vendor/
     ├── arco-bundle.js         # 自动生成：Vue 3 完整版 + 按需 Arco 组件
@@ -69,6 +72,7 @@ website/
 | 顶部导航要显示哪些板块 | `assets/js/data.js` 的 `nav` | 同上（日历板块默认不在导航里） |
 | 周刊数据来源与数量 | `tools/sync_weekly.py` | 跑一次脚本（勿手改 `weekly-*.js`） |
 | 热点页抓哪些源、每源几条 | `tools/sync_hotnews.py` 的 `SOURCES` / `--limit` | 跑一次脚本（勿手改 `hotnews.js`） |
+| **羊毛速递的筛选口径 / 条数 / 刷新间隔** | **`tools/sync_wool.mjs` 的 `API` / `LIMIT` / `INTERVAL_MINUTES`** | **`npm run wool`，再 `npm run verify`；改频率还要同步改 `sync-wool.yml` 与 `app.js`** |
 | 换 Arco 组件 / 升级依赖 | `tools/vendor-entry.js` + `package.json` | `npm run build` |
 | **新增 / 修改 Skill 指南卡片** | **`content/skills.json` 的 `cards`** | **`npm run skills`，再 `npm run verify`** |
 | **修改生活年表（这几年）** | **`content/life.md`** | **`npm run life`，再 `npm run verify`** |
@@ -80,7 +84,7 @@ website/
 
 | 页面 | 讲什么 | 数据来源 |
 |---|---|---|
-| `index.html` | 生活首页：人格锚点、这几年年表、照片墙、站点更新热力图、日历、联系、留言 | `data.js` 的 `life` / `photos` / `growth` + `skill-cards.js` 的随机技能池 |
+| `index.html` | 生活首页：人格锚点、这几年年表、照片墙、站点更新热力图、日历 + 羊毛速递、联系、留言 | `data.js` 的 `life` / `photos` / `growth` + `skill-cards.js` 的随机技能池 + `wool.js` 的羊毛条目 |
 | `work.html` | 工作经历：两段经历、三个五段式项目案例、技能矩阵、教育证书 | `data.js` 的 `timeline` / `projects` / `skillGroups` / `education`，逻辑层 `assets/js/work.js` |
 | `resume.html` / `resume-template.html` / `assets/resume.pdf` | 求职专用：一页式简历、A4 打印模板、PDF | `data.js`，与上面同源 |
 
@@ -379,6 +383,34 @@ python3 -m http.server 8000   # 访问 http://localhost:8000
 数据由 `tools/sync_hotnews.py` 生成（标准库 + curl 回退），产出 `assets/js/hotnews.js`。GitHub Actions 每天 **北京时间 10:00** 同步，同样只在内容变化时提交。
 
 > 版权说明：热点标题版权归各原平台所有，页面只做标题聚合与原文跳转，不转存正文。
+
+## 首页羊毛速递（每 30 分钟刷新）
+
+首页「更新日历」右侧不再是月份摘要，而是一张 **羊毛速递** 卡：展示资源雷达
+（<https://radar.zichuanlan.top/>）「真福利精选」的最新 5 条，每条直达原文，卡片底部标注数据来源。
+
+数据链路分两层，缺一不可：
+
+1. **服务端同步**：该站 `/api/items` 没有返回 CORS 头，浏览器无法直接跨域读。
+   `.github/workflows/sync-wool.yml` 每小时第 7 / 37 分跑一次 `tools/sync_wool.mjs`，
+   抓公开只读接口 → 过滤（未过期 / AI 验真 / 7 天内 / 评分 ≥ 50 / 有发布时间 / 中文优先）
+   → 生成 `assets/js/wool.js`（`window.WOOL_DATA`）。**条目没变化就不写盘、不提交**，
+   避免每半小时制造一次空提交；拉取失败也保留上一次的数据。
+2. **页面刷新**：`index.html` 用不带版本号的 `<script src="assets/js/wool.js">` 保证首屏有内容；
+   `app.js` 加载后立刻、以及每 **30 分钟** 重新挂一次带 `?t=时间戳` 的脚本绕开 CDN 缓存，
+   页面开着也会自动更新；从后台标签切回来超过 30 分钟会补刷一次，右上角 ↻ 可手动刷新。
+
+```bash
+npm run wool          # 手动抓一次并生成 assets/js/wool.js
+npm run wool:check    # 离线校验现有数据文件结构
+npm run verify        # 全站校验含羊毛速递（数据 / 模板 / 30 分钟逻辑 / 工作流）
+```
+
+想调整口径：改 `tools/sync_wool.mjs` 顶部的 `API`（筛选参数）、`LIMIT`（默认 5 条）、
+`SOURCE_NAMES`（来源显示名）与 `INTERVAL_MINUTES`（默认 30）；改刷新频率要同时改
+`.github/workflows/sync-wool.yml` 的 cron 和 `app.js` 的 `WOOL_REFRESH_MS`。
+
+> 版权说明：只展示标题、摘要与原文链接，不转存正文；卡片保留「资源雷达」来源标注。
 
 ## 内容与数据来源
 

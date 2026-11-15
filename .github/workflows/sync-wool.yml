@@ -1,0 +1,47 @@
+name: 同步羊毛速递（资源雷达）
+
+# 每 30 分钟一次：每小时第 7 / 37 分，避开整点的 Actions 排队高峰。
+# 也可在 Actions 页面手动点一下立刻执行。
+on:
+  schedule:
+    - cron: '7,37 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# 站点还有热点 / 周刊等同步任务，同一时刻只留一个羊毛任务在跑
+concurrency:
+  group: sync-wool
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出仓库
+        uses: actions/checkout@v4
+
+      - name: 准备 Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 拉取并生成羊毛数据
+        run: node tools/sync_wool.mjs
+
+      - name: 有变化才提交
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          # sync_wool.mjs 只在条目真的变化时才写盘，所以这里通常直接跳过，
+          # 不会每半小时制造一次无意义的提交。
+          if [ -n "$(git status --porcelain assets/js/wool.js)" ]; then
+            git add assets/js/wool.js
+            git commit -m "chore: 同步羊毛速递 $(date -u +'%Y-%m-%d %H:%M') UTC"
+            git pull --rebase origin main
+            git push
+            echo "已同步并提交新羊毛"
+          else
+            echo "羊毛条目无变化，跳过提交"
+          fi
