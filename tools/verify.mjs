@@ -169,7 +169,7 @@ check('指南页 / 逻辑脚本成对且被正确引用', () => {
 });
 
 /* 5. 逐页结构校验 */
-check('10 个指南页：标签 / 锚点 / 模板变量 / 链接 / Vue 编译', () => {
+check(`${cards.length} 个指南页：标签 / 锚点 / 模板变量 / 链接 / Vue 编译`, () => {
   const problems = [];
   cards.forEach((c, i) => {
     const page = docPages[i];

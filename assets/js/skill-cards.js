@@ -80,5 +80,13 @@ window.SKILL_CARDS = [
     "title": "自媒体工作台 使用指南",
     "doc": "dsh-media-desk-doc.html",
     "kicker": "内容创作 · 使用指南"
+  },
+  {
+    "id": "loopforge",
+    "name": "LoopForge",
+    "blurb": "把 Agent 交付固化成 SOP，关键节点由人把关",
+    "title": "LoopForge 使用指南",
+    "doc": "loopforge-doc.html",
+    "kicker": "交付工作台 · 使用指南"
   }
 ];

@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LoopForge 完整指南 · 把 Agent 交付固化成 SOP | 李文涛</title>
+  <meta name="description" content="LoopForge 完整指南：它是什么、对话与 SOP 两种工作方式、SOP 五类节点、Docker 自主部署与免 API Key 体验、Local 版安装、Go 架构与 10 种执行器、安全边界、适用与限制，一页读完。">
+  <link rel="canonical" href="https://jason19960330.github.io/website/loopforge-doc.html">
+
+  <!-- 分享卡片（微信 / 领英 / X 等平台抓取） -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="李文涛的个人主页">
+  <meta property="og:title" content="LoopForge 完整指南 · 把 Agent 交付固化成 SOP | 李文涛">
+  <meta property="og:description" content="腾讯开源的自托管团队交付工作台：对话与 SOP 两种工作方式、部署与免 Key 体验、Local 版、架构与安全边界。">
+  <meta property="og:url" content="https://jason19960330.github.io/website/loopforge-doc.html">
+  <meta property="og:image" content="https://jason19960330.github.io/website/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="zh_CN">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="LoopForge 完整指南 · 把 Agent 交付固化成 SOP | 李文涛">
+  <meta name="twitter:description" content="腾讯开源的自托管团队交付工作台：对话与 SOP 两种工作方式、部署与免 Key 体验、Local 版、架构与安全边界。">
+  <meta name="twitter:image" content="https://jason19960330.github.io/website/assets/og-image.png">
+
+  <link rel="icon" href="assets/favicon.svg?v=20260923" type="image/svg+xml">
+
+  <!-- 首屏主题前置脚本：避免深色偏好用户看到白屏闪一下（与首页共用 site.theme） -->
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('site.theme');
+        if (!saved) {
+          saved = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+        }
+        if (saved === 'dark') document.documentElement.classList.add('dark');
+      } catch (e) { /* 隐私模式忽略 */ }
+    })();
+  </script>
+
+  <!-- 预编译样式：Tailwind 产物 → Arco 按需样式 → 站点定制（后者覆盖前者） -->
+  <link rel="stylesheet" href="assets/css/tailwind.css?v=202610281">
+  <link rel="stylesheet" href="vendor/arco-bundle.css?v=20260923">
+  <link rel="stylesheet" href="assets/css/style.css?v=20261114e">
+</head>
+
+<body class="bg-base">
+  <div id="skill-app" v-cloak>
+
+    <!-- ============================ 顶部导航 ============================ -->
+    <header class="site-header is-solid fixed inset-x-0 top-0 z-40 border-b border-hair">
+      <div class="mx-auto flex h-16 max-w-5xl items-center justify-between px-5 sm:px-6">
+        <a href="index.html" class="flex items-center gap-2.5">
+          <img src="assets/avatar.jpg?v=20261111d" alt="" class="h-8 w-8 rounded-lg object-cover">
+          <span class="text-sm font-semibold tracking-tight text-ink">李文涛</span>
+        </a>
+        <div class="flex items-center gap-2">
+          <a href="resume.html" class="hidden text-xs text-dim transition hover:text-accent sm:inline">简历</a>
+          <a href="weekly.html" class="hidden text-xs text-dim transition hover:text-accent sm:inline">AI 速览</a>
+          <a href="hotnews.html" class="hidden text-xs text-dim transition hover:text-accent sm:inline">热点</a>
+          <a href="skill.html" class="hidden text-xs font-semibold text-accent sm:inline">Skill 指南</a>
+          <a href="aihot.html" class="hidden text-xs text-dim transition hover:text-accent sm:inline">AIHOT 指南</a>
+          <button @click="toggleTheme" aria-label="切换主题"
+                  class="grid h-9 w-9 place-items-center rounded-lg border border-hair text-dim transition hover:text-accent">
+            <svg class="theme-icon h-4 w-4"><use :href="theme === 'dark' ? '#i-moon' : '#i-sun'"></use></svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <svg class="hidden" aria-hidden="true">
+      <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 14.5A8.5 8.5 0 019.5 4a8.5 8.5 0 1010.5 10.5z"></path>
+      </symbol>
+      <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="4"></circle>
+        <path d="M12 3v2m0 14v2M3 12h2m14 0h2M5.6 5.6l1.4 1.4m10 10l1.4 1.4m0-12.8l-1.4 1.4m-10 10L5.6 18.4"></path>
+      </symbol>
+      <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M10.5 6l-6 6 6 6M4.5 12h15"></path>
+      </symbol>
+      <symbol id="i-external" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 4h6v6M20 4l-9 9M18 14v4a2 2 0 01-2 2H6a2 2 0 01-2-2V8a2 2 0 012-2h4"></path>
+      </symbol>
+    </svg>
+
+    <main id="main" class="pt-16" tabindex="-1">
+
+      <!-- ============================ 概览 ============================ -->
+      <section class="mx-auto max-w-5xl px-5 pt-6 sm:px-6 sm:pt-8">
+        <a href="skill.html" class="wl-back">
+          <svg class="h-3.5 w-3.5"><use href="#i-arrow-left"></use></svg>返回 Skill 指南
+        </a>
+
+        <div class="wl-hero card mt-4">
+          <span class="wl-hero-bar" aria-hidden="true"></span>
+          <div class="p-6 sm:p-8">
+            <div class="mt-4 flex flex-wrap items-start justify-between gap-5">
+              <div class="min-w-0">
+                <p class="text-xs font-semibold uppercase tracking-[0.2em] text-accent">交付工作台 · 使用指南</p>
+                <h1 class="mt-2 text-3xl font-bold tracking-tight text-ink sm:text-4xl">LoopForge 完整指南</h1>
+                <p class="mt-3 max-w-2xl text-sm leading-relaxed text-dim">
+                  <strong class="text-ink">腾讯开源、可自主部署的团队工作台</strong>：在对话里把需求交给 Main Bot，
+                  它按需打开 Docker 沙箱、检出仓库、把任务分派给项目角色，最后提交 PR。
+                  某种做法被验证有效后存成 SOP，下一个需求按同样方式交付，关键节点由人把关。指南整理自其公开仓库。
+                </p>
+              </div>
+
+              <a href="https://github.com/Tencent/LoopForge" target="_blank" rel="noopener" class="wl-src">
+                <svg class="h-4 w-4"><use href="#i-external"></use></svg>
+                <span class="leading-tight">开源仓库<br>GitHub</span>
+              </a>
+            </div>
+
+            <dl class="wl-stats">
+              <div><dt>GitHub 收藏</dt><dd class="tnum">867</dd></div>
+              <div><dt>Agent CLI</dt><dd class="tnum">10 种</dd></div>
+              <div><dt>内置 SOP</dt><dd class="tnum">4 条</dd></div>
+              <div><dt>许可</dt><dd class="tnum">MIT</dd></div>
+            </dl>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 目录 ============================ -->
+      <section class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card p-5 sm:p-6">
+          <h2 class="text-sm font-semibold text-ink">本页目录（8 篇）</h2>
+          <nav class="sk-toc mt-3">
+            <a href="#what"><span>01</span>它到底是什么</a>
+            <a href="#modes"><span>02</span>两种工作方式</a>
+            <a href="#sop"><span>03</span>SOP 怎么跑</a>
+            <a href="#deploy"><span>04</span>自主部署与免 Key 体验</a>
+            <a href="#local"><span>05</span>Local 版：装进编程助手</a>
+            <a href="#arch"><span>06</span>架构与执行器</a>
+            <a href="#security"><span>07</span>安全边界与部署红线</a>
+            <a href="#cases"><span>08</span>适用判断与限制</a>
+          </nav>
+        </div>
+      </section>
+
+      <!-- ============================ 01 它是什么 ============================ -->
+      <section id="what" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">01</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">它到底是什么</h2>
+              <p class="sk-card-sub">
+                一句话：<strong class="text-ink">它不写代码，它编排写代码的 Agent</strong>。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">定位</strong>：自托管的「团队 × 编程 Agent」交付工作台，MIT 开源，官网 <code>loopforge.cn</code>。干活的是 CodeBuddy、Codex、Claude Code、OpenCode、Cursor CLI、Antigravity、Kimi Code、Pi、DeepSeek Harness、ZCode 这 10 种 CLI；LoopForge 负责它们外面的角色、沙箱、检查点和留痕，全部跑在你自己的环境里。</li>
+            <li><strong class="text-ink">要治的病</strong>：直接让 Agent「修一下这个 Bug」，结果取决于这一次运行 —— 可能跳过方案、忘了跑测试、自己评审自己的代码、做到一半停下没人发现。做演示没问题，团队交付不能这样。</li>
+            <li><strong class="text-ink">五条设计原则</strong>：可重复（同一条 SOP、同样阶段与检查）、角色分离（方案 / 实现 / 评审 / 测试各有独立提示词、执行器、模型、Skills 和 MCP）、人在回路（关键节点审批或打回）、可观测可续跑（节点状态、工具轨迹、日志、产物集中呈现）、技术栈和服务器都是你的。</li>
+            <li><strong class="text-ink">两种形态</strong>：平台版是 Docker Compose 起的一套 Web 服务（含 MySQL，默认 <code>0.0.0.0:8090</code>），给团队共享工作区与审批记录；Local 版是一个 npm CLI，把内置交付工作流直接装进你正在用的编程助手，不需要服务端。</li>
+            <li><strong class="text-ink">不是什么</strong>：不是通用自动化搭建平台，也不替代任何编程 CLI。它更像给这些 CLI 套上一层「谁来做、在哪个沙箱、按什么顺序、经过哪些检查、由谁签字」的工程外壳。</li>
+          </ul>
+
+          <div class="sk-tip">
+            <strong>体量：</strong>约 867 star / 211 fork / 324 commits / 15 tags，最新提交 2026-11-14，MIT。语言构成以 Go 为主（约 59%），其次 JavaScript 约 23%、Python 约 9%、CSS 约 8%。仓库保留上游模块名 <code>agentflow</code> 与 <code>AGENTFLOW_</code> 环境变量以减少合并冲突。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 02 两种工作方式 ============================ -->
+      <section id="modes" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">02</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">两种工作方式</h2>
+              <p class="sk-card-sub">
+                探索和迭代用对话，固定阶段和签字用 SOP，<strong class="text-ink">两者挂在同一套需求上</strong>。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">与 Main Bot 对话</strong>：适合探索、快速修复、和 Agent 反复迭代。它按需打开「对话工作区」—— 一个带项目仓库的 Docker 沙箱，把项目角色作为原生子 Agent 调用；每个会话可单独选执行器、模型和确认模式。回复进行中发出的消息进排队托盘，「引导」可打断当前回复立即发送，生成的文件在侧边产物抽屉里预览、看源码、下载。</li>
+            <li><strong class="text-ink">运行 SOP</strong>：适合阶段固定、需要签字确认的可重复交付。引擎按顺序执行 Agent、脚本、人工关口和子 SOP，每次运行有独立沙箱；你在关口审批、打回到指定环节返工、从任意节点重试或重跑，交付物是文档、代码或 PR 加上每个节点的产物和日志。</li>
+            <li><strong class="text-ink">互操作</strong>：Main Bot 可以启动、暂停、恢复甚至接管正在运行的 SOP 工作区；对话里也能直接交付 PR 或直推共享分支（<code>mode=direct</code>）。所以不是二选一，而是按任务性质混着用。</li>
+            <li><strong class="text-ink">统一台账</strong>：无论改动来自对话还是 SOP，都能追溯到原始需求，并计入交付与成本统计；还支持 PR / MR 状态跟踪、合入检测。这点是「工作台」和「一堆散装 Agent 会话」的分界线。</li>
+            <li><strong class="text-ink">怎么选</strong>：需求还模糊、要来回试 → 对话；希望每个需求都按同一套做法交付，有固定的评审、测试和签字环节 → 沉淀成 SOP。项目里还内置了 AI 定时任务，可周期性派发 SOP。</li>
+          </ul>
+
+          <div class="sk-tip">
+            <strong>功能面：</strong>除上述两者，还有流程设计器画布、可复用角色定义、集中处理的「待我确认」、研发效能与业务领域报表（可导出静态 HTML / SVG）、按公开标准价核算的 SOP 与对话 Token 成本，以及带 OpenAPI 描述的 HTTP 与 MCP API。管理页中英双语，对话工作台目前只有中文界面。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 03 SOP ============================ -->
+      <section id="sop" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">03</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">SOP 怎么跑</h2>
+              <p class="sk-card-sub">
+                Agent、脚本和人在同一次运行里衔接，<strong class="text-ink">验收不通过可以打回上游重做</strong>。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">五类节点</strong>：<code>Agent</code>（一个角色负责设计 / 实现 / 评审 / 测试）、<code>脚本</code>（构建、测试、Lint、生成报告，不需要 AI 的地方就不用 AI）、<code>人工关口</code>（暂停等人检查，放行或打回）、<code>子 SOP</code>（复用另一条流程）、<code>预览构建</code>（构建静态站点并归档供评审）。每个节点声明自己的产物与依赖，依赖完成引擎自动推进。</li>
+            <li><strong class="text-ink">角色是复用的</strong>：提示词、执行器、模型、规则、Skills、MCP 工具、产物与门禁打包成一个角色定义，SOP 节点和对话里的子 Agent 共用同一份；同一角色还能在画布上单独换执行器和失败策略。</li>
+            <li><strong class="text-ink">关口有三种动作</strong>：确认通过继续下游、补充信息重跑当前节点、退回上游重做。运行详情里实时显示节点状态、工具轨迹、Worker 日志、节点产物快照和工作区预览。</li>
+            <li><strong class="text-ink">内置四条只读蓝图</strong>：通用后端交付、通用前端交付、通用缺陷修复、通用产品方案。复制到本项目后才能运行和修改，随流程演进可发布新版本。流程设计器支持失败打回、配置检查与版本历史。</li>
+            <li><strong class="text-ink">一次真实交付</strong>：四个 CodeBuddy 角色依次完成一个 Python 修复的规划、实现、独立评审和交付汇总，三个真实测试通过，运行停在人工关口等批准，批准后再验证代码与验收时一致。这条链路已沉淀成可复用验收用例，覆盖范围和未联调项写在实测记录里。</li>
+          </ul>
+
+          <div class="sk-tip">
+            <strong>为什么要「独立评审」：</strong>同一个上下文里让 Agent 自己评自己的代码，很容易一路放行。把评审拆成独立角色、再接一段确定性脚本测试、最后才交给人签字，是这个项目最核心的一条工程约束 —— 也是它和「给 Agent 套个漂亮提示词」的区别。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 04 部署 ============================ -->
+      <section id="deploy" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">04</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">自主部署与免 Key 体验</h2>
+              <p class="sk-card-sub">
+                三条命令起服务，<strong class="text-ink">不在本地构建镜像</strong>，也不需要宿主机装 Go 或 Node.js。
+              </p>
+            </div>
+          </div>
+
+          <div class="sk-prompt">
+            <p class="mb-2 text-xs text-faint">克隆 → 启动 → 服务管理 → 核对镜像摘要</p>
+            <pre>{{ texts.deploy }}</pre>
+            <button class="sk-copy" :class="{ 'is-done': copied === 'deploy' }" @click="copy('deploy')">
+              {{ copied === 'deploy' ? '已复制' : '复制' }}
+            </button>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">前置与安装</strong>：安装脚本检查 Docker、Compose、Python 3 和 curl，确认后可补装缺少的组件（Linux 支持 apt / dnf / yum，macOS 走 Homebrew）；直接拉 <code>compose.yaml</code> 里 pin 的 GHCR 发布镜像，顺手创建 MySQL 与平台服务、生成配置和会话密钥、导入内置沙箱、通用 SOP 和体验项目。<code>LOOPFORGE_YES=1</code> 可接受安装提示。</li>
+            <li><strong class="text-ink">首个账号</strong>：打开脚本输出的地址创建账号，第一个自动成为管理员；云主机上脚本会从元数据服务读公网 IP 直接打印，放通安全组端口或配 HTTPS 反向代理即可访问。<strong class="text-ink">管理员账号创建前建议只允许自己的 IP 访问</strong>。首页「快速接入」带你配模型凭据、绑定仓库、选默认 SOP。</li>
+            <li><strong class="text-ink">国内镜像</strong>：把 <code>MIRROR</code> 设成可替换 <code>ghcr.io</code> 的镜像站主机名，脚本用它拉取后再把镜像标回 <code>compose.yaml</code> 里的官方名 —— 设置它等于信任该主机。发布说明里有 digest，用 <code>docker image inspect</code> 核对。Docker 引擎的 <code>registry-mirrors</code> 只加速 Docker Hub，不能填在这里；升级时带同一个变量执行 <code>pull</code>。</li>
+            <li><strong class="text-ink">零成本先跑通</strong>：新账号自动加入「LoopForge 体验项目」，其中有一条只含脚本和人工审批的 SOP。切到体验项目 → 流程模板 → 平台验收·脚本与审批 → 运行流程；真实脚本生成报告后停在关口，在「待我确认」或运行详情页批准，就能看到流程继续并产出最终产物。<strong class="text-ink">这一步不需要任何 API Key</strong>。</li>
+            <li><strong class="text-ink">真实任务要什么</strong>：与 Main Bot 对话、生成文档或新项目需要所选执行器的 API Key；要修改已有仓库并提交 PR，还需要模型凭据加上在个人设置里连接 GitHub（内置授权应用走设备码，也可手填 PAT）。GitLab、Gitea、Gogs 可配 Git SSH；CNB 官方仅支持 HTTPS 加访问令牌。Issue 与 PR / MR 自动化另需托管平台 API Token 或配置 MCP。</li>
+          </ul>
+
+          <div class="sk-tip">
+            <strong>GitHub 不是必需的：</strong>所有内置通用 SOP 都能不绑仓库运行 —— 产品方案交付文档，前后端新项目在任务工作区交付源码；只有缺陷修复仍需提供待修代码和复现材料。先跑通免 Key 体验，再决定要不要接凭据，是最省事的试法。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 05 Local ============================ -->
+      <section id="local" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">05</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">Local 版：装进编程助手</h2>
+              <p class="sk-card-sub">
+                不想部署服务端？<strong class="text-ink">一条 npx 把交付工作流带进你正在用的 IDE / CLI</strong>。
+              </p>
+            </div>
+          </div>
+
+          <div class="sk-prompt">
+            <p class="mb-2 text-xs text-faint">Classic Edition（默认）：Node.js 20+ 与 Python 3.8+</p>
+            <pre>{{ texts.local }}</pre>
+            <button class="sk-copy" :class="{ 'is-done': copied === 'local' }" @click="copy('local')">
+              {{ copied === 'local' ? '已复制' : '复制' }}
+            </button>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">工作流五步</strong>：先理解问题（调研现有项目、澄清目标与验收标准，而不是立刻写代码）→ 确认边界后再实施（中大型任务要你确认目标、范围、排除项、关键决策）→ 分工完成交付（设计、实现、审查、测试由独立角色分阶段做）→ 用证据说明结果 → 中断后继续执行（状态已保存，下次从没做完的阶段接着跑）。</li>
+            <li><strong class="text-ink">按复杂度分流</strong>：小改动走精简的单角色路径「理解 → 实现 → 自检 → 交付」；中大型任务才启用完整链路「澄清并确认 → 设计 → 实现 → 独立审查 → 测试 → 交付」。不会为简单任务硬套流程。</li>
+            <li><strong class="text-ink">产物留在本地</strong>：一次任务结束同时得到代码变更、已确认的需求、技术方案、独立审查意见、测试结果和交付总结，默认写在 <code>artifacts/{task_slug}/</code>，按 <code>01-requirement</code> 到 <code>05-knowledge</code> 分目录，另有 <code>workflow-summary.md</code>。Classic 中断后可用 <code>/resume-devflow</code> 恢复。</li>
+            <li><strong class="text-ink">宿主与版本</strong>：CodeBuddy、Codex、Cursor、Claude Code 四种支持 Classic（默认）与 Portable；Pi、DeepSeek Harness、Hermes Agent 只支持 Portable。同一项目里，每个编码 Agent 只能启用一种 Edition，切换要重新安装并加 <code>--force</code>，先跑 <code>loopforge plan</code> 看会写哪些文件。</li>
+            <li><strong class="text-ink">本地可观测看板</strong>：CodeBuddy 的 Classic 版内置一个纯本机看板，把落盘证据变成会话活动、Token 与成本趋势、Skill / Rule 使用、角色派发和阶段归因视图。数据聚合与页面服务都在本机，不依赖外部遥测；但运行日志可能含工具参数和输出片段，默认排除在 Git 之外，未经检查别外分享原始日志。</li>
+          </ul>
+
+          <div class="sk-prompt">
+            <p class="mb-2 text-xs text-faint">Portable Edition 与长期维护（安装状态写在 .devflow/install-state.json）</p>
+            <pre>{{ texts.portable }}</pre>
+            <button class="sk-copy" :class="{ 'is-done': copied === 'portable' }" @click="copy('portable')">
+              {{ copied === 'portable' ? '已复制' : '复制' }}
+            </button>
+          </div>
+
+          <div class="sk-tip">
+            <strong>平台版与 Local 版怎么选：</strong>平台版适合团队共享对话工作区、SOP、审批与运行记录，依赖 Docker 加 Python 3；Local 版适合个人开发者在 IDE / CLI 里用，依赖 Node.js 20+、Python 3.8+ 和一个编程助手。证据留存上，前者是 Web 工作台里共享的运行详情、审批与指标，后者是本地产物目录加可选看板。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 06 架构 ============================ -->
+      <section id="arch" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">06</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">架构与执行器</h2>
+              <p class="sk-card-sub">
+                Go 单体 + MySQL，<code>internal/engine</code> 管调度，<strong class="text-ink">执行器协议与沙箱生命周期分开</strong>。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">目录分工</strong>：<code>cmd/agentflow</code> 是 API、Worker 或合并进程；<code>cmd/agentflow-runner</code> 是个人与池化执行机器；<code>cmd/agentflow-mcp</code> 与 <code>cmd/agentflow-gate-mcp</code> 提供公共 MCP 和结构化关口结果；<code>internal/engine</code> 管 SOP 图、租约、调度、沙箱生命周期与交付（就绪分支在同一运行工作区一起执行，取消后重跑一条分支会恢复被取消的兄弟节点）。</li>
+            <li><strong class="text-ink">其余层次</strong>：<code>internal/repo</code> 是 MySQL 持久化，按业务域一个 repository；<code>internal/httpapi</code> 按业务域一个 handler；<code>internal/runtime</code> 与 <code>internal/runner</code> 管执行器协议、凭据、隔离与产物；<code>internal/tracker</code> 适配远端 Issue / PR；<code>web</code> 内嵌上游界面与登录；<code>migrations</code> 是显式数据迁移；<code>local</code> 放本地工作流与宿主集成。</li>
+            <li><strong class="text-ink">公开版增量</strong>：账号密码登录和 GitHub 适配器接入现有的 user / token / repository / delivery 契约，没有另起一套引擎或内存生产存储。以 <code>github:</code> 开头的远端仓库标识用来区分 GitHub 的 owner / repository 与旧 tracker 标识，兼容字段仍叫 <code>gongfengProjectId</code>。</li>
+            <li><strong class="text-ink">10 种执行器凭据不同</strong>：CodeBuddy 可用个人 Key 或管理员配的平台共享 Key（镜像内置）；Codex、Claude Code 可用个人 Key 或已连接执行机器上的本机登录；OpenCode、Kimi Code、Pi 仅个人 Key；DeepSeek Harness 镜像内置；Cursor CLI、Antigravity 首次在对话里用厂商脚本安装、不进 SOP 沙箱；ZCode 需自己装进 PATH。Claude Code 之后的 7 种 CLI 每次运行都在私有 HOME 生成模型与 MCP 配置，因此团队里每人都要各配自己的 Key 和 Base URL。</li>
+            <li><strong class="text-ink">几处刻意的边界</strong>：需求澄清、通知 AI 汇总、Bot 回复和运行评测目前固定用 CodeBuddy，服务端收到其他 CLI 的模型会直接拒绝并说明原因，不会悄悄替换；定时助手任务用任务所选的执行器。CLI 的 Classic / Portable 工作流资产彼此分离，也不与平台角色定义共用运行时资产。</li>
+          </ul>
+
+          <div class="sk-prompt">
+            <p class="mb-2 text-xs text-faint">参与项目本身的开发、从源码安装 Local CLI、继续读文档</p>
+            <pre>{{ texts.dev }}</pre>
+            <button class="sk-copy" :class="{ 'is-done': copied === 'dev' }" @click="copy('dev')">
+              {{ copied === 'dev' ? '已复制' : '复制' }}
+            </button>
+          </div>
+
+          <div class="sk-tip">
+            <strong>可选工具：</strong><code>local/tools/tcmcp</code> 是腾讯云只读 MCP Initializr（Redis、CDB、TDSQL-C、TKE、CLS、COS），不含在 <code>loopforge install</code> 或 npm CLI 包里，需克隆仓库后单独启动；云 API 密钥只留在拉取资源或安装 MCP 客户端的本机，不写进生成的 zip 或容器镜像。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 07 安全 ============================ -->
+      <section id="security" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">07</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">安全边界与部署红线</h2>
+              <p class="sk-card-sub">
+                面向可信团队设计，<strong class="text-ink">不是不可信多租户的隔离边界</strong>。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">Docker socket 是最大权限点</strong>：默认 Compose 安装里，SOP 运行和对话工作区都由平台通过宿主机 Docker socket 启动容器，等于给了平台控制宿主机 Docker 的能力。README 明确写了这<strong class="text-ink">只适用于可信团队，不构成不可信多租户隔离边界</strong>；重复执行安装脚本会保留已有数据。</li>
+            <li><strong class="text-ink">默认监听与注册</strong>：新安装默认监听所有网卡（已有安装保留原配置），已登录用户能读实例内各项目数据，团队成员可在登录页自助注册。在 <code>.env</code> 里设 <code>AGENTFLOW_ALLOW_SIGNUP=false</code> 可关掉注册；对团队以外开放前必须阅读账号与访问边界并配好 HTTPS 反向代理，管理员账号创建前只放自己的 IP。</li>
+            <li><strong class="text-ink">凭据由你自己管</strong>：平台不附带模型额度，Key 和 Base URL 由每位成员在个人设置里填；部分执行器首次安装需能访问 npm 或厂商站点。GitHub 走内置授权应用的设备码，也可手动填 PAT；不要把凭据、私有地址或生产运维配置写进工作流模板。</li>
+            <li><strong class="text-ink">本地侧也要看一眼</strong>：部分宿主的 Classic 配置会启用自动执行或高权限 Agent 模式，只在可信项目里用；安装前用 <code>loopforge plan codebuddy</code>（或对应宿主名）检查将写入哪些文件。检测到你改过文件或有冲突时更新会停下，只有确认替换或切换 Edition 才加 <code>--force</code>。</li>
+            <li><strong class="text-ink">报告漏洞的方式</strong>：按仓库安全政策走 GitHub Security Advisory 私密报告，不要开公开 issue。远程访问、HTTPS、独立 Worker、原生部署需装哪些 CLI，都在部署指南里。</li>
+          </ul>
+
+          <div class="sk-tip">
+            <strong>一个容易忽略的细节：</strong>设置 <code>MIRROR</code> 意味着信任那台镜像主机，因为下载结果会被标成官方镜像名。所以升级时务必带同一个变量，并用发布说明里的 digest 核对镜像摘要，别只看 tag。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 08 适用与限制 ============================ -->
+      <section id="cases" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">08</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">适用判断与限制</h2>
+              <p class="sk-card-sub">
+                什么时候值得上，以及几条必须先知道的边界。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">和 Dify / n8n / Flowise 的区别</strong>：那些是通用的 AI 或自动化工作流搭建平台；LoopForge 只专注「用编程 Agent 做软件交付」—— 实现者与评审者的角色分工、带真实仓库的 Docker 沙箱、GitHub 交付、人工验收关口和运行证据。</li>
+            <li><strong class="text-ink">和直接用 CLI 的区别</strong>：它不替代 CodeBuddy / Codex / Claude Code，每个 Agent 步骤和每轮对话仍跑这些 CLI 之一；它补的是外面的部分。如果你只是一个人改一个小函数，直接开 CLI 更轻。</li>
+            <li><strong class="text-ink">适合谁</strong>：需要把「方案 → 实现 → 独立评审 → 测试 → 签字」固定下来的团队；已经有多套 Agent CLI、想统一角色、沙箱、凭据与成本口径的场景；需要交付记录可检查、可复盘、可续跑，或者要用定时任务周期性派发交付的人。</li>
+            <li><strong class="text-ink">明确未实现</strong>：<strong class="text-ink">平台 SOP 导出后在本地独立执行还没做</strong>，Local 目前只跑内置 Classic / Portable 工作流；内置 SOP 是平台维护的只读蓝图，要改得先复制到本项目；对话工作台目前只有中文界面。内置通用 SOP 不绑仓库时，缺陷修复仍需你提供待修代码与复现材料。</li>
+            <li><strong class="text-ink">不适合谁</strong>：没有 Docker 环境、只想做一次性代码补全、需要面向不可信用户做多租户隔离、或期待「一句话自动出成品、完全不用人把关」的场景。它把人放在关口上，这是特性不是缺陷。</li>
+          </ul>
+
+          <div class="sk-tip">
+            <strong>建议姿势：</strong>先用体验项目那条纯脚本加审批的 SOP 走一遍「运行 → 报告 → 人工批准 → 继续」，完全不用 API Key；顺手在目标项目里装一次 Local 版，感受内置交付工作流；确认这两步顺手，再考虑部署平台版、接模型凭据与 GitHub。别一上来就把整套团队流程搬进去。
+          </div>
+
+          <div class="mt-6 flex flex-wrap items-center gap-3 border-t border-hair pt-5">
+            <a href="https://github.com/Tencent/LoopForge" target="_blank" rel="noopener" class="wl-src">
+              <svg class="h-4 w-4"><use href="#i-external"></use></svg>开源仓库
+            </a>
+            <a href="https://github.com/Tencent/LoopForge/blob/main/README.zh-CN.md" target="_blank" rel="noopener" class="wl-src">
+              <svg class="h-4 w-4"><use href="#i-external"></use></svg>中文 README
+            </a>
+            <a href="https://www.npmjs.com/package/loopforge-cli" target="_blank" rel="noopener" class="wl-src">
+              <svg class="h-4 w-4"><use href="#i-external"></use></svg>npm 包
+            </a>
+            <a href="https://github.com/Tencent/LoopForge/blob/main/docs/local/usage.zh-CN.md" target="_blank" rel="noopener" class="wl-src">
+              <svg class="h-4 w-4"><use href="#i-external"></use></svg>Local 指南
+            </a>
+            <a href="skill.html" class="text-xs text-faint transition hover:text-accent">返回 Skill 指南</a>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="mt-10 border-t border-hair py-10">
+      <div class="mx-auto flex max-w-5xl flex-col items-center justify-between gap-2 px-5 text-xs text-faint sm:flex-row sm:px-6">
+        <p>内容整理自 Tencent/LoopForge 开源仓库（MIT）· 版权归原作者所有</p>
+        <p>共 8 篇 · Vue 3 · Tailwind CSS · Arco Design</p>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- 首屏骨架：脚本没跑完之前顶住版式（纯静态，脚本一到自动让位） -->
+  <div class="boot" aria-hidden="true">
+    <div class="boot-bar">
+      <span style="width:8rem;height:2rem;border-radius:.75rem;background:rgb(var(--c-dim) / .12)"></span>
+      <span style="width:6rem;height:2rem;border-radius:.75rem;background:rgb(var(--c-dim) / .12)"></span>
+    </div>
+    <div class="boot-row">
+      <div class="boot-main">
+        <div class="boot-block boot-block--sm"></div>
+        <div class="boot-block boot-block--lg"></div>
+        <div class="boot-block"></div>
+        <div class="boot-block boot-block--sm"></div>
+        <div class="boot-block" style="width:70%"></div>
+      </div>
+      <div class="boot-side"><div class="boot-card"></div></div>
+    </div>
+    <p class="boot-tip">网络有点慢，页面还在加载…</p>
+    <div class="boot-fail">
+      <p>页面脚本加载失败，通常是网络中断或浏览器拦截了资源。</p>
+      <p><button type="button" onclick="location.reload()" class="text-accent hover:underline">点击重试</button>
+        · <a href="index.html" class="text-accent hover:underline">返回首页</a></p>
+    </div>
+  </div>
+  <script>
+    // 6 秒还没挂载 → 提示慢；20 秒仍没挂载 → 给重试入口。正常网速不会触发
+    setTimeout(function () {
+      var app = document.getElementById('skill-app');
+      var boot = document.querySelector('.boot');
+      if (app && boot && app.hasAttribute('v-cloak')) boot.classList.add('is-slow');
+    }, 6000);
+    setTimeout(function () {
+      var app = document.getElementById('skill-app');
+      var boot = document.querySelector('.boot');
+      if (app && boot && app.hasAttribute('v-cloak')) boot.classList.add('is-failed');
+    }, 20000);
+  </script>
+
+  <script src="assets/js/weather.js?v=202610051"></script>
+  <script src="vendor/arco-bundle.js?v=20260923"></script>
+  <script src="assets/js/loopforge-doc.js?v=20261115b"></script>
+
+</body>
+</html>

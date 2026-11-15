@@ -10,8 +10,8 @@ website/
 ├── resume.html                # 简历页：一页式简历，可打印 / 存为 PDF
 ├── weekly.html                # 周刊归档页：最近 20 期 + 全量检索
 ├── hotnews.html               # 科技热点页：IT之家 / Hacker News / 少数派 三源热榜
-├── skill.html                 # Skill 指南页：10 张仓库指南入口卡（由 content/skills.json 生成）
-├── *-doc.html                 # 10 个仓库的完整指南页（每页 8 节，各自手写）
+├── skill.html                 # Skill 指南页：11 张仓库指南入口卡（由 content/skills.json 生成）
+├── *-doc.html                 # 11 个仓库的完整指南页（每页 8 节，各自手写）
 ├── content/
 │   └── skills.json            # ★ Skill 卡片唯一录入源：标题 / 描述 / 仓库 / 统计 / 指南页
 ├── 404.html                   # GitHub Pages 自定义 404
@@ -169,12 +169,12 @@ npm run verify      # 校验，覆盖 life:check、归档切分与文章页全�
 
 ## Skill 卡片：一次录入，多处生成
 
-`skill.html` 下现有 10 张仓库指南入口卡。以前加一张卡要手工改 5 个地方（实时模板、SEO 快照、sitemap、一整个指南页、对应 JS），
+`skill.html` 下现有 11 张仓库指南入口卡。以前加一张卡要手工改 5 个地方（实时模板、SEO 快照、sitemap、一整个指南页、对应 JS），
 历史上有多次「快照标签损坏 / 卡片错位」都出在前两处的手工同步上。现在**加卡、改文案、改统计，只改 `content/skills.json` 一条记录**：
 
 ```bash
 npm run skills        # 生成 skill.html 实时卡片区 + SEO 快照 + sitemap.xml + 首页随机技能池
-npm run verify        # 全站校验（6 项，任一失败退出码 1）
+npm run verify        # 全站校验（12 项，任一失败退出码 1）
 npm run skills:check  # 只比对不写入，适合 CI 或提交前确认没漏跑
 ```
 
@@ -226,12 +226,13 @@ npm run skills:check  # 只比对不写入，适合 CI 或提交前确认没漏�
 `prerender.mjs` 重新渲染 noscript 快照后锚点依然成立，随时可以再跑一次 `npm run skills` 把快照规范化
 （清掉手工补卡时混进来的 svg 装饰、补齐描述文字空格）。
 
-**指南页本身仍需手写**：10 个 `*-doc.html`（每页 8 节）与 `*-doc.js`（主题 + 复制块）属于创作内容、
+**指南页本身仍需手写**：11 个 `*-doc.html`（每页 8 节）与 `*-doc.js`（主题 + 复制块）属于创作内容、
 彼此不同，不进配置。新增卡片时复制同款页面改内容即可；`npm run verify` 会逐页检查 8 个章节与目录锚点、
 Vue 模板变量与 JS 复制块 key 一一对齐、本地链接可达、Vue 编译 0 错误、JS 语法与 `#skill-app` 挂载。
 
-`npm run verify` 的 7 项：配置与生成产物同步 / 四处卡片数一致 / `skill.html` 标签与编译 /
-指南页与脚本成对 / 10 个指南页逐页结构 / `sitemap.xml` 无重复 URL。
+`npm run verify` 共 12 项：配置与生成产物同步 / 四处卡片数一致 / `skill.html` 标签与编译 /
+指南页与脚本成对 / 11 个指南页逐页结构 / 生活年表与归档 / 文章页 / 首页随机技能池 /
+`sitemap.xml` 无重复 URL 等（任一失败退出码 1）。
 
 ## 依赖是怎么构建的（重要）
 

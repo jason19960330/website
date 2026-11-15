@@ -107,4 +107,9 @@
     <priority>0.6</priority>
   </url>
 <!-- posts:end -->
+  <url>
+    <loc>https://jason19960330.github.io/website/loopforge-doc.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
 </urlset>

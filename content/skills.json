@@ -320,6 +320,26 @@
       ],
       "doc": "dsh-media-desk-doc.html",
       "comment": "dsh-media-desk 使用指南入口卡"
+    },
+    {
+      "id": "loopforge",
+      "kicker": "交付工作台 · 使用指南",
+      "blurb": "把 Agent 交付固化成 SOP，关键节点由人把关",
+      "title": "LoopForge 使用指南",
+      "desc": [
+        "腾讯开源的自托管团队工作台：在对话里把需求交给 <span class=\"font-semibold text-ink\">Main Bot</span>，它会按需开 Docker 沙箱、检出仓库、把任务分派给项目角色，最后提交 PR。",
+        "某种做法被验证有效后，就存成由 Agent、脚本和人工关口组成的 <span class=\"font-semibold text-ink\">SOP</span>，下一个需求按同样方式交付，评审和验收都在流程里。",
+        "编排 CodeBuddy、Codex、Claude Code 等 10 种编程 Agent CLI，另有不部署服务端的 Local 版。指南整理自其公开仓库。"
+      ],
+      "repo": "https://github.com/Tencent/LoopForge",
+      "stats": [
+        { "label": "GitHub 收藏", "value": "867" },
+        { "label": "Agent CLI", "value": "10 种" },
+        { "label": "内置 SOP", "value": "4 条" },
+        { "label": "许可", "value": "MIT" }
+      ],
+      "doc": "loopforge-doc.html",
+      "comment": "LoopForge 使用指南入口卡"
     }
   ]
 }
