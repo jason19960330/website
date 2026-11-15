@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>岚叔 HTML 演示模板 完整指南 · 30 套单文件演示与 AI Skill | 李文涛</title>
+  <meta name="description" content="岚叔 HTML 演示模板完整指南：它是什么、30 套模板与 338 页示例、单文件放映体验、安装为 Agent Skill、deck.py 命令行工具、浏览器里改稿、本地开发与部署、适用判断与授权边界，一页读完。">
+  <link rel="canonical" href="https://jason19960330.github.io/website/lanshu-html-ppt-doc.html">
+
+  <!-- 分享卡片（微信 / 领英 / X 等平台抓取） -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="李文涛的个人主页">
+  <meta property="og:title" content="岚叔 HTML 演示模板 完整指南 · 30 套单文件演示与 AI Skill | 李文涛">
+  <meta property="og:description" content="30 套原生 HTML 演示模板、338 页示例，单文件交付离线可放映；也能装成 Agent Skill，让 AI 按内容选模板、改写正文与讲稿。">
+  <meta property="og:url" content="https://jason19960330.github.io/website/lanshu-html-ppt-doc.html">
+  <meta property="og:image" content="https://jason19960330.github.io/website/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="zh_CN">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="岚叔 HTML 演示模板 完整指南 · 30 套单文件演示与 AI Skill | 李文涛">
+  <meta name="twitter:description" content="30 套原生 HTML 演示模板、338 页示例，单文件交付离线可放映；也能装成 Agent Skill，让 AI 按内容选模板、改写正文与讲稿。">
+  <meta name="twitter:image" content="https://jason19960330.github.io/website/assets/og-image.png">
+
+  <link rel="icon" href="assets/favicon.svg?v=20260923" type="image/svg+xml">
+
+  <!-- 首屏主题前置脚本：避免深色偏好用户看到白屏闪一下（与首页共用 site.theme） -->
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('site.theme');
+        if (!saved) {
+          saved = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+        }
+        if (saved === 'dark') document.documentElement.classList.add('dark');
+      } catch (e) { /* 隐私模式忽略 */ }
+    })();
+  </script>
+
+  <!-- 预编译样式：Tailwind 产物 → Arco 按需样式 → 站点定制（后者覆盖前者） -->
+  <link rel="stylesheet" href="assets/css/tailwind.css?v=202610281">
+  <link rel="stylesheet" href="vendor/arco-bundle.css?v=20260923">
+  <link rel="stylesheet" href="assets/css/style.css?v=20261115a">
+</head>
+
+<body class="bg-base">
+  <div id="skill-app" v-cloak>
+
+    <!-- ============================ 顶部导航 ============================ -->
+    <header class="site-header is-solid fixed inset-x-0 top-0 z-40 border-b border-hair">
+      <div class="mx-auto flex h-16 max-w-5xl items-center justify-between px-5 sm:px-6">
+        <a href="index.html" class="flex items-center gap-2.5">
+          <img src="assets/avatar.jpg?v=20261111d" alt="" class="h-8 w-8 rounded-lg object-cover">
+          <span class="text-sm font-semibold tracking-tight text-ink">李文涛</span>
+        </a>
+        <div class="flex items-center gap-2">
+          <a href="resume.html" class="hidden text-xs text-dim transition hover:text-accent sm:inline">简历</a>
+          <a href="weekly.html" class="hidden text-xs text-dim transition hover:text-accent sm:inline">AI 速览</a>
+          <a href="hotnews.html" class="hidden text-xs text-dim transition hover:text-accent sm:inline">热点</a>
+          <a href="skill.html" class="hidden text-xs font-semibold text-accent sm:inline">Skill 指南</a>
+          <a href="aihot.html" class="hidden text-xs text-dim transition hover:text-accent sm:inline">AIHOT 指南</a>
+          <button @click="toggleTheme" aria-label="切换主题"
+                  class="grid h-9 w-9 place-items-center rounded-lg border border-hair text-dim transition hover:text-accent">
+            <svg class="theme-icon h-4 w-4"><use :href="theme === 'dark' ? '#i-moon' : '#i-sun'"></use></svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <svg class="hidden" aria-hidden="true">
+      <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 14.5A8.5 8.5 0 019.5 4a8.5 8.5 0 1010.5 10.5z"></path>
+      </symbol>
+      <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="4"></circle>
+        <path d="M12 3v2m0 14v2M3 12h2m14 0h2M5.6 5.6l1.4 1.4m10 10l1.4 1.4m0-12.8l-1.4 1.4m-10 10L5.6 18.4"></path>
+      </symbol>
+      <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M10.5 6l-6 6 6 6M4.5 12h15"></path>
+      </symbol>
+      <symbol id="i-external" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 4h6v6M20 4l-9 9M18 14v4a2 2 0 01-2 2H6a2 2 0 01-2-2V8a2 2 0 012-2h4"></path>
+      </symbol>
+    </svg>
+
+    <main id="main" class="pt-16" tabindex="-1">
+
+      <!-- ============================ 概览 ============================ -->
+      <section class="mx-auto max-w-5xl px-5 pt-6 sm:px-6 sm:pt-8">
+        <a href="skill.html" class="wl-back">
+          <svg class="h-3.5 w-3.5"><use href="#i-arrow-left"></use></svg>返回 Skill 指南
+        </a>
+
+        <div class="wl-hero card mt-4">
+          <span class="wl-hero-bar" aria-hidden="true"></span>
+          <div class="p-6 sm:p-8">
+            <div class="mt-4 flex flex-wrap items-start justify-between gap-5">
+              <div class="min-w-0">
+                <p class="text-xs font-semibold uppercase tracking-[0.2em] text-accent">HTML 演示 · 使用指南</p>
+                <h1 class="mt-2 text-3xl font-bold tracking-tight text-ink sm:text-4xl">岚叔 HTML 演示模板 完整指南</h1>
+                <p class="mt-3 max-w-2xl text-sm leading-relaxed text-dim">
+                  <strong class="text-ink">30 套专业 HTML 演示模板 · 338 页完整示例 · 一个可复用的 AI Skill</strong>：
+                  从咨询报告、融资路演到数据变形与实时模型，把内容、设计与交互放进一个 HTML 文件。
+                  直接选模板改稿，或把整套资源装成 Skill，让 AI 助手完成选型、改写与演示制作。指南整理自其公开仓库。
+                </p>
+              </div>
+
+              <a href="https://github.com/cclank/lanshu-html-ppt-templates" target="_blank" rel="noopener" class="wl-src">
+                <svg class="h-4 w-4"><use href="#i-external"></use></svg>
+                <span class="leading-tight">开源仓库<br>GitHub</span>
+              </a>
+            </div>
+
+            <dl class="wl-stats">
+              <div><dt>GitHub 收藏</dt><dd class="tnum">64</dd></div>
+              <div><dt>演示模板</dt><dd class="tnum">30 套</dd></div>
+              <div><dt>示例页数</dt><dd class="tnum">338 页</dd></div>
+              <div><dt>许可</dt><dd class="tnum">MIT*</dd></div>
+            </dl>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 目录 ============================ -->
+      <section class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card p-5 sm:p-6">
+          <h2 class="text-sm font-semibold text-ink">本页目录（8 篇）</h2>
+          <nav class="sk-toc mt-3">
+            <a href="#what"><span>01</span>它到底是什么</a>
+            <a href="#templates"><span>02</span>30 套模板 / 338 页</a>
+            <a href="#present"><span>03</span>单文件里的放映体验</a>
+            <a href="#install"><span>04</span>安装为 Agent Skill</a>
+            <a href="#cli"><span>05</span>命令行工具 deck.py</a>
+            <a href="#edit"><span>06</span>在浏览器里直接改稿</a>
+            <a href="#dev"><span>07</span>本地开发与部署</a>
+            <a href="#cases"><span>08</span>适用判断、授权与限制</a>
+          </nav>
+        </div>
+      </section>
+
+      <!-- ============================ 01 它是什么 ============================ -->
+      <section id="what" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">01</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">它到底是什么</h2>
+              <p class="sk-card-sub">
+                一句话：<strong class="text-ink">交付物是一个 HTML 文件，不是一份 .pptx</strong>。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">定位</strong>：由岚叔 / Lanshu 整理维护，仓库 <code>cclank/lanshu-html-ppt-templates</code>，在线目录 <code>ppt.lanshuagent.com</code>。原生 HTML / CSS / JavaScript、字体内嵌，模板播放不需要安装依赖、账号、后端或 API 密钥，下载到本地可离线放映。</li>
+            <li><strong class="text-ink">两条用法</strong>：① 打开在线模板目录选风格 → 点封面放映或「下载 HTML」→ 用编辑器或 AI 助手改写正文与演讲备注；② 把整套资源安装为 Skill，让 AI 助手完成选型、内容改写和演示制作。</li>
+            <li><strong class="text-ink">Skill 与工具一起交付</strong>：<code>SKILL.md</code> 是技能入口，选型目录、创作规则、模板复制、静态校验和安全安装器都在完整包里。Skill 会按内容挑模板、复制完整资源、改写页面与备注、跑静态检查，并在可用浏览器里验证实际呈现。</li>
+            <li><strong class="text-ink">表达更丰富</strong>：SVG 图表、Canvas 数据变形、生成艺术、空间视差、镜头飞行与可调业务模型，全都写在同一个文件里，不靠外部服务。</li>
+          </ul>
+
+          <div class="sk-tip">
+            <strong>体量：</strong>仓库 2026-11-04 创建、最近提交 11-12，约 64 star / 11 fork / 0 open issue，主体语言 HTML，仓库约 44 MB（内嵌字体与缩略图占大头）。项目还很新，长期维护节奏仍需观察。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 02 模板清单 ============================ -->
+      <section id="templates" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">02</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">30 套模板 / 338 页</h2>
+              <p class="sk-card-sub">
+                按场景挑，<strong class="text-ink">别只按好看挑</strong>。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">两组各 15 套</strong>：经典 / 叙事一侧覆盖瑞士国际主义、杂志编辑、暗夜极光、黑金奢华、咨询战略、新中式等；交互 / 实验一侧覆盖数据变形、生成艺术、电影片头、活体模型、终端、地球仪、地铁线路、漫画分镜等。</li>
+            <li><strong class="text-ink">21–30 是本次新增 10 套</strong>：学术答辩、便当格、黑板课堂、对话叙事、像素闯关、报纸头版、蓝图工程、政企汇报、地铁线路、漫画分镜；模板库因此从 20 套扩到 30 套、338 页，首页还加了「新增 10 套」筛选与卡片悬停动态预览。</li>
+            <li><strong class="text-ink">每套 10–12 页</strong>，包含正文结构与逐页演讲备注。目录里每套都写了「适合场景」，例如 <code>07-consulting</code> → 战略汇报 / 董事会材料，<code>28-official</code> → 年度工作汇报 / 国企述职，<code>29-metro</code> → 产品路线图 / 里程碑。</li>
+            <li><strong class="text-ink">打印样式分两类</strong>：23 套源码内已有多页打印适配，可用浏览器打印到 PDF（勾「背景图形」、边距选「无」）；其余偏浏览器放映，交互、动画和临时状态只能在浏览器里看，PDF 效果需实测。</li>
+            <li><strong class="text-ink">机器可读的选型依据</strong>：<code>references/template-catalog.md</code> 是能力分类，<code>catalog.json</code> 存 30 套元数据与原始文件 SHA-256；Skill 选型读的就是这两份。</li>
+          </ul>
+
+          <div class="sk-prompt">
+            <p class="mb-2 text-xs text-faint">30 套模板 ID 速查 · 换掉 <code>deck.py new</code> 后面的名字即可</p>
+            <pre>{{ texts.templates }}</pre>
+            <button class="sk-copy" :class="{ 'is-done': copied === 'templates' }" @click="copy('templates')">
+              {{ copied === 'templates' ? '已复制' : '复制' }}
+            </button>
+          </div>
+
+          <div class="sk-tip">
+            <strong>先挑一套再谈改源码：</strong>整套的价值在于每套都自带完整放映工具与讲稿结构，真要用时挑一两个风格即可，不必 30 套全看一遍。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 03 放映体验 ============================ -->
+      <section id="present" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">03</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">单文件里的放映体验</h2>
+              <p class="sk-card-sub">
+                30 套<strong class="text-ink">共用同一套放映工具</strong>，不用另装播放器。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">画布与导航</strong>：1920×1080 自适应缩放；<code>←</code> / <code>→</code>、PageUp / PageDown、点击、滚轮或触屏手势翻页，输入页码按 <code>Enter</code> 跳页，也能在文件或网址后加 <code>#3</code> 直接定位。</li>
+            <li><strong class="text-ink">放映快捷键</strong>：<code>F</code> 全屏、<code>S</code> 演讲者视图（首次需允许本页弹窗）、<code>O</code> 总览、<code>B</code> / <code>W</code> 黑白屏、<code>L</code> 激光笔、<code>D</code> 画笔批注（<code>C</code> 清本页、<code>Ctrl+Z</code> 撤销，按页保留、刷新清空）、<code>?</code> 看全部快捷键。</li>
+            <li><strong class="text-ink">手机遥控</strong>：按 <code>M</code> 出二维码，但必须先用 <code>python3 scripts/present.py</code> 起本地服务；手机与电脑同 Wi-Fi，可翻页、看逐页讲稿、跳页、黑屏，也能用激光笔和画笔。配对码 6 位、服务停止即失效；直接双击或在线打开时 <code>M</code> 只显示说明。</li>
+            <li><strong class="text-ink">统一工具包</strong>：放映工具源码在 <code>assets/toolkit.html</code>，改完运行 <code>python3 scripts/inject_toolkit.py</code> 同步进各模板，并更新 <code>catalog.json</code> 里的校验值。<code>14-live-model</code> 的咖啡门店模板还能改假设、看联动计算。</li>
+          </ul>
+
+          <div class="sk-tip">
+            <strong>样例数据要换掉：</strong>模板里的品牌、数字、研究来源和联系方式都是演示数据，按真实材料替换；终端模板显示的命令不会在网页里执行，实时模型的口径与业务结论也要自行校验。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 04 安装 Skill ============================ -->
+      <section id="install" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">04</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">安装为 Agent Skill</h2>
+              <p class="sk-card-sub">
+                Python 3.10+ 即可，<strong class="text-ink">不装任何第三方 Python 依赖</strong>。
+              </p>
+            </div>
+          </div>
+
+          <div class="sk-prompt">
+            <p class="mb-2 text-xs text-faint">克隆 → 安装 → 新聊天里用示例提示</p>
+            <pre>{{ texts.install }}</pre>
+            <button class="sk-copy" :class="{ 'is-done': copied === 'install' }" @click="copy('install')">
+              {{ copied === 'install' ? '已复制' : '复制' }}
+            </button>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">装到哪</strong>：默认 <code>~/.codex/skills/lanshu-html-ppt-templates</code>；设置了 <code>CODEX_HOME</code> 就用该目录下的 <code>skills/</code>。给其他支持 <code>SKILL.md</code> 的助手用 <code>--skills-dir /path/to/your/skills</code> 指定目录。</li>
+            <li><strong class="text-ink">安装器很克制</strong>：只复制 Skill 必需资源，并拒绝覆盖已有目录；装完要重开助手的新聊天，才能刷新技能发现。也可以不克隆，直接下载 GitHub Releases 的完整 ZIP（含原始模板与缩略图）。</li>
+            <li><strong class="text-ink">示例提示怎么写</strong>：点名 Skill → 说清页数与场景 → 指定风格 → 要求单文件 HTML 与逐页备注 → 粘贴材料。例如「做成 12 页产品发布演示，受众是企业客户，采用暗夜极光风格」。</li>
+            <li><strong class="text-ink">Skill 会做什么</strong>：按内容与格式要求选模板 → 复制完整资源 → 改写页面和备注 → 执行静态检查 → 在可用浏览器中验证实际呈现。详细创作步骤见仓库 <code>references/authoring.md</code>。</li>
+          </ul>
+
+          <div class="sk-tip">
+            <strong>直接改稿也完全够用：</strong>不装 Skill 也能去在线目录挑一套、下载 HTML 自己改。Skill 的价值是把「选哪套、页面怎么排、讲稿怎么写」这些判断交给 AI，适合批量出稿。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 05 命令行 ============================ -->
+      <section id="cli" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">05</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">命令行工具 deck.py</h2>
+              <p class="sk-card-sub">
+                查看、复制、检查，<strong class="text-ink">改稿前先把原模板复制出来</strong>。
+              </p>
+            </div>
+          </div>
+
+          <div class="sk-prompt">
+            <p class="mb-2 text-xs text-faint">列模板 / 建副本 / 读源码 / 校验 / 补字体 / 起遥控服务</p>
+            <pre>{{ texts.cli }}</pre>
+            <button class="sk-copy" :class="{ 'is-done': copied === 'cli' }" @click="copy('cli')">
+              {{ copied === 'cli' ? '已复制' : '复制' }}
+            </button>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">list / source</strong>：<code>deck.py list</code> 列出 30 套，<code>list --pdf</code> 只筛带多页打印样式的；<code>deck.py source 07-consulting</code> 输出精简源码，仅隐藏终端里的字体 Base64，原文件保持完整。</li>
+            <li><strong class="text-ink">new</strong>：创建完整副本且<strong class="text-ink">不覆盖已有文件</strong>。<code>--title</code> 只改浏览器标题，封面、正文、品牌、图表和备注都要继续编辑；原始模板是一份可校验的副本，创作时先复制到自己的输出目录。</li>
+            <li><strong class="text-ink">inspect / validate</strong>：检查页面结构、备注 JSON 与内联 JavaScript 语法（JS 校验需 Node.js）。静态检查不执行浏览器脚本，也证明不了版式、动画和 PDF 导出是否正确。</li>
+            <li><strong class="text-ink">embed_fonts.py</strong>：改完文字后联网按页面实际用到的字重新裁剪内嵌字体；<code>present.py</code> 则提供局域网放映服务，配合浏览器里的 <code>M</code> 做手机遥控。</li>
+          </ul>
+
+          <div class="sk-tip">
+            <strong>验证清单：</strong>内容改完人工检查首尾页、关键图表、最长正文、导航与备注；PDF 另做实际成品检查。这一步没法靠脚本替代。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 06 浏览器改稿 ============================ -->
+      <section id="edit" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">06</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">在浏览器里直接改稿</h2>
+              <p class="sk-card-sub">
+                按 <code>E</code> 进编辑，<strong class="text-ink">不用碰源码也能换文案</strong>。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">改文字与讲稿</strong>：点页面上带虚线框的文字直接修改；「文字与讲稿」面板里改本页讲稿和浏览器标题，用「全套替换」把样例里的公司名、产品名一次换掉（讲稿里的也一起换）。</li>
+            <li><strong class="text-ink">换主题色</strong>：「配色」面板用取色器实时预览，调完和文字一起保存在新文件里，原模板不动。</li>
+            <li><strong class="text-ink">另存为新文件</strong>：点「保存为新文件」或按 <code>Ctrl+S</code>，得到 <code>原文件名（已编辑）.html</code>；直接双击打开的本地文件，保存时需要再选一次原文件。</li>
+            <li><strong class="text-ink">字体边界</strong>：内嵌中文字体按原文字符裁剪，新写的字会先用系统字体显示，编辑面板会列出这些字；联网运行 <code>python3 scripts/embed_fonts.py 文件.html</code> 可重新裁剪。改稿后要检查字形、换行与溢出。</li>
+            <li><strong class="text-ink">脚本生成的文字改不了</strong>：终端打字、部分图表标签由 JS 生成，不能点选，要用「全套替换」；英文词出现在脚本生成内容里时，为避免改坏代码不会被替换，保存时会提示剩余处数。</li>
+          </ul>
+
+          <div class="sk-tip">
+            <strong>建议顺序：</strong>先用「全套替换」和面板把内容、讲稿、配色改到位并另存，再按需打开 HTML 源码做精细调整；一上来直接改源码容易破坏内嵌字体和放映工具。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 07 开发与部署 ============================ -->
+      <section id="dev" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">07</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">本地开发与部署</h2>
+              <p class="sk-card-sub">
+                没有运行时 npm 依赖，<strong class="text-ink">也不需要 npm install</strong>。
+              </p>
+            </div>
+          </div>
+
+          <div class="sk-prompt">
+            <p class="mb-2 text-xs text-faint">校验 / 构建 / 预览 / 发版 / 部署</p>
+            <pre>{{ texts.dev }}</pre>
+            <button class="sk-copy" :class="{ 'is-done': copied === 'dev' }" @click="copy('dev')">
+              {{ copied === 'dev' ? '已复制' : '复制' }}
+            </button>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">环境</strong>：模板创建与源码查看用 Python 3.10+，JavaScript 语法校验还需 Node.js，开发与部署建议 Node.js 22+。四个脚本分别做资源校验、生成 <code>dist/</code> 站点与 <code>release/</code> ZIP、本地预览、发布 Release 附件。</li>
+            <li><strong class="text-ink">部署</strong>：站点用 Cloudflare Workers Static Assets 托管模板，Custom Domains 绑定子域名，默认公开地址 <code>ppt.lanshuagent.com</code>；先 <code>deploy.py --dry-run</code> 预检，再 <code>npm run deploy</code>，工具固定 Wrangler 4.148.0。</li>
+            <li><strong class="text-ink">预览媒体不进版本库</strong>：高清视频与 30 段卡片预览按 <code>preview-media.json</code> 用 <code>fetch_previews.py</code> 校验下载，<code>deploy.py</code> 发布前会先执行这一步。构建目录只含公开站点资源，账号配置、缓存与 node_modules 都不进站点或 ZIP。</li>
+            <li><strong class="text-ink">完整包与校验</strong>：完整 Skill 与源码通过 GitHub Releases 分发，同目录 <code>SHA256SUMS.txt</code> 可核对；复用部署到自己的域名时，改 <code>wrangler.jsonc</code> 的 Worker 名与 <code>routes[].pattern</code>。</li>
+          </ul>
+
+          <div class="sk-tip">
+            <strong>GitHub Actions：</strong>仓库自带校验工作流，推送与 PR 时会检查资源与构建结果。新增风格或改原始模板时，要同步更新 <code>catalog.json</code>、缩略图、选型目录与备注，再跑校验与构建。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 08 适用与限制 ============================ -->
+      <section id="cases" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">08</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">适用判断、授权与限制</h2>
+              <p class="sk-card-sub">
+                什么时候值得用，以及几条必须先知道的边界。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">适合谁</strong>：需要一份能离线放映、能直接发链接、带动画与交互的演示；想让 AI 助手按内容选风格并写好逐页讲稿；接受交付 HTML 而不是 .pptx。</li>
+            <li><strong class="text-ink">不适合谁</strong>：必须交可编辑 .pptx、对方要在 PowerPoint 里改；只想要一个静态主题、用不上放映工具与演讲者视图；或受众环境打不开 HTML。可编辑 .pptx 需要额外转换。</li>
+            <li><strong class="text-ink">授权要分开看（* 号说明）</strong>：新增 Skill、脚本、网站与文档按 <strong class="text-ink">MIT</strong> 开源；但<strong class="text-ink">原始模板、缩略图及内嵌字体保留各自权利，原始包未提供上游许可证</strong>，完整范围见 <code>NOTICE.md</code>。别把「项目 MIT」理解成「所有素材都能随便商用」。</li>
+            <li><strong class="text-ink">预览不等于主屏</strong>：演讲者视图用独立 iframe 显示当前页与下一页，默认不共享主屏临时调整的参数、随机种子和物件位置；总览缩略图与手机预览也是独立实例。</li>
+            <li><strong class="text-ink">版本信息有点错位</strong>：GitHub 仓库描述仍写「20 套 / 226 页」，README 与 <code>catalog.json</code> 已更新到 30 套 / 338 页 —— 以后者为准。仓库 2026-11-04 创建、64 star，还很新。</li>
+          </ul>
+
+          <div class="sk-tip">
+            <strong>建议姿势：</strong>先去在线目录挑一套（比如 <code>07-consulting</code> 或 <code>03-aurora</code>）下载双击，把快捷键与演讲者视图过一遍；再把整套装成 Skill，用示例提示让 AI 出一版 12 页演示；最后按 <code>E</code> 在浏览器里改文案与讲稿。别一上来就改模板源码。
+          </div>
+
+          <div class="mt-6 flex flex-wrap items-center gap-3 border-t border-hair pt-5">
+            <a href="https://github.com/cclank/lanshu-html-ppt-templates" target="_blank" rel="noopener" class="wl-src">
+              <svg class="h-4 w-4"><use href="#i-external"></use></svg>开源仓库
+            </a>
+            <a href="https://ppt.lanshuagent.com/" target="_blank" rel="noopener" class="wl-src">
+              <svg class="h-4 w-4"><use href="#i-external"></use></svg>在线模板目录
+            </a>
+            <a href="https://ppt.lanshuagent.com/guide.html" target="_blank" rel="noopener" class="wl-src">
+              <svg class="h-4 w-4"><use href="#i-external"></use></svg>官方使用指南
+            </a>
+            <a href="https://github.com/cclank/lanshu-html-ppt-templates/blob/main/references/authoring.md" target="_blank" rel="noopener" class="wl-src">
+              <svg class="h-4 w-4"><use href="#i-external"></use></svg>作者指南
+            </a>
+            <a href="skill.html" class="text-xs text-faint transition hover:text-accent">返回 Skill 指南</a>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="mt-10 border-t border-hair py-10">
+      <div class="mx-auto flex max-w-5xl flex-col items-center justify-between gap-2 px-5 text-xs text-faint sm:flex-row sm:px-6">
+        <p>内容整理自 cclank/lanshu-html-ppt-templates 开源仓库（新增代码 MIT，素材权利见 NOTICE.md）· 版权归原作者所有</p>
+        <p>共 8 篇 · Vue 3 · Tailwind CSS · Arco Design</p>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- 首屏骨架：脚本没跑完之前顶住版式（纯静态，脚本一到自动让位） -->
+  <div class="boot" aria-hidden="true">
+    <div class="boot-bar">
+      <span style="width:8rem;height:2rem;border-radius:.75rem;background:rgb(var(--c-dim) / .12)"></span>
+      <span style="width:6rem;height:2rem;border-radius:.75rem;background:rgb(var(--c-dim) / .12)"></span>
+    </div>
+    <div class="boot-row">
+      <div class="boot-main">
+        <div class="boot-block boot-block--sm"></div>
+        <div class="boot-block boot-block--lg"></div>
+        <div class="boot-block"></div>
+        <div class="boot-block boot-block--sm"></div>
+        <div class="boot-block" style="width:70%"></div>
+      </div>
+      <div class="boot-side"><div class="boot-card"></div></div>
+    </div>
+    <p class="boot-tip">网络有点慢，页面还在加载…</p>
+    <div class="boot-fail">
+      <p>页面脚本加载失败，通常是网络中断或浏览器拦截了资源。</p>
+      <p><button type="button" onclick="location.reload()" class="text-accent hover:underline">点击重试</button>
+        · <a href="index.html" class="text-accent hover:underline">返回首页</a></p>
+    </div>
+  </div>
+  <script>
+    // 6 秒还没挂载 → 提示慢；20 秒仍没挂载 → 给重试入口。正常网速不会触发
+    setTimeout(function () {
+      var app = document.getElementById('skill-app');
+      var boot = document.querySelector('.boot');
+      if (app && boot && app.hasAttribute('v-cloak')) boot.classList.add('is-slow');
+    }, 6000);
+    setTimeout(function () {
+      var app = document.getElementById('skill-app');
+      var boot = document.querySelector('.boot');
+      if (app && boot && app.hasAttribute('v-cloak')) boot.classList.add('is-failed');
+    }, 20000);
+  </script>
+
+  <script src="assets/js/weather.js?v=202610051"></script>
+  <script src="vendor/arco-bundle.js?v=20260923"></script>
+  <script src="assets/js/lanshu-html-ppt-doc.js?v=20261115c"></script>
+
+</body>
+</html>

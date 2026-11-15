@@ -360,6 +360,26 @@
       ],
       "doc": "ricoui-blocks-doc.html",
       "comment": "RicoUI Blocks 使用指南入口卡"
+    },
+    {
+      "id": "lanshu-html-ppt",
+      "kicker": "HTML 演示 · 使用指南",
+      "blurb": "30 套单文件 HTML 演示模板，让 AI 帮你选型改稿",
+      "title": "岚叔 HTML 演示模板 使用指南",
+      "desc": [
+        "岚叔（Lanshu）开源的 HTML 演示模板库：<span class=\"font-semibold text-ink\">30 套完整风格 / 338 页示例</span>，每套 10–12 页并带逐页演讲备注，原生 HTML/CSS/JS 单文件交付、字体内嵌，双击即放映，不装依赖也不要 API Key。",
+        "前 15 套是经典系列（咨询战略、瑞士网格、暗夜极光…），后 15 套是交互实验（数据变形、生成艺术、活体模型、地铁线路…）；SVG 图表、Canvas 动画、镜头飞行都写在同一个文件里。",
+        "更关键的是它把自己做成一个可复用的 <span class=\"font-semibold text-ink\">Agent Skill</span>：选型目录、创作规则、模板复制、静态校验与安全安装器一起交付，让 AI 助手按内容挑模板、改写正文与讲稿，产出能直接放映的单文件 HTML。指南整理自其公开仓库。"
+      ],
+      "repo": "https://github.com/cclank/lanshu-html-ppt-templates",
+      "stats": [
+        { "label": "GitHub 收藏", "value": "64" },
+        { "label": "演示模板", "value": "30 套" },
+        { "label": "示例页数", "value": "338 页" },
+        { "label": "许可", "value": "MIT*" }
+      ],
+      "doc": "lanshu-html-ppt-doc.html",
+      "comment": "岚叔 HTML 演示模板 使用指南入口卡"
     }
   ]
 }

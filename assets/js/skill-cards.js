@@ -96,5 +96,13 @@ window.SKILL_CARDS = [
     "title": "RicoUI Blocks 使用指南",
     "doc": "ricoui-blocks-doc.html",
     "kicker": "动效组件库 · 使用指南"
+  },
+  {
+    "id": "lanshu-html-ppt",
+    "name": "岚叔 HTML 演示模板",
+    "blurb": "30 套单文件 HTML 演示模板，让 AI 帮你选型改稿",
+    "title": "岚叔 HTML 演示模板 使用指南",
+    "doc": "lanshu-html-ppt-doc.html",
+    "kicker": "HTML 演示 · 使用指南"
   }
 ];
