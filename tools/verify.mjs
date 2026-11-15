@@ -372,10 +372,12 @@ check('首页羊毛速递：数据 / 模板 / 30 分钟刷新 / 定时同步工�
     assert(['free', 'conditional'].includes(it.obtain), '羊毛条目领取方式异常');
   }
   assert(!idx.includes('当前月份'), '旧的「当前月份」卡仍残留在首页');
+  assert(!idx.includes('wool-credit') && !idx.includes('数据来源：'),
+    '羊毛卡底部仍残留「数据来源」说明文字');
   assert(idx.includes('<script src="assets/js/wool.js"></script>'), 'index.html 未引入 wool.js');
   assert(/v-for="\(w, i\) in woolItems"/.test(idx), '模板未渲染 woolItems');
   assert(idx.includes('每 30 分钟自动刷新') && idx.includes('radar.zichuanlan.top/'),
-    '卡片未标注刷新频率 / 数据来源');
+    '卡片未标注刷新频率 / 原站入口');
   assert(/30 \* 60 \* 1000/.test(app) && /setInterval\(refreshWool/.test(app),
     'app.js 未做 30 分钟定时刷新');
   assert(/wool:update/.test(app) && /wool\.js\?t=/.test(app),
