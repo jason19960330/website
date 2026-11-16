@@ -65,7 +65,7 @@
   <!-- 预编译样式：Tailwind 产物 → Arco 按需样式 → 站点定制（后者覆盖前者） -->
   <link rel="stylesheet" href="assets/css/tailwind.css?v=202609302">
   <link rel="stylesheet" href="vendor/arco-bundle.css?v=20260923">
-  <link rel="stylesheet" href="assets/css/style.css?v=20261116a">
+  <link rel="stylesheet" href="assets/css/style.css?v=20261116c">
 </head>
 
 <!-- ======================================================================
@@ -392,19 +392,36 @@
         </div>
         <div class="card p-6 sm:p-8">
           <div class="photo-grid">
-            <figure v-for="(p, i) in photos" :key="'ph-' + i" class="photo-item">
-              <div class="photo-tile" :class="{ 'is-placeholder': p.placeholder }">
-                <img v-if="p.src" :src="p.src" :alt="p.caption || p.label" loading="lazy">
-                <p v-else class="photo-placeholder-text">{{ p.label }}<br>等待补上真实照片</p>
+            <figure v-for="(p, i) in photos" :key="'ph-' + i" class="photo-item" :class="'photo-tilt-' + (i % 6)">
+              <div class="photo-paper" :class="{ 'is-placeholder': p.placeholder, 'is-openable': !!p.src }"
+                   :role="p.src ? 'button' : undefined" :tabindex="p.src ? 0 : undefined"
+                   :aria-label="p.src ? ('放大查看：' + (p.meta || p.caption || p.label)) : undefined"
+                   @click="openPhoto(i)" @keydown.enter.prevent="openPhoto(i)" @keydown.space.prevent="openPhoto(i)">
+                <div class="photo-tile">
+                  <img v-if="p.src" :src="p.src" :alt="p.caption || p.label" loading="lazy">
+                  <p v-else class="photo-placeholder-text">{{ p.label }}<br>等待补上真实照片</p>
+                  <span v-if="p.src" class="photo-zoom" aria-hidden="true">+</span>
+                </div>
+                <p v-if="p.meta" class="photo-meta">{{ p.meta }}</p>
+                <span v-else class="photo-meta photo-meta-empty" aria-hidden="true">&nbsp;</span>
               </div>
-              <figcaption v-if="p.caption" class="photo-caption">{{ p.caption }}</figcaption>
             </figure>
           </div>
-          <div class="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs">
-            <a href="work.html" class="photo-link">工作经历</a>
-            <a href="resume.html" class="photo-link">一页式简历</a>
-            <a href="assets/resume.pdf?v=20261106b" target="_blank" rel="noopener" class="photo-link">下载 PDF</a>
-          </div>
+        </div>
+
+        <!-- 照片大图（lightbox）：纯前端，键盘 ← → 翻页、ESC 关闭 -->
+        <div v-if="photoIndex !== -1" class="photo-lightbox" role="dialog" aria-modal="true" aria-label="照片大图"
+             @click.self="closePhoto">
+          <button type="button" class="lb-close" aria-label="关闭" @click="closePhoto">&times;</button>
+          <button type="button" class="lb-nav lb-prev" aria-label="上一张" @click="photoStep(-1)">&#8249;</button>
+          <figure class="lb-figure">
+            <div class="lb-paper">
+              <img :src="photos[photoIndex].src" :alt="photos[photoIndex].caption || photos[photoIndex].label">
+              <figcaption class="lb-caption">{{ photos[photoIndex].meta || photos[photoIndex].caption }}</figcaption>
+            </div>
+            <p class="lb-count">{{ photoIndex + 1 }} / {{ photos.length }}</p>
+          </figure>
+          <button type="button" class="lb-nav lb-next" aria-label="下一张" @click="photoStep(1)">&#8250;</button>
         </div>
       </section>
       <!-- ============================ 03 可回看的轨迹 ============================ -->
@@ -623,12 +640,12 @@
   <!-- 按需打包产物：Vue 完整版 + 实际用到的 Arco 组件，暴露 window.Vue / window.ArcoVue -->
   <script src="assets/js/weather.js?v=202610051"></script>
   <script src="vendor/arco-bundle.js?v=20260923"></script>
-  <script src="assets/js/data.js?v=life-2ea9fe2a"></script>
+  <script src="assets/js/data.js?v=life-39101acd"></script>
   <script src="assets/js/skill-cards.js?v=skills-51028d31"></script>
   <!-- 羊毛速递数据：不带版本号，页面用时间戳重载以绕开 CDN 缓存 -->
   <script src="assets/js/wool.js"></script>
   <script src="assets/js/hotnews.js?v=20260928"></script>
-  <script src="assets/js/app.js?v=20261115a"></script>
+  <script src="assets/js/app.js?v=20261116a"></script>
 
   <!-- 首屏骨架：脚本没跑完之前顶住版式（纯静态，脚本一到自动让位） -->
   <div class="boot" aria-hidden="true">
@@ -679,7 +696,7 @@
 <p>更早的 1 条日常分享收录在归档页「更早的日常」（archive.html）。</p>
 <!-- life-snapshot:end -->
 <h2>照片墙</h2>
-<p>首页留出生活照片的位置，目前是占位，等待补上真实照片。工作经历与项目案例仍在独立页面 work.html。</p>
+<p>首页「照片墙」展示 6 张生活与旅行照片，点击可看大图。工作经历与项目案例在独立页面 work.html。</p>
 <h2>站点更新热力图</h2>
 <p>每个格子是一天，颜色深浅按当天仓库提交次数分级，全部来自 git log，不是示意数据。2026-08-13 ~ 2026-11-11 共 231 次提交。</p>
 <p>晖致医药 7 年企业级 IT 技术支持，500+ 员工办公终端与资产运营，资产台账准确率 95%以上，20+ 份标准化运维 SOP，ServiceNow / Intune / ABM、音视频会议保障、机房网络运维。</p>

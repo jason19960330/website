@@ -293,18 +293,20 @@ window.SITE_CONFIG = {
 
   /* ------------------------------------------------------------------
    * 11.5 照片墙（首页 02）
-   *     桌面一排 6 张；窗口变窄自动降为 3 列 / 2 列，样式见 style.css 的 .photo-grid。
-   *     placeholder: true 显示虚线占位格；补照片时填 src / caption 并删掉 placeholder。
-   *     图片放 assets/photos/ 下，建议 4:3（object-fit: cover 会居中裁切），压到 300KB 以内。
+   *     桌面一排 6 张拍立得；窗口变窄自动降为 3 列 / 2 列，样式见 style.css 的 .photo-grid。
+   *     src 填 assets/photos/ 下的图片，已压到 800px 宽 / 300KB 内。
+   *     meta 是相纸底部的手写小字（如「2024.05 · 杭州」），没有就留空，不要编造。
+   *     caption 是无障碍说明文字，给读屏软件用，页面上不显示。
+   *     placeholder: true 显示虚线占位格，补图时删掉即可。
    *     数组顺序就是从左到右的展示顺序，保持 6 项最整齐。
    * ---------------------------------------------------------------- */
   photos: [
-    { label: '照片 01', src: '', caption: '', placeholder: true },
-    { label: '照片 02', src: '', caption: '', placeholder: true },
-    { label: '照片 03', src: '', caption: '', placeholder: true },
-    { label: '照片 04', src: '', caption: '', placeholder: true },
-    { label: '照片 05', src: '', caption: '', placeholder: true },
-    { label: '照片 06', src: '', caption: '', placeholder: true }
+    { label: '照片 01', src: 'assets/photos/photo-01.jpg', meta: '拱门下 · 街角', caption: '街头即景', placeholder: false },
+    { label: '照片 02', src: 'assets/photos/photo-02.jpg', meta: '古建 · 庭院', caption: '古建庭院留影', placeholder: false },
+    { label: '照片 03', src: 'assets/photos/photo-03.jpg', meta: '牌坊下 · 留影', caption: '牌坊下留影', placeholder: false },
+    { label: '照片 04', src: 'assets/photos/photo-04.jpg', meta: '山顶 · 远眺', caption: '山顶观景留影', placeholder: false },
+    { label: '照片 05', src: 'assets/photos/photo-05.jpg', meta: '路跑 · 途中', caption: '路跑途中', placeholder: false },
+    { label: '照片 06', src: 'assets/photos/photo-06.jpg', meta: '沈阳故宫', caption: '沈阳故宫留影合集', placeholder: false }
   ],
 
   /* ------------------------------------------------------------------

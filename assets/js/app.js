@@ -249,6 +249,34 @@
         applyTheme(theme.value);
       }
 
+      /* ---------------- 照片墙大图（lightbox） ---------------- */
+      var photoIndex = ref(-1);
+      function openPhoto(i) {
+        if (!CONFIG.photos[i] || !CONFIG.photos[i].src) return;
+        photoIndex.value = i;
+        document.body.classList.add('lb-open');
+      }
+      function closePhoto() {
+        photoIndex.value = -1;
+        document.body.classList.remove('lb-open');
+      }
+      function photoStep(delta) {
+        var n = CONFIG.photos.length;
+        var next = photoIndex.value;
+        // 只在有图的照片间切换，跳过占位格
+        for (var k = 0; k < n; k++) {
+          next = (next + delta + n) % n;
+          if (CONFIG.photos[next] && CONFIG.photos[next].src) break;
+        }
+        photoIndex.value = next;
+      }
+      function onPhotoKey(e) {
+        if (photoIndex.value === -1) return;
+        if (e.key === 'Escape') { e.preventDefault(); closePhoto(); }
+        else if (e.key === 'ArrowLeft') { e.preventDefault(); photoStep(-1); }
+        else if (e.key === 'ArrowRight') { e.preventDefault(); photoStep(1); }
+      }
+
       /* ---------------- 滚动 / 导航 ---------------- */
       var scrolled = ref(false);
       var showTop = ref(false);
@@ -665,6 +693,7 @@
       function onGlobalKey(e) {
         var tag = (e.target && e.target.tagName ? e.target.tagName : '').toLowerCase();
         var typing = tag === 'input' || tag === 'textarea';
+        if (photoIndex.value !== -1) { onPhotoKey(e); return; }  // 大图打开时优先处理方向键/ESC
         if ((e.metaKey || e.ctrlKey) && (e.key === 'k' || e.key === 'K')) { e.preventDefault(); openSearch(); return; }
         if (e.key === '/' && !typing) { e.preventDefault(); openSearch(); }
       }
@@ -807,6 +836,7 @@
         window.removeEventListener('scroll', onScroll);
         document.removeEventListener('pointerdown', onDocDown);
         document.removeEventListener('keydown', onGlobalKey);
+        document.body.classList.remove('lb-open');
         clearInterval(roleTimer);
         clearInterval(gbTimer);
         clearInterval(woolTimer);
@@ -820,6 +850,7 @@
       return {
         meta: meta, nav: CONFIG.nav, social: CONFIG.social,
         life: CONFIG.life, growth: CONFIG.growth, photos: CONFIG.photos,
+        photoIndex: photoIndex, openPhoto: openPhoto, closePhoto: closePhoto, photoStep: photoStep,
         stats: CONFIG.stats, skillGroups: CONFIG.skillGroups, toolStack: CONFIG.toolStack,
         randomSkills: RANDOM_SKILLS,
         /* 羊毛速递 */
