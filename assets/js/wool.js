@@ -7,57 +7,57 @@ window.WOOL_DATA = {
   "source": "https://radar.zichuanlan.top/",
   "sourceName": "资源雷达",
   "intervalMinutes": 30,
-  "updatedAt": "2026-11-16T00:58:21.375Z",
+  "updatedAt": "2026-11-16T07:55:16.820Z",
   "items": [
     {
-      "id": "29479",
-      "title": "[ ArcaneAI ]公益站扬帆起航",
-      "summary": "本帖使用社区公益推广，符合推广要求。我申明并遵循社区要求的以下内容 （点击了解更多详细信息） ArcaneAI 公益站 今天正式开业 福利清单： 每个注册的用户送5刀额度 邀请一个人双方各送10刀额度 每天签到领0.5…",
-      "url": "https://linux.do/t/topic/3182282",
-      "tag": "有条件领",
-      "obtain": "conditional",
+      "id": "32078",
+      "title": "GPT福利压力测试",
+      "summary": "URL： https://api.vicub.com/v1 API： 1 个帖子 - 1 位参与者 阅读完整话题",
+      "url": "https://www.nodeloc.com/t/topic/118072",
+      "tag": "直接白嫖",
+      "obtain": "free",
+      "source": "NodeLoc",
+      "publishedAt": "2026-11-16T07:44:33.000Z"
+    },
+    {
+      "id": "32016",
+      "title": "opencode大善人也来了，和workbuddy一起提供免费HY4flash额度！进入token免费小时期。",
+      "summary": "这个模型是真的够用了。 6 个帖子 - 5 位参与者 阅读完整话题",
+      "url": "https://linux.do/t/topic/3184918",
+      "tag": "直接白嫖",
+      "obtain": "free",
       "source": "LINUX DO 福利",
-      "publishedAt": "2026-11-16T00:56:59.000Z"
+      "publishedAt": "2026-11-16T07:34:26.000Z"
     },
     {
-      "id": "29471",
-      "title": "送 CC 11.99年付",
-      "summary": "2vCPU,1GBRAM11GBDisk转移码TransferToken:vps.92235.EW7LC39c8QvYYU2B55Mbmq7528NkgwEwU1379P25Y98cBpW8o2l27ldp575En5…",
-      "url": "https://www.nodeseek.com/post-1056698-1",
+      "id": "32038",
+      "title": "《公考 国考省考刷题大合集》真题+答案+解析",
+      "summary": "《公考 国考省考刷题大合集》真题+答案+解析 pan.quark.cn 夸克网盘分享 夸克网盘是夸克推出的一款云服务产品，功能包括云存储、高清看剧、文件在线解压、PDF一键转换等。通过夸克网盘可随时随地管理和使用照片、…",
+      "url": "https://linux.do/t/topic/3184917",
       "tag": "直接白嫖",
       "obtain": "free",
-      "source": "rss nodeseek",
-      "publishedAt": "2026-11-16T00:52:58.000Z"
+      "source": "LINUX DO 资源",
+      "publishedAt": "2026-11-16T07:34:25.000Z"
     },
     {
-      "id": "29475",
-      "title": "微软全新 WinUI3“中文输入法”悄悄上架：可导入个人词库，主打无广告并支持必应搜索",
-      "summary": "IT之家 11 月 16 日消息，昨日有用户发现，微软通过 Microsoft Store 悄悄上架了一款全新的中文拼音输入法，面向 Windows 用户提供中文输入服务。 目前，该输入法需要通过 Microsoft …",
-      "url": "https://www.ithome.com/1/027/484.htm",
+      "id": "32011",
+      "title": "带你玩转AI视频，从入门到实操的AI视频创作课",
+      "summary": "带你玩转AI视频，从脚本构思、素材生成到剪辑成片，循序渐进掌握AI视频创作的实操方法。 pan.quark.cn 夸克网盘分享 夸克网盘是夸克推出的一款云服务产品，功能包括云存储、高清看剧、文件在线解压、PDF一键转换…",
+      "url": "https://linux.do/t/topic/3184900",
       "tag": "直接白嫖",
       "obtain": "free",
-      "source": "rss ithome",
-      "publishedAt": "2026-11-16T00:40:25.000Z"
+      "source": "LINUX DO 资源",
+      "publishedAt": "2026-11-16T07:32:15.000Z"
     },
     {
-      "id": "29315",
-      "title": "谷歌大善人又可以薅羊毛了？学生免费12个月",
-      "summary": "谷歌大善人又可以薅羊毛了？学生免费12个月",
-      "url": "https://t.me/s/nodeseekc/1011142",
-      "tag": "有条件领",
-      "obtain": "conditional",
-      "source": "tg cn deals",
-      "publishedAt": "2026-11-16T00:10:59.000Z"
-    },
-    {
-      "id": "29280",
-      "title": "NiceCloud 新用户注册签到免费 $0.01 开美国大带宽 NAT，Telegram 每日签到领余额",
-      "summary": "NiceCloud 新用户注册签到免费 $0.01 开美国大带宽 NAT，Telegram 每日签到领余额",
-      "url": "https://t.me/s/nodeseekc/1011135",
-      "tag": "有条件领",
-      "obtain": "conditional",
-      "source": "tg cn deals",
-      "publishedAt": "2026-11-15T23:56:37.000Z"
+      "id": "32012",
+      "title": "【谢胜子】向上社交",
+      "summary": "【谢胜子】向上社交 ├── 向上社交潜规则【更多资源】.mov ├── 向上社交的潜规则——谢胜子【更多资源】.pdf ├── 向上社交的第一性原理——谢胜子【更多资源】.pdf └── 向上社交第一性原理【更多资源】…",
+      "url": "https://linux.do/t/topic/3184893",
+      "tag": "直接白嫖",
+      "obtain": "free",
+      "source": "LINUX DO 资源",
+      "publishedAt": "2026-11-16T07:31:48.000Z"
     }
   ]
 };
