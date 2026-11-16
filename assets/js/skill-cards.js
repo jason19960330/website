@@ -104,5 +104,13 @@ window.SKILL_CARDS = [
     "title": "岚叔 HTML 演示模板 使用指南",
     "doc": "lanshu-html-ppt-doc.html",
     "kicker": "HTML 演示 · 使用指南"
+  },
+  {
+    "id": "anthropics-skills",
+    "name": "Anthropic Agent Skills",
+    "blurb": "官方 Skill 规范与 19 个可复用范例",
+    "title": "Anthropic Agent Skills 使用指南",
+    "doc": "anthropics-skills-doc.html",
+    "kicker": "官方规范 · 使用指南"
   }
 ];

@@ -380,6 +380,26 @@
       ],
       "doc": "lanshu-html-ppt-doc.html",
       "comment": "岚叔 HTML 演示模板 使用指南入口卡"
+    },
+    {
+      "id": "anthropics-skills",
+      "kicker": "官方规范 · 使用指南",
+      "blurb": "官方 Skill 规范与 19 个可复用范例",
+      "title": "Anthropic Agent Skills 使用指南",
+      "desc": [
+        "Anthropic 官方的 <span class=\"font-semibold text-ink\">Agent Skills 标准库</span>：不是「装了就能干某件事」的工具集，而是「Skill 该怎么写」的规范加 <span class=\"font-semibold text-ink\">19 个可直接用的范例</span>，每个技能一个文件夹、一份 SKILL.md。",
+        "必填 frontmatter 只有 name 与 description 两行；正文按需分三层加载，细节拆到 scripts / references / assets，让模型只在需要时读，别一次塞满上下文。",
+        "附 <span class=\"font-semibold text-ink\">skill-creator</span>：把造技能做成带对照评测与迭代的完整工程流程。规范正文已独立到 agentskills.io，这里保留实现与样例。指南整理自其公开仓库。"
+      ],
+      "repo": "https://github.com/anthropics/skills",
+      "stats": [
+        { "label": "GitHub 收藏", "value": "195k" },
+        { "label": "收录 Skill", "value": "19 个" },
+        { "label": "插件包", "value": "5 组" },
+        { "label": "许可", "value": "Apache-2.0*" }
+      ],
+      "doc": "anthropics-skills-doc.html",
+      "comment": "Anthropic Agent Skills 使用指南入口卡"
     }
   ]
 }

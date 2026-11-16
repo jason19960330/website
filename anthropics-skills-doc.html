@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Anthropic Agent Skills 完整指南 · 官方规范与 19 个范例 | 李文涛</title>
+  <meta name="description" content="Anthropic Agent Skills 完整指南：它是什么、19 个 Skill 与 5 个插件包、SKILL.md 格式规范、三层渐进式披露、Claude Code 与 API 里的用法、skill-creator 评测循环、写自己的 Skill、适用判断与授权边界，一页读完。">
+  <link rel="canonical" href="https://jason19960330.github.io/website/anthropics-skills-doc.html">
+
+  <!-- 分享卡片（微信 / 领英 / X 等平台抓取） -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="李文涛的个人主页">
+  <meta property="og:title" content="Anthropic Agent Skills 完整指南 · 官方规范与 19 个范例 | 李文涛">
+  <meta property="og:description" content="Anthropic 官方的 Skill 标准库：SKILL.md 怎么写、三层渐进式披露、19 个可复用范例，以及 skill-creator 的对照评测与迭代流程。">
+  <meta property="og:url" content="https://jason19960330.github.io/website/anthropics-skills-doc.html">
+  <meta property="og:image" content="https://jason19960330.github.io/website/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="zh_CN">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Anthropic Agent Skills 完整指南 · 官方规范与 19 个范例 | 李文涛">
+  <meta name="twitter:description" content="Anthropic 官方的 Skill 标准库：SKILL.md 怎么写、三层渐进式披露、19 个可复用范例，以及 skill-creator 的对照评测与迭代流程。">
+  <meta name="twitter:image" content="https://jason19960330.github.io/website/assets/og-image.png">
+
+  <link rel="icon" href="assets/favicon.svg?v=20260923" type="image/svg+xml">
+
+  <!-- 首屏主题前置脚本：避免深色偏好用户看到白屏闪一下（与首页共用 site.theme） -->
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('site.theme');
+        if (!saved) {
+          saved = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+        }
+        if (saved === 'dark') document.documentElement.classList.add('dark');
+      } catch (e) { /* 隐私模式忽略 */ }
+    })();
+  </script>
+
+  <!-- 预编译样式：Tailwind 产物 → Arco 按需样式 → 站点定制（后者覆盖前者） -->
+  <link rel="stylesheet" href="assets/css/tailwind.css?v=202610281">
+  <link rel="stylesheet" href="vendor/arco-bundle.css?v=20260923">
+  <link rel="stylesheet" href="assets/css/style.css?v=20261115a">
+</head>
+
+<body class="bg-base">
+  <div id="skill-app" v-cloak>
+
+    <!-- ============================ 顶部导航 ============================ -->
+    <header class="site-header is-solid fixed inset-x-0 top-0 z-40 border-b border-hair">
+      <div class="mx-auto flex h-16 max-w-5xl items-center justify-between px-5 sm:px-6">
+        <a href="index.html" class="flex items-center gap-2.5">
+          <img src="assets/avatar.jpg?v=20261111d" alt="" class="h-8 w-8 rounded-lg object-cover">
+          <span class="text-sm font-semibold tracking-tight text-ink">李文涛</span>
+        </a>
+        <div class="flex items-center gap-2">
+          <a href="resume.html" class="hidden text-xs text-dim transition hover:text-accent sm:inline">简历</a>
+          <a href="weekly.html" class="hidden text-xs text-dim transition hover:text-accent sm:inline">AI 速览</a>
+          <a href="hotnews.html" class="hidden text-xs text-dim transition hover:text-accent sm:inline">热点</a>
+          <a href="skill.html" class="hidden text-xs font-semibold text-accent sm:inline">Skill 指南</a>
+          <a href="aihot.html" class="hidden text-xs text-dim transition hover:text-accent sm:inline">AIHOT 指南</a>
+          <button @click="toggleTheme" aria-label="切换主题"
+                  class="grid h-9 w-9 place-items-center rounded-lg border border-hair text-dim transition hover:text-accent">
+            <svg class="theme-icon h-4 w-4"><use :href="theme === 'dark' ? '#i-moon' : '#i-sun'"></use></svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <svg class="hidden" aria-hidden="true">
+      <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 14.5A8.5 8.5 0 019.5 4a8.5 8.5 0 1010.5 10.5z"></path>
+      </symbol>
+      <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="4"></circle>
+        <path d="M12 3v2m0 14v2M3 12h2m14 0h2M5.6 5.6l1.4 1.4m10 10l1.4 1.4m0-12.8l-1.4 1.4m-10 10L5.6 18.4"></path>
+      </symbol>
+      <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M10.5 6l-6 6 6 6M4.5 12h15"></path>
+      </symbol>
+      <symbol id="i-external" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 4h6v6M20 4l-9 9M18 14v4a2 2 0 01-2 2H6a2 2 0 01-2-2V8a2 2 0 012-2h4"></path>
+      </symbol>
+    </svg>
+
+    <main id="main" class="pt-16" tabindex="-1">
+
+      <!-- ============================ 概览 ============================ -->
+      <section class="mx-auto max-w-5xl px-5 pt-6 sm:px-6 sm:pt-8">
+        <a href="skill.html" class="wl-back">
+          <svg class="h-3.5 w-3.5"><use href="#i-arrow-left"></use></svg>返回 Skill 指南
+        </a>
+
+        <div class="wl-hero card mt-4">
+          <span class="wl-hero-bar" aria-hidden="true"></span>
+          <div class="p-6 sm:p-8">
+            <div class="mt-4 flex flex-wrap items-start justify-between gap-5">
+              <div class="min-w-0">
+                <p class="text-xs font-semibold uppercase tracking-[0.2em] text-accent">官方规范 · 使用指南</p>
+                <h1 class="mt-2 text-3xl font-bold tracking-tight text-ink sm:text-4xl">Anthropic Agent Skills 完整指南</h1>
+                <p class="mt-3 max-w-2xl text-sm leading-relaxed text-dim">
+                  <strong class="text-ink">一份规范 · 19 个范例 · 一套造技能的评测流程</strong>：
+                  它不教 AI 干某件具体的事，而是规定「怎么把一件事写成可复用能力」。
+                  每个技能就是一个文件夹加一份 <code>SKILL.md</code>，按需加载、可带脚本与参考资料。指南整理自其公开仓库。
+                </p>
+              </div>
+
+              <a href="https://github.com/anthropics/skills" target="_blank" rel="noopener" class="wl-src">
+                <svg class="h-4 w-4"><use href="#i-external"></use></svg>
+                <span class="leading-tight">开源仓库<br>GitHub</span>
+              </a>
+            </div>
+
+            <dl class="wl-stats">
+              <div><dt>GitHub 收藏</dt><dd class="tnum">195k</dd></div>
+              <div><dt>收录 Skill</dt><dd class="tnum">19 个</dd></div>
+              <div><dt>插件包</dt><dd class="tnum">5 组</dd></div>
+              <div><dt>许可</dt><dd class="tnum">Apache-2.0*</dd></div>
+            </dl>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 目录 ============================ -->
+      <section class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card p-5 sm:p-6">
+          <h2 class="text-sm font-semibold text-ink">本页目录（8 篇）</h2>
+          <nav class="sk-toc mt-3">
+            <a href="#what"><span>01</span>它到底是什么</a>
+            <a href="#catalog"><span>02</span>19 个 Skill / 5 个插件包</a>
+            <a href="#spec"><span>03</span>SKILL.md 格式规范</a>
+            <a href="#disclosure"><span>04</span>三层渐进式披露</a>
+            <a href="#install"><span>05</span>在 Claude Code / AI / API 里用</a>
+            <a href="#creator"><span>06</span>skill-creator 的评测循环</a>
+            <a href="#create"><span>07</span>写一个自己的 Skill</a>
+            <a href="#cases"><span>08</span>适用判断、授权与免责</a>
+          </nav>
+        </div>
+      </section>
+
+      <!-- ============================ 01 它是什么 ============================ -->
+      <section id="what" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">01</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">它到底是什么</h2>
+              <p class="sk-card-sub">
+                一句话：<strong class="text-ink">不是工具集，是「Skill 该怎么写」的标准库</strong>。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">定位</strong>：Anthropic 官方维护，仓库 <code>anthropics/skills</code>，描述只有一句「Public repository for Agent Skills」。Skill 是「装着指令、脚本与资源的文件夹」，Claude 动态加载它，把某类任务做得更稳定、可复现。</li>
+            <li><strong class="text-ink">四个部分</strong>：<code>spec/</code> 只有一句指路（规范正文已独立到 <code>agentskills.io</code>）；<code>template/</code> 是 3 行 frontmatter 的最小模板；<code>skills/</code> 放 19 个范例；<code>.claude-plugin/marketplace.json</code> 把它们编成 5 个插件包。另有 <code>THIRD_PARTY_NOTICES.md</code> 记第三方素材。</li>
+            <li><strong class="text-ink">文档处理那 4 个是特例</strong>：<code>docx</code> / <code>pdf</code> / <code>pptx</code> / <code>xlsx</code> 正是 Claude 文件能力的底层实现，是「复杂技能在真实产品里怎么落地」的参考，比纯示例更值得读。</li>
+            <li><strong class="text-ink">官方自己划的边界</strong>：README 用粗体写明——这些技能仅供<strong class="text-ink">演示与教育</strong>，你从 Claude 实际拿到的行为可能与这里不同；关键任务前务必在自己的环境里充分测试。</li>
+          </ul>
+
+          <div class="sk-tip">
+            <strong>体量：</strong>仓库 2025-09-22 创建、最近推送 2026-11-14，约 195k star / 23k fork / 1.5k open issue，主体语言 Python（文档技能带大量脚本），约 5.4 MB / 544 个路径。根目录没有统一 LICENSE 文件。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 02 清单 ============================ -->
+      <section id="catalog" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">02</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">19 个 Skill / 5 个插件包</h2>
+              <p class="sk-card-sub">
+                先按分组找最接近的范例，<strong class="text-ink">别 19 个全读一遍</strong>。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">按插件包</strong>：<code>document-skills</code> 4 个（xlsx / docx / pptx / pdf）、<code>example-skills</code> 12 个、<code>claude-api</code> / <code>academy-guide</code> / <code>discernment-nudge</code> 各 1 个，合计 19。</li>
+            <li><strong class="text-ink">按用途</strong>：文档处理 4 个、创意与设计 6 个（生成艺术、品牌规范、海报、前端视觉、Slack GIF、10 套主题）、开发与技术 4 个（MCP Server、HTML artifact、Playwright 测试、Claude API 参考）、写作与引导 5 个（skill-creator、文档共创、内部沟通、课程推荐、事实核查追问）。</li>
+            <li><strong class="text-ink">复杂程度差很多</strong>：<code>claude-api</code> 单份 SKILL.md 617 行、约 10 万字符，带 csharp / go / java / php / python / curl 多语言示例；<code>pptx</code> 272 行、28170 字符；<code>canvas-design</code> 一个技能带 84 个文件（含字体）；<code>brand-guidelines</code> 只有 74 行正文加一个许可证。</li>
+            <li><strong class="text-ink">多数带附属资源</strong>：文档四件套与 <code>webapp-testing</code> 有 <code>scripts/</code>，<code>pdf</code> 拆出 <code>REFERENCE.md</code> / <code>FORMS.md</code>，<code>mcp-builder</code> 拆出 <code>reference/</code>，<code>skill-creator</code> 带 <code>agents/</code>、<code>eval-viewer/</code>、<code>scripts/</code>。这些正是第 04 节要讲的分层。</li>
+          </ul>
+
+          <div class="sk-prompt">
+            <p class="mb-2 text-xs text-faint">19 个 Skill 与 5 个插件包速查 · 复制下来按图索骥</p>
+            <pre>{{ texts.catalog }}</pre>
+            <button class="sk-copy" :class="{ 'is-done': copied === 'catalog' }" @click="copy('catalog')">
+              {{ copied === 'catalog' ? '已复制' : '复制' }}
+            </button>
+          </div>
+
+          <div class="sk-tip">
+            <strong>挑一个对照着改：</strong>想做带脚本的技能看 <code>pdf</code> 或 <code>xlsx</code>；想做纯提示词型技能看 <code>brand-guidelines</code>；想看超长参考资料怎么拆看 <code>claude-api</code>。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 03 格式规范 ============================ -->
+      <section id="spec" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">03</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">SKILL.md 格式规范</h2>
+              <p class="sk-card-sub">
+                必填字段只有两个，<strong class="text-ink">难点全在 description</strong>。
+              </p>
+            </div>
+          </div>
+
+          <div class="sk-prompt">
+            <p class="mb-2 text-xs text-faint">最小可用 SKILL.md + 全部字段约束</p>
+            <pre>{{ texts.frontmatter }}</pre>
+            <button class="sk-copy" :class="{ 'is-done': copied === 'frontmatter' }" @click="copy('frontmatter')">
+              {{ copied === 'frontmatter' ? '已复制' : '复制' }}
+            </button>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">结构</strong>：一个目录一份 <code>SKILL.md</code>，YAML frontmatter 后接 Markdown 正文，正文没有格式限制，建议写步骤、输入输出示例与常见边界。目录里可再放任意文件。</li>
+            <li><strong class="text-ink">name</strong>：1–64 字符，只用小写字母、数字与连字符，不以连字符开头或结尾、不含连续连字符，且<strong class="text-ink">必须与所在文件夹同名</strong>。</li>
+            <li><strong class="text-ink">description</strong>：1–1024 字符，同时写清「做什么」与「什么时候用」，并带上能帮模型对上任务的关键词。规范给的反例是「Helps with PDFs.」，正例会写明提取文本表格、填表单、合并 PDF，以及「用户提到 PDF、表单、文档提取时」。</li>
+            <li><strong class="text-ink">可选字段</strong>：<code>license</code>（简短协议名或随包文件）、<code>compatibility</code>（≤500 字符，说明环境要求，多数技能不需要）、<code>metadata</code>（string → string 映射）、<code>allowed-tools</code>（空格分隔的预授权工具，实验性，各实现支持不一）。</li>
+            <li><strong class="text-ink">校验</strong>：官方参考实现 <code>skills-ref validate ./my-skill</code> 会检查 frontmatter 与命名约定；本仓库 <code>template/SKILL.md</code> 就是 3 行 frontmatter 的起点。</li>
+          </ul>
+
+          <div class="sk-tip">
+            <strong>描述要写得主动一点：</strong>本仓库多个技能的 description 直接列出触发词与「Do NOT use for…」排除项。模型往往在该用的时候反而不主动调用，把边界写清楚比写得漂亮更重要。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 04 渐进披露 ============================ -->
+      <section id="disclosure" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">04</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">三层渐进式披露</h2>
+              <p class="sk-card-sub">
+                这是 Skill 与普通提示词模板<strong class="text-ink">最本质的区别</strong>。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">第一层 · 元数据（约 100 tokens）</strong>：所有技能的 <code>name</code> + <code>description</code> 在启动时就进上下文，供模型判断这一轮该不该用。所以描述写得含糊，技能等于不存在。</li>
+            <li><strong class="text-ink">第二层 · 指令（建议 &lt; 5000 tokens）</strong>：技能被触发后才把整份 <code>SKILL.md</code> 正文读进来。规范建议正文控制在 500 行以内，超了就加一层目录并写清「接下来该去读哪份」。</li>
+            <li><strong class="text-ink">第三层 · 资源（按需）</strong>：<code>scripts/</code> 放可执行代码（脚本可以直接跑，不必读进上下文）、<code>references/</code> 放按需查的文档、<code>assets/</code> 放模板 / 图片 / 字体等产出用素材。单份参考文件保持聚焦，超过 300 行配个目录。</li>
+            <li><strong class="text-ink">引用规则</strong>：从技能根目录写相对路径，尽量只引一层，避免 A 引 B、B 再引 C 的深层链；<code>pdf</code> 把表单细节放 <code>FORMS.md</code> 就是典型做法。</li>
+            <li><strong class="text-ink">多领域怎么拆</strong>：一个技能要覆盖多个框架时，按变体分文件（<code>references/aws.md</code>、<code>gcp.md</code>、<code>azure.md</code>），正文只写工作流与选型，模型只读相关的那一份。</li>
+          </ul>
+
+          <div class="sk-tip">
+            <strong>为什么值得这么拆：</strong>加载进来的东西越少，留给任务本身的上下文越多；而脚本可以「不读也能跑」，等于把确定性工作外包给代码，模型只负责判断与编排。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 05 用法 ============================ -->
+      <section id="install" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">05</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">在 Claude Code / Claude.ai / API 里用</h2>
+              <p class="sk-card-sub">
+                三条入口，<strong class="text-ink">都不需要 clone 下来自己装</strong>。
+              </p>
+            </div>
+          </div>
+
+          <div class="sk-prompt">
+            <p class="mb-2 text-xs text-faint">插件市场命令 / 网页端 / API 入口</p>
+            <pre>{{ texts.install }}</pre>
+            <button class="sk-copy" :class="{ 'is-done': copied === 'install' }" @click="copy('install')">
+              {{ copied === 'install' ? '已复制' : '复制' }}
+            </button>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">Claude Code</strong>：先用 <code>/plugin marketplace add anthropics/skills</code> 把这个仓库注册成插件市场，再 <code>/plugin install document-skills@anthropic-agent-skills</code> 之类按包安装；也可以在「Browse and install plugins」里选 <code>anthropic-agent-skills</code> 勾选安装。装完直接提需求即可。</li>
+            <li><strong class="text-ink">Claude.ai</strong>：付费计划里这些示例技能已经内置；自定义技能可从设置里上传，用法见官方「Using skills in Claude」。</li>
+            <li><strong class="text-ink">Claude API</strong>：Skills API 支持 Anthropic 预置技能与上传自定义技能，入口在 docs.claude.com 的 skills-guide；服务端用法与本地文件夹是两套装载方式。</li>
+            <li><strong class="text-ink">只是想学写法</strong>：直接看 <code>spec/</code>、<code>template/</code> 与 19 个 <code>SKILL.md</code> 就够了，规范全文在 <code>agentskills.io/specification</code>。</li>
+          </ul>
+
+          <div class="sk-tip">
+            <strong>触发不是关键词硬匹配：</strong>技能以 name + description 出现在可用列表里，模型自行判断是否查阅；简单一步就能完成的任务，即使描述完全对上也可能不触发。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 06 skill-creator ============================ -->
+      <section id="creator" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">06</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">skill-creator 的评测循环</h2>
+              <p class="sk-card-sub">
+                19 个范例里最值得学的那个，<strong class="text-ink">把「造技能」做成可迭代的工程流程</strong>。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">从意图到草稿</strong>：捕获用户想解决什么 → 访谈与调研补齐边界 → 写 <code>SKILL.md</code> 与附属资源 → 造一批贴近真实口吻的测试用例。</li>
+            <li><strong class="text-ink">同轮对照实验</strong>：每条用例在<strong class="text-ink">同一轮</strong>同时启动「带技能」和「不带技能」两组运行，别先跑完一组再补对照组；跑的过程中边写量化断言、边记录耗时，结果落到 <code>&lt;skill-name&gt;-workspace/iteration-N/eval-ID/</code>。</li>
+            <li><strong class="text-ink">给人看，再迭代</strong>：评分聚合后启动 <code>eval-viewer</code> 让人对比产出，读反馈再改：从反馈里泛化而不是过拟合、删掉没在起作用的指令、尽量解释「为什么」、把多次重复写出的辅助脚本沉淀进 <code>scripts/</code>；然后重跑全部用例进下一轮，直到反馈为空或不再有明显提升。</li>
+            <li><strong class="text-ink">description 单独优化</strong>：生成 20 条触发用例（8–10 条应触发、8–10 条「关键词相近但不该触发」的近似误触），交用户确认后跑优化循环，最后把 <code>best_description</code> 写回 frontmatter 并报告前后分数。</li>
+            <li><strong class="text-ink">沟通分对象</strong>：这份技能还专门提醒面向非技术用户时别直接甩 JSON、assertion 这类词；另有 Claude.ai 与 Cowork 环境下的专门分支说明。</li>
+          </ul>
+
+          <div class="sk-tip">
+            <strong>目录本身就是教程：</strong><code>skill-creator/</code> 带 <code>agents/</code>、<code>assets/</code>、<code>eval-viewer/</code>、<code>references/</code>、<code>scripts/</code>，486 行正文；想给自己的团队定一套造技能流程，照它的骨架改最省事。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 07 写自己的 ============================ -->
+      <section id="create" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">07</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">写一个自己的 Skill</h2>
+              <p class="sk-card-sub">
+                最小版本只有 4 行，<strong class="text-ink">剩下的都是按需加</strong>。
+              </p>
+            </div>
+          </div>
+
+          <div class="sk-prompt">
+            <p class="mb-2 text-xs text-faint">目录结构 / 校验 / 评测 / 触发调优，一屏复制</p>
+            <pre>{{ texts.create }}</pre>
+            <button class="sk-copy" :class="{ 'is-done': copied === 'create' }" @click="copy('create')">
+              {{ copied === 'create' ? '已复制' : '复制' }}
+            </button>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">先只写 SKILL.md</strong>：用 <code>template/SKILL.md</code> 起手，<code>name</code> 与目录同名，<code>description</code> 把「做什么 + 何时用 + 触发词」写全，正文用祈使句列步骤与示例。</li>
+            <li><strong class="text-ink">再按需加资源</strong>：重复且要求确定性的动作写成脚本放 <code>scripts/</code>；长文档拆进 <code>references/</code> 并在正文指路；模板、字体、图片放 <code>assets/</code>。别一上来就堆目录。</li>
+            <li><strong class="text-ink">校验与实测</strong>：先跑 <code>skills-ref validate</code> 查格式与命名，再拿几条真实提问试触发；重点看「本该用却没用」和「不该用却用了」两类偏差，回头改 description。</li>
+            <li><strong class="text-ink">别把示例当生产实现</strong>：文档四件套依赖不少 Python 库与二进制工具，直接搬进自己的环境前先看清它们的 <code>requirements</code> 与平台假设。</li>
+          </ul>
+
+          <div class="sk-tip">
+            <strong>建议顺序：</strong>照着最接近的一个范例复制目录 → 只改 frontmatter 与正文跑通一条用例 → 加一组对照评测 → 再决定要不要拆 references、写脚本。一次写满所有分层，通常只是把提示词变长。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 08 适用与限制 ============================ -->
+      <section id="cases" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">08</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">适用判断、授权与免责</h2>
+              <p class="sk-card-sub">
+                什么时候值得读，以及几条必须先知道的边界。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">适合谁</strong>：要给 Claude / Claude Code / 兼容 Agent Skills 的助手写自定义能力；想搞明白「为什么技能比一段长提示词好用」；需要一个带对照评测的造技能流程；或者要参考生产级文档处理技能怎么组织脚本与参考资料。</li>
+            <li><strong class="text-ink">不适合谁</strong>：只想在 Claude.ai 里用现成功能（付费计划已内置，不必读源码）；要的是一个开箱即用的独立软件；或者期待把这里的技能搬过去就等于线上 Claude 的行为 —— README 明确说可能不一样。</li>
+            <li><strong class="text-ink">授权要分开看（* 号说明）</strong>：GitHub 仓库根<strong class="text-ink">没有统一 LICENSE 文件</strong>（API 返回 license: null）；19 个技能里 18 个在各自目录带 <code>LICENSE.txt</code>，README 说明多数为 <strong class="text-ink">Apache 2.0</strong>，<code>doc-coauthoring</code> 没有随附；第三方素材另见 <code>THIRD_PARTY_NOTICES.md</code>。别把「多数 Apache-2.0」理解成「整个仓库都是」。</li>
+            <li><strong class="text-ink">规范与实现分离</strong>：格式标准以 <code>agentskills.io/specification</code> 为准，本仓库是 Anthropic 的实现加示例；<code>spec/agent-skills-spec.md</code> 只剩一句指路，别拿它当规范全文。</li>
+            <li><strong class="text-ink">免责声明</strong>：这些技能仅供演示与教育用途，关键任务前务必在自己的环境里充分测试；<code>allowed-tools</code> 等实验字段各实现支持不一。</li>
+          </ul>
+
+          <div class="sk-tip">
+            <strong>建议姿势：</strong>先读 <code>template/SKILL.md</code>（4 行）与 <code>brand-guidelines</code>（74 行）建立手感，再看 <code>pdf</code> 怎么拆参考文档，最后通读 <code>skill-creator</code> 的迭代循环。规范页留作字段速查即可。
+          </div>
+
+          <div class="mt-6 flex flex-wrap items-center gap-3 border-t border-hair pt-5">
+            <a href="https://github.com/anthropics/skills" target="_blank" rel="noopener" class="wl-src">
+              <svg class="h-4 w-4"><use href="#i-external"></use></svg>开源仓库
+            </a>
+            <a href="https://agentskills.io/specification" target="_blank" rel="noopener" class="wl-src">
+              <svg class="h-4 w-4"><use href="#i-external"></use></svg>格式规范
+            </a>
+            <a href="https://support.claude.com/en/articles/12512176-what-are-skills" target="_blank" rel="noopener" class="wl-src">
+              <svg class="h-4 w-4"><use href="#i-external"></use></svg>官方说明
+            </a>
+            <a href="https://github.com/agentskills/agentskills/tree/main/skills-ref" target="_blank" rel="noopener" class="wl-src">
+              <svg class="h-4 w-4"><use href="#i-external"></use></svg>校验工具
+            </a>
+            <a href="skill.html" class="text-xs text-faint transition hover:text-accent">返回 Skill 指南</a>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="mt-10 border-t border-hair py-10">
+      <div class="mx-auto flex max-w-5xl flex-col items-center justify-between gap-2 px-5 text-xs text-faint sm:flex-row sm:px-6">
+        <p>内容整理自 anthropics/skills 开源仓库（多数技能 Apache-2.0，逐目录见 LICENSE.txt）· 版权归原作者所有</p>
+        <p>共 8 篇 · Vue 3 · Tailwind CSS · Arco Design</p>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- 首屏骨架：脚本没跑完之前顶住版式（纯静态，脚本一到自动让位） -->
+  <div class="boot" aria-hidden="true">
+    <div class="boot-bar">
+      <span style="width:8rem;height:2rem;border-radius:.75rem;background:rgb(var(--c-dim) / .12)"></span>
+      <span style="width:6rem;height:2rem;border-radius:.75rem;background:rgb(var(--c-dim) / .12)"></span>
+    </div>
+    <div class="boot-row">
+      <div class="boot-main">
+        <div class="boot-block boot-block--sm"></div>
+        <div class="boot-block boot-block--lg"></div>
+        <div class="boot-block"></div>
+        <div class="boot-block boot-block--sm"></div>
+        <div class="boot-block" style="width:70%"></div>
+      </div>
+      <div class="boot-side"><div class="boot-card"></div></div>
+    </div>
+    <p class="boot-tip">网络有点慢，页面还在加载…</p>
+    <div class="boot-fail">
+      <p>页面脚本加载失败，通常是网络中断或浏览器拦截了资源。</p>
+      <p><button type="button" onclick="location.reload()" class="text-accent hover:underline">点击重试</button>
+        · <a href="index.html" class="text-accent hover:underline">返回首页</a></p>
+    </div>
+  </div>
+  <script>
+    // 6 秒还没挂载 → 提示慢；20 秒仍没挂载 → 给重试入口。正常网速不会触发
+    setTimeout(function () {
+      var app = document.getElementById('skill-app');
+      var boot = document.querySelector('.boot');
+      if (app && boot && app.hasAttribute('v-cloak')) boot.classList.add('is-slow');
+    }, 6000);
+    setTimeout(function () {
+      var app = document.getElementById('skill-app');
+      var boot = document.querySelector('.boot');
+      if (app && boot && app.hasAttribute('v-cloak')) boot.classList.add('is-failed');
+    }, 20000);
+  </script>
+
+  <script src="assets/js/weather.js?v=202610051"></script>
+  <script src="vendor/arco-bundle.js?v=20260923"></script>
+  <script src="assets/js/anthropics-skills-doc.js?v=20261116a"></script>
+
+</body>
+</html>
