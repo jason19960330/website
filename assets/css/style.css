@@ -1968,20 +1968,52 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
    相邻章节合计约 80px，避免上下 padding 叠加出大片空白。
    章节标题与内容之间的间距由 .chapter-head 的 margin-bottom 统一控制。 */
 
-/* 照片墙：占位格与真实照片共用 4:3 网格，颜色跟随主题变量 */
-.photo-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
-@media (min-width: 768px) { .photo-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+/* 照片墙：桌面一排 6 张；窗口变窄自动降为 3 列 / 2 列。
+   占位格与真实照片共用 4:3，颜色与圆角跟随主题变量。
+   补真实照片只改 assets/js/data.js 的 photos（见该处注释），不用动这里。 */
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: .75rem;
+}
+@media (min-width: 640px) {
+  .photo-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (min-width: 900px) {
+  .photo-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: .6rem; }
+}
+.photo-item { min-width: 0; }
 .photo-tile {
   position: relative; overflow: hidden; aspect-ratio: 4 / 3;
-  border: 1px solid rgb(var(--c-hair)); border-radius: 12px;
+  border: 1px solid rgb(var(--c-hair)); border-radius: 10px;
   background: rgb(var(--c-raise));
+  transition: border-color .2s ease, box-shadow .2s ease;
 }
-.photo-tile img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.photo-tile img {
+  display: block; width: 100%; height: 100%; object-fit: cover;
+  transition: transform .3s ease;
+}
+.photo-tile:not(.is-placeholder):hover {
+  border-color: rgb(var(--c-accent) / .5);
+  box-shadow: 0 6px 18px rgb(var(--c-accent) / .12);
+}
+.photo-tile:not(.is-placeholder):hover img { transform: scale(1.04); }
 .photo-tile.is-placeholder { display: grid; place-items: center; border-style: dashed; background: transparent; }
-.photo-placeholder-text { font-size: .78rem; line-height: 1.8; text-align: center; color: rgb(var(--c-faint)); }
-.photo-caption { margin-top: .5rem; font-size: .75rem; color: rgb(var(--c-dim)); }
+.photo-placeholder-text {
+  padding: 0 .2rem; font-size: .7rem; line-height: 1.6;
+  text-align: center; color: rgb(var(--c-faint));
+}
+.photo-caption {
+  margin-top: .4rem; font-size: .72rem; line-height: 1.5;
+  color: rgb(var(--c-dim));
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
 .photo-link { color: rgb(var(--c-faint)); transition: color .2s; }
 .photo-link:hover { color: rgb(var(--c-accent)); }
+@media (prefers-reduced-motion: reduce) {
+  .photo-tile, .photo-tile img { transition: none; }
+  .photo-tile:not(.is-placeholder):hover img { transform: none; }
+}
 
 /* 首页「加载更多」与归档页空态：沿用主题变量，不引入新配色 */
 .life-more {

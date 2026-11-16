@@ -293,8 +293,10 @@ window.SITE_CONFIG = {
 
   /* ------------------------------------------------------------------
    * 11.5 照片墙（首页 02）
+   *     桌面一排 6 张；窗口变窄自动降为 3 列 / 2 列，样式见 style.css 的 .photo-grid。
    *     placeholder: true 显示虚线占位格；补照片时填 src / caption 并删掉 placeholder。
-   *     图片建议放 assets/photos/ 下，4:3、压缩到 300KB 以内。
+   *     图片放 assets/photos/ 下，建议 4:3（object-fit: cover 会居中裁切），压到 300KB 以内。
+   *     数组顺序就是从左到右的展示顺序，保持 6 项最整齐。
    * ---------------------------------------------------------------- */
   photos: [
     { label: '照片 01', src: '', caption: '', placeholder: true },

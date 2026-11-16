@@ -91,7 +91,8 @@ website/
 **生活年表目前是骨架**：三条 `tag: 站点记录` 是可核对的站点事实，其余 `placeholder: true` 是占位，
 等本人补真实年份、事件与照片；不要替他编生活内容。`growth.days` 是近 91 天 git 提交量分级，由 `git log` 统计，不用手工维护。
 
-**照片墙目前是骨架**：`data.js` 的 `photos` 六项均为 `placeholder: true` 虚线占位格；
+**照片墙目前是骨架**：桌面一排 6 张（窗口 <900px 降为 3 列、<640px 降为 2 列，见 `style.css` 的 `.photo-grid`）；
+`data.js` 的 `photos` 六项均为 `placeholder: true` 虚线占位格，数组顺序就是从左到右。
 补照片时把图片放进 `assets/photos/`，填 `src` / `caption` 并删掉 `placeholder`，不要放示意图片。
 首页内部锚点仍叫 `#work`（暂时改名，方便以后改回），求职入口在首屏按钮、顶部导航与移动抽屉里。
 
