@@ -29,6 +29,8 @@
   /* 首页「03 可回看的轨迹」下方四格：每次加载从 skill-cards.js 的技能池
      随机抽 4 个；用 sessionStorage 记住上一次组合，尽量避免刷新后完全一样。 */
   var ALL_SKILLS = Array.isArray(window.SKILL_CARDS) ? window.SKILL_CARDS.slice() : [];
+  /* 首屏「工具指南」大数字：直接读技能池长度，新增 Skill 后自动同步，不再手写 */
+  var skillTotal = ALL_SKILLS.length;
   function shuffleSkills(arr) {
     var a = arr.slice();
     for (var i = a.length - 1; i > 0; i--) {
@@ -852,7 +854,7 @@
         life: CONFIG.life, growth: CONFIG.growth, photos: CONFIG.photos,
         photoIndex: photoIndex, openPhoto: openPhoto, closePhoto: closePhoto, photoStep: photoStep,
         stats: CONFIG.stats, skillGroups: CONFIG.skillGroups, toolStack: CONFIG.toolStack,
-        randomSkills: RANDOM_SKILLS,
+        randomSkills: RANDOM_SKILLS, skillTotal: skillTotal,
         /* 羊毛速递 */
         woolItems: woolItems, woolUpdatedLabel: woolUpdatedLabel, woolLoading: woolLoading,
         refreshWool: refreshWool, woolIndex: woolIndex, woolTime: woolTime,

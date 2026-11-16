@@ -338,6 +338,11 @@ check('首页随机技能四格：技能池 / 模板 / 随机逻辑齐全且不�
   assert(/class="skill-spin-blurb"[^>]*>\s*\{\{\s*s\.blurb\s*\}\}/.test(idx),
     '首页四格未渲染 blurb 简短说明');
   assert(!/v-for="st in stats"/.test(idx), '首页仍残留旧的固定数字四格');
+  assert(/\{\{\s*skillTotal\s*\}\}/.test(idx), '首页工具指南数字未改为动态读取 skillTotal');
+  assert(/var skillTotal\s*=\s*ALL_SKILLS\.length/.test(app), 'app.js 的 skillTotal 未从技能池长度计算');
+  assert(/skillTotal:\s*skillTotal/.test(app), 'app.js 未把 skillTotal 暴露给模板');
+  assert(!/\d+\s*(篇|个)\s*(开源工具指南|开源仓库)/.test(idx),
+    '首页仍有写死的「N 篇/个开源工具指南/仓库」，会随加卡过时');
   assert(/randomSkills:\s*RANDOM_SKILLS/.test(app), 'app.js 未把随机结果暴露给模板');
   assert(/Math\.random/.test(app) && /sessionStorage/.test(app), 'app.js 缺少随机抽取 / 避开上次组合逻辑');
   const resume = fs.readFileSync(path.join(root, 'resume.html'), 'utf8');
