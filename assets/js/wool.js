@@ -7,57 +7,57 @@ window.WOOL_DATA = {
   "source": "https://radar.zichuanlan.top/",
   "sourceName": "资源雷达",
   "intervalMinutes": 30,
-  "updatedAt": "2026-11-17T10:39:21.969Z",
+  "updatedAt": "2026-11-17T19:47:49.488Z",
   "items": [
     {
-      "id": "40296",
-      "title": "搭建你的数字员工团队 ，让AI替你干活",
-      "summary": "搭建你的数字员工团队，让AI替你干活 ├── 1.配套包领取说明.pdf ├── 10.4.1 通用使用方法_1（delogo） _ev.mp4 ├── 11.4.2 各个agent的区别_1（delogo） _ev.…",
-      "url": "https://linux.do/t/topic/3191852",
+      "id": "43766",
+      "title": "【2026-11-17】新闻汇总:【Epic Games】发行商限免《Contractor: The Clean …",
+      "summary": "今日音乐推荐 [163]1304594110[/163] [hr] ▎新发售 [hr] ▎Steam折扣 [hr] ▎Steam页面上线 / 发售日公布 [hr] 慈善包 🎁 [hr] 汉化相关 🔴 [hr] 游戏…",
+      "url": "https://keylol.com/t1055716-1-1",
       "tag": "直接白嫖",
       "obtain": "free",
-      "source": "LINUX DO 资源",
-      "publishedAt": "2026-11-17T10:05:20.000Z"
+      "source": "其乐 Keylol",
+      "publishedAt": "2026-11-17T18:53:43.000Z"
     },
     {
-      "id": "40110",
-      "title": "移动app灵犀送6元话费",
-      "summary": "中国移动 app ——灵犀 输入下面的口令 甘蔗节节高 另外还有网友反馈，付钱的时候点这个，还有10-5的话费 4 个帖子 - 4 位参与者 阅读完整话题",
-      "url": "https://linux.do/t/topic/3191685",
+      "id": "42697",
+      "title": "google 惊天大羊毛!!! 5x ultra 一年白嫖",
+      "summary": "google 惊天大羊毛!!! 5x ultra 一年白嫖",
+      "url": "https://t.me/s/nodeseekc/1015314",
       "tag": "有条件领",
       "obtain": "conditional",
-      "source": "LINUX DO 福利",
-      "publishedAt": "2026-11-17T09:38:50.000Z"
+      "source": "tg cn deals",
+      "publishedAt": "2026-11-17T16:11:20.000Z"
     },
     {
-      "id": "40043",
-      "title": "[白送] md抢rak忘记提前下单isp了，有谁要，白送，直接来私聊,ns邮箱出，先到先得",
-      "summary": "(已出)第一个号3.99+49.9的订单，已勾选内网第二个和第三个只有49.9的订单，也已经勾选内网已经抢到的不要来找我，md别炒鸡了，如果没勾选内网默认rak土豆服务器，我是勾了的",
-      "url": "https://www.nodeseek.com/post-1060614-1",
+      "id": "42494",
+      "title": "【E宝限时喜加3】1699元的游戏开发资源抓紧入库！快来一键领取！",
+      "summary": "限时免费白嫖EPIC三款价值不菲的【游戏开发】资源，将于北京时间12.01，22:59（美东时间12.01，9:59）到期！商品价格似乎跟汇率有关，所以有可能在此文章发文时间后发生变动，如果价格偏差在100元左右应该是…",
+      "url": "https://www.xiaoheihe.cn/app/bbs/link/197167928",
+      "tag": "直接白嫖",
+      "obtain": "free",
+      "source": "xiaoheihe search",
+      "publishedAt": "2026-11-17T15:55:33.000Z"
+    },
+    {
+      "id": "41980",
+      "title": "浙江电信小福利-免费领取流量20G",
+      "summary": "浙江电信小福利+1免费领取20G流量APP内直接搜索“专属流量福利”即可有2个月的也有3个月的",
+      "url": "https://www.nodeseek.com/post-1061445-1",
       "tag": "有条件领",
       "obtain": "conditional",
       "source": "rss nodeseek",
-      "publishedAt": "2026-11-17T09:27:21.000Z"
+      "publishedAt": "2026-11-17T15:24:36.000Z"
     },
     {
-      "id": "39793",
-      "title": "qoder国际版SOTA积分领取",
-      "summary": "SOTA专属积分4000.用于sonus模型，应该是昨天就开始了，到18号结束。 3 个帖子 - 3 位参与者 阅读完整话题",
-      "url": "https://linux.do/t/topic/3191341",
-      "tag": "直接白嫖",
-      "obtain": "free",
-      "source": "LINUX DO 福利",
-      "publishedAt": "2026-11-17T08:48:19.000Z"
-    },
-    {
-      "id": "39703",
-      "title": "免费发放100000张！苏州NFC交通卡可领5折叠加券",
-      "summary": "3 个帖子 - 3 位参与者 阅读完整话题",
-      "url": "https://linux.do/t/topic/3191226",
-      "tag": "直接白嫖",
-      "obtain": "free",
-      "source": "LINUX DO 福利",
-      "publishedAt": "2026-11-17T08:30:56.000Z"
+      "id": "41880",
+      "title": "gemini ultra20x 零元购一个月的教程",
+      "summary": "gemini ultra20x 零元购一个月的教程",
+      "url": "https://t.me/s/nodeseekc/1015178",
+      "tag": "有条件领",
+      "obtain": "conditional",
+      "source": "tg cn deals",
+      "publishedAt": "2026-11-17T15:07:04.000Z"
     }
   ]
 };
