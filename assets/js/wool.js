@@ -7,57 +7,57 @@ window.WOOL_DATA = {
   "source": "https://radar.zichuanlan.top/",
   "sourceName": "资源雷达",
   "intervalMinutes": 30,
-  "updatedAt": "2026-11-16T18:26:00.498Z",
+  "updatedAt": "2026-11-17T02:04:16.286Z",
   "items": [
     {
-      "id": "36188",
-      "title": "gamesforfarm限时免费领取游戏",
-      "summary": "",
-      "url": "https://keylol.com/t1055612-1-1",
+      "id": "37375",
+      "title": "（目前还有效的 2 个机器人）免费获取muse 账号和 token 机器人，目前还有效",
+      "summary": "muse获取免费账号和token机器人，目前还有效https://t.me/TunVN_PreHub_bot?start=ref663593884https://t.me/TunVN_PreHub_bot?start=…",
+      "url": "https://www.nodeseek.com/post-1059245-1",
       "tag": "直接白嫖",
       "obtain": "free",
-      "source": "其乐 Keylol",
-      "publishedAt": "2026-11-16T17:12:22.000Z"
+      "source": "rss nodeseek",
+      "publishedAt": "2026-11-17T01:50:48.000Z"
     },
     {
-      "id": "35918",
-      "title": "BLG夺冠庆典福利怎么领？玩家领取指南整理",
-      "summary": "北京时间11月15日凌晨，2026英雄联盟全球总决赛（S16）决赛在纽约落幕，BLG在先失一局的情况下连扳三局，以3:1战胜韩国GEN战队捧起召唤师杯，中单knight获评FMVP，这也是LPL时隔五年重返世界之巅。赛…",
-      "url": "https://post.smzdm.com/p/a3m4rzgd",
+      "id": "37303",
+      "title": "蚂蚁阿福一分钱领体脂称的领取门槛降低了，芝麻分650以上即可",
+      "summary": "原来是要求800分以上，现在只需要650分以上就可以了。入口在支付宝的芝麻信用里面。不需要做任务，直接返支付宝红包。",
+      "url": "https://www.nodeseek.com/post-1059218-1",
       "tag": "有条件领",
       "obtain": "conditional",
-      "source": "什么值得买",
-      "publishedAt": "2026-11-16T16:41:38.000Z"
+      "source": "rss nodeseek",
+      "publishedAt": "2026-11-17T01:41:04.000Z"
     },
     {
-      "id": "35668",
-      "title": "支付宝免费领华莱士大薯条",
-      "summary": "支付宝搜 好吃的日子 有包免费的华莱士大薯条 15 个帖子 - 15 位参与者 阅读完整话题",
-      "url": "https://linux.do/t/topic/3187702",
-      "tag": "直接白嫖",
-      "obtain": "free",
-      "source": "LINUX DO 福利",
-      "publishedAt": "2026-11-16T16:21:25.000Z"
-    },
-    {
-      "id": "35609",
-      "title": "又一个免费云主机",
-      "summary": "0元云主机：Abasthan，支持SSH直连 512MB 内存 + 0.1 vCPU 自带免费子域名 地址： Pricing — High Performance PaaS | Abasthan 1 个帖子 - 1 位…",
-      "url": "https://linux.do/t/topic/3187688",
+      "id": "37264",
+      "title": "【Vomni】分享免费抠图，无水印不限次｜上新Claude Fable 5.2、Gemini 4 Carbon｜留…",
+      "summary": "佬友们好，分享一个我们自己在用的免费抠图的网站 之前抠个图，不是要开会员，就是限分辨率、加水印。现在 Vomni 的无限画布里直接带免费抠图 ，电商商品图、头像、表情包、PPT 配图都能用。 Vomni 官网 三步抠图…",
+      "url": "https://linux.do/t/topic/3188376",
       "tag": "有条件领",
       "obtain": "conditional",
       "source": "LINUX DO 福利",
-      "publishedAt": "2026-11-16T16:15:50.000Z"
+      "publishedAt": "2026-11-17T01:32:06.000Z"
     },
     {
-      "id": "34761",
-      "title": "开发了一款免费的智能品牌起名系统",
-      "summary": "定位为目前最牛品牌起名系统，话不多说，直接用吧，有免费额度 HugName HugName - 智能起名 | 公司起名、品牌起名、产品起名，拼音域名一站查询 HugName 智能起名平台：自然语言描述业务，约 20 秒…",
-      "url": "https://www.nodeloc.com/t/topic/118127",
+      "id": "37184",
+      "title": "某博主付费项目拆解，成本2元卖170元的高利润玩法",
+      "summary": "某博主付费项目拆解，成本2元卖170元的高利润玩法 └── 成本2元卖170元，ai造品（微创新）.pdf 我用夸克网盘给你分享了「某博主付费项目拆解，成本2元卖170元的高利润玩法」，点击链接或复制整段内容，打开「夸…",
+      "url": "https://linux.do/t/topic/3188302",
       "tag": "直接白嫖",
       "obtain": "free",
-      "source": "NodeLoc",
-      "publishedAt": "2026-11-16T13:42:39.000Z"
+      "source": "LINUX DO 资源",
+      "publishedAt": "2026-11-17T01:20:02.000Z"
+    },
+    {
+      "id": "37118",
+      "title": "20261117移动领1-9元话费",
+      "summary": "打开中国移动APP - 下方中间点击“灵犀” - 发送口令“甘蔗节节高”（今天10点开始） 7 个帖子 - 5 位参与者 阅读完整话题",
+      "url": "https://linux.do/t/topic/3188249",
+      "tag": "有条件领",
+      "obtain": "conditional",
+      "source": "LINUX DO 福利",
+      "publishedAt": "2026-11-17T01:11:46.000Z"
     }
   ]
 };
