@@ -849,9 +849,42 @@
         if (gbIo) gbIo.disconnect();
       });
 
+      /* 成长轨迹热力图：计算每天的真实日期、星期与提交描述 */
+      var hoveredHeatDay = ref(null);
+      var heatDays = computed(function () {
+        var days = CONFIG.growth && Array.isArray(CONFIG.growth.days) ? CONFIG.growth.days : [];
+        var weekDays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+        var levelLabels = {
+          0: '无提交',
+          1: '少量提交',
+          2: '中度活跃',
+          3: '高度活跃',
+          4: '极高活跃'
+        };
+        return days.map(function (lvl, i) {
+          var d = new Date(2026, 7, 13);
+          d.setDate(d.getDate() + i);
+          var y = d.getFullYear();
+          var m = String(d.getMonth() + 1).padStart(2, '0');
+          var day = String(d.getDate()).padStart(2, '0');
+          var w = weekDays[d.getDay()];
+          var dateStr = y + '-' + m + '-' + day;
+          var desc = levelLabels[lvl] || (lvl + ' 级活跃');
+          return {
+            index: i,
+            date: dateStr,
+            weekDay: w,
+            level: lvl,
+            desc: desc,
+            tooltip: dateStr + ' (' + w + ') · ' + (lvl === 0 ? '无提交' : (desc + ' (等级 ' + lvl + ')'))
+          };
+        });
+      });
+
       return {
         meta: meta, nav: CONFIG.nav, social: CONFIG.social,
         life: CONFIG.life, growth: CONFIG.growth, photos: CONFIG.photos,
+        heatDays: heatDays, hoveredHeatDay: hoveredHeatDay,
         photoIndex: photoIndex, openPhoto: openPhoto, closePhoto: closePhoto, photoStep: photoStep,
         stats: CONFIG.stats, skillGroups: CONFIG.skillGroups, toolStack: CONFIG.toolStack,
         randomSkills: RANDOM_SKILLS, skillTotal: skillTotal,

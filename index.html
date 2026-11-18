@@ -435,12 +435,30 @@
         <p class="chapter-sub mb-6">{{ growth.desc }}</p>
 
         <div class="card p-6">
-          <div class="heat-grid">
-            <span v-for="(lvl, i) in growth.days" :key="i" class="heat-cell" :data-level="lvl"
-                  :title="'第 ' + (i + 1) + ' 天 · 等级 ' + lvl"></span>
+          <div class="heat-wrapper">
+            <div class="heat-months" aria-hidden="true">
+              <span style="grid-column: 1 / 4">8月</span>
+              <span style="grid-column: 4 / 8">9月</span>
+              <span style="grid-column: 8 / 12">10月</span>
+              <span style="grid-column: 12 / 14">11月</span>
+            </div>
+            <div class="heat-grid">
+              <span v-for="d in heatDays" :key="d.index" class="heat-cell" :data-level="d.level"
+                    :title="d.tooltip"
+                    @mouseenter="hoveredHeatDay = d"
+                    @mouseleave="hoveredHeatDay = null"></span>
+            </div>
           </div>
           <div class="mt-5 flex flex-wrap items-center justify-between gap-3">
-            <p class="text-xs text-faint">{{ growth.span }} · 共 {{ growth.totalCommits }} 次提交</p>
+            <p class="text-xs transition-colors duration-150" :class="hoveredHeatDay ? 'text-ink font-medium' : 'text-faint'">
+              <span v-if="hoveredHeatDay">
+                <span class="text-accent">{{ hoveredHeatDay.date }}</span>
+                <span> ({{ hoveredHeatDay.weekDay }}) · {{ hoveredHeatDay.desc }}</span>
+              </span>
+              <span v-else>
+                {{ growth.span }} · 共 {{ growth.totalCommits }} 次提交
+              </span>
+            </p>
             <div class="heat-legend">
               <span>{{ growth.legend[0] }}</span>
               <span class="heat-cell" data-level="0"></span>
@@ -646,7 +664,7 @@
   <!-- 羊毛速递数据：不带版本号，页面用时间戳重载以绕开 CDN 缓存 -->
   <script src="assets/js/wool.js"></script>
   <script src="assets/js/hotnews.js?v=20260928"></script>
-  <script src="assets/js/app.js?v=20261116b"></script>
+  <script src="assets/js/app.js?v=20261118a"></script>
 
   <!-- 首屏骨架：脚本没跑完之前顶住版式（纯静态，脚本一到自动让位） -->
   <div class="boot" aria-hidden="true">
