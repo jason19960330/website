@@ -7,57 +7,57 @@ window.WOOL_DATA = {
   "source": "https://radar.zichuanlan.top/",
   "sourceName": "资源雷达",
   "intervalMinutes": 30,
-  "updatedAt": "2026-11-17T19:47:49.488Z",
+  "updatedAt": "2026-11-18T02:23:27.547Z",
   "items": [
     {
-      "id": "43766",
-      "title": "【2026-11-17】新闻汇总:【Epic Games】发行商限免《Contractor: The Clean …",
-      "summary": "今日音乐推荐 [163]1304594110[/163] [hr] ▎新发售 [hr] ▎Steam折扣 [hr] ▎Steam页面上线 / 发售日公布 [hr] 慈善包 🎁 [hr] 汉化相关 🔴 [hr] 游戏…",
-      "url": "https://keylol.com/t1055716-1-1",
+      "id": "44869",
+      "title": "新能源车险条款过审，你的保费开始按车型连坐",
+      "summary": "戚先生的纯电轿车过去一年零出险、零违章，续保报价却比上一年高出近2000元。客服的理由跟他怎么开车毫无关系：这款车型在当地整体赔付率偏高，系统已统一上调定价系数。这件事有个更直白的说法：连坐。上海证券报商业车险里没有单…",
+      "url": "https://post.smzdm.com/p/anvmnor0",
+      "tag": "直接白嫖",
+      "obtain": "free",
+      "source": "什么值得买",
+      "publishedAt": "2026-11-18T01:46:20.000Z"
+    },
+    {
+      "id": "44709",
+      "title": "QQ音乐会员 3天*3",
+      "summary": "本月继续领会员 ⁡赠送你免费3天豪华绿钻会员卡 畅听VIP会员曲库，享受无损音质 https://c6.y.qq.com/base/fcgi-bin/u?__=6NdH6RrFqXeH @QQ音乐 3 个帖子 - 3 …",
+      "url": "https://linux.do/t/topic/3194597",
+      "tag": "直接白嫖",
+      "obtain": "free",
+      "source": "LINUX DO 福利",
+      "publishedAt": "2026-11-18T01:22:03.000Z"
+    },
+    {
+      "id": "44598",
+      "title": "meshy 创作活动可领多样福利，manus一个月会员",
+      "summary": "应该是有限的，先到先得，福利如下 meshy 一千积分 manus 一个月pro capcut 和MiniMax Code 需要填表才得 活动地址： https://www.meshy.ai/zh/z-axis-awa…",
+      "url": "https://linux.do/t/topic/3194494",
+      "tag": "有条件领",
+      "obtain": "conditional",
+      "source": "LINUX DO 福利",
+      "publishedAt": "2026-11-18T01:03:30.000Z"
+    },
+    {
+      "id": "44502",
+      "title": "1分钱领取99.9元体脂秤 - 山东医保用户缴费新福利",
+      "summary": "1分钱领取99.9元体脂秤 1分钱领取99.9元体脂秤 [烟花][烟花][烟花]1分钱领取99.9元体脂秤 山东医保用户缴费新福利(在山东缴纳医保的不限制职工或者居民医疗都可以参与) 1.支付宝扫描图片中的二维码 2.…",
+      "url": "https://linux.do/t/topic/3194424",
+      "tag": "有条件领",
+      "obtain": "conditional",
+      "source": "LINUX DO 福利",
+      "publishedAt": "2026-11-18T00:46:20.000Z"
+    },
+    {
+      "id": "44642",
+      "title": "《The Ghost Of Solaris》即将转为付费，现在还可免费入库",
+      "summary": "[sframe]4452300[/sframe] https://store.steampowered.com/news/app/4452300/view/672885536621333042",
+      "url": "https://keylol.com/t1055729-1-1",
       "tag": "直接白嫖",
       "obtain": "free",
       "source": "其乐 Keylol",
-      "publishedAt": "2026-11-17T18:53:43.000Z"
-    },
-    {
-      "id": "42697",
-      "title": "google 惊天大羊毛!!! 5x ultra 一年白嫖",
-      "summary": "google 惊天大羊毛!!! 5x ultra 一年白嫖",
-      "url": "https://t.me/s/nodeseekc/1015314",
-      "tag": "有条件领",
-      "obtain": "conditional",
-      "source": "tg cn deals",
-      "publishedAt": "2026-11-17T16:11:20.000Z"
-    },
-    {
-      "id": "42494",
-      "title": "【E宝限时喜加3】1699元的游戏开发资源抓紧入库！快来一键领取！",
-      "summary": "限时免费白嫖EPIC三款价值不菲的【游戏开发】资源，将于北京时间12.01，22:59（美东时间12.01，9:59）到期！商品价格似乎跟汇率有关，所以有可能在此文章发文时间后发生变动，如果价格偏差在100元左右应该是…",
-      "url": "https://www.xiaoheihe.cn/app/bbs/link/197167928",
-      "tag": "直接白嫖",
-      "obtain": "free",
-      "source": "xiaoheihe search",
-      "publishedAt": "2026-11-17T15:55:33.000Z"
-    },
-    {
-      "id": "41980",
-      "title": "浙江电信小福利-免费领取流量20G",
-      "summary": "浙江电信小福利+1免费领取20G流量APP内直接搜索“专属流量福利”即可有2个月的也有3个月的",
-      "url": "https://www.nodeseek.com/post-1061445-1",
-      "tag": "有条件领",
-      "obtain": "conditional",
-      "source": "rss nodeseek",
-      "publishedAt": "2026-11-17T15:24:36.000Z"
-    },
-    {
-      "id": "41880",
-      "title": "gemini ultra20x 零元购一个月的教程",
-      "summary": "gemini ultra20x 零元购一个月的教程",
-      "url": "https://t.me/s/nodeseekc/1015178",
-      "tag": "有条件领",
-      "obtain": "conditional",
-      "source": "tg cn deals",
-      "publishedAt": "2026-11-17T15:07:04.000Z"
+      "publishedAt": "2026-11-18T00:43:39.000Z"
     }
   ]
 };
