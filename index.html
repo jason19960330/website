@@ -65,7 +65,7 @@
   <!-- 预编译样式：Tailwind 产物 → Arco 按需样式 → 站点定制（后者覆盖前者） -->
   <link rel="stylesheet" href="assets/css/tailwind.css?v=202609302">
   <link rel="stylesheet" href="vendor/arco-bundle.css?v=20260923">
-  <link rel="stylesheet" href="assets/css/style.css?v=20261116c">
+  <link rel="stylesheet" href="assets/css/style.css?v=20261118a">
 </head>
 
 <!-- ======================================================================
@@ -350,7 +350,7 @@
 
         <div class="grid gap-8 lg:grid-cols-[1.5fr_1fr]">
           <div>
-            <div v-for="(e, i) in life.entries" :key="i" class="life-item">
+            <div v-for="(e, i) in life.entries" :key="i" class="life-item" :class="{ 'is-placeholder': e.placeholder }">
               <span class="life-dot" aria-hidden="true"></span>
               <p class="life-year">{{ e.year }}</p>
               <a v-if="e.url" :href="e.url" class="life-title-link mt-1">
@@ -364,7 +364,10 @@
                 <img v-if="e.cover" :src="e.cover" :alt="e.caption || e.title" loading="lazy">
                 <p v-else class="life-cover-empty">等待补上照片</p>
               </div>
-              <p v-if="e.placeholder" class="life-placeholder mt-3">占位 · 等待补上真实事件 / 照片</p>
+              <p v-if="e.placeholder" class="life-placeholder mt-2.5">
+                <span class="life-placeholder-dot" aria-hidden="true"></span>
+                <span>留白待续 · 补上真实生活与照片</span>
+              </p>
             </div>
             <a href="archive.html" class="life-more">
               加载更多

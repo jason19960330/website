@@ -215,7 +215,13 @@ section[id] { scroll-margin-top: 5rem; }
   box-shadow: 0 8px 26px -18px var(--card-shadow);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  transition: background-color .35s ease, border-color .35s ease, box-shadow .35s ease;
+  transition: background-color .35s ease, border-color .35s ease, box-shadow .35s ease, transform .35s ease;
+}
+
+/* 深色模式下的微光边框与顶层高光（提升层次与通透度） */
+html.dark .card {
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
 .card-hover { transition: transform .3s cubic-bezier(.16,1,.3,1), border-color .3s, box-shadow .3s, background-color .35s; }
@@ -224,10 +230,21 @@ section[id] { scroll-margin-top: 5rem; }
   border-color: rgb(var(--c-accent) / .45);
   box-shadow: 0 22px 46px -24px rgb(var(--c-accent) / .5);
 }
+html.dark .card-hover:hover {
+  border-color: rgb(var(--c-accent) / .55);
+  box-shadow: 0 22px 46px -20px rgb(var(--c-accent) / .35), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
 
 /* 首屏个人名片：横向人像 + 两格统计 + 工作经历入口。
    全部走主题变量，深浅主题自动适配；不依赖 Tailwind 预编译产物。 */
-.profile-card { padding: 1.25rem; }
+.profile-card {
+  padding: 1.25rem;
+  transition: transform .35s cubic-bezier(.16,1,.3,1), border-color .35s ease, box-shadow .35s ease;
+}
+.profile-card:hover {
+  border-color: rgb(var(--c-accent) / .35);
+  box-shadow: 0 16px 36px -12px rgb(var(--c-accent) / .16);
+}
 .profile-head { display: flex; align-items: center; gap: .875rem; }
 .profile-photo {
   flex: none;
@@ -238,6 +255,11 @@ section[id] { scroll-margin-top: 5rem; }
   background: rgb(var(--c-raise));
   object-fit: cover;
   object-position: 50% 18%;
+  transition: transform .35s cubic-bezier(.16,1,.3,1), box-shadow .35s ease;
+}
+.profile-card:hover .profile-photo {
+  transform: scale(1.02);
+  box-shadow: 0 6px 18px -4px rgb(var(--c-accent) / .28);
 }
 .profile-id { min-width: 0; }
 .profile-name {
@@ -1919,22 +1941,72 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 }
 
 .life-item {
-  position: relative; padding: 0 0 1.4rem 2.1rem;
+  position: relative; padding: 0 0 1.5rem 2.1rem;
   border-left: 1px solid rgb(var(--c-hair)); margin-left: .4rem;
+  transition: border-color .2s ease;
 }
 .life-item:last-child { border-left-color: transparent; padding-bottom: .2rem; }
 .life-dot {
   position: absolute; left: -.44rem; top: .35rem;
   width: .85rem; height: .85rem; border-radius: 50%;
   background: rgb(var(--c-panel)); border: 2px solid rgb(var(--c-accent));
+  transition: border-color .2s ease, background-color .2s ease;
 }
-.life-year { font-size: 1.02rem; letter-spacing: .05em; color: rgb(var(--c-accent)); }
-.life-title { font-size: .98rem; color: rgb(var(--c-ink)); }
+.life-year { font-size: 1.02rem; letter-spacing: .05em; color: rgb(var(--c-accent)); font-weight: 600; }
+.life-title { font-size: .98rem; font-weight: 500; color: rgb(var(--c-ink)); }
 .life-desc { font-size: .86rem; line-height: 1.85; color: rgb(var(--c-dim)); }
+
+/* 占位条目：弱化突兀感，融入时间轴留白呼吸感 */
+.life-item.is-placeholder {
+  border-left-style: dashed;
+  border-left-color: rgb(var(--c-hair) / .7);
+  opacity: .85;
+  transition: opacity .25s ease;
+}
+.life-item.is-placeholder:hover {
+  opacity: 1;
+}
+.life-item.is-placeholder .life-dot {
+  border: 1.5px dashed rgb(var(--c-accent) / .55);
+  background: rgb(var(--c-base));
+}
+.life-item.is-placeholder .life-year {
+  color: rgb(var(--c-dim));
+  font-weight: 500;
+}
+.life-item.is-placeholder .life-title {
+  color: rgb(var(--c-dim));
+}
+.life-item.is-placeholder .life-desc {
+  color: rgb(var(--c-faint));
+  font-size: .83rem;
+}
 .life-placeholder {
-  border: 1px dashed rgb(var(--c-hair)); border-radius: .7rem;
-  padding: .85rem 1.05rem; font-size: .8rem; line-height: 1.75;
-  color: rgb(var(--c-faint)); background: rgb(var(--c-raise) / .35);
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  padding: .28rem .75rem;
+  border-radius: 9999px;
+  border: 1px dashed rgb(var(--c-accent) / .35);
+  background: rgb(var(--c-accent) / .04);
+  font-size: .74rem;
+  line-height: 1.4;
+  color: rgb(var(--c-accent));
+  letter-spacing: .02em;
+  user-select: none;
+  transition: background-color .2s ease, border-color .2s ease;
+}
+.life-placeholder-dot {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: .75;
+}
+.life-item.is-placeholder:hover .life-placeholder {
+  background: rgb(var(--c-accent) / .08);
+  border-color: rgb(var(--c-accent) / .55);
 }
 
 .heat-cell { aspect-ratio: 1; border-radius: 2px; background: rgb(var(--c-raise)); }
@@ -1983,14 +2055,18 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 @media (min-width: 900px) {
   .photo-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: .75rem; }
 }
-.photo-item { min-width: 0; }
+.photo-item {
+  min-width: 0;
+  position: relative;
+  transition: transform .35s cubic-bezier(.16, 1, .3, 1), z-index .35s ease;
+}
 .photo-paper {
   background: #fff;
   border: 1px solid rgb(var(--c-hair));
-  border-radius: 4px;
+  border-radius: 6px;
   padding: .45rem .45rem 0;
-  box-shadow: 0 2px 8px rgb(15 23 42 / .10), 0 10px 22px rgb(15 23 42 / .06);
-  transition: transform .28s cubic-bezier(.2,.8,.2,1), box-shadow .28s ease;
+  box-shadow: 0 2px 8px rgb(15 23 42 / .08), 0 10px 22px rgb(15 23 42 / .05);
+  transition: transform .35s cubic-bezier(.16, 1, .3, 1), box-shadow .35s cubic-bezier(.16, 1, .3, 1), border-color .35s ease;
 }
 /* 固定错落：角度 + 垂直偏移，底边不对齐才有「贴上去」的手感，顺序与 photos 数组一致 */
 .photo-tilt-0 { transform: translateY(0) rotate(-2deg); }
@@ -1999,13 +2075,16 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 .photo-tilt-3 { transform: translateY(12px) rotate(2deg); }
 .photo-tilt-4 { transform: translateY(6px) rotate(-1.6deg); }
 .photo-tilt-5 { transform: translateY(2px) rotate(.8deg); }
-.photo-item:hover .photo-paper {
-  transform: rotate(0deg) translateY(-6px) scale(1.03);
-  box-shadow: 0 8px 18px rgb(15 23 42 / .16), 0 18px 36px rgb(15 23 42 / .10);
-  z-index: 2;
+
+/* Hover 物理微拟物交互：慢速回正 + 升起浮空 + 柔和弥散阴影 + 图片微变焦 */
+.photo-item:hover {
+  transform: translateY(-5px) rotate(0deg) !important;
+  z-index: 10;
 }
-.photo-item { transition: transform .28s ease; }
-.photo-item:hover { z-index: 3; }
+.photo-item:hover .photo-paper {
+  border-color: rgb(var(--c-accent) / .4);
+  box-shadow: 0 14px 28px -4px rgb(15 23 42 / .18), 0 22px 44px -6px rgb(15 23 42 / .12);
+}
 .photo-tile {
   position: relative; overflow: hidden; aspect-ratio: 3 / 4;
   border-radius: 2px;
@@ -2014,6 +2093,19 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 .photo-tile img {
   display: block; width: 100%; height: 100%; object-fit: cover;
   object-position: center 42%;
+  transition: transform .45s cubic-bezier(.16, 1, .3, 1);
+}
+.photo-item:hover .photo-tile img {
+  transform: scale(1.04);
+}
+html.dark .photo-paper {
+  background: #f8fafc;
+  border-color: rgba(255, 255, 255, .15);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, .45), 0 12px 30px rgba(0, 0, 0, .35);
+}
+html.dark .photo-item:hover .photo-paper {
+  border-color: rgb(var(--c-accent) / .7);
+  box-shadow: 0 16px 36px -4px rgba(0, 0, 0, .6), 0 24px 50px -6px rgba(0, 0, 0, .45);
 }
 .photo-paper.is-placeholder { border-style: dashed; box-shadow: none; }
 .photo-paper.is-placeholder:hover { transform: rotate(0deg); box-shadow: none; }
