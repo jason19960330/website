@@ -159,7 +159,6 @@
         <!-- 锚点导航已移除（板块入口保留在移动端抽屉与页面内）；桌面端仅保留外部页面入口，右对齐排列 -->
         <div class="flex shrink-0 items-center gap-1.5">
           <nav class="mr-1 hidden items-center gap-0.5 md:flex" aria-label="页面入口">
-            <a href="work.html" class="nav-link">工作经历</a>
             <a href="weekly.html" class="nav-link">AI 速览</a>
             <a href="hotnews.html" class="nav-link">热点</a>
             <a href="skill.html" class="nav-link">Skill</a>
@@ -271,7 +270,6 @@
                 @click="jump(item.id)"
                 class="rounded-lg px-3 py-2.5 text-left text-sm transition hover:bg-raise"
                 :class="activeSection === item.id ? 'text-accent' : 'text-dim'">{{ item.label }}</button>
-        <a href="work.html" class="rounded-lg px-3 py-2.5 text-left text-sm text-dim transition hover:bg-raise">工作经历（独立页）</a>
         <a href="resume.html" class="rounded-lg px-3 py-2.5 text-left text-sm text-dim transition hover:bg-raise">个人简历</a>
         <a href="weekly.html" class="rounded-lg px-3 py-2.5 text-left text-sm text-dim transition hover:bg-raise">AI 热点速览</a>
         <a href="hotnews.html" class="rounded-lg px-3 py-2.5 text-left text-sm text-dim transition hover:bg-raise">科技热点</a>
