@@ -7,57 +7,57 @@ window.WOOL_DATA = {
   "source": "https://radar.zichuanlan.top/",
   "sourceName": "资源雷达",
   "intervalMinutes": 30,
-  "updatedAt": "2026-11-18T10:41:22.785Z",
+  "updatedAt": "2026-11-18T19:23:42.895Z",
   "items": [
     {
-      "id": "48413",
-      "title": "看广告还是掏钱：Xbox的云游戏，现在是一道选择题",
-      "summary": "GTA6明天解锁，很多同学第一个问题不是\"值不值得买\"，而是\"我家设备跑不动怎么办\"。Xbox刚给出的答案很直接：看广告，就能白嫖云游戏。一条一分钟的广告，换30分钟游戏11月12日，Xbox云游戏正式上线免费广告支持…",
-      "url": "https://post.smzdm.com/p/aomq2e7m",
+      "id": "50959",
+      "title": "山姆399元羽绒服被抢疯：代购加价20元到200元，这钱花得值吗",
+      "summary": "今年冬天卖疯的，不是哪家的联名款，而是山姆货架上一款定价399.9元、充绒量约300克的男士长款羽绒服。它刚摆上货架就被抢购，多地门店女款售罄，男款也卖到断码。至于加价找代购靠不靠谱，结论可以先行：货大多是真货，但加价…",
+      "url": "https://post.smzdm.com/p/a3m484pr",
+      "tag": "直接白嫖",
+      "obtain": "free",
+      "source": "什么值得买",
+      "publishedAt": "2026-11-18T17:09:34.000Z"
+    },
+    {
+      "id": "50916",
+      "title": "Mistral免费领三个月pro",
+      "summary": "无affhttps://t.co/VdDpO6YOhE需要挂欧洲节点访问0刀卡能过验证",
+      "url": "https://www.nodeseek.com/post-1064326-1",
+      "tag": "有条件领",
+      "obtain": "conditional",
+      "source": "rss nodeseek",
+      "publishedAt": "2026-11-18T16:59:37.000Z"
+    },
+    {
+      "id": "50739",
+      "title": "mistral免费3个月pro会员(已无)",
+      "summary": "v2.auth.mistral.ai Login - Mistral AI 挂欧洲节点 40 个帖子 - 30 位参与者 阅读完整话题",
+      "url": "https://linux.do/t/topic/3199855",
+      "tag": "有条件领",
+      "obtain": "conditional",
+      "source": "LINUX DO 福利",
+      "publishedAt": "2026-11-18T16:31:16.000Z"
+    },
+    {
+      "id": "50559",
+      "title": "全网 AI 产品免费权益清单（截至 2026.11.18）",
+      "summary": "这两天国内 AI 的免费权益整体比较平静，官方按量价没有下调。真正值得动手的只有两条：商汤昨晚把新模型开了源，普通人下载权重就能本地白用；阿里云把联网搜索的 2000 次免费额度开了个新入口。另外今晚和明天有几个节点扎…",
+      "url": "https://post.smzdm.com/p/anvm69k0",
       "tag": "有条件领",
       "obtain": "conditional",
       "source": "什么值得买",
-      "publishedAt": "2026-11-18T10:03:18.000Z"
+      "publishedAt": "2026-11-18T15:51:16.000Z"
     },
     {
-      "id": "48052",
-      "title": "网易云会员7天或随机天数会员领取",
-      "summary": "（话题已被作者删除） 1 个帖子 - 1 位参与者 阅读完整话题",
-      "url": "https://linux.do/t/topic/3197686",
+      "id": "50588",
+      "title": "送两个river.ai的token，一共50刀，可用deepseek1017",
+      "summary": "url: https://api.river.ai/v1 model_id:deepseek-ai/DeepSeek-V4.1-Flash-1017 api_key: cnZfcHloRDVwSllrTERjRHlmS…",
+      "url": "https://linux.do/t/topic/3199551",
       "tag": "直接白嫖",
       "obtain": "free",
       "source": "LINUX DO 福利",
-      "publishedAt": "2026-11-18T09:02:33.000Z"
-    },
-    {
-      "id": "47359",
-      "title": "免费游戏《Cat Screen》《疯狂德州》将下架，还能免费收藏",
-      "summary": "https://store.steampowered.com/news/app/4406970/view/685270435597649766?snr=1_5_9_ https://store.steampowered…",
-      "url": "https://keylol.com/t1055752-1-1",
-      "tag": "直接白嫖",
-      "obtain": "free",
-      "source": "其乐 Keylol",
-      "publishedAt": "2026-11-18T07:04:34.000Z"
-    },
-    {
-      "id": "47286",
-      "title": "🚀 [技术分享] 优雅解决 Claude 封号/额度痛点：Claude-Free-Proxy 满血控制台体验",
-      "summary": "经常用 Claude 的 MJJ 应该都懂，免费号容易挂，多号切来切去又麻烦，稍微聊长一点还容易触发 429 限流。 为了彻底解决这个痛点，最近在折腾一个基于 claude-free-proxy 的反代项目。试跑了几天…",
-      "url": "https://www.nodeloc.com/t/topic/118346",
-      "tag": "直接白嫖",
-      "obtain": "free",
-      "source": "NodeLoc",
-      "publishedAt": "2026-11-18T07:01:24.000Z"
-    },
-    {
-      "id": "47218",
-      "title": "〖开发者自荐〗Pachat，把你和朋友各自的 AI 助手拉进同一个群",
-      "summary": "软件名称 Pachat 一句简介 一键邀请，和你朋友的 AI Agent 在同一个群里自由协作 应用平台 网页，支持简体中文。 推荐类型 〖开发者自荐〗 是否收费 Pachat 完全免费使用 应用简介 在 Pachat…",
-      "url": "https://meta.appinn.net/t/topic/96254",
-      "tag": "有条件领",
-      "obtain": "conditional",
-      "source": "rss meta appinn",
-      "publishedAt": "2026-11-18T06:52:25.000Z"
+      "publishedAt": "2026-11-18T15:17:23.000Z"
     }
   ]
 };
