@@ -65,7 +65,7 @@
   <!-- 预编译样式：Tailwind 产物 → Arco 按需样式 → 站点定制（后者覆盖前者） -->
   <link rel="stylesheet" href="assets/css/tailwind.css?v=202609302">
   <link rel="stylesheet" href="vendor/arco-bundle.css?v=20260923">
-  <link rel="stylesheet" href="assets/css/style.css?v=20261119c">
+  <link rel="stylesheet" href="assets/css/style.css?v=20261119d">
 </head>
 
 <!-- ======================================================================
@@ -451,7 +451,7 @@
               </div>
             </div>
           </div>
-          <div class="mt-5 flex max-w-[820px] flex-wrap items-center justify-between gap-3">
+          <div class="mt-4 flex max-w-[420px] flex-wrap items-center justify-between gap-3">
             <p class="text-xs transition-colors duration-150" :class="hoveredHeatDay ? 'text-ink font-medium' : 'text-faint'">
               <span v-if="hoveredHeatDay">
                 <span class="text-accent">{{ hoveredHeatDay.date }}</span>
@@ -666,7 +666,7 @@
   <!-- 羊毛速递数据：不带版本号，页面用时间戳重载以绕开 CDN 缓存 -->
   <script src="assets/js/wool.js"></script>
   <script src="assets/js/hotnews.js?v=20260928"></script>
-  <script src="assets/js/app.js?v=20261119c"></script>
+  <script src="assets/js/app.js?v=20261119d"></script>
 
   <!-- 首屏骨架：脚本没跑完之前顶住版式（纯静态，脚本一到自动让位） -->
   <div class="boot" aria-hidden="true">

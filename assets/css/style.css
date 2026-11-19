@@ -2011,20 +2011,19 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 
 .heat-wrapper {
   width: 100%;
-  max-width: 820px;
+  max-width: 420px;
   overflow-x: auto;
-  padding-bottom: 6px;
+  padding-bottom: 4px;
 }
 .heat-board {
-  min-width: 440px;
   width: 100%;
 }
 .heat-months {
   display: grid;
   grid-template-columns: repeat(13, minmax(0, 1fr));
-  gap: clamp(4px, 0.6vw, 7px);
-  margin-bottom: 8px;
-  font-size: 11px;
+  gap: 3px;
+  margin-bottom: 6px;
+  font-size: 10px;
   font-weight: 500;
   color: rgb(var(--c-faint));
   user-select: none;
@@ -2033,27 +2032,27 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 .heat-grid {
   display: grid;
   grid-template-columns: repeat(13, minmax(0, 1fr));
-  grid-template-rows: repeat(7, clamp(16px, 2.2vw, 22px));
+  grid-template-rows: repeat(7, 12px);
   grid-auto-flow: column;
-  gap: clamp(4px, 0.6vw, 7px);
+  gap: 3px;
   width: 100%;
 }
 .heat-cell {
   display: block;
   width: 100%;
   height: 100%;
-  min-height: 16px;
-  border-radius: 4px;
+  min-height: 11px;
+  border-radius: 2.5px;
   background: rgb(var(--c-raise));
   transition: transform .18s cubic-bezier(.16, 1, .3, 1), box-shadow .18s ease, filter .18s ease;
   cursor: pointer;
   position: relative;
 }
 .heat-cell:hover {
-  transform: scale(1.15);
+  transform: scale(1.2);
   z-index: 5;
-  box-shadow: 0 0 10px rgb(var(--c-accent) / .65);
-  border-radius: 5px;
+  box-shadow: 0 0 8px rgb(var(--c-accent) / .65);
+  border-radius: 3px;
   filter: brightness(1.1);
 }
 .heat-cell[data-level="1"] { background: rgb(var(--c-accent) / .24); }
@@ -2064,15 +2063,15 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 .heat-legend {
   display: flex;
   align-items: center;
-  gap: .4rem;
-  font-size: .76rem;
+  gap: .35rem;
+  font-size: .75rem;
   color: rgb(var(--c-faint));
 }
 .heat-legend .heat-cell {
-  width: 13px;
-  height: 13px;
-  min-height: 13px;
-  border-radius: 3px;
+  width: 11px;
+  height: 11px;
+  min-height: 11px;
+  border-radius: 2px;
   cursor: default;
 }
 .heat-legend .heat-cell:hover {
