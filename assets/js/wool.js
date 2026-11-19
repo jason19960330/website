@@ -7,57 +7,57 @@ window.WOOL_DATA = {
   "source": "https://radar.zichuanlan.top/",
   "sourceName": "资源雷达",
   "intervalMinutes": 30,
-  "updatedAt": "2026-11-18T19:23:42.895Z",
+  "updatedAt": "2026-11-19T01:28:11.782Z",
   "items": [
     {
-      "id": "50959",
-      "title": "山姆399元羽绒服被抢疯：代购加价20元到200元，这钱花得值吗",
-      "summary": "今年冬天卖疯的，不是哪家的联名款，而是山姆货架上一款定价399.9元、充绒量约300克的男士长款羽绒服。它刚摆上货架就被抢购，多地门店女款售罄，男款也卖到断码。至于加价找代购靠不靠谱，结论可以先行：货大多是真货，但加价…",
-      "url": "https://post.smzdm.com/p/a3m484pr",
-      "tag": "直接白嫖",
-      "obtain": "free",
-      "source": "什么值得买",
-      "publishedAt": "2026-11-18T17:09:34.000Z"
-    },
-    {
-      "id": "50916",
-      "title": "Mistral免费领三个月pro",
-      "summary": "无affhttps://t.co/VdDpO6YOhE需要挂欧洲节点访问0刀卡能过验证",
-      "url": "https://www.nodeseek.com/post-1064326-1",
+      "id": "51778",
+      "title": "OpenGame Game Jam免费领取50美元fal.ai额度",
+      "summary": "领取地址：https://opengame.io/jam 注册填写基本信息，然后点击Get your fal coupon，可以获得一个fal.ai的兑换码，前往fal.ai可以兑换50美元额度 额度可以用于AI图片和…",
+      "url": "https://keylol.com/t1055814-1-1",
       "tag": "有条件领",
       "obtain": "conditional",
-      "source": "rss nodeseek",
-      "publishedAt": "2026-11-18T16:59:37.000Z"
+      "source": "其乐 Keylol",
+      "publishedAt": "2026-11-18T23:48:04.000Z"
     },
     {
-      "id": "50739",
-      "title": "mistral免费3个月pro会员(已无)",
-      "summary": "v2.auth.mistral.ai Login - Mistral AI 挂欧洲节点 40 个帖子 - 30 位参与者 阅读完整话题",
-      "url": "https://linux.do/t/topic/3199855",
+      "id": "51779",
+      "title": "免费游戏《Apoclone》《Castle of Blackwater》将下架，还能免费收藏",
+      "summary": "https://store.steampowered.com/news/app/3901990/view/689774670193360944?snr=1_5_9_",
+      "url": "https://keylol.com/t1055813-1-1",
+      "tag": "直接白嫖",
+      "obtain": "free",
+      "source": "其乐 Keylol",
+      "publishedAt": "2026-11-18T23:42:44.000Z"
+    },
+    {
+      "id": "51782",
+      "title": "《Bananamana》《Item Tower》《I Missed the Apocalypse》将转付费，现在还…",
+      "summary": "https://store.steampowered.com/news/app/3056550/view/678515036155544590?snr=1_5_9_ https://store.steampowered…",
+      "url": "https://keylol.com/t1055810-1-1",
+      "tag": "直接白嫖",
+      "obtain": "free",
+      "source": "其乐 Keylol",
+      "publishedAt": "2026-11-18T23:30:13.000Z"
+    },
+    {
+      "id": "51691",
+      "title": "opengame fal 50$ 可以领了",
+      "summary": "fal说是下周要送50美金。 福利羊毛 FAL赞助了一个游戏开发比赛,只要参与者就送50美金.目前是宣传/签到状态,下周正式开启. - For participants: $50 in free fal credits…",
+      "url": "https://linux.do/t/topic/3200220",
       "tag": "有条件领",
       "obtain": "conditional",
       "source": "LINUX DO 福利",
-      "publishedAt": "2026-11-18T16:31:16.000Z"
+      "publishedAt": "2026-11-18T23:24:19.000Z"
     },
     {
-      "id": "50559",
-      "title": "全网 AI 产品免费权益清单（截至 2026.11.18）",
-      "summary": "这两天国内 AI 的免费权益整体比较平静，官方按量价没有下调。真正值得动手的只有两条：商汤昨晚把新模型开了源，普通人下载权重就能本地白用；阿里云把联网搜索的 2000 次免费额度开了个新入口。另外今晚和明天有几个节点扎…",
-      "url": "https://post.smzdm.com/p/anvm69k0",
-      "tag": "有条件领",
-      "obtain": "conditional",
-      "source": "什么值得买",
-      "publishedAt": "2026-11-18T15:51:16.000Z"
-    },
-    {
-      "id": "50588",
-      "title": "送两个river.ai的token，一共50刀，可用deepseek1017",
-      "summary": "url: https://api.river.ai/v1 model_id:deepseek-ai/DeepSeek-V4.1-Flash-1017 api_key: cnZfcHloRDVwSllrTERjRHlmS…",
-      "url": "https://linux.do/t/topic/3199551",
+      "id": "51479",
+      "title": "茅台告别抢购后，宴席、送礼买酒比以前更划算吗？",
+      "summary": "更划算了。不过省下来的，不是茅台的降价——这一年官方飞天价格反而从1499元提到了1639元——而是两笔以前必付的隐形费用：找黄牛加的钱，和拼运气的成本。现在53度500ml飞天的官方渠道卖1639元，第三方\"今日酒价…",
+      "url": "https://post.smzdm.com/p/a264lqvq",
       "tag": "直接白嫖",
       "obtain": "free",
-      "source": "LINUX DO 福利",
-      "publishedAt": "2026-11-18T15:17:23.000Z"
+      "source": "什么值得买",
+      "publishedAt": "2026-11-18T20:57:14.000Z"
     }
   ]
 };
