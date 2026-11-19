@@ -861,8 +861,13 @@
           3: '高度活跃',
           4: '极高活跃'
         };
+        var startMatch = CONFIG.growth && CONFIG.growth.span ? CONFIG.growth.span.match(/^(\d{4})-(\d{2})-(\d{2})/) : null;
+        var startYear = startMatch ? parseInt(startMatch[1], 10) : 2026;
+        var startMonth = startMatch ? parseInt(startMatch[2], 10) - 1 : 7;
+        var startDay = startMatch ? parseInt(startMatch[3], 10) : 13;
+
         return days.map(function (lvl, i) {
-          var d = new Date(2026, 7, 13);
+          var d = new Date(startYear, startMonth, startDay);
           d.setDate(d.getDate() + i);
           var y = d.getFullYear();
           var m = String(d.getMonth() + 1).padStart(2, '0');

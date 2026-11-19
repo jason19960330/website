@@ -436,17 +436,19 @@
 
         <div class="card p-6">
           <div class="heat-wrapper">
-            <div class="heat-months" aria-hidden="true">
-              <span style="grid-column: 1 / 4">8月</span>
-              <span style="grid-column: 4 / 8">9月</span>
-              <span style="grid-column: 8 / 12">10月</span>
-              <span style="grid-column: 12 / 14">11月</span>
-            </div>
-            <div class="heat-grid">
-              <span v-for="d in heatDays" :key="d.index" class="heat-cell" :data-level="d.level"
-                    :title="d.tooltip"
-                    @mouseenter="hoveredHeatDay = d"
-                    @mouseleave="hoveredHeatDay = null"></span>
+            <div class="heat-board">
+              <div class="heat-months" aria-hidden="true">
+                <span style="grid-column: 1 / 4">8月</span>
+                <span style="grid-column: 4 / 8">9月</span>
+                <span style="grid-column: 8 / 12">10月</span>
+                <span style="grid-column: 12 / 14">11月</span>
+              </div>
+              <div class="heat-grid">
+                <span v-for="d in heatDays" :key="d.index" class="heat-cell" :data-level="d.level"
+                      :title="d.tooltip"
+                      @mouseenter="hoveredHeatDay = d"
+                      @mouseleave="hoveredHeatDay = null"></span>
+              </div>
             </div>
           </div>
           <div class="mt-5 flex max-w-[820px] flex-wrap items-center justify-between gap-3">
@@ -664,7 +666,7 @@
   <!-- 羊毛速递数据：不带版本号，页面用时间戳重载以绕开 CDN 缓存 -->
   <script src="assets/js/wool.js"></script>
   <script src="assets/js/hotnews.js?v=20260928"></script>
-  <script src="assets/js/app.js?v=20261118a"></script>
+  <script src="assets/js/app.js?v=20261119b"></script>
 
   <!-- 首屏骨架：脚本没跑完之前顶住版式（纯静态，脚本一到自动让位） -->
   <div class="boot" aria-hidden="true">
