@@ -79,6 +79,23 @@
       var ref = VueNS.ref;
       var computed = VueNS.computed;
       var onMounted = VueNS.onMounted;
+      var onUnmounted = VueNS.onUnmounted;
+
+      /* ---------------- 滚动进度与返回顶部 ---------------- */
+      var scrollProgress = ref(0);
+      var showTop = ref(false);
+
+      function onScroll() {
+        var scrollTop = window.scrollY || document.documentElement.scrollTop;
+        var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        var p = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+        scrollProgress.value = Math.min(100, Math.max(0, p));
+        showTop.value = scrollTop > 360;
+      }
+
+      function toTop() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
 
       /* ---------------- 主题（与全站共用 localStorage 键） ---------------- */
       var theme = ref(document.documentElement.classList.contains('dark') ? 'dark' : 'light');
@@ -248,15 +265,23 @@
         ];
       });
 
-      /* 「/」唤起搜索（不在输入框里时） */
-      onMounted(function () {
-        window.addEventListener('keydown', function (e) {
-          if (e.key !== '/' || e.metaKey || e.ctrlKey) return;
-          var tag = (e.target && e.target.tagName) || '';
-          if (tag === 'INPUT' || tag === 'TEXTAREA') return;
-          if (kwInput.value && kwInput.value.focus) { e.preventDefault(); kwInput.value.focus(); }
+      if (typeof onMounted === 'function') {
+        onMounted(function () {
+          window.addEventListener('scroll', onScroll, { passive: true });
+          onScroll();
+          window.addEventListener('keydown', function (e) {
+            if (e.key !== '/' || e.metaKey || e.ctrlKey) return;
+            var tag = (e.target && e.target.tagName) || '';
+            if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+            if (kwInput.value && kwInput.value.focus) { e.preventDefault(); kwInput.value.focus(); }
+          });
         });
-      });
+      }
+      if (typeof onUnmounted === 'function') {
+        onUnmounted(function () {
+          window.removeEventListener('scroll', onScroll);
+        });
+      }
 
       return {
         theme: theme, toggleTheme: toggleTheme,
@@ -266,6 +291,7 @@
         dateBig: dateBig, weekLabel: weekLabel,
         tab: tab, tabs: tabs, keyword: keyword, scope: scope, cat: cat,
         kwInput: kwInput, categories: categories, filtered: filtered, groups: groups,
+        scrollProgress: scrollProgress, showTop: showTop, toTop: toTop,
         fmtTime: fmtTime, relTime: relTime, shortName: shortName,
         catLabel: function (k) { return CAT_LABEL[k] || '其它'; }
       };

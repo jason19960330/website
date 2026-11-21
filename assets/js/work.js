@@ -16,9 +16,27 @@
   if (!CONFIG) { console.error('[work] 未找到 SITE_CONFIG，请确认 assets/js/data.js 已加载。'); return; }
 
   var ref = VueNS.ref;
+  var onMounted = VueNS.onMounted;
+  var onUnmounted = VueNS.onUnmounted;
   var THEME_KEY = 'site.theme';
 
   var theme = ref(document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+
+  /* ---------------- 滚动进度与返回顶部 ---------------- */
+  var scrollProgress = ref(0);
+  var showTop = ref(false);
+
+  function onScroll() {
+    var scrollTop = window.scrollY || document.documentElement.scrollTop;
+    var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    var p = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    scrollProgress.value = Math.min(100, Math.max(0, p));
+    showTop.value = scrollTop > 360;
+  }
+
+  function toTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 
   /* 技能条配色：与 resume.js / app.js 同一组色板，按 skillGroups[].color 取色 */
   var BAR_COLORS = {
@@ -78,6 +96,18 @@
 
   VueNS.createApp({
     setup: function () {
+      if (typeof onMounted === 'function') {
+        onMounted(function () {
+          window.addEventListener('scroll', onScroll, { passive: true });
+          onScroll();
+        });
+      }
+      if (typeof onUnmounted === 'function') {
+        onUnmounted(function () {
+          window.removeEventListener('scroll', onScroll);
+        });
+      }
+
       return {
         meta: CONFIG.meta,
         timeline: CONFIG.timeline,
@@ -93,6 +123,9 @@
         barColor: barColor,
         theme: theme,
         toggleTheme: toggleTheme,
+        scrollProgress: scrollProgress,
+        showTop: showTop,
+        toTop: toTop,
         year: new Date().getFullYear()
       };
     }

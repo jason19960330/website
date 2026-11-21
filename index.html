@@ -65,7 +65,7 @@
   <!-- 预编译样式：Tailwind 产物 → Arco 按需样式 → 站点定制（后者覆盖前者） -->
   <link rel="stylesheet" href="assets/css/tailwind.css?v=202609302">
   <link rel="stylesheet" href="vendor/arco-bundle.css?v=20260923">
-  <link rel="stylesheet" href="assets/css/style.css?v=20261119d">
+  <link rel="stylesheet" href="assets/css/style.css?v=20261121a">
 </head>
 
 <!-- ======================================================================
@@ -650,8 +650,7 @@
 
     <!-- ============================ 返回顶部 ============================ -->
     <transition name="fade">
-      <button v-show="showTop" @click="toTop" aria-label="返回顶部"
-              class="fixed bottom-5 right-5 z-30 grid h-10 w-10 place-items-center rounded-xl border border-hair bg-panel text-dim shadow-lg transition hover:border-accent hover:text-accent">
+      <button v-show="showTop" @click="toTop" aria-label="返回顶部" class="btn-to-top">
         <svg class="h-4 w-4"><use href="#i-chevron-up"></use></svg>
       </button>
     </transition>
