@@ -7,8 +7,18 @@ window.WOOL_DATA = {
   "source": "https://radar.zichuanlan.top/",
   "sourceName": "资源雷达",
   "intervalMinutes": 30,
-  "updatedAt": "2026-11-21T15:18:10.424Z",
+  "updatedAt": "2026-11-21T21:06:46.050Z",
   "items": [
+    {
+      "id": "71398",
+      "title": "EPIC免费游戏——《GTA5》更新记录（2）",
+      "summary": "免费解锁：大胆细条纹吸烟夹克与睡衣套装（12月20日 - 1月2日）免费解锁：大胆细条纹吸烟夹克与睡衣套装（12月20日 - 1月2日）在1月2日（星期日）前，登录《GTA在线模式》即可解锁精致的大胆细条纹吸烟夹克与睡…",
+      "url": "https://www.xiaoheihe.cn/app/bbs/link/197467517",
+      "tag": "含兑换码",
+      "obtain": "free",
+      "source": "xiaoheihe search",
+      "publishedAt": "2026-11-21T15:18:57.000Z"
+    },
     {
       "id": "70560",
       "title": "学生认证被拿下之后，终于又白嫖了12个月的 Google AI Pro。我胡汉三又回来了。",
@@ -22,7 +32,7 @@ window.WOOL_DATA = {
     {
       "id": "70131",
       "title": "站长的域名项目才9个star，快点来点star，然后领取NL能量",
-      "summary": "Yunamo · Your dynamo starts with a name ，可以用来注册域名，快点帮站长的项目来点赞吧 4 个帖子 - 3 位参与者 阅读完整话题",
+      "summary": "Yunamo · Your dynamo starts with a name ，可以用来注册域名，快点帮站长的项目来点赞吧 10 个帖子 - 5 位参与者 阅读完整话题",
       "url": "https://www.nodeloc.com/t/topic/118819",
       "tag": "有条件领",
       "obtain": "conditional",
@@ -32,7 +42,7 @@ window.WOOL_DATA = {
     {
       "id": "69927",
       "title": "AWS最新福利 价值25刀的Plus，会员免费opus，sol模型可用",
-      "summary": "网页客户端均可使用 链接 ： 下载 Amazon Quick – 桌面、移动与浏览器版本 – AWS 18 个帖子 - 13 位参与者 阅读完整话题",
+      "summary": "网页客户端均可使用 链接 ： 下载 Amazon Quick – 桌面、移动与浏览器版本 – AWS 20 个帖子 - 15 位参与者 阅读完整话题",
       "url": "https://linux.do/t/topic/3217970",
       "tag": "有条件领",
       "obtain": "conditional",
@@ -48,16 +58,6 @@ window.WOOL_DATA = {
       "obtain": "conditional",
       "source": "其乐 Keylol",
       "publishedAt": "2026-11-21T12:54:34.000Z"
-    },
-    {
-      "id": "69341",
-      "title": "日本 eSIM 居然能 0 日元白嫖",
-      "summary": "这次是日本 eSIM-san 官方活动，直接送 1GB 日本流量，结账只要 0 日元 最有意思的还不是免费流量。 活动内容： 日本 eSIM 1GB 流量 有效期 1 天 优惠码抵扣后 0 日元 [/upvote] 无…",
-      "url": "https://www.nodeloc.com/t/topic/118800",
-      "tag": "有条件领",
-      "obtain": "conditional",
-      "source": "NodeLoc",
-      "publishedAt": "2026-11-21T11:36:07.000Z"
     }
   ]
 };
