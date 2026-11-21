@@ -7,8 +7,48 @@ window.WOOL_DATA = {
   "source": "https://radar.zichuanlan.top/",
   "sourceName": "资源雷达",
   "intervalMinutes": 30,
-  "updatedAt": "2026-11-20T17:59:35.636Z",
+  "updatedAt": "2026-11-21T06:57:52.520Z",
   "items": [
+    {
+      "id": "67919",
+      "title": "免费 Discord Nitro – 长达 3 个月！ 留档",
+      "summary": "MicrosoftRewards正在举办免费DiscordNitro活动！🔗点击此处领取：https://rewards.bing.com/earn/quest/WW_pcparent_DiscordNitro3M_…",
+      "url": "https://www.nodeseek.com/post-1069906-1",
+      "tag": "有条件领",
+      "obtain": "conditional",
+      "source": "rss nodeseek",
+      "publishedAt": "2026-11-21T06:47:27.000Z"
+    },
+    {
+      "id": "66799",
+      "title": "Calm Premium 免费会员 留档",
+      "summary": "权益：CalmPremium有效期：至2026-12-31IP：OWN兑换步骤：PlayStore下载Calm并注册Profile→SettingsLinkOrganizationSubscriptionOrganiz…",
+      "url": "https://www.nodeseek.com/post-1069503-1",
+      "tag": "含兑换码",
+      "obtain": "conditional",
+      "source": "rss nodeseek",
+      "publishedAt": "2026-11-21T03:24:59.000Z"
+    },
+    {
+      "id": "66136",
+      "title": "慢讯 devinmax 可以使用外国手机卡白嫖max一个月",
+      "summary": "慢讯 devinmax 可以使用外国手机卡白嫖max一个月",
+      "url": "https://t.me/s/nodeseekc/1022244",
+      "tag": "有条件领",
+      "obtain": "conditional",
+      "source": "tg cn deals",
+      "publishedAt": "2026-11-21T01:24:34.000Z"
+    },
+    {
+      "id": "65981",
+      "title": "Caffeine 那个羊毛还没有完全死",
+      "summary": "优惠码HALLOWEEN26也可以领 步骤跟原帖一样，把优惠码换一下就行。 实测已经领到一共115积分 【没了】Caffeine羊毛可以用fable5.1模型 11 个帖子 - 10 位参与者 阅读完整话题",
+      "url": "https://linux.do/t/topic/3214076",
+      "tag": "含兑换码",
+      "obtain": "conditional",
+      "source": "LINUX DO 福利",
+      "publishedAt": "2026-11-21T00:43:10.000Z"
+    },
     {
       "id": "65131",
       "title": "黑五羊毛可以试试",
@@ -18,46 +58,6 @@ window.WOOL_DATA = {
       "obtain": "conditional",
       "source": "LINUX DO 福利",
       "publishedAt": "2026-11-20T17:19:09.000Z"
-    },
-    {
-      "id": "64841",
-      "title": "Zerexa Domains 正式开放第三方域名接入！贡献域名，还能获得专属奖励！",
-      "summary": "我们很高兴地宣布，Zerexa Domains 第三方域名自主接入功能现已正式上线！ 现在，只要你拥有符合条件的域名，就可以将其接入 Zerexa Domains，让更多用户注册你的域名下的子域名。 更重要的是，成功接…",
-      "url": "https://www.nodeloc.com/t/topic/118688",
-      "tag": "有条件领",
-      "obtain": "conditional",
-      "source": "NodeLoc",
-      "publishedAt": "2026-11-20T16:02:14.000Z"
-    },
-    {
-      "id": "64647",
-      "title": "gpt team两个插件试用送75刀工作空间额度",
-      "summary": "gpt team的插件试用赠工作空间额度的活动又有两个新插件了，分别是Klaviyo和HubSpot，试用完直接给1875的工作空间额度，相当于75刀，快去领取，开启和astra神的对话吧 9 个帖子 - 7 位参与者…",
-      "url": "https://linux.do/t/topic/3213182",
-      "tag": "有条件领",
-      "obtain": "conditional",
-      "source": "LINUX DO 福利",
-      "publishedAt": "2026-11-20T15:27:29.000Z"
-    },
-    {
-      "id": "63314",
-      "title": "绝区零3.4前瞻直播兑换码WANZHOU1202已公布：300菲林，11月22日前记得兑换",
-      "summary": "《绝区零》3.4版本「长日终尽」前瞻特别节目于11月20日18:30开播，比往届提前了整整一小时。直播中官方放出兑换码 WANZHOU1202，奖励为300菲林。这枚码的兑换截止时间为11月22日晚。兑换入口在游戏菜单…",
-      "url": "https://post.smzdm.com/p/a6z4nk3e",
-      "tag": "含兑换码",
-      "obtain": "free",
-      "source": "什么值得买",
-      "publishedAt": "2026-11-20T11:48:08.000Z"
-    },
-    {
-      "id": "63130",
-      "title": "周末赛博鸡蛋，智谱ZCODE领取5亿TOKEN，GLM-5.3-FLASH",
-      "summary": "",
-      "url": "https://www.nodeseek.com/post-1068368-1",
-      "tag": "有条件领",
-      "obtain": "conditional",
-      "source": "rss nodeseek",
-      "publishedAt": "2026-11-20T11:14:20.000Z"
     }
   ]
 };
