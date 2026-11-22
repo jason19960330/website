@@ -7,57 +7,57 @@ window.WOOL_DATA = {
   "source": "https://radar.zichuanlan.top/",
   "sourceName": "资源雷达",
   "intervalMinutes": 30,
-  "updatedAt": "2026-11-22T01:18:04.639Z",
+  "updatedAt": "2026-11-22T08:48:01.758Z",
   "items": [
     {
-      "id": "71847",
-      "title": "（福利）seedream_4.6免费使用。",
-      "summary": "",
-      "url": "https://www.nodeseek.com/post-1071263-1",
+      "id": "74253",
+      "title": "Antigravity CLI 的Web化工具，可以看思考过程和注入的提示词等，不习惯Antigravity CL…",
+      "summary": "Antigravity CLI 的Web化工具，可以看思考过程和注入的提示词等，不习惯Antigravity CLI命令行的朋友可以试试看 核心功能一览 流式思考展开 + 0 Token 智能翻译 实时流式展开完整思考…",
+      "url": "https://linux.do/t/topic/3221400",
       "tag": "直接白嫖",
       "obtain": "free",
-      "source": "rss nodeseek",
-      "publishedAt": "2026-11-22T00:09:15.000Z"
+      "source": "linuxdo develop",
+      "publishedAt": "2026-11-22T08:30:56.000Z"
     },
     {
-      "id": "71398",
-      "title": "EPIC免费游戏——《GTA5》更新记录（2）",
-      "summary": "免费解锁：大胆细条纹吸烟夹克与睡衣套装（12月20日 - 1月2日）免费解锁：大胆细条纹吸烟夹克与睡衣套装（12月20日 - 1月2日）在1月2日（星期日）前，登录《GTA在线模式》即可解锁精致的大胆细条纹吸烟夹克与睡…",
-      "url": "https://www.xiaoheihe.cn/app/bbs/link/197467517",
-      "tag": "含兑换码",
+      "id": "73749",
+      "title": "【留档】Vultr Free Tier 免费鸡（迈阿密）",
+      "summary": "【留档】Vultr Free Tier 免费鸡（迈阿密）",
+      "url": "https://t.me/s/nodeseekc/1024582",
+      "tag": "有条件领",
+      "obtain": "conditional",
+      "source": "tg cn deals",
+      "publishedAt": "2026-11-22T06:53:54.000Z"
+    },
+    {
+      "id": "73689",
+      "title": "Google AI Pro 又有免费领取渠道了",
+      "summary": "Google AI Pro 又有免费领取渠道了！ 这次是通过 Coursera 官方合作活动，报名任意一门 Google Career Certificate（Google 职业证书课程），即可领取 3 个月 Goog…",
+      "url": "https://linux.do/t/topic/3220938",
+      "tag": "有条件领",
+      "obtain": "conditional",
+      "source": "LINUX DO 福利",
+      "publishedAt": "2026-11-22T06:43:16.000Z"
+    },
+    {
+      "id": "73532",
+      "title": "无损云音乐播放器 2.0 上线啦（免费播放下载无损音乐）",
+      "summary": "无损音乐播放器主站 ： https://dl.74520.xyz 视频 / 图集无水印专版 ： https://dl.74520.xyz/video 福利说明 ：直接用 LINUX DO 或 GitHub 账号一键登录…",
+      "url": "https://linux.do/t/topic/3220799",
+      "tag": "有条件领",
+      "obtain": "conditional",
+      "source": "linuxdo develop",
+      "publishedAt": "2026-11-22T06:06:24.000Z"
+    },
+    {
+      "id": "73395",
+      "title": "【开发者自荐】EEP Quest：免费的浏览器整蛊解谜游戏，20 个手绘关卡",
+      "summary": "软件名称 EEP Quest 一句简介 一款免费的浏览器整蛊逻辑解谜游戏：20 个手绘关卡，每一关都有一个看起来很明显的解法，但那个解法永远是错的。 应用平台 在线服务（网页，任意浏览器） 推荐类型 【开发者自荐】 是…",
+      "url": "https://meta.appinn.net/t/topic/96573",
+      "tag": "直接白嫖",
       "obtain": "free",
-      "source": "xiaoheihe search",
-      "publishedAt": "2026-11-21T15:18:57.000Z"
-    },
-    {
-      "id": "70560",
-      "title": "学生认证被拿下之后，终于又白嫖了12个月的 Google AI Pro。我胡汉三又回来了。",
-      "summary": "之前用小号注册了美区的学生优惠，过了sheerid白嫖了一年的Pro订阅。 但是我的Pro订阅是水货呀，反重力只能用Flash3.8，Claude也只给用4.6。Gemini4系列根本就不给我用，只能在Gemini网页…",
-      "url": "https://linux.do/t/topic/3218497",
-      "tag": "有条件领",
-      "obtain": "conditional",
-      "source": "LINUX DO 福利",
-      "publishedAt": "2026-11-21T15:14:18.000Z"
-    },
-    {
-      "id": "70131",
-      "title": "站长的域名项目才9个star，快点来点star，然后领取NL能量",
-      "summary": "Yunamo · Your dynamo starts with a name ，可以用来注册域名，快点帮站长的项目来点赞吧 10 个帖子 - 5 位参与者 阅读完整话题",
-      "url": "https://www.nodeloc.com/t/topic/118819",
-      "tag": "有条件领",
-      "obtain": "conditional",
-      "source": "NodeLoc",
-      "publishedAt": "2026-11-21T13:54:44.000Z"
-    },
-    {
-      "id": "69927",
-      "title": "AWS最新福利 价值25刀的Plus，会员免费opus，sol模型可用",
-      "summary": "网页客户端均可使用 链接 ： 下载 Amazon Quick – 桌面、移动与浏览器版本 – AWS 22 个帖子 - 17 位参与者 阅读完整话题",
-      "url": "https://linux.do/t/topic/3217970",
-      "tag": "有条件领",
-      "obtain": "conditional",
-      "source": "LINUX DO 福利",
-      "publishedAt": "2026-11-21T13:31:01.000Z"
+      "source": "rss meta appinn",
+      "publishedAt": "2026-11-22T05:46:02.000Z"
     }
   ]
 };
