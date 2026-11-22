@@ -7,57 +7,57 @@ window.WOOL_DATA = {
   "source": "https://radar.zichuanlan.top/",
   "sourceName": "资源雷达",
   "intervalMinutes": 30,
-  "updatedAt": "2026-11-22T08:48:01.758Z",
+  "updatedAt": "2026-11-22T17:05:32.679Z",
   "items": [
     {
-      "id": "74253",
-      "title": "Antigravity CLI 的Web化工具，可以看思考过程和注入的提示词等，不习惯Antigravity CL…",
-      "summary": "Antigravity CLI 的Web化工具，可以看思考过程和注入的提示词等，不习惯Antigravity CLI命令行的朋友可以试试看 核心功能一览 流式思考展开 + 0 Token 智能翻译 实时流式展开完整思考…",
-      "url": "https://linux.do/t/topic/3221400",
-      "tag": "直接白嫖",
-      "obtain": "free",
-      "source": "linuxdo develop",
-      "publishedAt": "2026-11-22T08:30:56.000Z"
-    },
-    {
-      "id": "73749",
-      "title": "【留档】Vultr Free Tier 免费鸡（迈阿密）",
-      "summary": "【留档】Vultr Free Tier 免费鸡（迈阿密）",
-      "url": "https://t.me/s/nodeseekc/1024582",
+      "id": "76901",
+      "title": "免费领esim卡",
+      "summary": "免费领esim卡",
+      "url": "https://t.me/s/nodeseekc/1025599",
       "tag": "有条件领",
       "obtain": "conditional",
       "source": "tg cn deals",
-      "publishedAt": "2026-11-22T06:53:54.000Z"
+      "publishedAt": "2026-11-22T16:48:25.000Z"
     },
     {
-      "id": "73689",
-      "title": "Google AI Pro 又有免费领取渠道了",
-      "summary": "Google AI Pro 又有免费领取渠道了！ 这次是通过 Coursera 官方合作活动，报名任意一门 Google Career Certificate（Google 职业证书课程），即可领取 3 个月 Goog…",
-      "url": "https://linux.do/t/topic/3220938",
+      "id": "76344",
+      "title": "直播！从 0 开始白嫖 Cloudflare Workers Paid",
+      "summary": "直播！从 0 开始白嫖 Cloudflare Workers Paid",
+      "url": "https://t.me/s/nodeseekc/1025418",
       "tag": "有条件领",
       "obtain": "conditional",
-      "source": "LINUX DO 福利",
-      "publishedAt": "2026-11-22T06:43:16.000Z"
+      "source": "tg cn deals",
+      "publishedAt": "2026-11-22T14:58:43.000Z"
     },
     {
-      "id": "73532",
-      "title": "无损云音乐播放器 2.0 上线啦（免费播放下载无损音乐）",
-      "summary": "无损音乐播放器主站 ： https://dl.74520.xyz 视频 / 图集无水印专版 ： https://dl.74520.xyz/video 福利说明 ：直接用 LINUX DO 或 GitHub 账号一键登录…",
-      "url": "https://linux.do/t/topic/3220799",
-      "tag": "有条件领",
-      "obtain": "conditional",
-      "source": "linuxdo develop",
-      "publishedAt": "2026-11-22T06:06:24.000Z"
-    },
-    {
-      "id": "73395",
-      "title": "【开发者自荐】EEP Quest：免费的浏览器整蛊解谜游戏，20 个手绘关卡",
-      "summary": "软件名称 EEP Quest 一句简介 一款免费的浏览器整蛊逻辑解谜游戏：20 个手绘关卡，每一关都有一个看起来很明显的解法，但那个解法永远是错的。 应用平台 在线服务（网页，任意浏览器） 推荐类型 【开发者自荐】 是…",
-      "url": "https://meta.appinn.net/t/topic/96573",
+      "id": "76307",
+      "title": "【免费送】isvoro 香港HKT",
+      "summary": "自己承担push10r玩不来",
+      "url": "https://www.nodeseek.com/post-1072770-1",
       "tag": "直接白嫖",
       "obtain": "free",
-      "source": "rss meta appinn",
-      "publishedAt": "2026-11-22T05:46:02.000Z"
+      "source": "rss nodeseek",
+      "publishedAt": "2026-11-22T14:53:10.000Z"
+    },
+    {
+      "id": "76256",
+      "title": "中国区1g流量+奥地利esim免费领（5积分）或1usd购买",
+      "summary": "也是在tg群看到的，满5积分免费换一个奥地利esim，或者1usdt购买一个esim，感兴趣的可以看下，https://t.me/roam_esim_bot?start=6037698915",
+      "url": "https://www.nodeseek.com/post-1072748-1",
+      "tag": "有条件领",
+      "obtain": "conditional",
+      "source": "rss nodeseek",
+      "publishedAt": "2026-11-22T14:44:20.000Z"
+    },
+    {
+      "id": "76225",
+      "title": "网易 UU 远程将于 12 月推出增值服务 网易 UU 远程计划于 2026 年 12 月 1 日推出增值服务，基…",
+      "summary": "网易 UU 远程将于 12 月推出增值服务 网易 UU 远程计划于 2026 年 12 月 1 日推出增值服务，基础远程控制继续免费，且不限次数、不限时、不排队、无广告。此前注册成功的用户可领取年卡五折优惠；页面显示 …",
+      "url": "https://t.me/s/zaihuapd/45298",
+      "tag": "有条件领",
+      "obtain": "conditional",
+      "source": "tg cn deals",
+      "publishedAt": "2026-11-22T14:37:12.000Z"
     }
   ]
 };
