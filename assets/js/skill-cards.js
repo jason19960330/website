@@ -112,5 +112,13 @@ window.SKILL_CARDS = [
     "title": "Anthropic Agent Skills 使用指南",
     "doc": "anthropics-skills-doc.html",
     "kicker": "官方规范 · 使用指南"
+  },
+  {
+    "id": "oil-ui",
+    "name": "Oil UI",
+    "blurb": "给编程 Agent 用的界面与 UI/UX 设计 Skill",
+    "title": "Oil UI 使用指南",
+    "doc": "oil-ui-doc.html",
+    "kicker": "UI/UX 设计 · 使用指南"
   }
 ];

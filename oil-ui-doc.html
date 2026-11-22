@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Oil UI 完整指南 · 给编程 Agent 的 UI/UX 设计技能 | 李文涛</title>
+  <meta name="description" content="Oil UI 完整指南：它是什么、3 方向探索、风格对比页与截图打磨、npx 安装与宿主兼容、常用提示词实战、反 AI 塑料感减法清单、开源版与 Pro 差异、适用场景与生态搭配，一页读完。">
+  <link rel="canonical" href="https://jason19960330.github.io/website/oil-ui-doc.html">
+
+  <!-- 分享卡片（微信 / 领英 / X 等平台抓取） -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="李文涛的个人主页">
+  <meta property="og:title" content="Oil UI 完整指南 · 给编程 Agent 的 UI/UX 设计技能 | 李文涛">
+  <meta property="og:description" content="专为 AI 编程 Agent 打造的 UI/UX 设计 Skill：默认推荐清晰方向并对照截图打磨，也可并排生成 3 套真正拉开差距的方案；内置反 AI 塑料感清单。">
+  <meta property="og:url" content="https://jason19960330.github.io/website/oil-ui-doc.html">
+  <meta property="og:image" content="https://jason19960330.github.io/website/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="zh_CN">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Oil UI 完整指南 · 给编程 Agent 的 UI/UX 设计技能 | 李文涛">
+  <meta name="twitter:description" content="专为 AI 编程 Agent 打造的 UI/UX 设计 Skill：默认推荐清晰方向并对照截图打磨，也可并排生成 3 套真正拉开差距的方案；内置反 AI 塑料感清单。">
+  <meta name="twitter:image" content="https://jason19960330.github.io/website/assets/og-image.png">
+
+  <link rel="icon" href="assets/favicon.svg?v=20260923" type="image/svg+xml">
+
+  <!-- 首屏主题前置脚本：避免深色偏好用户看到白屏闪一下（与首页共用 site.theme） -->
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('site.theme');
+        if (!saved) {
+          saved = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+        }
+        if (saved === 'dark') document.documentElement.classList.add('dark');
+      } catch (e) { /* 隐私模式忽略 */ }
+    })();
+  </script>
+
+  <!-- 预编译样式：Tailwind 产物 → Arco 按需样式 → 站点定制（后者覆盖前者） -->
+  <link rel="stylesheet" href="assets/css/tailwind.css?v=202610281">
+  <link rel="stylesheet" href="vendor/arco-bundle.css?v=20260923">
+  <link rel="stylesheet" href="assets/css/style.css?v=20261116c">
+</head>
+
+<body class="bg-base">
+  <div id="skill-app" v-cloak>
+
+    <!-- ============================ 顶部导航 ============================ -->
+    <header class="site-header is-solid fixed inset-x-0 top-0 z-40 border-b border-hair">
+      <div class="mx-auto flex h-16 max-w-5xl items-center justify-between px-5 sm:px-6">
+        <a href="index.html" class="flex items-center gap-2.5">
+          <img src="assets/avatar.jpg?v=20261111d" alt="" class="h-8 w-8 rounded-lg object-cover">
+          <span class="text-sm font-semibold tracking-tight text-ink">李文涛</span>
+        </a>
+        <div class="flex items-center gap-2">
+          <a href="resume.html" class="hidden text-xs text-dim transition hover:text-accent sm:inline">简历</a>
+          <a href="weekly.html" class="hidden text-xs text-dim transition hover:text-accent sm:inline">AI 速览</a>
+          <a href="hotnews.html" class="hidden text-xs text-dim transition hover:text-accent sm:inline">热点</a>
+          <a href="skill.html" class="hidden text-xs font-semibold text-accent sm:inline">Skill 指南</a>
+          <a href="aihot.html" class="hidden text-xs text-dim transition hover:text-accent sm:inline">AIHOT 指南</a>
+          <button @click="toggleTheme" aria-label="切换主题"
+                  class="grid h-9 w-9 place-items-center rounded-lg border border-hair text-dim transition hover:text-accent">
+            <svg class="theme-icon h-4 w-4"><use :href="theme === 'dark' ? '#i-moon' : '#i-sun'"></use></svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <svg class="hidden" aria-hidden="true">
+      <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 14.5A8.5 8.5 0 019.5 4a8.5 8.5 0 1010.5 10.5z"></path>
+      </symbol>
+      <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="4"></circle>
+        <path d="M12 3v2m0 14v2M3 12h2m14 0h2M5.6 5.6l1.4 1.4m10 10l1.4 1.4m0-12.8l-1.4 1.4m-10 10L5.6 18.4"></path>
+      </symbol>
+      <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M10.5 6l-6 6 6 6M4.5 12h15"></path>
+      </symbol>
+      <symbol id="i-external" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 4h6v6M20 4l-9 9M18 14v4a2 2 0 01-2 2H6a2 2 0 01-2-2V8a2 2 0 012-2h4"></path>
+      </symbol>
+    </svg>
+
+    <main id="main" class="pt-16" tabindex="-1">
+
+      <!-- ============================ 概览 ============================ -->
+      <section class="mx-auto max-w-5xl px-5 pt-6 sm:px-6 sm:pt-8">
+        <a href="skill.html" class="wl-back">
+          <svg class="h-3.5 w-3.5"><use href="#i-arrow-left"></use></svg>返回 Skill 指南
+        </a>
+
+        <div class="wl-hero card mt-4">
+          <span class="wl-hero-bar" aria-hidden="true"></span>
+          <div class="p-6 sm:p-8">
+            <div class="mt-4 flex flex-wrap items-start justify-between gap-5">
+              <div class="min-w-0">
+                <p class="text-xs font-semibold uppercase tracking-[0.2em] text-accent">UI/UX 设计 · 使用指南</p>
+                <h1 class="mt-2 text-3xl font-bold tracking-tight text-ink sm:text-4xl">Oil UI 完整指南</h1>
+                <p class="mt-3 max-w-2xl text-sm leading-relaxed text-dim">
+                  <strong class="text-ink">专为 AI 编程 Agent 打造的界面与 UI/UX 设计 Skill</strong>：默认推荐明确的设计方向并对照真实浏览器截图打磨；
+                  需要比较时，可并排生成 3 套构图、字体与配色真正拉开差距的方案。网站、App、后台和组件都能做，内置反 AI 塑料感减法清单。指南整理自其公开仓库。
+                </p>
+              </div>
+
+              <a href="https://github.com/oil-oil/oil-ui" target="_blank" rel="noopener" class="wl-src">
+                <svg class="h-4 w-4"><use href="#i-external"></use></svg>
+                <span class="leading-tight">开源仓库<br>GitHub</span>
+              </a>
+            </div>
+
+            <dl class="wl-stats">
+              <div><dt>GitHub 收藏</dt><dd class="tnum">3.8k</dd></div>
+              <div><dt>在线作品</dt><dd class="tnum">143 件</dd></div>
+              <div><dt>盲测均分</dt><dd class="tnum">87.0</dd></div>
+              <div><dt>许可</dt><dd class="tnum">MIT</dd></div>
+            </dl>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 目录 ============================ -->
+      <section class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card p-5 sm:p-6">
+          <h2 class="text-sm font-semibold text-ink">本页目录（8 篇）</h2>
+          <nav class="sk-toc mt-3">
+            <a href="#what"><span>01</span>它到底是什么</a>
+            <a href="#directions"><span>02</span>3 方向探索与视觉定调</a>
+            <a href="#compare"><span>03</span>风格对比页与真实打磨</a>
+            <a href="#install"><span>04</span>安装与兼容宿主</a>
+            <a href="#prompts"><span>05</span>常用提示词与交互实战</a>
+            <a href="#antislop"><span>06</span>反 AI 塑料感与评审标准</a>
+            <a href="#pro"><span>07</span>开源版与 Pro 差异</a>
+            <a href="#cases"><span>08</span>适用判断、生态搭配与边界</a>
+          </nav>
+        </div>
+      </section>
+
+      <!-- ============================ 01 它是什么 ============================ -->
+      <section id="what" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">01</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">它到底是什么</h2>
+              <p class="sk-card-sub">
+                一句话：<strong class="text-ink">把 AI 编程 Agent 的 UI 与交互设计能力推向高审美的外挂脑</strong>。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">定位</strong>：Oil UI 是开源的界面与 UI/UX 设计 Skill，仓库 <code>oil-oil/oil-ui</code>，官网 <code>ui.oiloil.org</code>，MIT 开源。专供 Claude Code、Cursor、Windsurf、Codex、Antigravity 等编程 Agent 载入。</li>
+            <li><strong class="text-ink">解决的痛点</strong>：大部分 AI 生成的网页都有一种典型的「AI 塑料味」——千篇一律的紫色发光渐变、无意义的圆角胶囊眉标、左侧粗彩条、三层嵌套卡片以及虚假数据指标。Oil UI 专门约束模型打破这种惯性。</li>
+            <li><strong class="text-ink">两种工作模式</strong>：默认模式下，Agent 会根据业务属性推荐一个最明确、最适宜的视觉方向，并对照浏览器真实截图精修；对比模式下，Agent 会并排输出 3 套差异巨大的构图方案供你抉择。</li>
+            <li><strong class="text-ink">全品类覆盖</strong>：不是只做单一落地页，作品集、SaaS 营销官网、复杂后台控制台、移动端 Web App、单组件精修以及轻量 H5 游戏演出手感均有针对性规范。</li>
+          </ul>
+
+          <div class="sk-tip">
+            <strong>体量与战绩：</strong>GitHub 收藏 3.8k+，线上展示 143 件真实作品。在 15 次匿名视觉盲测中均分达到 87.0/100，大幅领先无 Skill 对照组与通用 UI 提示词组。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 02 3 方向探索 ============================ -->
+      <section id="directions" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">02</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">3 方向探索与视觉定调</h2>
+              <p class="sk-card-sub">
+                真正拉开差距，<strong class="text-ink">绝不是换个主色调的“假对比”</strong>。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">认品类与定调性</strong>：拿到产品需求后，首先分析业务所属品类（如战略咨询、极简工具、潮流社区、重工业制造），匹配该行业具有记忆点的情感基调与排版语境。</li>
+            <li><strong class="text-ink">三维度拉开差距</strong>：当要求探索多方向时，Oil UI 要求 Agent 必须在「页面构图（Layout Structure）」、「字体排印（Typography）」与「配色体系（Palette）」三处同时形成鲜明对照。</li>
+            <li><strong class="text-ink">经典范例拆解</strong>：例如对同一个特展页面，方案 A 采用「极简杂志网格 + 细无衬线体」，方案 B 采用「古典报刊排版 + 衬线体大标题」，方案 C 采用「暗调漫反射 + 错落流动布局」，给你真正的审美选型空间。</li>
+            <li><strong class="text-ink">一键定案推进</strong>：选定满意方向后，生成一句包含选中方案 ID 与排版参数的标准 Prompt，交由 Agent 顺畅进入下阶段的完整功能编码。</li>
+          </ul>
+
+          <div class="sk-tip">
+            <strong>为什么不自己盲目想：</strong>人类直觉容易陷入既有经验，AI 盲目生成又容易滑向套路模板；3 方向并排呈现能让人迅速在直观对比中找到最契合业务直觉的形态。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 03 风格对比页 ============================ -->
+      <section id="compare" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">03</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">风格对比页与真实打磨</h2>
+              <p class="sk-card-sub">
+                自带轻量容器，<strong class="text-ink">在真实浏览器视口里做像素级验收</strong>。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">内置 Proof 页面容器</strong>：自动将生成的多种方案组合在一个单文件对比页面中。支持放入静态 HTML、高清截图甚至本地开发服务热更新的实时 iframe。</li>
+            <li><strong class="text-ink">多端视口无缝切换</strong>：对比页自带一键切换「桌面宽屏（Desktop）」与「移动端手机（Mobile）」尺寸，快速验证流式响应式表现。</li>
+            <li><strong class="text-ink">快捷键高效翻看</strong>：支持键盘左右方向键 <code>←</code> <code>→</code> 翻页巡检，空格放大查看实际像素大小，不依赖任何重型设计软件。</li>
+            <li><strong class="text-ink">对照真实截图打磨</strong>：借助 AI 视觉能力抓取实际渲染的页面截图进行比对，定位错位断行、对比度不足或视觉重心偏移，实施像素级复核。</li>
+          </ul>
+
+          <div class="sk-tip">
+            <strong>真渲染原则：</strong>代码写得再优雅，最终用户的评判标准依然是浏览器渲染出的视觉。Proof 容器让比选和评审全部发生在真实的 DOM 环境里。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 04 安装与兼容 ============================ -->
+      <section id="install" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">04</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">安装与兼容宿主</h2>
+              <p class="sk-card-sub">
+                一行命令即装即用，<strong class="text-ink">支持全主流 AI 编程环境</strong>。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">极简安装</strong>：直接在项目根目录运行 <code>npx skills add oil-oil/oil-ui</code> 即可全自动注入当前宿主的 Skill 体系。</li>
+            <li><strong class="text-ink">宿主全兼容</strong>：全面适配 Claude Code、Cursor、Windsurf、Codex、Cline、Antigravity（Google AGY）、OpenCode、GitHub Copilot、Roo Code、Trae 等支持 <code>SKILL.md</code> 体系的 Agent。</li>
+            <li><strong class="text-ink">DeepSeek 原生接入</strong>：针对 DeepSeek Harness 提供 <code>dsh-oil-ui</code> 官方插件，一行命令加载并自动识别本地配置。</li>
+          </ul>
+
+          <div class="sk-prompt">
+            <p class="mb-2 text-xs text-faint">安装命令与交互指令速查 · 点击一键复制</p>
+            <pre>{{ texts.install }}</pre>
+            <button class="sk-copy" :class="{ 'is-done': copied === 'install' }" @click="copy('install')">
+              {{ copied === 'install' ? '已复制' : '复制' }}
+            </button>
+          </div>
+
+          <div class="sk-tip">
+            <strong>无需复杂配置：</strong>安装后无需配置任何额外 API 密钥，Skill 会在 Agent 遇到前端设计、视觉评审、页面美化时自动按需激活。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 05 常用提示词 ============================ -->
+      <section id="prompts" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">05</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">常用提示词与交互实战</h2>
+              <p class="sk-card-sub">
+                贴近开发流程，<strong class="text-ink">覆盖从探索、翻新到规范沉淀四类典型场景</strong>。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">新页面风格探索</strong>：向 Agent 描述业务主题与期望受众，要求生成 3 个对比方案并拉开构图差距。</li>
+            <li><strong class="text-ink">老项目无损翻新</strong>：遵循「清噪音、调布局、省步骤」三步法，既大幅提升颜值，又不改动现有前后端数据交互与表单校验。</li>
+            <li><strong class="text-ink">专项去塑料感走查</strong>：针对已有原型执行严格减法，去除生造的假数据与冗余渐变元素。</li>
+            <li><strong class="text-ink">沉淀全站设计规范</strong>：在确认首个页面的基调后，指示 Agent 将色彩系统、字阶比例与组件规范沉淀为全站统一的 <code>DESIGN.md</code>。</li>
+          </ul>
+
+          <div class="sk-prompt">
+            <p class="mb-2 text-xs text-faint">高频交互 Prompt 模板 · 点击一键复制</p>
+            <pre>{{ texts.prompts }}</pre>
+            <button class="sk-copy" :class="{ 'is-done': copied === 'prompts' }" @click="copy('prompts')">
+              {{ copied === 'prompts' ? '已复制' : '复制' }}
+            </button>
+          </div>
+
+          <div class="sk-tip">
+            <strong>渐进推进技巧：</strong>先用对比页敲定视觉大基调，再做局部组件微调，最后沉淀规范，避免一开始就陷在细枝末节的按钮边框里。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 06 反 AI 塑料感 ============================ -->
+      <section id="antislop" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">06</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">反 AI 塑料感与评审标准</h2>
+              <p class="sk-card-sub">
+                清晰的减法规则，<strong class="text-ink">把生硬的生成物改造成像专业设计师的手笔</strong>。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">去除廉价光效</strong>：杜绝为了所谓“现代感”而滥用的全局紫色/粉色霓虹模糊投影与外发光。</li>
+            <li><strong class="text-ink">拍平无序容器</strong>：打破卡片套卡片的思维定式，多采用整齐有节奏的分割线与纯留白组织信息。</li>
+            <li><strong class="text-ink">克制而笃定的字阶</strong>：建立清晰的排版阶梯，主标、副标、正文、辅助说明的字重与色彩对比层次分明。</li>
+            <li><strong class="text-ink">真实内容优先</strong>：坚决摒弃虚构的无意义指标百分比，突出真实产品特性、代码样例或数据截图。</li>
+          </ul>
+
+          <div class="sk-prompt">
+            <p class="mb-2 text-xs text-faint">反 AI 塑料感走查清单 · 点击一键复制</p>
+            <pre>{{ texts.antislop }}</pre>
+            <button class="sk-copy" :class="{ 'is-done': copied === 'antislop' }" @click="copy('antislop')">
+              {{ copied === 'antislop' ? '已复制' : '复制' }}
+            </button>
+          </div>
+
+          <div class="sk-tip">
+            <strong>高级感源于克制：</strong>好设计的力量来自准确的排版、有呼吸感的留白与清晰的信息层次，而不是堆砌花哨的特效。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 07 开源版与 Pro ============================ -->
+      <section id="pro" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">07</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">开源版与 Pro 差异</h2>
+              <p class="sk-card-sub">
+                开源版做好单页设计，<strong class="text-ink">Pro 版负责全流程质量兜底与艺术级落地</strong>。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">开源免费版已非常强大</strong>：支持完整的认品类、定调性、3 方向并排拉开、风格对比页、基础视觉评审与截图还原，足以高质量从零搞定单个漂亮页面。</li>
+            <li><strong class="text-ink">Pro 进阶能力</strong>：增加默认盲审 + 深度打磨（冲 9 分 UX 复核）、全站一页铺一套跨页一致性检查、老项目安全改造流程、19 套卡片原型与复杂动效组件。</li>
+            <li><strong class="text-ink">免费附赠 Oil Art Landing</strong>：Pro 附带艺术官网独立 Skill，收录桌面与移动 App 丰富视觉锚点（极地冰川、暗房胶片、玄武岩石、长虹玻璃等），支持前景遮挡与视差落地。</li>
+          </ul>
+
+          <div class="sk-prompt">
+            <p class="mb-2 text-xs text-faint">Oil Art Landing 精选视觉锚点 · 点击一键复制</p>
+            <pre>{{ texts.artlanding }}</pre>
+            <button class="sk-copy" :class="{ 'is-done': copied === 'artlanding' }" @click="copy('artlanding')">
+              {{ copied === 'artlanding' ? '已复制' : '复制' }}
+            </button>
+          </div>
+
+          <div class="sk-tip">
+            <strong>选型建议：</strong>对于大多数个人项目、开源工具主页或单个活动页，开源版功能已经完全够用；团队工程级重构或追求顶级艺术官网时可考虑 Pro。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 08 适用判断与生态 ============================ -->
+      <section id="cases" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">08</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">适用判断、生态搭配与边界</h2>
+              <p class="sk-card-sub">
+                明确能力边界，<strong class="text-ink">与周边动效与文案工具形成协同效应</strong>。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">最佳适用场景</strong>：SaaS 官网与落地页、个人作品集、技术工具主页、管理后台/控制台工作区、移动端 H5 界面重构。</li>
+            <li><strong class="text-ink">不适用的场景</strong>：纯后端业务逻辑实现、复杂的数据库表结构设计、单纯的基础算法优化（这些交由通用编程 Agent 即可）。</li>
+            <li><strong class="text-ink">官方生态搭配</strong>：配合 <code>oil-motion</code> 实现随滚动/拖拽触发的高级微动效；配合 <code>oil-tone</code> 润色全站文案，确保中英文语调自然清晰。</li>
+            <li><strong class="text-ink">隐私与轻量检查</strong>：Skill 仅在本地执行，不上传任何私有业务代码；最多每 10 分钟单次联网读取官方版本列表，可用 <code>OIL_NO_UPDATE_CHECK=1</code> 完全关闭。</li>
+          </ul>
+
+          <div class="sk-tip">
+            <strong>授权协议：</strong>开源版遵循宽松的 MIT 许可证，允许自由商业使用与修改二次分发。
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="mt-10 border-t border-hair py-10">
+      <div class="mx-auto flex max-w-5xl flex-col items-center justify-between gap-2 px-5 text-xs text-faint sm:flex-row sm:px-6">
+        <p>内容整理自 oil-oil/oil-ui 开源仓库（MIT 许可）· 版权归原作者所有</p>
+        <p>共 8 篇 · Vue 3 · Tailwind CSS · Arco Design</p>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- 首屏骨架：脚本没跑完之前顶住版式（纯静态，脚本一到自动让位） -->
+  <div class="boot" aria-hidden="true">
+    <div class="boot-bar">
+      <span style="width:8rem;height:2rem;border-radius:.75rem;background:rgb(var(--c-dim) / .12)"></span>
+      <span style="width:6rem;height:2rem;border-radius:.75rem;background:rgb(var(--c-dim) / .12)"></span>
+    </div>
+    <div class="boot-row">
+      <div class="boot-main">
+        <div class="boot-block boot-block--sm"></div>
+        <div class="boot-block boot-block--lg"></div>
+        <div class="boot-block"></div>
+        <div class="boot-block boot-block--sm"></div>
+        <div class="boot-block" style="width:70%"></div>
+      </div>
+      <div class="boot-side"><div class="boot-card"></div></div>
+    </div>
+    <p class="boot-tip">网络有点慢，页面还在加载…</p>
+    <div class="boot-fail">
+      <p>页面脚本加载失败，通常是网络中断或浏览器拦截了资源。</p>
+      <p><button type="button" onclick="location.reload()" class="text-accent hover:underline">点击重试</button>
+        · <a href="index.html" class="text-accent hover:underline">返回首页</a></p>
+    </div>
+  </div>
+  <script>
+    // 6 秒还没挂载 → 提示慢；20 秒仍没挂载 → 给重试入口。正常网速不会触发
+    setTimeout(function () {
+      var app = document.getElementById('skill-app');
+      var boot = document.querySelector('.boot');
+      if (app && boot && app.hasAttribute('v-cloak')) boot.classList.add('is-slow');
+    }, 6000);
+    setTimeout(function () {
+      var app = document.getElementById('skill-app');
+      var boot = document.querySelector('.boot');
+      if (app && boot && app.hasAttribute('v-cloak')) boot.classList.add('is-failed');
+    }, 20000);
+  </script>
+
+  <script src="assets/js/weather.js?v=202610051"></script>
+  <script src="vendor/arco-bundle.js?v=20260923"></script>
+  <script src="assets/js/oil-ui-doc.js?v=20261122a"></script>
+
+</body>
+</html>

@@ -400,6 +400,26 @@
       ],
       "doc": "anthropics-skills-doc.html",
       "comment": "Anthropic Agent Skills 使用指南入口卡"
+    },
+    {
+      "id": "oil-ui",
+      "kicker": "UI/UX 设计 · 使用指南",
+      "blurb": "给编程 Agent 用的界面与 UI/UX 设计 Skill",
+      "title": "Oil UI 使用指南",
+      "desc": [
+        "一套专为 AI 编程 Agent（Claude Code / Cursor / Windsurf / Codex / Antigravity 等）打造的 <span class=\"font-semibold text-ink\">界面与 UI/UX 设计 Skill</span>：",
+        "默认推荐清晰方向并对照截图打磨，也可并排生成 <span class=\"font-semibold text-ink\">3 套构图、字体与配色真正拉开差距的方案</span> 在对比页中供你挑选；",
+        "内置「反 AI 塑料感」减法清单，拒绝千篇一律的生硬模板；支持老项目无损翻新，沉淀全站共用的 DESIGN.md。指南整理自其公开仓库。"
+      ],
+      "repo": "https://github.com/oil-oil/oil-ui",
+      "stats": [
+        { "label": "GitHub 收藏", "value": "3.8k" },
+        { "label": "在线作品", "value": "143 件" },
+        { "label": "盲测均分", "value": "87.0" },
+        { "label": "许可", "value": "MIT" }
+      ],
+      "doc": "oil-ui-doc.html",
+      "comment": "Oil UI 使用指南入口卡"
     }
   ]
 }
