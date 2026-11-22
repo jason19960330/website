@@ -7,8 +7,18 @@ window.WOOL_DATA = {
   "source": "https://radar.zichuanlan.top/",
   "sourceName": "资源雷达",
   "intervalMinutes": 30,
-  "updatedAt": "2026-11-21T21:06:46.050Z",
+  "updatedAt": "2026-11-22T01:18:04.639Z",
   "items": [
+    {
+      "id": "71847",
+      "title": "（福利）seedream_4.6免费使用。",
+      "summary": "",
+      "url": "https://www.nodeseek.com/post-1071263-1",
+      "tag": "直接白嫖",
+      "obtain": "free",
+      "source": "rss nodeseek",
+      "publishedAt": "2026-11-22T00:09:15.000Z"
+    },
     {
       "id": "71398",
       "title": "EPIC免费游戏——《GTA5》更新记录（2）",
@@ -42,22 +52,12 @@ window.WOOL_DATA = {
     {
       "id": "69927",
       "title": "AWS最新福利 价值25刀的Plus，会员免费opus，sol模型可用",
-      "summary": "网页客户端均可使用 链接 ： 下载 Amazon Quick – 桌面、移动与浏览器版本 – AWS 20 个帖子 - 15 位参与者 阅读完整话题",
+      "summary": "网页客户端均可使用 链接 ： 下载 Amazon Quick – 桌面、移动与浏览器版本 – AWS 22 个帖子 - 17 位参与者 阅读完整话题",
       "url": "https://linux.do/t/topic/3217970",
       "tag": "有条件领",
       "obtain": "conditional",
       "source": "LINUX DO 福利",
       "publishedAt": "2026-11-21T13:31:01.000Z"
-    },
-    {
-      "id": "69836",
-      "title": "电信用户可以在【星辰超级智能体】官方平台免费领4核 8G Windows 云电脑",
-      "summary": "领取地址：https://agent.teleai.com.cn/teleagent 点击页面右上角按钮【运行中】就能开通 4核CPU（Intel Xeon Processor (Skylake, IBRS) 2.99…",
-      "url": "https://keylol.com/t1056042-1-1",
-      "tag": "有条件领",
-      "obtain": "conditional",
-      "source": "其乐 Keylol",
-      "publishedAt": "2026-11-21T12:54:34.000Z"
     }
   ]
 };
