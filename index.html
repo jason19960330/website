@@ -65,7 +65,7 @@
   <!-- 预编译样式：Tailwind 产物 → Arco 按需样式 → 站点定制（后者覆盖前者） -->
   <link rel="stylesheet" href="assets/css/tailwind.css?v=202609302">
   <link rel="stylesheet" href="vendor/arco-bundle.css?v=20260923">
-  <link rel="stylesheet" href="assets/css/style.css?v=20261121a">
+  <link rel="stylesheet" href="assets/css/style.css?v=20261122b">
 </head>
 
 <!-- ======================================================================
@@ -298,9 +298,12 @@
             <p class="mt-3 max-w-xl text-sm leading-relaxed text-dim">{{ life.lead }}</p>
 
             <div class="mt-6 flex flex-wrap items-center gap-3 text-sm">
-              <a href="#life" class="rounded-lg border border-accent px-4 py-2 text-accent transition hover:bg-accent hover:text-white">读这几年</a>
-              <a href="work.html" class="rounded-lg border border-hair px-4 py-2 text-dim transition hover:border-accent hover:text-accent">看工作经历</a>
-              <a href="resume.html" class="rounded-lg border border-hair px-4 py-2 text-dim transition hover:border-accent hover:text-accent">完整简历</a>
+              <a href="#life" class="hero-btn-primary">
+                <span>读这几年</span>
+                <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+              </a>
+              <a href="work.html" class="hero-btn-secondary">看工作经历</a>
+              <a href="resume.html" class="hero-btn-secondary">完整简历</a>
             </div>
 
             <p class="paper-note mt-6">{{ life.quote }}</p>
@@ -475,7 +478,10 @@
 
         <div class="mt-4 grid gap-4 sm:grid-cols-2">
           <a v-for="s in randomSkills" :key="s.id" :href="s.doc" class="skill-spin-card card p-5">
-            <p class="skill-spin-name">{{ s.name }}</p>
+            <div class="flex w-full items-start justify-between gap-2">
+              <p class="skill-spin-name">{{ s.name }}</p>
+              <svg class="skill-spin-arrow h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+            </div>
             <p class="skill-spin-blurb">{{ s.blurb }}</p>
           </a>
         </div>
