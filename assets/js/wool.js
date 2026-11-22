@@ -7,57 +7,57 @@ window.WOOL_DATA = {
   "source": "https://radar.zichuanlan.top/",
   "sourceName": "资源雷达",
   "intervalMinutes": 30,
-  "updatedAt": "2026-11-22T17:05:32.679Z",
+  "updatedAt": "2026-11-22T22:28:16.959Z",
   "items": [
     {
-      "id": "76901",
-      "title": "免费领esim卡",
-      "summary": "免费领esim卡",
-      "url": "https://t.me/s/nodeseekc/1025599",
-      "tag": "有条件领",
-      "obtain": "conditional",
-      "source": "tg cn deals",
-      "publishedAt": "2026-11-22T16:48:25.000Z"
-    },
-    {
-      "id": "76344",
-      "title": "直播！从 0 开始白嫖 Cloudflare Workers Paid",
-      "summary": "直播！从 0 开始白嫖 Cloudflare Workers Paid",
-      "url": "https://t.me/s/nodeseekc/1025418",
-      "tag": "有条件领",
-      "obtain": "conditional",
-      "source": "tg cn deals",
-      "publishedAt": "2026-11-22T14:58:43.000Z"
-    },
-    {
-      "id": "76307",
-      "title": "【免费送】isvoro 香港HKT",
-      "summary": "自己承担push10r玩不来",
-      "url": "https://www.nodeseek.com/post-1072770-1",
+      "id": "77447",
+      "title": "送两个muse账号（bot领取的没登过不确定能不能用）",
+      "summary": "来L站的第六天 账号1: 邮箱：e33b2nqsjcgudt@monteam.net 密码：TwBZpP8YBBK6%282 其他：0B64PL 链接： http://mail.monteam.net:8025 整条：…",
+      "url": "https://linux.do/t/topic/3224029",
       "tag": "直接白嫖",
       "obtain": "free",
-      "source": "rss nodeseek",
-      "publishedAt": "2026-11-22T14:53:10.000Z"
+      "source": "LINUX DO 福利",
+      "publishedAt": "2026-11-22T21:48:20.000Z"
     },
     {
-      "id": "76256",
-      "title": "中国区1g流量+奥地利esim免费领（5积分）或1usd购买",
-      "summary": "也是在tg群看到的，满5积分免费换一个奥地利esim，或者1usdt购买一个esim，感兴趣的可以看下，https://t.me/roam_esim_bot?start=6037698915",
-      "url": "https://www.nodeseek.com/post-1072748-1",
+      "id": "77263",
+      "title": "奥地利的免费esim，五积分可换",
+      "summary": "https://t.me/roam_esim_bot?start=8602042796",
+      "url": "https://www.nodeseek.com/post-1073084-1",
       "tag": "有条件领",
       "obtain": "conditional",
       "source": "rss nodeseek",
-      "publishedAt": "2026-11-22T14:44:20.000Z"
+      "publishedAt": "2026-11-22T19:41:05.000Z"
     },
     {
-      "id": "76225",
-      "title": "网易 UU 远程将于 12 月推出增值服务 网易 UU 远程计划于 2026 年 12 月 1 日推出增值服务，基…",
-      "summary": "网易 UU 远程将于 12 月推出增值服务 网易 UU 远程计划于 2026 年 12 月 1 日推出增值服务，基础远程控制继续免费，且不限次数、不限时、不排队、无广告。此前注册成功的用户可领取年卡五折优惠；页面显示 …",
-      "url": "https://t.me/s/zaihuapd/45298",
+      "id": "77116",
+      "title": "白嫖一个奥地利手机号，还有800多张了",
+      "summary": "号码可用注册tg Telegram roam_esim You can contact @roam_esim_bot right away. 3 个帖子 - 2 位参与者 阅读完整话题",
+      "url": "https://www.nodeloc.com/t/topic/118970",
       "tag": "有条件领",
       "obtain": "conditional",
-      "source": "tg cn deals",
-      "publishedAt": "2026-11-22T14:37:12.000Z"
+      "source": "NodeLoc",
+      "publishedAt": "2026-11-22T18:20:17.000Z"
+    },
+    {
+      "id": "77108",
+      "title": "11月交通银行的活动，仍在继续",
+      "summary": "交通银行基本就是每月固定，热度不减的就是“最红星期五”，各种活动都能叠加，记得参加活动一定要报名，才能积累消费额度，领取奖励：交行特邀消费达标30刷卡金！活动时间 ：2026年11月1日 ～11月30日。活动路径 ：买…",
+      "url": "https://post.smzdm.com/p/avgdzr2n",
+      "tag": "有条件领",
+      "obtain": "conditional",
+      "source": "什么值得买",
+      "publishedAt": "2026-11-22T18:05:43.000Z"
+    },
+    {
+      "id": "76955",
+      "title": "免费GPU和服务器焚决，提示词直接给muse即可薅",
+      "summary": "请帮我系统开通并配置一套免费白嫖资源组合，目标是搭建低成本 AI 算力 + 云电脑 + 节点环境。全程只用免费计划，不绑卡、不升级、不付费。 核心要求： 只用免费计划，绝不绑卡、不升级、不购买任何付费选项；每项先核对免…",
+      "url": "https://linux.do/t/topic/3223815",
+      "tag": "有条件领",
+      "obtain": "conditional",
+      "source": "LINUX DO 福利",
+      "publishedAt": "2026-11-22T17:06:28.000Z"
     }
   ]
 };
