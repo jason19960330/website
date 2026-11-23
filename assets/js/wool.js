@@ -7,57 +7,57 @@ window.WOOL_DATA = {
   "source": "https://radar.zichuanlan.top/",
   "sourceName": "资源雷达",
   "intervalMinutes": 30,
-  "updatedAt": "2026-11-22T22:28:16.959Z",
+  "updatedAt": "2026-11-23T03:05:52.249Z",
   "items": [
     {
-      "id": "77447",
-      "title": "送两个muse账号（bot领取的没登过不确定能不能用）",
-      "summary": "来L站的第六天 账号1: 邮箱：e33b2nqsjcgudt@monteam.net 密码：TwBZpP8YBBK6%282 其他：0B64PL 链接： http://mail.monteam.net:8025 整条：…",
-      "url": "https://linux.do/t/topic/3224029",
-      "tag": "直接白嫖",
-      "obtain": "free",
-      "source": "LINUX DO 福利",
-      "publishedAt": "2026-11-22T21:48:20.000Z"
-    },
-    {
-      "id": "77263",
-      "title": "奥地利的免费esim，五积分可换",
-      "summary": "https://t.me/roam_esim_bot?start=8602042796",
-      "url": "https://www.nodeseek.com/post-1073084-1",
+      "id": "78713",
+      "title": "tg签到邀请免费领取esim卡",
+      "summary": "https://t.me/roam_esim_bot?start=7851045821五积分换一个，签到一次一分",
+      "url": "https://www.nodeseek.com/post-1073474-1",
       "tag": "有条件领",
       "obtain": "conditional",
       "source": "rss nodeseek",
-      "publishedAt": "2026-11-22T19:41:05.000Z"
+      "publishedAt": "2026-11-23T02:57:49.000Z"
     },
     {
-      "id": "77116",
-      "title": "白嫖一个奥地利手机号，还有800多张了",
-      "summary": "号码可用注册tg Telegram roam_esim You can contact @roam_esim_bot right away. 3 个帖子 - 2 位参与者 阅读完整话题",
-      "url": "https://www.nodeloc.com/t/topic/118970",
+      "id": "78305",
+      "title": "NetSpend 免费拿 $200（$400 DD）",
+      "summary": "用Chrome。每个SSN一次。60天内DirectDeposit$400，就能获得$200credit。https://www.netspend.com/signup/debitaccount/offer-200",
+      "url": "https://www.nodeseek.com/post-1073344-1",
       "tag": "有条件领",
       "obtain": "conditional",
-      "source": "NodeLoc",
-      "publishedAt": "2026-11-22T18:20:17.000Z"
+      "source": "rss nodeseek",
+      "publishedAt": "2026-11-23T02:04:58.000Z"
     },
     {
-      "id": "77108",
-      "title": "11月交通银行的活动，仍在继续",
-      "summary": "交通银行基本就是每月固定，热度不减的就是“最红星期五”，各种活动都能叠加，记得参加活动一定要报名，才能积累消费额度，领取奖励：交行特邀消费达标30刷卡金！活动时间 ：2026年11月1日 ～11月30日。活动路径 ：买…",
-      "url": "https://post.smzdm.com/p/avgdzr2n",
+      "id": "78295",
+      "title": "〖开发者自荐〗Kites：支持全程本地运行的免费漫画翻译扩展",
+      "summary": "软件名称 Kites（风筝） 一句简介 直接在原网页上用自己熟悉的语言看漫画，识字、消字、翻译和嵌字都可以在浏览器本地完成。 应用平台 桌面版 Chrome、Edge 等 Chromium 浏览器。扩展界面为英文，支持…",
+      "url": "https://meta.appinn.net/t/topic/96642",
+      "tag": "直接白嫖",
+      "obtain": "free",
+      "source": "rss meta appinn",
+      "publishedAt": "2026-11-23T01:53:01.000Z"
+    },
+    {
+      "id": "77831",
+      "title": "Steam大奖提名只开8天：先提名再写评测才有徽章，黑五不是正餐",
+      "summary": "Steam大奖十周年提名要开了，Valve公布的提名窗口是11月23日到11月30日。Steam的活动一律按太平洋时间走，换算过来大概是北京时间11月24日凌晨开、12月1日凌晨关，窗口只有8天，错过再等一年。微博想顺…",
+      "url": "https://post.smzdm.com/p/a6z4r0lz",
       "tag": "有条件领",
       "obtain": "conditional",
       "source": "什么值得买",
-      "publishedAt": "2026-11-22T18:05:43.000Z"
+      "publishedAt": "2026-11-23T00:20:12.000Z"
     },
     {
-      "id": "76955",
-      "title": "免费GPU和服务器焚决，提示词直接给muse即可薅",
-      "summary": "请帮我系统开通并配置一套免费白嫖资源组合，目标是搭建低成本 AI 算力 + 云电脑 + 节点环境。全程只用免费计划，不绑卡、不升级、不付费。 核心要求： 只用免费计划，绝不绑卡、不升级、不购买任何付费选项；每项先核对免…",
-      "url": "https://linux.do/t/topic/3223815",
+      "id": "77588",
+      "title": "免费领超大容器",
+      "summary": "注册会送100积分，100积分可以用来升级配置（也可以自行赚取积分） 走邀请链接 好像 才有100积分， https://free.nodaroo.com/invite/aMMj1d5PiBnnFcpsLBUrCA 我…",
+      "url": "https://www.nodeloc.com/t/topic/118974",
       "tag": "有条件领",
       "obtain": "conditional",
-      "source": "LINUX DO 福利",
-      "publishedAt": "2026-11-22T17:06:28.000Z"
+      "source": "NodeLoc",
+      "publishedAt": "2026-11-22T22:58:17.000Z"
     }
   ]
 };
