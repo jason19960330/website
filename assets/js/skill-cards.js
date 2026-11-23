@@ -120,5 +120,13 @@ window.SKILL_CARDS = [
     "title": "Oil UI 使用指南",
     "doc": "oil-ui-doc.html",
     "kicker": "UI/UX 设计 · 使用指南"
+  },
+  {
+    "id": "animation-handbook",
+    "name": "Animation Handbook",
+    "blurb": "176 种纯原生 Web 动效手册与 AI 提示词库",
+    "title": "Animation Handbook 使用指南",
+    "doc": "animation-handbook-doc.html",
+    "kicker": "Web 动效 · 使用指南"
   }
 ];

@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Animation Handbook 完整指南 · 176 种纯原生 Web 动效手册与 AI 提示词库 | 李文涛</title>
+  <meta name="description" content="Animation Handbook 完整指南：收录 176 种纯原生 Web 动效技术与 AI 提示词库，0 依赖、无构建步骤，涵盖滚动视差、微交互、3D 特效、文字排版与名站经典动效复现，一页读完。">
+  <link rel="canonical" href="https://jason19960330.github.io/website/animation-handbook-doc.html">
+
+  <!-- 分享卡片（微信 / 领英 / X 等平台抓取） -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="李文涛的个人主页">
+  <meta property="og:title" content="Animation Handbook 完整指南 · 176 种纯原生 Web 动效手册与 AI 提示词库 | 李文涛">
+  <meta property="og:description" content="收录 176 种纯原生 Web 动效技术：0 依赖、开箱即用，自带一键复制的 AI 提示词与实时调参面板，复现 Linear、Apple、Stripe 经典质感。">
+  <meta property="og:url" content="https://jason19960330.github.io/website/animation-handbook-doc.html">
+  <meta property="og:image" content="https://jason19960330.github.io/website/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="zh_CN">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Animation Handbook 完整指南 · 176 种纯原生 Web 动效手册与 AI 提示词库 | 李文涛">
+  <meta name="twitter:description" content="收录 176 种纯原生 Web 动效技术：0 依赖、开箱即用，自带一键复制的 AI 提示词与实时调参面板，复现 Linear、Apple、Stripe 经典质感。">
+  <meta name="twitter:image" content="https://jason19960330.github.io/website/assets/og-image.png">
+
+  <link rel="icon" href="assets/favicon.svg?v=20260923" type="image/svg+xml">
+
+  <!-- 首屏主题前置脚本：避免深色偏好用户看到白屏闪一下（与首页共用 site.theme） -->
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('site.theme');
+        if (!saved) {
+          saved = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+        }
+        if (saved === 'dark') document.documentElement.classList.add('dark');
+      } catch (e) { /* 隐私模式忽略 */ }
+    })();
+  </script>
+
+  <!-- 预编译样式：Tailwind 产物 → Arco 按需样式 → 站点定制（后者覆盖前者） -->
+  <link rel="stylesheet" href="assets/css/tailwind.css?v=202610281">
+  <link rel="stylesheet" href="vendor/arco-bundle.css?v=20260923">
+  <link rel="stylesheet" href="assets/css/style.css?v=20261123c">
+</head>
+
+<body class="bg-base">
+  <div id="skill-app" v-cloak>
+
+    <!-- ============================ 顶部导航 ============================ -->
+    <header class="site-header is-solid fixed inset-x-0 top-0 z-40 border-b border-hair">
+      <div class="mx-auto flex h-16 max-w-5xl items-center justify-between px-5 sm:px-6">
+        <a href="index.html" class="flex items-center gap-2.5">
+          <img src="assets/avatar.jpg?v=20261111d" alt="" class="h-8 w-8 rounded-lg object-cover">
+          <span class="text-sm font-semibold tracking-tight text-ink">李文涛</span>
+        </a>
+        <div class="flex items-center gap-2">
+          <a href="resume.html" class="hidden text-xs text-dim transition hover:text-accent sm:inline">简历</a>
+          <a href="weekly.html" class="hidden text-xs text-dim transition hover:text-accent sm:inline">AI 速览</a>
+          <a href="hotnews.html" class="hidden text-xs text-dim transition hover:text-accent sm:inline">热点</a>
+          <a href="skill.html" class="hidden text-xs font-semibold text-accent sm:inline">Skill 指南</a>
+          <a href="aihot.html" class="hidden text-xs text-dim transition hover:text-accent sm:inline">AIHOT 指南</a>
+          <button @click="toggleTheme" aria-label="切换主题"
+                  class="grid h-9 w-9 place-items-center rounded-lg border border-hair text-dim transition hover:text-accent">
+            <svg class="theme-icon h-4 w-4"><use :href="theme === 'dark' ? '#i-moon' : '#i-sun'"></use></svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <svg class="hidden" aria-hidden="true">
+      <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 14.5A8.5 8.5 0 019.5 4a8.5 8.5 0 1010.5 10.5z"></path>
+      </symbol>
+      <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="4"></circle>
+        <path d="M12 3v2m0 14v2M3 12h2m14 0h2M5.6 5.6l1.4 1.4m10 10l1.4 1.4m0-12.8l-1.4 1.4m-10 10L5.6 18.4"></path>
+      </symbol>
+      <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M10.5 6l-6 6 6 6M4.5 12h15"></path>
+      </symbol>
+      <symbol id="i-external" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 4h6v6M20 4l-9 9M18 14v4a2 2 0 01-2 2H6a2 2 0 01-2-2V8a2 2 0 012-2h4"></path>
+      </symbol>
+    </svg>
+
+    <main id="main" class="pt-16" tabindex="-1">
+
+      <!-- ============================ 概览 ============================ -->
+      <section class="mx-auto max-w-5xl px-5 pt-6 sm:px-6 sm:pt-8">
+        <a href="skill.html" class="wl-back">
+          <svg class="h-3.5 w-3.5"><use href="#i-arrow-left"></use></svg>
+          <span>返回全部 Skill</span>
+        </a>
+
+        <div class="card mt-4 p-6 sm:p-8">
+          <div class="wl-hero">
+            <div class="flex flex-wrap items-start justify-between gap-4">
+              <div>
+                <span class="inline-flex items-center gap-1.5 rounded-md bg-accent/10 px-2.5 py-1 text-xs font-semibold text-accent">
+                  Web 动效 · 使用指南
+                </span>
+                <h1 class="mt-2 text-3xl font-bold tracking-tight text-ink sm:text-4xl">Animation Handbook 完整指南</h1>
+                <p class="mt-3 max-w-2xl text-sm leading-relaxed text-dim">
+                  <strong class="text-ink">176 种纯原生 Web 动效手册与 AI 提示词库</strong>：收录从滚动视差、微交互到 3D 粒子和环境背景的全套高质感交互技巧。
+                  纯 HTML、CSS 与原生 JS 实现，0 外部依赖、无打包步骤，每种动效均配有实时预览与开箱即用的 AI Prompt。指南整理自其公开仓库。
+                </p>
+              </div>
+
+              <a href="https://github.com/matinmonshizadeh/animation-handbook" target="_blank" rel="noopener" class="wl-src">
+                <svg class="h-4 w-4"><use href="#i-external"></use></svg>
+                <span class="leading-tight">开源仓库<br>GitHub</span>
+              </a>
+            </div>
+
+            <dl class="wl-stats">
+              <div><dt>动效技法</dt><dd class="tnum">176 种</dd></div>
+              <div><dt>分类维度</dt><dd class="tnum">7 大类</dd></div>
+              <div><dt>外部依赖</dt><dd class="tnum">0 依赖</dd></div>
+              <div><dt>许可</dt><dd class="tnum">MIT</dd></div>
+            </dl>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 目录 ============================ -->
+      <section class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card p-5 sm:p-6">
+          <h2 class="text-sm font-semibold text-ink">本页目录（8 篇）</h2>
+          <nav class="sk-toc mt-3">
+            <a href="#what"><span>01</span>它到底是什么</a>
+            <a href="#categories"><span>02</span>7 大分类与全景技法</a>
+            <a href="#famous"><span>03</span>名站经典效果复现</a>
+            <a href="#quickstart"><span>04</span>零依赖接入与离线运行</a>
+            <a href="#prompts"><span>05</span>常用 AI 提示词与实战</a>
+            <a href="#principles"><span>06</span>设计哲学与性能优化</a>
+            <a href="#inspection"><span>07</span>原理透视与对比机制</a>
+            <a href="#cases"><span>08</span>选型建议与工程落地</a>
+          </nav>
+        </div>
+      </section>
+
+      <!-- ============================ 01 它是什么 ============================ -->
+      <section id="what" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">01</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">它到底是什么</h2>
+              <p class="sk-card-sub">
+                一句话：<strong class="text-ink">176 种不依赖任何三方库的纯原生 Web 动效活字典与 AI 提示词库</strong>。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">定位</strong>：Animation Handbook 是由 Matin Monshizadeh 发起的开源 Web 动效手册，仓库 <code>matinmonshizadeh/animation-handbook</code>，采用 MIT 开源协议。</li>
+            <li><strong class="text-ink">解决的痛点</strong>：前端开发者和设计师在做网页时，常苦于「看到好动效却不知道名字」、「引入重型 GSAP 或三方库让页面体积暴增」、「不知道如何精准向 AI 描述微交互细节」。Handbook 把这些难题一次性解决。</li>
+            <li><strong class="text-ink">核心三步法</strong>：
+              <strong>① 选动效</strong>（按部件分类或通过 3 个问题的交互式 Finder 定位）；
+              <strong>② 看运行</strong>（实时调节速度、方向等参数，查看内部图层原理）；
+              <strong>③ 复制 Prompt</strong>（直接把带参数的自然语言描述贴给 AI 助手生成代码）。
+            </li>
+            <li><strong class="text-ink">零依赖原则</strong>：所有 176 种动效均由干净的 HTML、CSS 和原生 JavaScript 构成，不依赖 CDN、不需要 Webpack/Vite 编译打包，双击 <code>index.html</code> 即可在本地无缝离线运行。</li>
+          </ul>
+
+          <div class="sk-tip">
+            <strong>纯粹的启发与教学：</strong>项目的核心目的在于“启发与传授”，而不是推销任何商业 UI 库；所有代码完全开放、直截了当。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 02 7 大分类 ============================ -->
+      <section id="categories" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">02</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">7 大分类与全景技法</h2>
+              <p class="sk-card-sub">
+                分类严整，<strong class="text-ink">涵盖从页面入场到微交互的全生命周期</strong>。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">01 滚动驱动（Scroll-Based · 27 种）</strong>：视差滚动、卡片堆叠（Stacking Cards）、进度条（Progress Bar）、时间轴墨线绘制（SVG Line Draw）、文字随滚动渐进点亮（Text Fill）。</li>
+            <li><strong class="text-ink">02 入场与离场（Entrance & Exit · 15 种）</strong>：错峰级联显现（Stagger Reveal）、遮罩剪切擦除（Clip-path）、3D 翻转入场、优雅淡入。</li>
+            <li><strong class="text-ink">03 页面切换（Page Transitions · 17 种）</strong>：原生 View Transitions API 驱动的平滑变形、折叠卷轴、百叶窗、光圈扩散。</li>
+            <li><strong class="text-ink">04 微交互（Micro-Interactions · 44 种）</strong>：磁吸按钮（Magnetic Button）、打勾绘制（Checkmark Draw）、光斑跟随（Spotlight Hover）、主题太阳/月亮切换（Theme Toggle Morph）、按压形变。</li>
+            <li><strong class="text-ink">05 文字与排印（Text & Typography · 19 种）</strong>：流光渐变（Gradient Animation）、打字机效果、乱码解码渐显（Scramble Text）、高亮划线（Highlighter Sweep）。</li>
+            <li><strong class="text-ink">06 3D 与进阶特效（3D & Advanced · 28 种）</strong>：视差 3D 微倾斜（Parallax 3D Tilt）、流体模拟、玻璃拟态光泽（Glassmorphism）、Canvas 粒子网络。</li>
+            <li><strong class="text-ink">07 环境氛围背景（Ambient & Background · 26 种）</strong>：极光流光（Aurora Gradient）、呼吸柔光（Breathing Glow）、点阵视差、胶片噪点微粒。</li>
+          </ul>
+
+          <div class="sk-tip">
+            <strong>分类精细：</strong>无论你是要改一个按钮的悬浮反馈，还是要构建一整套故事叙事流落地页，都能在对应分类中快速找到灵感。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 03 名站经典效果 ============================ -->
+      <section id="famous" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">03</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">名站经典效果复现</h2>
+              <p class="sk-card-sub">
+                复刻顶尖科技设计，<strong class="text-ink">解构 Linear、Apple、Stripe 官网的灵魂交互</strong>。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">Famous Effects 专区</strong>：专门收录广大开发者与设计师在知名网站上反复驻足赞叹的经典动效。</li>
+            <li><strong class="text-ink">Linear 风格动效</strong>：磁吸吸引力按钮（指针靠近时轻微吸附）、暗色仪表盘发光细线边框、超高响应度的快捷键操作反馈。</li>
+            <li><strong class="text-ink">Apple 风格动效</strong>：多层景深视差（Parallax Depth of Field）、大图随滚动缩放平移展开、极细腻的硬件级玻璃漫反射。</li>
+            <li><strong class="text-ink">Stripe 风格动效</strong>：聚光灯悬浮网格（Spotlight Grid）、高精度流体色彩波纹、无缝连贯的导航菜单变形展开。</li>
+          </ul>
+
+          <div class="sk-prompt">
+            <p class="mb-2 text-xs text-faint">名站经典微动效复现 Prompt · 点击一键复制</p>
+            <pre>{{ texts.famous_prompts }}</pre>
+            <button class="sk-copy" :class="{ 'is-done': copied === 'famous_prompts' }" @click="copy('famous_prompts')">
+              {{ copied === 'famous_prompts' ? '已复制' : '复制' }}
+            </button>
+          </div>
+
+          <div class="sk-tip">
+            <strong>不依赖沉重框架：</strong>手册用最简单的 CSS 变量与原生 DOM 事件即可达到与大厂重型自研引擎几乎一致的视觉手感。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 04 零依赖接入 ============================ -->
+      <section id="quickstart" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">04</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">零依赖接入与离线运行</h2>
+              <p class="sk-card-sub">
+                克隆即跑，<strong class="text-ink">没有任何 node_modules 困扰</strong>。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">极简架构</strong>：仓库内每一个动效都有独立的子目录，里面只包含一个自洽的 <code>index.html</code> 和一份详解 <code>README.md</code>。</li>
+            <li><strong class="text-ink">离线运行支持</strong>：无需配置 Node、npm 或构建工具；只需通过 Python 自带的 <code>http.server</code> 或 VSCode Live Server 即可随时启动本地交互预览。</li>
+            <li><strong class="text-ink">零损耗移植</strong>：想要哪一个动效，直接打开对应目录的 <code>index.html</code>，复制当中的几十行 CSS 和 JS 片段即可粘贴到你的 Vue、React、Svelte 或原生 HTML 项目中。</li>
+          </ul>
+
+          <div class="sk-prompt">
+            <p class="mb-2 text-xs text-faint">本地快速克隆与离线预览命令 · 点击一键复制</p>
+            <pre>{{ texts.quickstart }}</pre>
+            <button class="sk-copy" :class="{ 'is-done': copied === 'quickstart' }" @click="copy('quickstart')">
+              {{ copied === 'quickstart' ? '已复制' : '复制' }}
+            </button>
+          </div>
+
+          <div class="sk-tip">
+            <strong>零安全风险：</strong>由于不包含动态构建脚本与第三方依赖包，不存在供应链投毒或版本升级破坏性变更风险。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 05 常用提示词 ============================ -->
+      <section id="prompts" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">05</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">常用 AI 提示词与实战</h2>
+              <p class="sk-card-sub">
+                开箱即用，<strong class="text-ink">直接贴给 AI 助手生成高质感前端交互</strong>。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">AI-Ready Prompts</strong>：Handbook 的每一张动效卡片都配备了一键复制按钮，生成的 Prompt 包含精准的动效名称、物理动量参数、缓动曲线与边界处理。</li>
+            <li><strong class="text-ink">参数自动打包</strong>：当你在预览界面调整了旋转角度、光斑半径或过渡时长后，复制出来的 Prompt 会自动带上你当前选定的参数值。</li>
+            <li><strong class="text-ink">普适所有主流模型</strong>：经实测，这些 Prompt 在 Claude 3.5 Sonnet、GPT-4o、Gemini 1.5 Pro 以及 DeepSeek-V3/R1 上均能一次性生成 100% 运行无误的代码。</li>
+          </ul>
+
+          <div class="sk-prompt">
+            <p class="mb-2 text-xs text-faint">高频 AI 动效生成提示词精选 · 点击一键复制</p>
+            <pre>{{ texts.prompts }}</pre>
+            <button class="sk-copy" :class="{ 'is-done': copied === 'prompts' }" @click="copy('prompts')">
+              {{ copied === 'prompts' ? '已复制' : '复制' }}
+            </button>
+          </div>
+
+          <div class="sk-tip">
+            <strong>提示词撰写秘诀：</strong>指定「触发条件（移动/滚动/悬浮）」+「具体变换属性（transform/opacity/clip-path）」+「弹性恢复曲线（cubic-bezier）」+「无障碍降级要求」，AI 就会产出极致干净的代码。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 06 设计哲学与性能 ============================ -->
+      <section id="principles" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">06</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">设计哲学与性能优化</h2>
+              <p class="sk-card-sub">
+                现代 Web 动效准则：<strong class="text-ink">只用合成器属性，绝不阻塞主线程</strong>。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">只操作合成层属性</strong>：动画严格局限在 <code>transform</code> 和 <code>opacity</code> 上，杜绝频繁触发 DOM 重排（Reflow）的 <code>top</code>、<code>left</code>、<code>width</code>、<code>height</code> 动画，确保手机与低功耗设备稳定 60/120fps。</li>
+            <li><strong class="text-ink">GPU 硬件加速与 will-change</strong>：对高频交互卡片合理声明 <code>will-change: transform</code>，提前将其提升到独立图层，移出时及时清理避免显存泄漏。</li>
+            <li><strong class="text-ink">原生 CSS 滚动时间轴</strong>：在支持的环境中优先使用 <code>animation-timeline: scroll()</code>，完全跳过 JS 引擎的逐帧计算，交由浏览器内核异步丝滑渲染。</li>
+            <li><strong class="text-ink">无障碍优先（A11y）</strong>：全面遵循 <code>@media (prefers-reduced-motion: reduce)</code> 规范，对开启系统减弱动画偏好的用户自动降级为平置静态或瞬时切换。</li>
+          </ul>
+
+          <div class="sk-prompt">
+            <p class="mb-2 text-xs text-faint">原生 3D 微倾斜与光斑跟随参考实现 · 点击一键复制</p>
+            <pre>{{ texts.code_tilt }}</pre>
+            <button class="sk-copy" :class="{ 'is-done': copied === 'code_tilt' }" @click="copy('code_tilt')">
+              {{ copied === 'code_tilt' ? '已复制' : '复制' }}
+            </button>
+          </div>
+
+          <div class="sk-tip">
+            <strong>触摸屏友好：</strong>在监听事件中加入 <code>pointerType === 'mouse'</code> 校验，防止手机用户滑动浏览时误触发倾斜动效而导致卡顿。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 07 原理透视与对比 ============================ -->
+      <section id="inspection" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">07</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">原理透视与对比机制</h2>
+              <p class="sk-card-sub">
+                看清动效本质：<strong class="text-ink">不仅看效果，更把背后的数学与图层可视化</strong>。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">See Inside（内部透视）</strong>：点击每个演示上方的「See Inside」按钮，舞台会立刻高亮显示辅助参考线、隐藏遮罩层以及实时计算的坐标数值（如光标相对卡片的百分比与旋转角）。</li>
+            <li><strong class="text-ink">俯瞰视角剖析</strong>：在 3D 倾斜演示中，提供“从上方俯视（Seen from above）”的线框模型，直观展示视距 <code>perspective</code> 与观察者眼睛位置的关系。</li>
+            <li><strong class="text-ink">Compare（左右对照）</strong>：并排显示「无动效基准版」与「带动效升级版」，直观呈现一个微小的光斑或 2 像素的位移如何从根本上拉开质感差距。</li>
+            <li><strong class="text-ink">Production Gotchas（避坑备忘）</strong>：每个技术目录的 README 均明确指出实际工程中可能踩坑的浏览器兼容性、层级上下文遮挡与性能陷阱。</li>
+          </ul>
+
+          <div class="sk-tip">
+            <strong>知其然亦知其所以然：</strong>通过透视模式看懂数学变换和坐标计算后，你就能随心所欲组合出属于自己网站的专属交互语言。
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================ 08 选型与工程落地 ============================ -->
+      <section id="cases" class="mx-auto mt-8 max-w-5xl px-5 sm:px-6">
+        <div class="card sk-card">
+          <div class="sk-card-head">
+            <span class="sk-idx">08</span>
+            <div class="min-w-0">
+              <h2 class="sk-card-title">选型建议与工程落地</h2>
+              <p class="sk-card-sub">
+                克制而不喧宾夺主，<strong class="text-ink">让动效为内容服务，而不是为了动而动</strong>。
+              </p>
+            </div>
+          </div>
+
+          <ul class="sk-list">
+            <li><strong class="text-ink">首选轻量点睛动效</strong>：优先落地 3D 微倾斜、光斑漫反射、顶部阅读进度条、代码复制打勾反馈等耗时极短（<0.3s）且直接改善触觉感知的微交互。</li>
+            <li><strong class="text-ink">谨慎使用重型粒子与 3D 着色器</strong>：Canvas 粒子流、流体模拟等重度特效仅建议在特殊节日、大型营销 Hero 区少量使用，避免长时间占用用户 CPU/GPU。</li>
+            <li><strong class="text-ink">与业务调性严格统一</strong>：工具类网站注重利落干脆（100-200ms），故事类叙事页面注重沉浸从容（300-500ms），全站动效应统一缓动曲线（如 <code>cubic-bezier(.16, 1, .3, 1)</code>）。</li>
+            <li><strong class="text-ink">本站成功实践</strong>：本网站首页个人名片的 3D 微倾斜跟随、四格技能卡微箭头滑出、长文顶部渐变进度条，正是取材于 Animation Handbook 的精髓，实现 0 额外依赖并达成 100% 自动化测试通过。</li>
+          </ul>
+
+          <div class="sk-tip">
+            <strong>总结：</strong>动效的最高境界是“润物细无声”——用户感觉不到突兀的炫技，但用起来就是觉得顺滑、精致、有质感。
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ============================ 页脚 ============================ -->
+    <footer class="mt-16 border-t border-hair py-8 text-center text-xs text-faint">
+      <div class="mx-auto max-w-5xl px-5">
+        <p>Animation Handbook 使用指南 · 整理自开源仓库 <a href="https://github.com/matinmonshizadeh/animation-handbook" target="_blank" rel="noopener" class="text-dim hover:text-accent underline underline-offset-2">matinmonshizadeh/animation-handbook</a>（MIT 许可）</p>
+        <p class="mt-2">李文涛 · 个人网站 · <a href="skill.html" class="text-dim hover:text-accent underline underline-offset-2">返回全部 Skill</a></p>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- 首屏骨架：脚本没跑完之前顶住版式（纯静态，脚本一到自动让位） -->
+  <div class="boot" aria-hidden="true">
+    <div class="boot-bar">
+      <span style="width:2rem;height:2rem;border-radius:.5rem;background:rgb(var(--c-dim) / .15)"></span>
+      <span style="width:8rem;height:2rem;border-radius:.75rem;background:rgb(var(--c-dim) / .12)"></span>
+      <span style="width:6rem;height:2rem;border-radius:.75rem;background:rgb(var(--c-dim) / .12)"></span>
+    </div>
+    <div class="boot-row">
+      <div class="boot-main">
+        <div class="boot-block boot-block--sm"></div>
+        <div class="boot-block boot-block--lg"></div>
+        <div class="boot-block"></div>
+        <div class="boot-block boot-block--sm"></div>
+        <div class="boot-block" style="width:70%"></div>
+      </div>
+      <div class="boot-side"><div class="boot-card"></div></div>
+    </div>
+    <p class="boot-tip">网络有点慢，页面还在加载…</p>
+    <div class="boot-fail">
+      <p>页面脚本加载失败，通常是网络中断或浏览器拦截了资源。</p>
+      <p><button type="button" onclick="location.reload()" class="text-accent hover:underline">点击重试</button>
+        · <a href="index.html" class="text-accent hover:underline">返回首页</a></p>
+    </div>
+  </div>
+  <script>
+    // 6 秒还没挂载 → 提示慢；20 秒仍没挂载 → 给重试入口。正常网速不会触发
+    setTimeout(function () {
+      var app = document.getElementById('skill-app');
+      var boot = document.querySelector('.boot');
+      if (app && boot && app.hasAttribute('v-cloak')) boot.classList.add('is-slow');
+    }, 6000);
+    setTimeout(function () {
+      var app = document.getElementById('skill-app');
+      var boot = document.querySelector('.boot');
+      if (app && boot && app.hasAttribute('v-cloak')) boot.classList.add('is-failed');
+    }, 20000);
+  </script>
+
+  <script src="assets/js/weather.js?v=202610051"></script>
+  <script src="vendor/arco-bundle.js?v=20260923"></script>
+  <script src="assets/js/animation-handbook-doc.js?v=20261123a"></script>
+
+</body>
+</html>

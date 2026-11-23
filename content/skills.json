@@ -333,10 +333,22 @@
       ],
       "repo": "https://github.com/Tencent/LoopForge",
       "stats": [
-        { "label": "GitHub 收藏", "value": "867" },
-        { "label": "Agent CLI", "value": "10 种" },
-        { "label": "内置 SOP", "value": "4 条" },
-        { "label": "许可", "value": "MIT" }
+        {
+          "label": "GitHub 收藏",
+          "value": "867"
+        },
+        {
+          "label": "Agent CLI",
+          "value": "10 种"
+        },
+        {
+          "label": "内置 SOP",
+          "value": "4 条"
+        },
+        {
+          "label": "许可",
+          "value": "MIT"
+        }
       ],
       "doc": "loopforge-doc.html",
       "comment": "LoopForge 使用指南入口卡"
@@ -353,10 +365,22 @@
       ],
       "repo": "https://github.com/ricocc/ricoui-blocks",
       "stats": [
-        { "label": "GitHub 收藏", "value": "44" },
-        { "label": "收录组件", "value": "15 个" },
-        { "label": "组件分类", "value": "5 类" },
-        { "label": "许可", "value": "MIT" }
+        {
+          "label": "GitHub 收藏",
+          "value": "44"
+        },
+        {
+          "label": "收录组件",
+          "value": "15 个"
+        },
+        {
+          "label": "组件分类",
+          "value": "5 类"
+        },
+        {
+          "label": "许可",
+          "value": "MIT"
+        }
       ],
       "doc": "ricoui-blocks-doc.html",
       "comment": "RicoUI Blocks 使用指南入口卡"
@@ -373,10 +397,22 @@
       ],
       "repo": "https://github.com/cclank/lanshu-html-ppt-templates",
       "stats": [
-        { "label": "GitHub 收藏", "value": "64" },
-        { "label": "演示模板", "value": "30 套" },
-        { "label": "示例页数", "value": "338 页" },
-        { "label": "许可", "value": "MIT*" }
+        {
+          "label": "GitHub 收藏",
+          "value": "64"
+        },
+        {
+          "label": "演示模板",
+          "value": "30 套"
+        },
+        {
+          "label": "示例页数",
+          "value": "338 页"
+        },
+        {
+          "label": "许可",
+          "value": "MIT*"
+        }
       ],
       "doc": "lanshu-html-ppt-doc.html",
       "comment": "岚叔 HTML 演示模板 使用指南入口卡"
@@ -393,10 +429,22 @@
       ],
       "repo": "https://github.com/anthropics/skills",
       "stats": [
-        { "label": "GitHub 收藏", "value": "195k" },
-        { "label": "收录 Skill", "value": "19 个" },
-        { "label": "插件包", "value": "5 组" },
-        { "label": "许可", "value": "Apache-2.0*" }
+        {
+          "label": "GitHub 收藏",
+          "value": "195k"
+        },
+        {
+          "label": "收录 Skill",
+          "value": "19 个"
+        },
+        {
+          "label": "插件包",
+          "value": "5 组"
+        },
+        {
+          "label": "许可",
+          "value": "Apache-2.0*"
+        }
       ],
       "doc": "anthropics-skills-doc.html",
       "comment": "Anthropic Agent Skills 使用指南入口卡"
@@ -413,13 +461,57 @@
       ],
       "repo": "https://github.com/oil-oil/oil-ui",
       "stats": [
-        { "label": "GitHub 收藏", "value": "3.8k" },
-        { "label": "在线作品", "value": "143 件" },
-        { "label": "盲测均分", "value": "87.0" },
-        { "label": "许可", "value": "MIT" }
+        {
+          "label": "GitHub 收藏",
+          "value": "3.8k"
+        },
+        {
+          "label": "在线作品",
+          "value": "143 件"
+        },
+        {
+          "label": "盲测均分",
+          "value": "87.0"
+        },
+        {
+          "label": "许可",
+          "value": "MIT"
+        }
       ],
       "doc": "oil-ui-doc.html",
       "comment": "Oil UI 使用指南入口卡"
+    },
+    {
+      "id": "animation-handbook",
+      "kicker": "Web 动效 · 使用指南",
+      "blurb": "176 种纯原生 Web 动效手册与 AI 提示词库",
+      "title": "Animation Handbook 使用指南",
+      "desc": [
+        "一套收录 <span class=\"font-semibold text-ink\">176 种纯原生 Web 动效技术</span> 的交互视觉指南：在线实时运行预览、自定义配置参数，并自带一键复制的 <span class=\"font-semibold text-ink\">AI 提示词（Ready-made Prompts）</span>；",
+        "基于纯 HTML、CSS 与原生 JavaScript，<span class=\"font-semibold text-ink\">0 外部依赖、无打包构建步骤</span>，开箱即用；",
+        "涵盖滚动视差、微交互（磁吸/微倾斜/光斑）、文字动画、3D 特效、背景环境光及知名网站（Linear / Stripe / Apple）经典动效复现。指南整理自其公开仓库。"
+      ],
+      "repo": "https://github.com/matinmonshizadeh/animation-handbook",
+      "stats": [
+        {
+          "label": "动效技法",
+          "value": "176 种"
+        },
+        {
+          "label": "分类维度",
+          "value": "7 大类"
+        },
+        {
+          "label": "外部依赖",
+          "value": "0 依赖"
+        },
+        {
+          "label": "许可",
+          "value": "MIT"
+        }
+      ],
+      "doc": "animation-handbook-doc.html",
+      "comment": "Animation Handbook 使用指南入口卡"
     }
   ]
 }
