@@ -40,7 +40,7 @@
   <!-- 预编译样式：Tailwind 产物 → Arco 按需样式 → 站点定制（后者覆盖前者） -->
   <link rel="stylesheet" href="assets/css/tailwind.css?v=202610281">
   <link rel="stylesheet" href="vendor/arco-bundle.css?v=20260923">
-  <link rel="stylesheet" href="assets/css/style.css?v=20261116c">
+  <link rel="stylesheet" href="assets/css/style.css?v=20261123d">
 </head>
 
 <body class="bg-base">
@@ -190,7 +190,14 @@
             <p class="mb-2 text-xs text-faint">Agent 在最后一条回复里附的回执（示例）</p>
             <pre>{{ texts.receipt }}</pre>
             <button class="sk-copy" :class="{ 'is-done': copied === 'receipt' }" @click="copy('receipt')">
-              {{ copied === 'receipt' ? '已复制' : '复制' }}
+              <svg v-if="copied !== 'receipt'" class="sk-copy-ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="5.5" y="5.5" width="8" height="8" rx="1.5"></rect>
+                <path d="M10.5 5.5V3.5a1.5 1.5 0 0 0-1.5-1.5h-5A1.5 1.5 0 0 0 2.5 3.5v5A1.5 1.5 0 0 0 4 10h1.5"></path>
+              </svg>
+              <svg v-else class="sk-copy-ic is-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path class="sk-check-path" d="M3.5 8.5l3.2 3.2 6.3-6.4"></path>
+              </svg>
+              <span>{{ copied === 'receipt' ? '已复制' : '复制' }}</span>
             </button>
           </div>
 
@@ -217,7 +224,14 @@
             <p class="mb-2 text-xs text-faint">安装 → 体检 → 真实走一遍「提问 → 退出等回复 → 拍板 → 接着干完」</p>
             <pre>{{ texts.install }}</pre>
             <button class="sk-copy" :class="{ 'is-done': copied === 'install' }" @click="copy('install')">
-              {{ copied === 'install' ? '已复制' : '复制' }}
+              <svg v-if="copied !== 'install'" class="sk-copy-ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="5.5" y="5.5" width="8" height="8" rx="1.5"></rect>
+                <path d="M10.5 5.5V3.5a1.5 1.5 0 0 0-1.5-1.5h-5A1.5 1.5 0 0 0 2.5 3.5v5A1.5 1.5 0 0 0 4 10h1.5"></path>
+              </svg>
+              <svg v-else class="sk-copy-ic is-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path class="sk-check-path" d="M3.5 8.5l3.2 3.2 6.3-6.4"></path>
+              </svg>
+              <span>{{ copied === 'install' ? '已复制' : '复制' }}</span>
             </button>
           </div>
 
@@ -252,7 +266,14 @@
             <p class="mb-2 text-xs text-faint">~/.agent-autoloop/rules.json 示例 + 常用命令</p>
             <pre>{{ texts.rules }}</pre>
             <button class="sk-copy" :class="{ 'is-done': copied === 'rules' }" @click="copy('rules')">
-              {{ copied === 'rules' ? '已复制' : '复制' }}
+              <svg v-if="copied !== 'rules'" class="sk-copy-ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="5.5" y="5.5" width="8" height="8" rx="1.5"></rect>
+                <path d="M10.5 5.5V3.5a1.5 1.5 0 0 0-1.5-1.5h-5A1.5 1.5 0 0 0 2.5 3.5v5A1.5 1.5 0 0 0 4 10h1.5"></path>
+              </svg>
+              <svg v-else class="sk-copy-ic is-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path class="sk-check-path" d="M3.5 8.5l3.2 3.2 6.3-6.4"></path>
+              </svg>
+              <span>{{ copied === 'rules' ? '已复制' : '复制' }}</span>
             </button>
           </div>
 
@@ -295,7 +316,14 @@
             <p class="mb-2 text-xs text-faint">接一个新 Agent：只要能打印最后一条消息的命令，写一行配置就行</p>
             <pre>{{ texts.agents }}</pre>
             <button class="sk-copy" :class="{ 'is-done': copied === 'agents' }" @click="copy('agents')">
-              {{ copied === 'agents' ? '已复制' : '复制' }}
+              <svg v-if="copied !== 'agents'" class="sk-copy-ic" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="5.5" y="5.5" width="8" height="8" rx="1.5"></rect>
+                <path d="M10.5 5.5V3.5a1.5 1.5 0 0 0-1.5-1.5h-5A1.5 1.5 0 0 0 2.5 3.5v5A1.5 1.5 0 0 0 4 10h1.5"></path>
+              </svg>
+              <svg v-else class="sk-copy-ic is-check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path class="sk-check-path" d="M3.5 8.5l3.2 3.2 6.3-6.4"></path>
+              </svg>
+              <span>{{ copied === 'agents' ? '已复制' : '复制' }}</span>
             </button>
           </div>
 
