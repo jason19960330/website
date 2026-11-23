@@ -274,7 +274,7 @@ html.dark .card:hover {
   box-shadow: 0 14px 36px -10px rgba(0, 0, 0, 0.6), 0 0 20px -4px rgb(var(--c-accent) / .12), inset 0 1px 0 rgba(255, 255, 255, 0.12);
 }
 
-/* 首屏主次行动点按钮（CTA） */
+/* 首屏主次行动点按钮（CTA）—— 平时无实体背景，鼠标悬浮时填入质感背景与微光 */
 .hero-btn-primary {
   display: inline-flex;
   align-items: center;
@@ -282,29 +282,36 @@ html.dark .card:hover {
   border-radius: 0.625rem;
   font-size: 0.875rem;
   font-weight: 550;
-  color: #fff !important;
-  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 4px 14px -2px rgba(2, 132, 199, 0.38);
-  transition: transform .2s cubic-bezier(.16, 1, .3, 1), box-shadow .2s ease, filter .2s ease;
+  color: rgb(var(--c-accent)) !important;
+  background: transparent;
+  border: 1px solid rgb(var(--c-accent));
+  box-shadow: none;
+  transition: transform .2s cubic-bezier(.16, 1, .3, 1), background-color .22s ease, background-image .22s ease, border-color .22s ease, color .2s ease, box-shadow .22s ease, filter .2s ease;
   text-decoration: none !important;
 }
 .hero-btn-primary:hover {
   transform: translateY(-1.5px);
-  box-shadow: 0 6px 20px -2px rgba(2, 132, 199, 0.5);
+  color: #fff !important;
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+  border-color: transparent;
+  box-shadow: 0 4px 16px -2px rgba(2, 132, 199, 0.42);
   filter: brightness(1.05);
 }
 .hero-btn-primary:active {
   transform: translateY(0);
 }
 html.dark .hero-btn-primary {
+  color: rgb(var(--c-accent)) !important;
+  border-color: rgb(var(--c-accent) / .7);
+  background: transparent;
+  box-shadow: none;
+}
+html.dark .hero-btn-primary:hover {
   background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
   color: #020617 !important;
   font-weight: 600;
-  box-shadow: 0 4px 16px -2px rgba(56, 189, 248, 0.35);
-}
-html.dark .hero-btn-primary:hover {
-  box-shadow: 0 6px 22px -2px rgba(56, 189, 248, 0.55);
+  border-color: transparent;
+  box-shadow: 0 4px 18px -2px rgba(56, 189, 248, 0.45);
 }
 
 .hero-btn-secondary {
@@ -314,34 +321,36 @@ html.dark .hero-btn-primary:hover {
   border-radius: 0.625rem;
   font-size: 0.875rem;
   font-weight: 500;
-  color: rgb(var(--c-dim));
-  background: rgb(var(--c-panel) / 0.6);
+  color: rgb(var(--c-dim)) !important;
+  background: transparent;
   border: 1px solid rgb(var(--c-hair));
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  box-shadow: 0 2px 8px -2px var(--card-shadow);
-  transition: transform .2s cubic-bezier(.16, 1, .3, 1), border-color .2s ease, color .2s ease, box-shadow .2s ease, background-color .2s ease;
+  box-shadow: none;
+  transition: transform .2s cubic-bezier(.16, 1, .3, 1), border-color .2s ease, color .2s ease, box-shadow .2s ease, background-color .22s ease;
   text-decoration: none !important;
 }
 .hero-btn-secondary:hover {
   transform: translateY(-1.5px);
-  border-color: rgb(var(--c-accent) / 0.5);
-  color: rgb(var(--c-accent));
-  box-shadow: 0 6px 16px -4px rgba(2, 132, 199, 0.18);
-  background: rgb(var(--c-raise) / 0.8);
+  border-color: rgb(var(--c-accent) / 0.55);
+  color: rgb(var(--c-accent)) !important;
+  background: rgb(var(--c-panel) / 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 4px 14px -3px var(--card-shadow);
 }
 .hero-btn-secondary:active {
   transform: translateY(0);
 }
 html.dark .hero-btn-secondary {
-  background: rgb(var(--c-panel) / 0.45);
-  border-color: rgba(255, 255, 255, 0.1);
-  color: rgb(var(--c-dim));
+  color: rgb(var(--c-dim)) !important;
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: none;
 }
 html.dark .hero-btn-secondary:hover {
-  border-color: rgb(var(--c-accent) / 0.6);
-  color: rgb(var(--c-ink));
-  box-shadow: 0 6px 20px -4px rgba(56, 189, 248, 0.2);
+  border-color: rgb(var(--c-accent) / 0.65);
+  color: rgb(var(--c-ink)) !important;
+  background: rgb(var(--c-panel) / 0.55);
+  box-shadow: 0 4px 16px -4px rgba(56, 189, 248, 0.2);
 }
 
 /* 按钮微型指引箭头：平时收起隐藏，鼠标悬浮在按钮上时丝滑滑出展开 */
