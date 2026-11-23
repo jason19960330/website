@@ -7,57 +7,57 @@ window.WOOL_DATA = {
   "source": "https://radar.zichuanlan.top/",
   "sourceName": "资源雷达",
   "intervalMinutes": 30,
-  "updatedAt": "2026-11-23T03:05:52.249Z",
+  "updatedAt": "2026-11-23T12:30:54.305Z",
   "items": [
     {
-      "id": "78713",
-      "title": "tg签到邀请免费领取esim卡",
-      "summary": "https://t.me/roam_esim_bot?start=7851045821五积分换一个，签到一次一分",
-      "url": "https://www.nodeseek.com/post-1073474-1",
+      "id": "81851",
+      "title": "Clerk Pro 学生免费一年 留档",
+      "summary": "价值：$240/年资格：GitHubStudentDeveloperPack认证学生费用：完全免费，无需银行卡权益：Pro全部功能（不含SMS短信登录）包含：完整登录、MFA、SSO、SessionManagement…",
+      "url": "https://www.nodeseek.com/post-1074740-1",
       "tag": "有条件领",
       "obtain": "conditional",
       "source": "rss nodeseek",
-      "publishedAt": "2026-11-23T02:57:49.000Z"
+      "publishedAt": "2026-11-23T11:52:09.000Z"
     },
     {
-      "id": "78305",
-      "title": "NetSpend 免费拿 $200（$400 DD）",
-      "summary": "用Chrome。每个SSN一次。60天内DirectDeposit$400，就能获得$200credit。https://www.netspend.com/signup/debitaccount/offer-200",
-      "url": "https://www.nodeseek.com/post-1073344-1",
+      "id": "81660",
+      "title": "zfb领取一分钱咖啡奶茶",
+      "summary": "某宝里搜神券团购，没用过的可以买一张一分钱的券，选好了点立即使用，就可以了。目前似乎只能自提。 11 个帖子 - 11 位参与者 阅读完整话题",
+      "url": "https://linux.do/t/topic/3228828",
+      "tag": "有条件领",
+      "obtain": "conditional",
+      "source": "LINUX DO 福利",
+      "publishedAt": "2026-11-23T11:18:58.000Z"
+    },
+    {
+      "id": "81087",
+      "title": "[慢讯] 小程序成长计划可以领取10亿tokens,有效期6个月",
+      "summary": "",
+      "url": "https://www.nodeseek.com/post-1074403-1",
       "tag": "有条件领",
       "obtain": "conditional",
       "source": "rss nodeseek",
-      "publishedAt": "2026-11-23T02:04:58.000Z"
+      "publishedAt": "2026-11-23T09:22:34.000Z"
     },
     {
-      "id": "78295",
-      "title": "〖开发者自荐〗Kites：支持全程本地运行的免费漫画翻译扩展",
-      "summary": "软件名称 Kites（风筝） 一句简介 直接在原网页上用自己熟悉的语言看漫画，识字、消字、翻译和嵌字都可以在浏览器本地完成。 应用平台 桌面版 Chrome、Edge 等 Chromium 浏览器。扩展界面为英文，支持…",
-      "url": "https://meta.appinn.net/t/topic/96642",
+      "id": "80781",
+      "title": "Qwen4-Max 限时免费使用",
+      "summary": "频道 页面显示的是今天结束， 但是是按美国时间算的，北京时间应该明天13点左右结束 6 个帖子 - 4 位参与者 阅读完整话题",
+      "url": "https://www.nodeloc.com/t/topic/119025",
       "tag": "直接白嫖",
       "obtain": "free",
-      "source": "rss meta appinn",
-      "publishedAt": "2026-11-23T01:53:01.000Z"
-    },
-    {
-      "id": "77831",
-      "title": "Steam大奖提名只开8天：先提名再写评测才有徽章，黑五不是正餐",
-      "summary": "Steam大奖十周年提名要开了，Valve公布的提名窗口是11月23日到11月30日。Steam的活动一律按太平洋时间走，换算过来大概是北京时间11月24日凌晨开、12月1日凌晨关，窗口只有8天，错过再等一年。微博想顺…",
-      "url": "https://post.smzdm.com/p/a6z4r0lz",
-      "tag": "有条件领",
-      "obtain": "conditional",
-      "source": "什么值得买",
-      "publishedAt": "2026-11-23T00:20:12.000Z"
-    },
-    {
-      "id": "77588",
-      "title": "免费领超大容器",
-      "summary": "注册会送100积分，100积分可以用来升级配置（也可以自行赚取积分） 走邀请链接 好像 才有100积分， https://free.nodaroo.com/invite/aMMj1d5PiBnnFcpsLBUrCA 我…",
-      "url": "https://www.nodeloc.com/t/topic/118974",
-      "tag": "有条件领",
-      "obtain": "conditional",
       "source": "NodeLoc",
-      "publishedAt": "2026-11-22T22:58:17.000Z"
+      "publishedAt": "2026-11-23T08:39:01.000Z"
+    },
+    {
+      "id": "80834",
+      "title": "【gleam.io】完成任务免费领取《Orlando Zombie Truck》2500 Keys",
+      "summary": "https://gleam.io/4IBut/free-x2500-orlando-zombie-truck-steam-keys [sframe]5234920[/sframe]",
+      "url": "https://keylol.com/t1056139-1-1",
+      "tag": "有条件领",
+      "obtain": "conditional",
+      "source": "其乐 Keylol",
+      "publishedAt": "2026-11-23T08:17:04.000Z"
     }
   ]
 };
