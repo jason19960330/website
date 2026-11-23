@@ -65,7 +65,7 @@
   <!-- 预编译样式：Tailwind 产物 → Arco 按需样式 → 站点定制（后者覆盖前者） -->
   <link rel="stylesheet" href="assets/css/tailwind.css?v=202609302">
   <link rel="stylesheet" href="vendor/arco-bundle.css?v=20260923">
-  <link rel="stylesheet" href="assets/css/style.css?v=20261123a">
+  <link rel="stylesheet" href="assets/css/style.css?v=20261123b">
 </head>
 
 <!-- ======================================================================
@@ -301,9 +301,12 @@
             <div class="mt-6 flex flex-wrap items-center gap-3 text-sm">
               <a href="#life" class="hero-btn-primary">
                 <span>读这几年</span>
-                <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+                <svg class="hero-btn-arrow h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
               </a>
-              <a href="resume.html" class="hero-btn-secondary">完整简历</a>
+              <a href="resume.html" class="hero-btn-secondary">
+                <span>完整简历</span>
+                <svg class="hero-btn-arrow h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+              </a>
             </div>
 
             <p class="paper-note mt-6">{{ life.quote }}</p>
