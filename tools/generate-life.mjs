@@ -380,6 +380,25 @@ ${ld}
         if (saved === 'dark') document.documentElement.classList.add('dark');
         document.addEventListener('DOMContentLoaded', function () {
           document.body.setAttribute('arco-theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+          var bar = document.getElementById('scroll-progress');
+          if (bar) {
+            var ticking = false;
+            function update() {
+              ticking = false;
+              var max = document.documentElement.scrollHeight - window.innerHeight;
+              var st = window.scrollY || window.pageYOffset || 0;
+              var p = max > 0 ? (max - st < 2 ? 1 : Math.max(0, Math.min(1, st / max))) : 0;
+              bar.style.transform = 'scaleX(' + p + ')';
+            }
+            window.addEventListener('scroll', function () {
+              if (!ticking) {
+                requestAnimationFrame(update);
+                ticking = true;
+              }
+            }, { passive: true });
+            window.addEventListener('resize', update, { passive: true });
+            update();
+          }
         });
       } catch (e) { /* 隐私模式忽略 */ }
     })();
@@ -388,6 +407,7 @@ ${cssHrefs.map((h) => `  <link rel="stylesheet" href="${esc(h)}">`).join('\n')}
   <!-- 由 tools/generate-life.mjs 生成，请勿手改；改 content/posts/${esc(post.slug)}.md 后重跑 npm run life -->
 </head>
 <body>
+  <div id="scroll-progress" class="scroll-progress-bar" aria-hidden="true"></div>
   <a class="skip-link" href="#post-main">跳到正文</a>
 
   <header class="post-header">

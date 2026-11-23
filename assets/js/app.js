@@ -1008,5 +1008,73 @@
     }
   });
 
+  /* ================= 指令：3D 微倾斜与光斑跟随 (Parallax 3D Tilt & Spotlight) ================= */
+  app.directive('tilt', {
+    mounted: function (el, binding) {
+      if (!window.matchMedia || !window.matchMedia('(hover: hover)').matches) return;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      el.classList.add('tilt-card');
+      var maxTilt = (binding && binding.value && binding.value.max) || 6;
+      var rafId = null;
+
+      function onMove(e) {
+        if (e.pointerType && e.pointerType !== 'mouse') return;
+        if (rafId) cancelAnimationFrame(rafId);
+        rafId = requestAnimationFrame(function () {
+          var r = el.getBoundingClientRect();
+          if (r.width === 0 || r.height === 0) return;
+          var px = (e.clientX - r.left) / r.width;
+          var py = (e.clientY - r.top) / r.height;
+          var tiltX = (py - 0.5) * -maxTilt;
+          var tiltY = (px - 0.5) * maxTilt;
+
+          el.classList.add('is-tilting');
+          el.style.transform = 'perspective(900px) rotateX(' + tiltX.toFixed(2) + 'deg) rotateY(' + tiltY.toFixed(2) + 'deg) translateY(-2px)';
+          el.style.setProperty('--spot-x', (px * 100).toFixed(1) + '%');
+          el.style.setProperty('--spot-y', (py * 100).toFixed(1) + '%');
+          el.style.setProperty('--spot-opacity', '1');
+        });
+      }
+
+      function onLeave() {
+        if (rafId) cancelAnimationFrame(rafId);
+        el.classList.remove('is-tilting');
+        el.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg) translateY(0)';
+        el.style.setProperty('--spot-opacity', '0');
+      }
+
+      el._tiltMove = onMove;
+      el._tiltLeave = onLeave;
+      el.addEventListener('pointermove', onMove);
+      el.addEventListener('pointerleave', onLeave);
+    },
+    unmounted: function (el) {
+      if (el._tiltMove) el.removeEventListener('pointermove', el._tiltMove);
+      if (el._tiltLeave) el.removeEventListener('pointerleave', el._tiltLeave);
+    }
+  });
+
+  /* ================= 顶部阅读/滚动进度条 (Scroll-Based Progress Bar) ================= */
+  (function initScrollProgress() {
+    var bar = document.getElementById('scroll-progress');
+    if (!bar) return;
+    var ticking = false;
+    function update() {
+      ticking = false;
+      var max = document.documentElement.scrollHeight - window.innerHeight;
+      var st = window.scrollY || window.pageYOffset || 0;
+      var p = max > 0 ? (max - st < 2 ? 1 : Math.max(0, Math.min(1, st / max))) : 0;
+      bar.style.transform = 'scaleX(' + p + ')';
+    }
+    window.addEventListener('scroll', function () {
+      if (!ticking) {
+        requestAnimationFrame(update);
+        ticking = true;
+      }
+    }, { passive: true });
+    window.addEventListener('resize', update, { passive: true });
+    update();
+  })();
+
   app.mount('#app');
 })();

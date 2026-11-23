@@ -65,7 +65,7 @@
   <!-- 预编译样式：Tailwind 产物 → Arco 按需样式 → 站点定制（后者覆盖前者） -->
   <link rel="stylesheet" href="assets/css/tailwind.css?v=202609302">
   <link rel="stylesheet" href="vendor/arco-bundle.css?v=20260923">
-  <link rel="stylesheet" href="assets/css/style.css?v=20261122b">
+  <link rel="stylesheet" href="assets/css/style.css?v=20261123a">
 </head>
 
 <!-- ======================================================================
@@ -80,6 +80,7 @@
      内容全部来自 assets/js/data.js；行为全部来自 assets/js/app.js
      ====================================================================== -->
 <body class="min-h-screen bg-base font-sans text-ink antialiased selection:bg-accent/20">
+  <div id="scroll-progress" class="scroll-progress-bar" aria-hidden="true"></div>
 
   <!-- 图标精灵，页面中通过 <use href="#i-xxx"> 复用 -->
   <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
@@ -302,14 +303,13 @@
                 <span>读这几年</span>
                 <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
               </a>
-              <a href="work.html" class="hero-btn-secondary">看工作经历</a>
               <a href="resume.html" class="hero-btn-secondary">完整简历</a>
             </div>
 
             <p class="paper-note mt-6">{{ life.quote }}</p>
           </div>
 
-          <div v-reveal class="card profile-card">
+          <div v-reveal class="card profile-card" v-tilt="{ max: 6 }">
             <div class="profile-head">
               <img src="assets/avatar-life.jpg?v=20261113b" alt="李文涛" class="profile-photo">
               <div class="profile-id">
@@ -477,7 +477,7 @@
         </div>
 
         <div class="mt-4 grid gap-4 sm:grid-cols-2">
-          <a v-for="s in randomSkills" :key="s.id" :href="s.doc" class="skill-spin-card card p-5">
+          <a v-for="s in randomSkills" :key="s.id" :href="s.doc" class="skill-spin-card card p-5" v-tilt="{ max: 5 }">
             <div class="flex w-full items-start justify-between gap-2">
               <p class="skill-spin-name">{{ s.name }}</p>
               <svg class="skill-spin-arrow h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
@@ -671,7 +671,7 @@
   <!-- 羊毛速递数据：不带版本号，页面用时间戳重载以绕开 CDN 缓存 -->
   <script src="assets/js/wool.js"></script>
   <script src="assets/js/hotnews.js?v=20260928"></script>
-  <script src="assets/js/app.js?v=20261119d"></script>
+  <script src="assets/js/app.js?v=20261123a"></script>
 
   <!-- 首屏骨架：脚本没跑完之前顶住版式（纯静态，脚本一到自动让位） -->
   <div class="boot" aria-hidden="true">
