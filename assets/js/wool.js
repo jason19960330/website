@@ -7,57 +7,57 @@ window.WOOL_DATA = {
   "source": "https://radar.zichuanlan.top/",
   "sourceName": "资源雷达",
   "intervalMinutes": 30,
-  "updatedAt": "2026-11-24T10:24:04.326Z",
+  "updatedAt": "2026-11-24T20:52:07.342Z",
   "items": [
     {
-      "id": "88943",
-      "title": "深空失忆(2009)【1080p 原盘REMUX】【内封简繁】【科幻/悬疑】",
-      "summary": "名称：深空失忆(2009)【1080p 原盘REMUX】【内封简繁】【科幻/悬疑】 描述：经过数百年的发展，人类文明高度进化，他们逐渐将触角伸向宇宙深处。然而，随着人口激增，有限的资源消耗殆尽。到2174年，地球资源严…",
-      "url": "https://t.me/s/yunpanxunlei/39920",
+      "id": "92222",
+      "title": "一夜限定(2026)【4K.DV.HDR】【高码率】【外挂简英双语字幕】【杜比全景声】",
+      "summary": "名称：一夜限定(2026)【4K.DV.HDR】【高码率】【外挂简英双语字幕】【杜比全景声】 描述：刚被女友狠甩的欧文(卡勒姆·特纳 饰)和满怀浪漫情怀和希望的艾莉(莫妮卡·巴巴罗 饰)或许是这座城市里唯二只想要寻找真…",
+      "url": "https://t.me/s/yunpanxunlei/39996",
       "tag": "直接白嫖",
       "obtain": "free",
       "source": "tg pan yunpan",
-      "publishedAt": "2026-11-24T10:14:56.000Z"
+      "publishedAt": "2026-11-24T19:18:09.000Z"
     },
     {
-      "id": "88914",
-      "title": "Firestarter AI：点燃创意灵感，轻松创作引人入胜的故事",
-      "summary": "└── Firestarter AI：点燃创意灵感，轻松创作引人入胜的故事！.rar 通过网盘分享的文件：Firestarter AI：点燃创意灵感，轻松创作引人入胜的故事！ 链接: 百度网盘 请输入提取码 提取码: …",
-      "url": "https://linux.do/t/topic/3235370",
+      "id": "92203",
+      "title": "Doctor X：白色黑手党时代(2026)【12集全】【NF.1080p】【内封简繁英】【金智媛/李姃垠】",
+      "summary": "名称：Doctor X：白色黑手党时代(2026)【12集全】【NF.1080p】【内封简繁英】【金智媛/李姃垠】 描述：在一间充斥着自负与腐败的医院里，一名神秘却医术高超的外科医生现身。她不顾重重阻挠，接手一个又一个…",
+      "url": "https://t.me/s/yunpanxunlei/39995",
       "tag": "直接白嫖",
       "obtain": "free",
-      "source": "LINUX DO 资源",
-      "publishedAt": "2026-11-24T10:12:34.000Z"
+      "source": "tg pan yunpan",
+      "publishedAt": "2026-11-24T19:08:50.000Z"
     },
     {
-      "id": "88915",
-      "title": "慕课实战 -真实高质量低代码商业项目，前端后端运维管理系统（22章",
-      "summary": "📁 慕课实战-真实高质量低代码商业项目，前端后端运维管理系统（22章） 📁 课程源码+电子书 📁 第1章 课程简介 📁 第4章 前端基础技术回顾和巡礼 📁 第2章 课程设计—需求分析和架构设计：做什么，如何做…",
-      "url": "https://linux.do/t/topic/3235367",
+      "id": "92193",
+      "title": "tibo：ChatGPT Business在 12 月 31 日之前，赠送一次额度重置和免费开放极速模式",
+      "summary": "ToalltheChatGPTBusinessteamsoutthere.Wehavetwosmallthingsforyou,abankedresetandfastmodeatnoextrachargethrough…",
+      "url": "https://www.nodeseek.com/post-1078320-1",
+      "tag": "有条件领",
+      "obtain": "conditional",
+      "source": "rss nodeseek",
+      "publishedAt": "2026-11-24T19:01:02.000Z"
+    },
+    {
+      "id": "92090",
+      "title": "【快讯】uu远程linux版可以直接下载安装了",
+      "summary": "刚刚用的第三方的linux出现问题了结果codex告诉我有官方版本了https://uuyc.163.com/install.sh刚刚用了一下果然比第三方的流畅很多我是ubuntu22.04",
+      "url": "https://www.nodeseek.com/post-1078294-1",
       "tag": "直接白嫖",
       "obtain": "free",
-      "source": "LINUX DO 资源",
-      "publishedAt": "2026-11-24T10:12:01.000Z"
+      "source": "rss nodeseek",
+      "publishedAt": "2026-11-24T18:21:58.000Z"
     },
     {
-      "id": "88875",
-      "title": "鸿蒙一亿 感恩有礼 鸿蒙用户领积分啦",
-      "summary": "参与方式是在 HarmonyOS 5 及以上设备打开「我的华为」App 进活动页领取。 7 个帖子 - 3 位参与者 阅读完整话题",
-      "url": "https://linux.do/t/topic/3235354",
+      "id": "91986",
+      "title": "雪花公益 11/25 1:30",
+      "summary": "兑换码和邀请码 大家领完第二天注册吧 smtp到限额我也没办法 10刀兑换 cdk.linux.do LINUX DO CDK Linux Do 社区 CDK 快速分享平台 - 让分享变得更简单 邀请码 cdk.lin…",
+      "url": "https://linux.do/t/topic/3237538",
       "tag": "有条件领",
       "obtain": "conditional",
       "source": "LINUX DO 福利",
-      "publishedAt": "2026-11-24T10:10:25.000Z"
-    },
-    {
-      "id": "88883",
-      "title": "红果筹备电视端：以后在家刷短剧，还能免费吗？",
-      "summary": "红果的电视版还不能算官宣，但也绝非空穴来风：11月17日，字节跳动官方招聘网站挂出“OTT端产品经理－红果短剧”岗位，职责包括把电视端产品从0到1建起来、探索投屏会员、会员订阅、衍生权益等变现模式，连“深度参与OTT牌…",
-      "url": "https://post.smzdm.com/p/arzdxg8g",
-      "tag": "直接白嫖",
-      "obtain": "free",
-      "source": "什么值得买",
-      "publishedAt": "2026-11-24T10:09:30.000Z"
+      "publishedAt": "2026-11-24T17:31:49.000Z"
     }
   ]
 };
