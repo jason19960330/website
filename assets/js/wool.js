@@ -7,57 +7,57 @@ window.WOOL_DATA = {
   "source": "https://radar.zichuanlan.top/",
   "sourceName": "资源雷达",
   "intervalMinutes": 30,
-  "updatedAt": "2026-11-23T12:30:54.305Z",
+  "updatedAt": "2026-11-24T00:19:59.401Z",
   "items": [
     {
-      "id": "81851",
-      "title": "Clerk Pro 学生免费一年 留档",
-      "summary": "价值：$240/年资格：GitHubStudentDeveloperPack认证学生费用：完全免费，无需银行卡权益：Pro全部功能（不含SMS短信登录）包含：完整登录、MFA、SSO、SessionManagement…",
-      "url": "https://www.nodeseek.com/post-1074740-1",
-      "tag": "有条件领",
-      "obtain": "conditional",
-      "source": "rss nodeseek",
-      "publishedAt": "2026-11-23T11:52:09.000Z"
-    },
-    {
-      "id": "81660",
-      "title": "zfb领取一分钱咖啡奶茶",
-      "summary": "某宝里搜神券团购，没用过的可以买一张一分钱的券，选好了点立即使用，就可以了。目前似乎只能自提。 11 个帖子 - 11 位参与者 阅读完整话题",
-      "url": "https://linux.do/t/topic/3228828",
-      "tag": "有条件领",
-      "obtain": "conditional",
-      "source": "LINUX DO 福利",
-      "publishedAt": "2026-11-23T11:18:58.000Z"
-    },
-    {
-      "id": "81087",
-      "title": "[慢讯] 小程序成长计划可以领取10亿tokens,有效期6个月",
-      "summary": "",
-      "url": "https://www.nodeseek.com/post-1074403-1",
-      "tag": "有条件领",
-      "obtain": "conditional",
-      "source": "rss nodeseek",
-      "publishedAt": "2026-11-23T09:22:34.000Z"
-    },
-    {
-      "id": "80781",
-      "title": "Qwen4-Max 限时免费使用",
-      "summary": "频道 页面显示的是今天结束， 但是是按美国时间算的，北京时间应该明天13点左右结束 6 个帖子 - 4 位参与者 阅读完整话题",
-      "url": "https://www.nodeloc.com/t/topic/119025",
+      "id": "84173",
+      "title": "分享一个备用的机场闲置订阅，一个月 500G",
+      "summary": "https://sub2.smallstrawberry.com/api/v1/client/subscribe?token=9db4e2b73e58b5e1e0550699b116cee9&name=一元机场 3 个…",
+      "url": "https://www.nodeloc.com/t/topic/119084",
       "tag": "直接白嫖",
       "obtain": "free",
       "source": "NodeLoc",
-      "publishedAt": "2026-11-23T08:39:01.000Z"
+      "publishedAt": "2026-11-23T23:43:13.000Z"
     },
     {
-      "id": "80834",
-      "title": "【gleam.io】完成任务免费领取《Orlando Zombie Truck》2500 Keys",
-      "summary": "https://gleam.io/4IBut/free-x2500-orlando-zombie-truck-steam-keys [sframe]5234920[/sframe]",
-      "url": "https://keylol.com/t1056139-1-1",
+      "id": "84129",
+      "title": "新发现一家免费搭建个人建站的德国服务商",
+      "summary": "没说有效期什么时候结束，服务器可以SSH连接，共享服务器 https://lxi.be/ 1 个帖子 - 1 位参与者 阅读完整话题",
+      "url": "https://linux.do/t/topic/3230891",
       "tag": "有条件领",
       "obtain": "conditional",
-      "source": "其乐 Keylol",
-      "publishedAt": "2026-11-23T08:17:04.000Z"
+      "source": "LINUX DO 福利",
+      "publishedAt": "2026-11-23T23:31:29.000Z"
+    },
+    {
+      "id": "84123",
+      "title": "为了庆祝老黄回归免费给大家重置了反重力",
+      "summary": "为了庆祝老黄回归免费给大家重置了反重力",
+      "url": "https://t.me/s/nodeseekc/1027947",
+      "tag": "直接白嫖",
+      "obtain": "free",
+      "source": "tg cn deals",
+      "publishedAt": "2026-11-23T23:24:52.000Z"
+    },
+    {
+      "id": "84016",
+      "title": "ethena pay 邀请码",
+      "summary": "ethena pay 邀请机制终于对 standard 会员开放了！！需要者速取，名额有限. You've been invited to Ethena Pay 2 个帖子 - 2 位参与者 阅读完整话题",
+      "url": "https://linux.do/t/topic/3230860",
+      "tag": "含兑换码",
+      "obtain": "conditional",
+      "source": "LINUX DO 福利",
+      "publishedAt": "2026-11-23T22:42:30.000Z"
+    },
+    {
+      "id": "83940",
+      "title": "【羊毛】腾讯云送10亿token+10w张生图，但是......",
+      "summary": "【羊毛】腾讯云送10亿token+10w张生图，但是......",
+      "url": "https://t.me/s/nodeseekc/1027925",
+      "tag": "有条件领",
+      "obtain": "conditional",
+      "source": "tg cn deals",
+      "publishedAt": "2026-11-23T21:15:25.000Z"
     }
   ]
 };
