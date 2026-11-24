@@ -7,57 +7,57 @@ window.WOOL_DATA = {
   "source": "https://radar.zichuanlan.top/",
   "sourceName": "资源雷达",
   "intervalMinutes": 30,
-  "updatedAt": "2026-11-24T00:19:59.401Z",
+  "updatedAt": "2026-11-24T10:24:04.326Z",
   "items": [
     {
-      "id": "84173",
-      "title": "分享一个备用的机场闲置订阅，一个月 500G",
-      "summary": "https://sub2.smallstrawberry.com/api/v1/client/subscribe?token=9db4e2b73e58b5e1e0550699b116cee9&name=一元机场 3 个…",
-      "url": "https://www.nodeloc.com/t/topic/119084",
+      "id": "88943",
+      "title": "深空失忆(2009)【1080p 原盘REMUX】【内封简繁】【科幻/悬疑】",
+      "summary": "名称：深空失忆(2009)【1080p 原盘REMUX】【内封简繁】【科幻/悬疑】 描述：经过数百年的发展，人类文明高度进化，他们逐渐将触角伸向宇宙深处。然而，随着人口激增，有限的资源消耗殆尽。到2174年，地球资源严…",
+      "url": "https://t.me/s/yunpanxunlei/39920",
       "tag": "直接白嫖",
       "obtain": "free",
-      "source": "NodeLoc",
-      "publishedAt": "2026-11-23T23:43:13.000Z"
+      "source": "tg pan yunpan",
+      "publishedAt": "2026-11-24T10:14:56.000Z"
     },
     {
-      "id": "84129",
-      "title": "新发现一家免费搭建个人建站的德国服务商",
-      "summary": "没说有效期什么时候结束，服务器可以SSH连接，共享服务器 https://lxi.be/ 1 个帖子 - 1 位参与者 阅读完整话题",
-      "url": "https://linux.do/t/topic/3230891",
+      "id": "88914",
+      "title": "Firestarter AI：点燃创意灵感，轻松创作引人入胜的故事",
+      "summary": "└── Firestarter AI：点燃创意灵感，轻松创作引人入胜的故事！.rar 通过网盘分享的文件：Firestarter AI：点燃创意灵感，轻松创作引人入胜的故事！ 链接: 百度网盘 请输入提取码 提取码: …",
+      "url": "https://linux.do/t/topic/3235370",
+      "tag": "直接白嫖",
+      "obtain": "free",
+      "source": "LINUX DO 资源",
+      "publishedAt": "2026-11-24T10:12:34.000Z"
+    },
+    {
+      "id": "88915",
+      "title": "慕课实战 -真实高质量低代码商业项目，前端后端运维管理系统（22章",
+      "summary": "📁 慕课实战-真实高质量低代码商业项目，前端后端运维管理系统（22章） 📁 课程源码+电子书 📁 第1章 课程简介 📁 第4章 前端基础技术回顾和巡礼 📁 第2章 课程设计—需求分析和架构设计：做什么，如何做…",
+      "url": "https://linux.do/t/topic/3235367",
+      "tag": "直接白嫖",
+      "obtain": "free",
+      "source": "LINUX DO 资源",
+      "publishedAt": "2026-11-24T10:12:01.000Z"
+    },
+    {
+      "id": "88875",
+      "title": "鸿蒙一亿 感恩有礼 鸿蒙用户领积分啦",
+      "summary": "参与方式是在 HarmonyOS 5 及以上设备打开「我的华为」App 进活动页领取。 7 个帖子 - 3 位参与者 阅读完整话题",
+      "url": "https://linux.do/t/topic/3235354",
       "tag": "有条件领",
       "obtain": "conditional",
       "source": "LINUX DO 福利",
-      "publishedAt": "2026-11-23T23:31:29.000Z"
+      "publishedAt": "2026-11-24T10:10:25.000Z"
     },
     {
-      "id": "84123",
-      "title": "为了庆祝老黄回归免费给大家重置了反重力",
-      "summary": "为了庆祝老黄回归免费给大家重置了反重力",
-      "url": "https://t.me/s/nodeseekc/1027947",
+      "id": "88883",
+      "title": "红果筹备电视端：以后在家刷短剧，还能免费吗？",
+      "summary": "红果的电视版还不能算官宣，但也绝非空穴来风：11月17日，字节跳动官方招聘网站挂出“OTT端产品经理－红果短剧”岗位，职责包括把电视端产品从0到1建起来、探索投屏会员、会员订阅、衍生权益等变现模式，连“深度参与OTT牌…",
+      "url": "https://post.smzdm.com/p/arzdxg8g",
       "tag": "直接白嫖",
       "obtain": "free",
-      "source": "tg cn deals",
-      "publishedAt": "2026-11-23T23:24:52.000Z"
-    },
-    {
-      "id": "84016",
-      "title": "ethena pay 邀请码",
-      "summary": "ethena pay 邀请机制终于对 standard 会员开放了！！需要者速取，名额有限. You've been invited to Ethena Pay 2 个帖子 - 2 位参与者 阅读完整话题",
-      "url": "https://linux.do/t/topic/3230860",
-      "tag": "含兑换码",
-      "obtain": "conditional",
-      "source": "LINUX DO 福利",
-      "publishedAt": "2026-11-23T22:42:30.000Z"
-    },
-    {
-      "id": "83940",
-      "title": "【羊毛】腾讯云送10亿token+10w张生图，但是......",
-      "summary": "【羊毛】腾讯云送10亿token+10w张生图，但是......",
-      "url": "https://t.me/s/nodeseekc/1027925",
-      "tag": "有条件领",
-      "obtain": "conditional",
-      "source": "tg cn deals",
-      "publishedAt": "2026-11-23T21:15:25.000Z"
+      "source": "什么值得买",
+      "publishedAt": "2026-11-24T10:09:30.000Z"
     }
   ]
 };
