@@ -7,57 +7,57 @@ window.WOOL_DATA = {
   "source": "https://radar.zichuanlan.top/",
   "sourceName": "资源雷达",
   "intervalMinutes": 30,
-  "updatedAt": "2026-11-24T20:52:07.342Z",
+  "updatedAt": "2026-11-25T04:08:13.669Z",
   "items": [
     {
-      "id": "92222",
-      "title": "一夜限定(2026)【4K.DV.HDR】【高码率】【外挂简英双语字幕】【杜比全景声】",
-      "summary": "名称：一夜限定(2026)【4K.DV.HDR】【高码率】【外挂简英双语字幕】【杜比全景声】 描述：刚被女友狠甩的欧文(卡勒姆·特纳 饰)和满怀浪漫情怀和希望的艾莉(莫妮卡·巴巴罗 饰)或许是这座城市里唯二只想要寻找真…",
-      "url": "https://t.me/s/yunpanxunlei/39996",
+      "id": "94218",
+      "title": "哈基咪 ultra ios 0 元购教程：",
+      "summary": "与前两天的 ultra 1 折方法相同，只不过 sku 变了 教程如图：需要用到小火箭 表达式 ^https://one.google.com/ai.*$ 值 g1.ios.20tb.m.v2 g1.ai.ultra.…",
+      "url": "https://www.nodeloc.com/t/119326",
+      "tag": "有条件领",
+      "obtain": "conditional",
+      "source": "NodeLoc",
+      "publishedAt": "2026-11-25T03:49:05.000Z"
+    },
+    {
+      "id": "94139",
+      "title": "师兄啊师兄 年番3(2026)4K更新至169集",
+      "summary": "名称：师兄啊师兄 年番3(2026)4K更新至169集 描述：身患绝症的年轻人李长寿，意外重生在封神大战之前的上古时代，成了一个炼气士。为了修得长生不老且能在残酷的洪荒安身立命，他低调行事，凡事谋而后动，从不轻易步入危…",
+      "url": "https://t.me/s/yunpanxunlei/40000",
       "tag": "直接白嫖",
       "obtain": "free",
       "source": "tg pan yunpan",
-      "publishedAt": "2026-11-24T19:18:09.000Z"
+      "publishedAt": "2026-11-25T03:47:27.000Z"
     },
     {
-      "id": "92203",
-      "title": "Doctor X：白色黑手党时代(2026)【12集全】【NF.1080p】【内封简繁英】【金智媛/李姃垠】",
-      "summary": "名称：Doctor X：白色黑手党时代(2026)【12集全】【NF.1080p】【内封简繁英】【金智媛/李姃垠】 描述：在一间充斥着自负与腐败的医院里，一名神秘却医术高超的外科医生现身。她不顾重重阻挠，接手一个又一个…",
-      "url": "https://t.me/s/yunpanxunlei/39995",
+      "id": "94111",
+      "title": "分享一个订阅，128G",
+      "summary": "买的线路，还有33 天。23 天后会重置流量一次，用不到了，现在改自建了，分享出来！ aHR0cHM6Ly9tMS50b2huby0wLnRvcC9vb3Nha2EvNTY0Mjk4M2NhY2EyNzc5ZTBiNG…",
+      "url": "https://linux.do/t/topic/3239551",
       "tag": "直接白嫖",
       "obtain": "free",
-      "source": "tg pan yunpan",
-      "publishedAt": "2026-11-24T19:08:50.000Z"
-    },
-    {
-      "id": "92193",
-      "title": "tibo：ChatGPT Business在 12 月 31 日之前，赠送一次额度重置和免费开放极速模式",
-      "summary": "ToalltheChatGPTBusinessteamsoutthere.Wehavetwosmallthingsforyou,abankedresetandfastmodeatnoextrachargethrough…",
-      "url": "https://www.nodeseek.com/post-1078320-1",
-      "tag": "有条件领",
-      "obtain": "conditional",
-      "source": "rss nodeseek",
-      "publishedAt": "2026-11-24T19:01:02.000Z"
-    },
-    {
-      "id": "92090",
-      "title": "【快讯】uu远程linux版可以直接下载安装了",
-      "summary": "刚刚用的第三方的linux出现问题了结果codex告诉我有官方版本了https://uuyc.163.com/install.sh刚刚用了一下果然比第三方的流畅很多我是ubuntu22.04",
-      "url": "https://www.nodeseek.com/post-1078294-1",
-      "tag": "直接白嫖",
-      "obtain": "free",
-      "source": "rss nodeseek",
-      "publishedAt": "2026-11-24T18:21:58.000Z"
-    },
-    {
-      "id": "91986",
-      "title": "雪花公益 11/25 1:30",
-      "summary": "兑换码和邀请码 大家领完第二天注册吧 smtp到限额我也没办法 10刀兑换 cdk.linux.do LINUX DO CDK Linux Do 社区 CDK 快速分享平台 - 让分享变得更简单 邀请码 cdk.lin…",
-      "url": "https://linux.do/t/topic/3237538",
-      "tag": "有条件领",
-      "obtain": "conditional",
       "source": "LINUX DO 福利",
-      "publishedAt": "2026-11-24T17:31:49.000Z"
+      "publishedAt": "2026-11-25T03:44:01.000Z"
+    },
+    {
+      "id": "94140",
+      "title": "姊姊妹妹站起来",
+      "summary": "名称：姊姊妹妹站起来 描述：佟李氏（梁明 饰）很早就失去了丈夫，和女儿大香（李萌 饰）过着相依为命的生活。孤苦伶仃的母女两人进城投奔舅母孙大妈（田太宣 饰），就此结识了名为尚幼林（李纬 饰）的男子。善良的尚幼林常常帮助…",
+      "url": "https://t.me/s/sharealiyun/101402",
+      "tag": "直接白嫖",
+      "obtain": "free",
+      "source": "tg pan yunpan",
+      "publishedAt": "2026-11-25T03:40:50.000Z"
+    },
+    {
+      "id": "94063",
+      "title": "deepseek，速度好慢，给大家们使用试试",
+      "summary": "撸羊毛的，放三个码 https://100milionseek.top/v1 (base64) aG1zLURtRmNvMWZENzJKY3JDbTExbGVEc2ZWWnY0eGh4c21CSTVfZmhOaURNM…",
+      "url": "https://linux.do/t/topic/3239501",
+      "tag": "直接白嫖",
+      "obtain": "free",
+      "source": "LINUX DO 福利",
+      "publishedAt": "2026-11-25T03:38:42.000Z"
     }
   ]
 };
