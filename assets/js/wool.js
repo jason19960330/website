@@ -7,57 +7,57 @@ window.WOOL_DATA = {
   "source": "https://radar.zichuanlan.top/",
   "sourceName": "资源雷达",
   "intervalMinutes": 30,
-  "updatedAt": "2026-11-25T14:55:22.814Z",
+  "updatedAt": "2026-11-25T23:35:40.340Z",
   "items": [
     {
-      "id": "98690",
-      "title": "多喜一家人 (2026) 4K 高码率 [DV&HDR] [更新17集]",
-      "summary": "名称：多喜一家人 (2026) 4K 高码率 [DV&HDR] [更新17集] 描述：2008年中国经济腾飞的时代，生活在胶东半岛的赛多喜一家迎来了生活剧变，一笔不菲的拆迁款将赛家原本的沉疴旧疾放到了台面上：跋扈专制的…",
-      "url": "https://t.me/s/sharealiyun/101442",
+      "id": "57658",
+      "title": "【即将免费】Bread and Fred",
+      "summary": "Grab your best bud for help in this new co-op challenge to help two adorable penguins, Bread and Fred, reach …",
+      "url": "https://store.epicgames.com/zh-CN/p/3435439bd89847608f5299fb297d1466",
       "tag": "直接白嫖",
       "obtain": "free",
-      "source": "tg pan yunpan",
-      "publishedAt": "2026-11-25T14:32:36.000Z"
+      "source": "Epic Games",
+      "publishedAt": "2026-11-26T16:00:00.000Z"
     },
     {
-      "id": "98689",
-      "title": "多喜一家人 (2026) 更至17集 [4K][剧情/家庭][梁冠华/蒋欣/李光洁/杨采钰/任重]",
-      "summary": "名称：多喜一家人 (2026) 更至17集 [4K][剧情/家庭][梁冠华/蒋欣/李光洁/杨采钰/任重] 描述：2008年中国经济腾飞的时代，生活在胶东半岛的赛多喜一家迎来了生活剧变，一笔不菲的拆迁款将赛家原本的沉疴旧…",
-      "url": "https://t.me/s/yunpanxunlei/40075",
+      "id": "100238",
+      "title": "银翼杀手2099 (2026) 4K SDR内嵌双语全8完结",
+      "summary": "名称：银翼杀手2099 (2026) 4K SDR内嵌双语全8完结 描述： 在《银翼杀手2049》事件发生五十年后，洛杉矶已焕然一新，只是这并非出自人类之手。Cora是一名逃犯，为了彻底结束逃亡生活，她化身“银翼杀手”…",
+      "url": "https://t.me/s/yunpanxunlei/40091",
       "tag": "直接白嫖",
       "obtain": "free",
       "source": "tg pan yunpan",
-      "publishedAt": "2026-11-25T14:28:28.000Z"
+      "publishedAt": "2026-11-25T23:10:26.000Z"
     },
     {
-      "id": "98609",
-      "title": "两京十五日 4K [2026][HDR][内封多国语字幕][更新至14集]",
-      "summary": "名称：两京十五日 4K [2026][HDR][内封多国语字幕][更新至14集] 描述：该剧改编自马伯庸的同名小说，讲述了大明洪熙元年，当朝太子朱瞻基必须在15天内跑完两千两百余里路，从南京赶至北京去拯救自己，拯救大明…",
-      "url": "https://t.me/s/yunpanxunlei/40074",
+      "id": "100211",
+      "title": "《情绪洞见：左手事业，右手生活》(azw3+epub+mobi+pdf)",
+      "summary": "名称：《情绪洞见：左手事业，右手生活》(azw3+epub+mobi+pdf) 描述：你是否也在深夜反复内耗，把力气都耗在自责里？薛冬霞的《情绪洞见》以情绪为线索，带你从身体到关系做一次系统养护。停止内耗，理顺关系，拿…",
+      "url": "https://t.me/s/sharealiyun/101463",
       "tag": "直接白嫖",
       "obtain": "free",
       "source": "tg pan yunpan",
-      "publishedAt": "2026-11-25T14:20:35.000Z"
+      "publishedAt": "2026-11-25T22:58:42.000Z"
     },
     {
-      "id": "98608",
-      "title": "宝珠 (2026) 更至16集 [4K][古装爱情][赖伟明/代露娃]",
-      "summary": "名称：宝珠 (2026) 更至16集 [4K][古装爱情][赖伟明/代露娃] 描述：漕运朝堂风云迭起，屠户女金宝珠嫁蒙冤致残的漕运嫡子谢砚。二人先对立后携手，历经风波彼此救赎，揭开党争阴谋，终相守圆满。 链接： htt…",
-      "url": "https://t.me/s/yunpanxunlei/40073",
-      "tag": "直接白嫖",
-      "obtain": "free",
-      "source": "tg pan yunpan",
-      "publishedAt": "2026-11-25T14:19:53.000Z"
+      "id": "100228",
+      "title": "儿童纪录片 提升孩子内驱力",
+      "summary": "pan.baidu.com 百度网盘 请输入提取码 百度网盘为您提供文件的网络备份、同步和分享服务。空间大、速度快、安全稳固，支持教育网加速，支持手机端。注册使用百度网盘即可享受免费存储空间 1 个帖子 - 1 位参与…",
+      "url": "https://linux.do/t/topic/3245317",
+      "tag": "有条件领",
+      "obtain": "conditional",
+      "source": "LINUX DO 资源",
+      "publishedAt": "2026-11-25T22:50:47.000Z"
     },
     {
-      "id": "98611",
-      "title": "妖夜慌踪 Lost Highway (1997)",
-      "summary": "名称：妖夜慌踪 Lost Highway (1997) 描述：这被认为是大卫•林奇拍得最混乱的一部电影。爵士乐手(比尔•普尔曼 Bill Pullman 饰)和他的妻子(帕特丽夏•阿奎特 Patricia Arquet…",
-      "url": "https://t.me/s/sharealiyun/101441",
+      "id": "100118",
+      "title": "【黑马程序员】平面设计全套系列课(基础入门+实战项目)",
+      "summary": "名称：【黑马程序员】平面设计全套系列课(基础入门+实战项目) 描述：本视频是传智播客设计学院精心录制的平面实战精品视频，该视频针对希望学习平面设计的学员精心录制，可以让学员学会制作VI识别系统，达到PS与AI的完美结合…",
+      "url": "https://t.me/s/sharealiyun/101461",
       "tag": "直接白嫖",
       "obtain": "free",
       "source": "tg pan yunpan",
-      "publishedAt": "2026-11-25T14:18:00.000Z"
+      "publishedAt": "2026-11-25T22:17:31.000Z"
     }
   ]
 };
