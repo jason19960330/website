@@ -7,7 +7,7 @@ window.WOOL_DATA = {
   "source": "https://radar.zichuanlan.top/",
   "sourceName": "资源雷达",
   "intervalMinutes": 30,
-  "updatedAt": "2026-11-25T23:35:40.340Z",
+  "updatedAt": "2026-11-26T05:28:26.113Z",
   "items": [
     {
       "id": "57658",
@@ -20,44 +20,44 @@ window.WOOL_DATA = {
       "publishedAt": "2026-11-26T16:00:00.000Z"
     },
     {
-      "id": "100238",
-      "title": "银翼杀手2099 (2026) 4K SDR内嵌双语全8完结",
-      "summary": "名称：银翼杀手2099 (2026) 4K SDR内嵌双语全8完结 描述： 在《银翼杀手2049》事件发生五十年后，洛杉矶已焕然一新，只是这并非出自人类之手。Cora是一名逃犯，为了彻底结束逃亡生活，她化身“银翼杀手”…",
-      "url": "https://t.me/s/yunpanxunlei/40091",
-      "tag": "直接白嫖",
-      "obtain": "free",
-      "source": "tg pan yunpan",
-      "publishedAt": "2026-11-25T23:10:26.000Z"
-    },
-    {
-      "id": "100211",
-      "title": "《情绪洞见：左手事业，右手生活》(azw3+epub+mobi+pdf)",
-      "summary": "名称：《情绪洞见：左手事业，右手生活》(azw3+epub+mobi+pdf) 描述：你是否也在深夜反复内耗，把力气都耗在自责里？薛冬霞的《情绪洞见》以情绪为线索，带你从身体到关系做一次系统养护。停止内耗，理顺关系，拿…",
-      "url": "https://t.me/s/sharealiyun/101463",
-      "tag": "直接白嫖",
-      "obtain": "free",
-      "source": "tg pan yunpan",
-      "publishedAt": "2026-11-25T22:58:42.000Z"
-    },
-    {
-      "id": "100228",
-      "title": "儿童纪录片 提升孩子内驱力",
-      "summary": "pan.baidu.com 百度网盘 请输入提取码 百度网盘为您提供文件的网络备份、同步和分享服务。空间大、速度快、安全稳固，支持教育网加速，支持手机端。注册使用百度网盘即可享受免费存储空间 1 个帖子 - 1 位参与…",
-      "url": "https://linux.do/t/topic/3245317",
+      "id": "102226",
+      "title": "后会友期 (2026) [1080P] [国语中字] [更至1126第7期]",
+      "summary": "名称：后会友期 (2026) [1080P] [国语中字] [更至1126第7期] 描述：《后会友期》延续真实生活的叙事，针对当代人际疏离的普遍现象，拟邀请四组许久未见的朋友，进行集体旅行。在旅途中共同经历极致的美景，…",
+      "url": "https://t.me/s/yunpanxunlei/40107",
       "tag": "有条件领",
       "obtain": "conditional",
-      "source": "LINUX DO 资源",
-      "publishedAt": "2026-11-25T22:50:47.000Z"
+      "source": "tg pan yunpan",
+      "publishedAt": "2026-11-26T04:51:43.000Z"
     },
     {
-      "id": "100118",
-      "title": "【黑马程序员】平面设计全套系列课(基础入门+实战项目)",
-      "summary": "名称：【黑马程序员】平面设计全套系列课(基础入门+实战项目) 描述：本视频是传智播客设计学院精心录制的平面实战精品视频，该视频针对希望学习平面设计的学员精心录制，可以让学员学会制作VI识别系统，达到PS与AI的完美结合…",
-      "url": "https://t.me/s/sharealiyun/101461",
+      "id": "102190",
+      "title": "宝藏级应用来了！集成了AI的PDF编辑工具，妥妥办公生产力，支持格式转换及翻译，完全免费pdfgear",
+      "summary": "pan.quark.cn 夸克网盘分享 夸克网盘是夸克推出的一款云服务产品，功能包括云存储、高清看剧、文件在线解压、PDF一键转换等。通过夸克网盘可随时随地管理和使用照片、文档、手机资料，目前支持Android、iOS…",
+      "url": "https://linux.do/t/topic/3247845",
       "tag": "直接白嫖",
       "obtain": "free",
-      "source": "tg pan yunpan",
-      "publishedAt": "2026-11-25T22:17:31.000Z"
+      "source": "LINUX DO 资源",
+      "publishedAt": "2026-11-26T04:50:19.000Z"
+    },
+    {
+      "id": "102191",
+      "title": "车载高品质DJ串烧歌曲分享 共1000多首",
+      "summary": "车载高品质DJ串烧歌曲分享 共1000多首 ├── 07.13 │ ├── DJ魅魅 - 万里长城永不倒之铁血丹心国粤语经典怀旧极品车载串烧.mp3 │ ├── DJ魅魅 - 世界由我造晚风心里吹全粤语抖音精选热碟.m…",
+      "url": "https://linux.do/t/topic/3247810",
+      "tag": "直接白嫖",
+      "obtain": "free",
+      "source": "LINUX DO 资源",
+      "publishedAt": "2026-11-26T04:45:44.000Z"
+    },
+    {
+      "id": "102201",
+      "title": "Muse 邀请那个TG机器人现在又能领 3B Token 了",
+      "summary": "https://t.me/sondevstorebot?start=ref_669849587 Bot",
+      "url": "https://www.nodeloc.com/t/119510",
+      "tag": "有条件领",
+      "obtain": "conditional",
+      "source": "NodeLoc",
+      "publishedAt": "2026-11-26T04:43:26.000Z"
     }
   ]
 };
