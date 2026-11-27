@@ -7,57 +7,57 @@ window.WOOL_DATA = {
   "source": "https://radar.zichuanlan.top/",
   "sourceName": "资源雷达",
   "intervalMinutes": 30,
-  "updatedAt": "2026-11-26T15:44:49.530Z",
+  "updatedAt": "2026-11-27T00:32:43.137Z",
   "items": [
     {
-      "id": "57658",
-      "title": "【即将免费】Bread and Fred",
-      "summary": "Grab your best bud for help in this new co-op challenge to help two adorable penguins, Bread and Fred, reach …",
-      "url": "https://store.epicgames.com/zh-CN/p/3435439bd89847608f5299fb297d1466",
-      "tag": "直接白嫖",
-      "obtain": "free",
-      "source": "Epic Games",
-      "publishedAt": "2026-11-26T16:00:00.000Z"
-    },
-    {
-      "id": "106629",
-      "title": "AI古风漫剧短剧教学，手把手打造高质感古风作品",
-      "summary": "系统讲解古风画面生成、人物造型、场景氛围、动态视频制作与成片剪辑。课程以实操演示为主，从提示词到动态化处理逐步拆解，帮助学员掌握有质感的古风漫剧制作方法。 pan.baidu.com 百度网盘 请输入提取码 百度网盘为…",
-      "url": "https://linux.do/t/topic/3252419",
+      "id": "108111",
+      "title": "分享一条用不完的airtcp节点订阅",
+      "summary": "分享一条用不完的airtcp节点订阅，会员还有2天，剩280个g，要下载东西的佬友自取 https://spring.mailrelay.us/link/gwRSRILfPOuO7SDvyEul7NfCsTiEGBSI…",
+      "url": "https://linux.do/t/topic/3253090",
       "tag": "有条件领",
       "obtain": "conditional",
-      "source": "LINUX DO 资源",
-      "publishedAt": "2026-11-26T15:32:19.000Z"
+      "source": "LINUX DO 福利",
+      "publishedAt": "2026-11-26T23:29:13.000Z"
     },
     {
-      "id": "106512",
-      "title": "【Muse注册最新教程】分10步，5分钟即可完成。跳过年龄+绑卡。",
-      "summary": "【Muse注册最新教程】分10步，5分钟即可完成。跳过年龄+绑卡。",
-      "url": "https://t.me/s/nodeseekc/1035346",
+      "id": "108091",
+      "title": "意大利 satispay 新用户限时11/27注册任务奖励 €40",
+      "summary": "意大利 satispay 新用户限时11/27注册任务奖励 €40",
+      "url": "https://t.me/s/nodeseekc/1035719",
       "tag": "有条件领",
       "obtain": "conditional",
       "source": "tg cn deals",
-      "publishedAt": "2026-11-26T15:13:14.000Z"
+      "publishedAt": "2026-11-26T23:19:05.000Z"
     },
     {
-      "id": "106441",
-      "title": "欧阳春晓：【普拉提减脂塑形+瑜伽体态纠正 】",
-      "summary": "pan.quark.cn 夸克网盘分享 夸克网盘是夸克推出的一款云服务产品，功能包括云存储、高清看剧、文件在线解压、PDF一键转换等。通过夸克网盘可随时随地管理和使用照片、文档、手机资料，目前支持Android、iOS…",
-      "url": "https://linux.do/t/topic/3252263",
+      "id": "108074",
+      "title": "1126影视资源汇总",
+      "summary": "今日分享 两京十五日 百度网盘 请输入提取码 多喜一家人 链接： 百度网盘 请输入提取码 不为人知的故事 新剧开播：黄轩 金晨 余文乐 链接： 百度网盘 请输入提取码 后会友期 更至第7期4K 链接 百度网盘 请输入提…",
+      "url": "https://linux.do/t/topic/3253070",
       "tag": "直接白嫖",
       "obtain": "free",
       "source": "LINUX DO 资源",
-      "publishedAt": "2026-11-26T15:03:29.000Z"
+      "publishedAt": "2026-11-26T22:51:44.000Z"
     },
     {
-      "id": "106435",
-      "title": "我又来了，40$ GLM 5.4",
-      "summary": "https://api.wolfxl.cc.cd/v1 这部分内容登录后可见 还是明天早上六点过期，能吃多少就吃多少吧",
-      "url": "https://www.nodeloc.com/t/119600",
+      "id": "108075",
+      "title": "电子书 游鸭：被迫迁徙的我们",
+      "summary": "pan.baidu.com 百度网盘 请输入提取码 百度网盘为您提供文件的网络备份、同步和分享服务。空间大、速度快、安全稳固，支持教育网加速，支持手机端。注册使用百度网盘即可享受免费存储空间 1 个帖子 - 1 位参与…",
+      "url": "https://linux.do/t/topic/3253067",
       "tag": "有条件领",
       "obtain": "conditional",
-      "source": "NodeLoc",
-      "publishedAt": "2026-11-26T14:58:13.000Z"
+      "source": "LINUX DO 资源",
+      "publishedAt": "2026-11-26T22:47:59.000Z"
+    },
+    {
+      "id": "107762",
+      "title": "雪花公益 11/27 邀请码",
+      "summary": "新邀请码 cdk.linux.do LINUX DO CDK Linux Do 社区 CDK 快速分享平台 - 让分享变得更简单 29 个帖子 - 17 位参与者 阅读完整话题",
+      "url": "https://linux.do/t/topic/3252974",
+      "tag": "有条件领",
+      "obtain": "conditional",
+      "source": "LINUX DO 福利",
+      "publishedAt": "2026-11-26T19:23:55.000Z"
     }
   ]
 };
