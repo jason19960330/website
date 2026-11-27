@@ -7,57 +7,57 @@ window.WOOL_DATA = {
   "source": "https://radar.zichuanlan.top/",
   "sourceName": "资源雷达",
   "intervalMinutes": 30,
-  "updatedAt": "2026-11-27T00:32:43.137Z",
+  "updatedAt": "2026-11-27T09:03:21.695Z",
   "items": [
     {
-      "id": "108111",
-      "title": "分享一条用不完的airtcp节点订阅",
-      "summary": "分享一条用不完的airtcp节点订阅，会员还有2天，剩280个g，要下载东西的佬友自取 https://spring.mailrelay.us/link/gwRSRILfPOuO7SDvyEul7NfCsTiEGBSI…",
-      "url": "https://linux.do/t/topic/3253090",
+      "id": "111920",
+      "title": "用D.R.E.A.M.商业模式打造理想企业：5步系统助你实现目标",
+      "summary": "└── 用D.R.E.A.M.商业模式打造理想企业：5步系统助你实现目标！.rar 通过网盘分享的文件：用D.R.E.A.M.商业模式打造理想企业：5步系统助你实现目标！ 链接: 百度网盘 请输入提取码 提取码: bp…",
+      "url": "https://linux.do/t/topic/3257036",
       "tag": "有条件领",
       "obtain": "conditional",
-      "source": "LINUX DO 福利",
-      "publishedAt": "2026-11-26T23:29:13.000Z"
+      "source": "LINUX DO 资源",
+      "publishedAt": "2026-11-27T08:20:42.000Z"
     },
     {
-      "id": "108091",
-      "title": "意大利 satispay 新用户限时11/27注册任务奖励 €40",
-      "summary": "意大利 satispay 新用户限时11/27注册任务奖励 €40",
-      "url": "https://t.me/s/nodeseekc/1035719",
+      "id": "111921",
+      "title": "✍🏻 【教育】李中莹教育课程大合集",
+      "summary": "李中莹教育课程大合集 ├── 001 中莹老师亲授《2023年心理创伤治疗工作坊》5月12中莹14号线上直播课，全网独家！/ ├── 002 中莹1980元《简快身心积极疗法专业课初级班》高清视频/ ├── 003 中…",
+      "url": "https://linux.do/t/topic/3257029",
       "tag": "有条件领",
       "obtain": "conditional",
-      "source": "tg cn deals",
-      "publishedAt": "2026-11-26T23:19:05.000Z"
+      "source": "LINUX DO 资源",
+      "publishedAt": "2026-11-27T08:19:33.000Z"
     },
     {
-      "id": "108074",
-      "title": "1126影视资源汇总",
-      "summary": "今日分享 两京十五日 百度网盘 请输入提取码 多喜一家人 链接： 百度网盘 请输入提取码 不为人知的故事 新剧开播：黄轩 金晨 余文乐 链接： 百度网盘 请输入提取码 后会友期 更至第7期4K 链接 百度网盘 请输入提…",
-      "url": "https://linux.do/t/topic/3253070",
+      "id": "112084",
+      "title": "Steam 喜加一：像素风塔防游戏《I Missed the Apocalypse》转付费前免费领",
+      "summary": "IT之家 11 月 27 日消息，Steam 平台像素风塔防游戏《I Missed the Apocalypse》宣布将于 2027 年 1 月 12 日结束免费游玩，转为付费游戏。玩家可以在游戏转为付费前限时免费领取…",
+      "url": "https://www.ithome.com/1/033/536.htm",
       "tag": "直接白嫖",
       "obtain": "free",
-      "source": "LINUX DO 资源",
-      "publishedAt": "2026-11-26T22:51:44.000Z"
+      "source": "rss ithome",
+      "publishedAt": "2026-11-27T08:12:43.000Z"
     },
     {
-      "id": "108075",
-      "title": "电子书 游鸭：被迫迁徙的我们",
-      "summary": "pan.baidu.com 百度网盘 请输入提取码 百度网盘为您提供文件的网络备份、同步和分享服务。空间大、速度快、安全稳固，支持教育网加速，支持手机端。注册使用百度网盘即可享受免费存储空间 1 个帖子 - 1 位参与…",
-      "url": "https://linux.do/t/topic/3253067",
+      "id": "111810",
+      "title": "你好，星期六 第五季 你好，星期六5 你好星期六 (2026)【4K.高码率】【更1127期】",
+      "summary": "名称：你好，星期六 第五季 你好，星期六5 你好星期六 (2026)【4K.高码率】【更1127期】 描述：节目重点围绕艺人艺能的全面深度挖掘、精品表演秀的创意呈现、最具热点的社会性话题输出等方面进行设计，开创剧综联动…",
+      "url": "https://t.me/s/yunpanxunlei/40251",
       "tag": "有条件领",
       "obtain": "conditional",
-      "source": "LINUX DO 资源",
-      "publishedAt": "2026-11-26T22:47:59.000Z"
+      "source": "tg pan yunpan",
+      "publishedAt": "2026-11-27T08:06:35.000Z"
     },
     {
-      "id": "107762",
-      "title": "雪花公益 11/27 邀请码",
-      "summary": "新邀请码 cdk.linux.do LINUX DO CDK Linux Do 社区 CDK 快速分享平台 - 让分享变得更简单 29 个帖子 - 17 位参与者 阅读完整话题",
-      "url": "https://linux.do/t/topic/3252974",
-      "tag": "有条件领",
-      "obtain": "conditional",
-      "source": "LINUX DO 福利",
-      "publishedAt": "2026-11-26T19:23:55.000Z"
+      "id": "111809",
+      "title": "继续营业中(2026)【4K.SDR】【更1127期】",
+      "summary": "名称：继续营业中(2026)【4K.SDR】【更1127期】 描述：潮汕地区创业经营纪实真人秀，由娄艺潇、蒋依依、高至霆、李振宁、曹恩齐、郜思雯、AK刘彰常驻。 链接： https://pan.xunlei.com/s…",
+      "url": "https://t.me/s/yunpanxunlei/40250",
+      "tag": "直接白嫖",
+      "obtain": "free",
+      "source": "tg pan yunpan",
+      "publishedAt": "2026-11-27T08:05:34.000Z"
     }
   ]
 };
