@@ -7,57 +7,57 @@ window.WOOL_DATA = {
   "source": "https://radar.zichuanlan.top/",
   "sourceName": "资源雷达",
   "intervalMinutes": 30,
-  "updatedAt": "2026-11-28T10:16:43.778Z",
+  "updatedAt": "2026-11-28T18:27:20.698Z",
   "items": [
     {
-      "id": "119903",
-      "title": "编个丈夫/柳条人(2026)【4K.SDR】【高码率】【外挂简英双语字幕】【爱情/奇幻】",
-      "summary": "名称：编个丈夫/柳条人(2026)【4K.SDR】【高码率】【外挂简英双语字幕】【爱情/奇幻】 描述：海边小镇上的一个打渔女(奥利维娅·科尔曼饰)，委托篮匠大师(彼特·丁拉基 饰)用柳条编了一个丈夫(亚历山大·斯卡斯加…",
-      "url": "https://t.me/s/yunpanxunlei/40349",
+      "id": "122663",
+      "title": "【出】tg礼物",
+      "summary": "CandyCane#1843565u拿走",
+      "url": "https://www.nodeseek.com/post-1089673-1",
+      "tag": "直接白嫖",
+      "obtain": "free",
+      "source": "rss nodeseek",
+      "publishedAt": "2026-11-28T17:55:35.000Z"
+    },
+    {
+      "id": "122620",
+      "title": "雪花公益 新服迁移完成",
+      "summary": "感谢佬友赠送的服务器一台 配置翻了一倍 吞吐增加许多 今后也会发布更多邀请码 同时 增加雷池waf作为安全防护 佬友也说不需要账号 一起发给佬友们 十分感谢各位的支持 50邀请码给到大家 cdk.linux.do LI…",
+      "url": "https://linux.do/t/topic/3265614",
+      "tag": "有条件领",
+      "obtain": "conditional",
+      "source": "LINUX DO 福利",
+      "publishedAt": "2026-11-28T17:48:29.000Z"
+    },
+    {
+      "id": "122613",
+      "title": "分享个魔戒的节点",
+      "summary": "魔戒 📊 流量详情: 80.69GB / 130.00GB 🟢 流量充足 📈 使用进度: [⬢⬢⬢⬢⬢⬢⬢⬡⬡⬡⬡⬡] 62.1% 📦 剩余可用: 49.31GB 🗓️ 过期时间: 长期有效 ⏳ 剩余时间: …",
+      "url": "https://www.nodeloc.com/t/119883",
+      "tag": "直接白嫖",
+      "obtain": "free",
+      "source": "NodeLoc",
+      "publishedAt": "2026-11-28T17:37:49.000Z"
+    },
+    {
+      "id": "122492",
+      "title": "凡人修仙传/凡人 年番4 慕兰之战(2026)【更202集】【4K.高码率】【内嵌简中】【动画/奇幻】",
+      "summary": "名称：凡人修仙传/凡人 年番4 慕兰之战(2026)【更202集】【4K.高码率】【内嵌简中】【动画/奇幻】 描述：韩立返回天南境内途中，从慕兰法士手中救下了旧识，从而得知南宫婉音讯，他决定前往掩月宗……慕兰大举入侵天…",
+      "url": "https://t.me/s/yunpanxunlei/40395",
       "tag": "直接白嫖",
       "obtain": "free",
       "source": "tg pan yunpan",
-      "publishedAt": "2026-11-28T09:46:05.000Z"
+      "publishedAt": "2026-11-28T16:56:57.000Z"
     },
     {
-      "id": "119907",
-      "title": "千问办公会员免费领一个月",
-      "summary": "📌 福利通知｜千问办公会员免费领一个月 大家好： 为了感谢大家对本社区的支持和厚爱， 千问办公（阿里巴巴出品）的专属福利名额，现在免费发给大家。 通过下方链接下载电脑版，注册并完成新手任务，即可免费领取 1 个月个人…",
-      "url": "https://www.nodeloc.com/t/119817",
-      "tag": "有条件领",
-      "obtain": "conditional",
-      "source": "NodeLoc",
-      "publishedAt": "2026-11-28T09:33:18.000Z"
-    },
-    {
-      "id": "119844",
-      "title": "Legacy Games旗下游戏将于2026年底下架，最后机会领取免费游戏＆冬促付费游戏将有大幅折扣",
-      "summary": "[k1]Legacy Games[/k1] 今日，发行商Legacy Games发文表示将于2026年底停止运营，旗下所有游戏将会下架，冬促将会有大幅临终折扣。 [k3]官方公告[/k3] [k3]Steam免费游戏[…",
-      "url": "https://keylol.com/t1056638-1-1",
-      "tag": "直接白嫖",
-      "obtain": "free",
-      "source": "其乐 Keylol",
-      "publishedAt": "2026-11-28T09:29:58.000Z"
-    },
-    {
-      "id": "119839",
-      "title": "1- 9年级中小学生各类教材辅导资料 1999元买的 超全",
-      "summary": "📁 1-9年级中小学生各类教材辅导资料 1999元买的 超全 📁 7~8年级下册同步精练 📁 1~6年级下册小学学霸作业本电子样书 📁 3~6年级下册状元随堂作业（英语剑桥版） 📁 1~6年级下册学习好帮手 …",
-      "url": "https://linux.do/t/topic/3263378",
+      "id": "122459",
+      "title": "Muse零基础实操教学课，重点流程一站式讲清",
+      "summary": "Muse零基础实操教学，一站式梳理核心操作流程，上手练习，快速掌握Muse出图、调参、画面控制等实用技能。 pan.quark.cn 夸克网盘分享 夸克网盘是夸克推出的一款云服务产品，功能包括云存储、高清看剧、文件在线…",
+      "url": "https://linux.do/t/topic/3265457",
       "tag": "有条件领",
       "obtain": "conditional",
       "source": "LINUX DO 资源",
-      "publishedAt": "2026-11-28T09:26:07.000Z"
-    },
-    {
-      "id": "119701",
-      "title": "【互助贴】Muse 邀请码互助激活，4 个码先到先得，用了请回帖接龙",
-      "summary": "整一个 Muse 邀请码互助贴，有需要的自取。 我先放 4 个码出来，先到先得： A2GH72 4G7LJ4 W6Q89W 12S1P5 规矩就两条，省得大家白试： 用了哪个码，回帖说一声「已用 + 码」，我看到就更新…",
-      "url": "https://www.nodeloc.com/t/119809",
-      "tag": "有条件领",
-      "obtain": "conditional",
-      "source": "NodeLoc",
-      "publishedAt": "2026-11-28T09:18:11.000Z"
+      "publishedAt": "2026-11-28T16:45:31.000Z"
     }
   ]
 };
